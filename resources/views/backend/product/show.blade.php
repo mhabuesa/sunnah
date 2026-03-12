@@ -5,141 +5,51 @@
 @endpush
 @section('content')
 
-    <div class="d-xl-none push">
-        <div class="row g-sm">
-            <div class="col-6">
-                <button type="button" class="btn btn-alt-secondary w-100" data-toggle="class-toggle"
-                    data-target=".js-ecom-div-nav" data-class="d-none">
-                    <i class="fa fa-fw fa-bars text-muted me-1"></i> Navigation
-                </button>
-            </div>
-            <div class="col-6">
-                <button type="button" class="btn btn-alt-secondary w-100" data-toggle="class-toggle"
-                    data-target=".js-ecom-div-cart" data-class="d-none">
-                    <i class="fa fa-fw fa-shopping-cart text-muted me-1"></i> Cart (3)
-                </button>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-xl-4 order-xl-1">
             <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        <i class="fa fa-fw fa-boxes text-muted me-1"></i> Categories
+                        <i class="fa fa-fw fa-boxes text-muted me-1"></i> Product Variation
                     </h3>
                 </div>
-                <div class="block-content">
-                    <ul class="nav nav-pills flex-column push">
-                        <li class="nav-item mb-1">
-                            <a class="nav-link active d-flex justify-content-between align-items-center"
-                                href="javascript:void(0)">
-                                Icons <span class="badge rounded-pill bg-black-50 ms-1">7k</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-1">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0)">
-                                Apps <span class="badge rounded-pill bg-black-50 ms-1">2k</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-1">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0)">
-                                Games <span class="badge rounded-pill bg-black-50 ms-1">3k</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-1">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0)">
-                                Graphics <span class="badge rounded-pill bg-black-50 ms-1">18k</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-1">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0)">
-                                Services <span class="badge rounded-pill bg-black-50 ms-1">2k</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-1">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0)">
-                                UI Kits <span class="badge rounded-pill bg-black-50 ms-1">12k</span>
-                            </a>
-                        </li>
-                        <li class="nav-item mb-1">
-                            <a class="nav-link d-flex justify-content-between align-items-center" href="javascript:void(0)">
-                                Themes <span class="badge rounded-pill bg-black-50 ms-1">6k</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="block block-rounded js-ecom-div-cart d-none d-xl-block">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">
-                        <i class="fa fa-fw fa-shopping-cart text-muted me-1"></i> Shopping Cart (3)
-                    </h3>
-                </div>
-                <div class="block-content">
+                <div class="block-content table-responsive">
                     <table class="table table-borderless table-hover table-vcenter">
+                        <thead>
+                            <tr>
+                                <th>Color</th>
+                                <th>Attribute</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">
-                                    <a class="text-muted" href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                </td>
-                                <td style="width: 60px;">
-                                    <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product1.png" alt="">
-                                </td>
-                                <td>
-                                    <a class="h6" href="be_pages_ecom_store_product.html">Iconic</a>
-                                    <div class="fs-sm text-muted">Beautifully crafted icon set</div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="fw-semibold">$9</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    <a class="text-muted" href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                </td>
-                                <td style="width: 60px;">
-                                    <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product2.png" alt="">
-                                </td>
-                                <td>
-                                    <a class="h6" href="be_pages_ecom_store_product.html">Mailday</a>
-                                    <div class="fs-sm text-muted">Pro email templates</div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="fw-semibold">$16</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center">
-                                    <a class="text-muted" href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                </td>
-                                <td style="width: 60px;">
-                                    <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product3.png" alt="">
-                                </td>
-                                <td>
-                                    <a class="h6" href="be_pages_ecom_store_product.html">Office Suite</a>
-                                    <div class="fs-sm text-muted">The best productivity apps</div>
-                                </td>
-                                <td class="text-end">
-                                    <div class="fw-semibold">$75</div>
-                                </td>
-                            </tr>
-                            <tr class="table-active">
-                                <td class="text-end" colspan="3">
-                                    <span class="h4 fw-medium">Total</span>
-                                </td>
-                                <td class="text-end">
-                                    <span class="h4 fw-semibold">$100</span>
-                                </td>
-                            </tr>
+                            @foreach ($product->variations as $key => $variation)
+                                <tr>
+                                    <td>{{ $variation->color->color }}</td>
+                                    <td>{{ $variation->attribute->attribute }}</td>
+                                    <td>{{ $variation->price }}</td>
+                                    <td>{{ $variation->stock }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <div class="block-content block-content-full bg-body-light text-end">
-                    <a class="btn btn-primary" href="be_pages_ecom_store_checkout.html">
-                        Checkout
-                        <i class="fa fa-arrow-right opacity-50 ms-1"></i>
-                    </a>
+            </div>
+
+            <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">
+                        <i class="fa fa-fw fa-boxes text-muted me-1"></i> SEO Information
+                    </h3>
+                </div>
+                <div class="block-content">
+                    <p><span class="fw-semibold">Meta Title:</span> {{ $product->meta->meta_title }}</p>
+                    <p><span class="fw-semibold d-block ">Meta Description:</span> {{ $product->meta->meta_description }}
+                    </p>
+                    <p><span class="fw-semibold d-block ">Meta Image:</span>
+                    <img src="{{asset($product->meta->meta_image)}}" alt="">
+                    </p>
                 </div>
             </div>
         </div>
@@ -150,83 +60,70 @@
                         <div class="col-md-6">
                             <div class="row g-sm js-gallery img-fluid-100">
                                 <div class="col-12 mb-3">
-                                    <a class="img-link img-link-zoom-in img-lightbox"
-                                        href="{{asset('assets')}}/media/various/ecom_product6.png">
-                                        <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product6.png"
-                                            alt="">
+                                    <a class="img-link img-link-zoom-in img-lightbox" href="{{ asset($product->image) }}">
+                                        <img class="img-fluid" src="{{ asset($product->image) }}" alt="">
                                     </a>
                                 </div>
-                                <div class="col-4">
-                                    <a class="img-link img-link-zoom-in img-lightbox"
-                                        href="{{asset('assets')}}/media/various/ecom_product6_a.png">
-                                        <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product6_a.png"
-                                            alt="">
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a class="img-link img-link-zoom-in img-lightbox"
-                                        href="{{asset('assets')}}/media/various/ecom_product6_b.png">
-                                        <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product6_b.png"
-                                            alt="">
-                                    </a>
-                                </div>
-                                <div class="col-4">
-                                    <a class="img-link img-link-zoom-in img-lightbox"
-                                        href="{{asset('assets')}}/media/various/ecom_product6_c.png">
-                                        <img class="img-fluid" src="{{asset('assets')}}/media/various/ecom_product6_c.png"
-                                            alt="">
-                                    </a>
-                                </div>
+                                @foreach ($product->galleries as $gallery)
+                                    <div class="col-4">
+                                        <a class="img-link img-link-zoom-in img-lightbox"
+                                            href="{{ asset($gallery->image) }}">
+                                            <img class="img-fluid" src="{{ asset($gallery->image) }}  " alt="">
+                                        </a>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <div class="fs-sm fw-semibold text-success">IN STOCK</div>
-                                    <div class="fs-sm text-muted">200 Available</div>
-                                </div>
-                                <div class="fs-2 fw-bold">
-                                    $58
+                                    <h4>{{ $product->name }}</h4>
                                 </div>
                             </div>
-                            <form class="d-flex justify-content-between my-3 border-top border-bottom"
-                                action="be_pages_ecom_store_product.html" method="post" onsubmit="return false;">
-                                <div class="py-3">
-                                    <select class="form-select form-select-sm" id="ecom-license" name="ecom-license"
-                                        size="1">
-                                        <option value="0" disabled="" selected="">LICENSE</option>
-                                        <option value="simple">Simple</option>
-                                        <option value="multiple">Multiple</option>
-                                    </select>
-                                </div>
-                                <div class="py-3">
-                                    <button type="submit" class="btn btn-sm btn-alt-secondary">
-                                        <i class="fa fa-plus text-success me-1"></i> Add to Cart
-                                    </button>
-                                </div>
-                            </form>
-                            <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet
-                                adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut
-                                metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis
-                                purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
-                        </div>
-                    </div>
-                    <div class="block block-rounded block-bordered">
-                        <div class="block-content block-content-full d-flex justify-content-between align-items-center">
-                            <div>
-                                <div class="mb-2">
-                                    By <a class="fw-semibold" href="javascript:void(0)">Emma Cooper</a>
-                                </div>
-                                <div>
-                                    <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
-                                        <i class="fa fa-fw fa-plus text-success"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-secondary" href="javascript:void(0)">
-                                        <i class="fa fa-fw fa-envelope text-muted"></i>
-                                    </a>
-                                </div>
+                            <div class="py-3">
+                                <h5 class="fw-semibold mb-0">General Information</h5>
                             </div>
-                            <img class="img-avatar" src="{{asset('assets')}}/media/avatars/avatar2.jpg" alt="">
+                            <table class="table table-borderless table-sm table-hover table-vcenter">
+                                <tr>
+                                    <th>Brand</th>
+                                    <td>: {{ $product->brand->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Category</th>
+                                    <td>: {{ $product->category->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Subcategory</th>
+                                    <td>: {{ $product->subcategory->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Stock</th>
+                                    <td>: {{ $product->stock }}</td>
+                                </tr>
+                            </table>
+
+
+                            <div class="py-3 mt-5">
+                                <h5 class="fw-semibold mb-0">Price Information</h5>
+                            </div>
+                            <table class="table table-borderless table-sm table-hover table-vcenter">
+                                <tr>
+                                    <th>Unit Price</th>
+                                    <td>: {{ $product->price }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Discount Type</th>
+                                    <td class="text-capitalize">: {{ $product->discount_type }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Discount</th>
+                                    <td>: {{ $product->discount }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Product SKU</th>
+                                    <td>: {{ $product->sku }}</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <div class="block block-rounded">
@@ -237,106 +134,29 @@
                                     aria-controls="ecom-product-reviews" aria-selected="true">Info</button>
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link" id="ecom-product-comments-tab"
-                                    data-bs-toggle="tab" data-bs-target="#ecom-product-comments" role="tab"
+                                <button type="button" class="nav-link" id="ecom-product-comments-tab" data-bs-toggle="tab"
+                                    data-bs-target="#ecom-product-comments" role="tab"
                                     aria-controls="ecom-product-reviews" aria-selected="false">Comments</button>
                             </li>
                             <li class="nav-item">
-                                <button type="button" class="nav-link" id="ecom-product-reviews-tab"
-                                    data-bs-toggle="tab" data-bs-target="#ecom-product-reviews" role="tab"
+                                <button type="button" class="nav-link" id="ecom-product-reviews-tab" data-bs-toggle="tab"
+                                    data-bs-target="#ecom-product-reviews" role="tab"
                                     aria-controls="ecom-product-reviews" aria-selected="false">Reviews</button>
                             </li>
                         </ul>
                         <div class="block-content tab-content">
                             <div class="tab-pane pull-x active" id="ecom-product-info" role="tabpanel"
                                 aria-labelledby="ecom-product-info-tab" tabindex="0">
-                                <table class="table table-striped table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">File Formats</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td style="width: 20%;">Sketch</td>
-                                            <td>
-                                                <i class="fa fa-check text-success"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>PSD</td>
-                                            <td>
-                                                <i class="fa fa-check text-success"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>PDF</td>
-                                            <td>
-                                                <i class="fa fa-times text-danger"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>AI</td>
-                                            <td>
-                                                <i class="fa fa-check text-success"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>EPS</td>
-                                            <td>
-                                                <i class="fa fa-check text-success"></i>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-striped table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">Extra</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td style="width: 20%;">
-                                                <i class="fa fa-fw fa-calendar text-muted me-1"></i> Date
-                                            </td>
-                                            <td>January 15, 2024</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="fa fa-fw fa-anchor text-muted me-1"></i> File Size
-                                            </td>
-                                            <td>265.36 MB</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="fa fa-fw fa-table-list text-muted me-1"></i> Vector
-                                            </td>
-                                            <td>
-                                                <i class="fa fa-fw fa-check text-success"></i>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <i class="fa fa-fw fa-expand text-muted me-1"></i> Dimensions
-                                            </td>
-                                            <td>
-                                                <div class="mb-2">16 x 16 px</div>
-                                                <div class="mb-2">32 x 32 px</div>
-                                                <div class="mb-2">64 x 64 px</div>
-                                                <div class="mb-2">128 x 128 px</div>
-                                                <div>256 x 256 px</div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <p>
+                                    {!! $product->description !!}
+                                </p>
                             </div>
                             <div class="tab-pane pull-x fs-sm" id="ecom-product-comments" role="tabpanel"
                                 aria-labelledby="ecom-product-comments-tab" tabindex="0">
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar3.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar3.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <a class="fw-semibold" href="javascript:void(0)">Amanda Powell</a>
@@ -348,7 +168,7 @@
                                         <div class="d-flex mt-3">
                                             <a class="flex-shrink-0 me-3" href="javascript:void(0)">
                                                 <img class="img-avatar img-avatar32"
-                                                    src="{{asset('assets')}}/media/avatars/avatar2.jpg" alt="">
+                                                    src="{{ asset('assets') }}/media/avatars/avatar2.jpg" alt="">
                                             </a>
                                             <div class="flex-grow-1">
                                                 <a class="fw-semibold" href="javascript:void(0)">Emma Cooper</a>
@@ -363,8 +183,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar12.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar12.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <a class="fw-semibold" href="javascript:void(0)">Carl Wells</a>
@@ -376,7 +196,7 @@
                                         <div class="d-flex mt-3">
                                             <a class="flex-shrink-0 me-3" href="javascript:void(0)">
                                                 <img class="img-avatar img-avatar32"
-                                                    src="{{asset('assets')}}/media/avatars/avatar2.jpg" alt="">
+                                                    src="{{ asset('assets') }}/media/avatars/avatar2.jpg" alt="">
                                             </a>
                                             <div class="flex-grow-1">
                                                 <a class="fw-semibold" href="javascript:void(0)">Emma Cooper</a>
@@ -391,8 +211,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar14.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar14.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <a class="fw-semibold" href="javascript:void(0)">Albert Ray</a>
@@ -403,7 +223,7 @@
                                         <div class="d-flex mt-3">
                                             <a class="flex-shrink-0 me-3" href="javascript:void(0)">
                                                 <img class="img-avatar img-avatar32"
-                                                    src="{{asset('assets')}}/media/avatars/avatar2.jpg" alt="">
+                                                    src="{{ asset('assets') }}/media/avatars/avatar2.jpg" alt="">
                                             </a>
                                             <div class="flex-grow-1">
                                                 <a class="fw-semibold" href="javascript:void(0)">Emma Cooper</a>
@@ -416,10 +236,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <form action="be_pages_ecom_store_product.html" method="POST" onsubmit="return false;">
-                                    <input type="text" class="form-control form-control-alt"
-                                        placeholder="Write a comment..">
-                                </form>
                             </div>
                             <div class="tab-pane pull-x fs-sm" id="ecom-product-reviews" role="tabpanel"
                                 aria-labelledby="ecom-product-reviews-tab" tabindex="0">
@@ -439,8 +255,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar11.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar11.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <span class="text-warning">
@@ -457,8 +273,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar1.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar1.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <span class="text-warning">
@@ -475,8 +291,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar9.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar9.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <span class="text-warning">
@@ -493,8 +309,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar12.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar12.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <span class="text-warning">
@@ -511,8 +327,8 @@
                                 </div>
                                 <div class="d-flex push">
                                     <a class="flex-shrink-0 me-3" href="javascript:void(0)">
-                                        <img class="img-avatar img-avatar32" src="{{asset('assets')}}/media/avatars/avatar7.jpg"
-                                            alt="">
+                                        <img class="img-avatar img-avatar32"
+                                            src="{{ asset('assets') }}/media/avatars/avatar7.jpg" alt="">
                                     </a>
                                     <div class="flex-grow-1">
                                         <span class="text-warning">
@@ -537,6 +353,8 @@
 
 @endsection
 @push('footer_scripts')
-<script src="{{asset('assets')}}/js/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
-<script>One.helpersOnLoad(['jq-magnific-popup']);</script>
+    <script src="{{ asset('assets') }}/js/plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script>
+        One.helpersOnLoad(['jq-magnific-popup']);
+    </script>
 @endpush

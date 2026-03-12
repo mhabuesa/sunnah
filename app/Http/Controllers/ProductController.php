@@ -53,6 +53,7 @@ class ProductController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
                 ->orWhere('price', 'like', "%{$search}%")
+                ->orWhere('sku', 'like', "%{$search}%")
                 ->orWhere('name', 'like', "%{$search}%");
             });
         }
@@ -177,7 +178,6 @@ class ProductController extends Controller
                 'product_id'        => $product->id,
                 'meta_title'        => $request->meta_title,
                 'meta_description'  => $request->meta_description,
-                'meta_image'        => $request->meta_image,
             ]);
         }
 
@@ -198,8 +198,14 @@ class ProductController extends Controller
             }
         }
 
+        // Meta image
+        $metaImagePath = null;
+        if ($request->hasFile('meta_image')) {
+            $metaImagePath = $request->file('meta_image')->store('uploads/product/meta', 'public');
+        }
+
         // dispatch job for heavy processing
-        ProcessProductImages::dispatch($product->id, $mainImagePath, $galleryPaths);
+        ProcessProductImages::dispatch($product->id, $mainImagePath, $galleryPaths, $metaImagePath);
 
         return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
     }
@@ -208,8 +214,8 @@ class ProductController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        return view('backend.product.show');
+    {   $product = Product::find($id);
+        return view('backend.product.show', compact('product'));
     }
 
     /**

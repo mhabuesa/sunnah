@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('product_metas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->string('meta_title');
-            $table->string('meta_description')->nullable();
+            $table->text('meta_title');
+            $table->longText('meta_description')->nullable();
             $table->string('meta_image')->nullable();
             $table->timestamps();
         });

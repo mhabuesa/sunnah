@@ -23,14 +23,23 @@ class Product extends Model
     {
         return $this->belongsTo(Subcategory::class, 'subcategory_id');
     }
+    
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id');
+    }
 
     public function meta()
     {
         return $this->hasOne(ProductMeta::class, 'product_id');
     }
 
-     public function galleries()
+    public function galleries()
     {
         return $this->hasMany(ProductGallery::class);
+    }
+    public function variations()
+    {
+        return $this->hasMany(ProductVariation::class);
     }
 }
