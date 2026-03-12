@@ -5,6 +5,23 @@
 @endpush
 @section('content')
 
+    <div class="d-xl-none push">
+        <div class="row g-sm">
+            <div class="col-6">
+                <button type="button" class="btn btn-alt-secondary w-100 btn-sm" data-toggle="class-toggle"
+                    data-target=".js-ecom-div-nav" data-class="d-none">
+                    <i class="fa fa-fw fa-boxes text-muted me-1"></i> Product Variation
+                </button>
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn btn-alt-secondary w-100 btn-sm" data-toggle="class-toggle"
+                    data-target=".js-ecom-div-cart" data-class="d-none">
+                    <i class="fa fa-fw fa-chart-line text-muted me-1"></i> SEO Information
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xl-4 order-xl-1">
             <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
@@ -37,10 +54,10 @@
                 </div>
             </div>
 
-            <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
+            <div class="block block-rounded js-ecom-div-cart d-none d-xl-block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">
-                        <i class="fa fa-fw fa-boxes text-muted me-1"></i> SEO Information
+                        <i class="fa fa-fw fa-chart-line text-muted me-1"></i> SEO Information
                     </h3>
                 </div>
                 <div class="block-content">
@@ -48,7 +65,7 @@
                     <p><span class="fw-semibold d-block ">Meta Description:</span> {{ $product->meta->meta_description }}
                     </p>
                     <p><span class="fw-semibold d-block ">Meta Image:</span>
-                    <img src="{{asset($product->meta->meta_image)}}" alt="">
+                        <img class="w-75" src="{{ asset($product->meta->meta_image) }}" alt="">
                     </p>
                 </div>
             </div>

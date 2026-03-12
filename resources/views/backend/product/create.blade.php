@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/custom/css/product_page.css">
     <script type="text/javascript" src="{{ asset('assets') }}/richtexteditor/rte.js"></script>
     <script type="text/javascript" src='{{ asset('assets') }}/richtexteditor/plugins/all_plugins.js'></script>
+
 @endpush
 @section('content')
 

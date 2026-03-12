@@ -9,6 +9,13 @@
         integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('assets') }}/js/plugins/select2/css/select2.min.css">
+    <style>
+        @media (max-width: 768px) {
+            .md_mt-2 {
+                margin-top: 1rem !important;
+            }
+        }
+    </style>
 @endpush
 @section('content')
 
@@ -80,21 +87,27 @@
             </div>
             <div class="col-lg-12 m-auto mt-2">
                 <div class="block block-rounded">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">Product List</h3>
-                        <div class="block-options space-x-1">
-                            <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
-                                data-target="#one-dashboard-search-orders" data-class="d-none">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            <div class="dropdown d-inline-block">
-                                <button type="button" class="btn btn-sm btn-alt-secondary" id="filterBtn">
-                                    <i class="fa fa-fw fa-flask"></i>
-                                    Filters
-                                </button>
+                    <div class="block-header block-header-default d-block">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h3 class="block-title">Product List</h3>
                             </div>
-                            <a href="{{ route('admin.product.create') }}" class="btn btn-sm btn-primary"> <i
-                                    class="fas fa-plus"></i> Add Product</a>
+                            <div class="col-lg-6 text-center text-lg-end">
+                                <div class="block-options space-x-1 md_mt-2 p-0">
+                                    <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
+                                        data-target="#one-dashboard-search-orders" data-class="d-none">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                    <div class="dropdown d-inline-block">
+                                        <button type="button" class="btn btn-sm btn-alt-secondary" id="filterBtn">
+                                            <i class="fa fa-fw fa-flask"></i>
+                                            Filters
+                                        </button>
+                                    </div>
+                                    <a href="{{ route('admin.product.create') }}" class="btn btn-sm btn-primary"> <i
+                                            class="fas fa-plus"></i> Add Product</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="one-dashboard-search-orders" class="block-content border-bottom d-none">
@@ -444,5 +457,4 @@
             $('#filterBtn').show();
         });
     </script>
-
 @endpush

@@ -83,3 +83,14 @@
     object-fit: cover;
     border-radius: 6px;
 }
+
+@media (max-width: 768px) {
+    .variationRow {
+        justify-content: flex-start !important; /* Center sorale content ba-dik theke shuru hobe */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .md_mt-2 {
+        margin-top: 2rem !important;
+    }
+}
