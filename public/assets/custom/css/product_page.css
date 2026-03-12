@@ -1,0 +1,85 @@
+.selectize-control.multi .selectize-input [data-value] {
+    background-color: #0059ffffff !important;
+
+    background-image: linear-gradient(to bottom, #0059ffffff, #0059ffffff);
+}
+
+.select2-container--default .select2-selection--single {
+    height: 37px !important;
+    border: 1px solid #e1e1e1 !important;
+    border-radius: 6px !important;
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__rendered {
+    line-height: 35px !important;
+}
+
+.select2-container--default
+    .select2-selection--single
+    .select2-selection__arrow {
+    top: 6px !important;
+}
+
+#imagePreviewContainer {
+    min-height: 221px;
+    /* image না থাকলেও box height থাকবে */
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.additional-image-box {
+    min-height: 220px;
+}
+
+/* থাম্বনেইল বক্সের জন্য কাস্টম ডিজাইন */
+.thumbnail-box {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
+    margin: 0 auto;
+    /* সেন্টার করার জন্য */
+}
+
+.thumbnail-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* থাম্বনেইল বক্সের জন্য কাস্টম ডিজাইন */
+.metaImg-box {
+    /* width: 200px; */
+    height: 240px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    position: relative;
+    margin: 0 auto;
+    /* সেন্টার করার জন্য */
+}
+
+.metaImg-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
