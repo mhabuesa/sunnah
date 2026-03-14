@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Models\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -14,43 +15,61 @@ class VariationController extends Controller
 {
     public function index() {
         $attributes = Attribute::all();
-        $colors = Color::all();
-        return view("backend.variation.index", compact("attributes","colors"));
+        $atributeValues = AttributeValue::all();
+        return view("backend.variation.index", compact("attributes","atributeValues"));
     }
 
-    public function color_store(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
-            'color' => 'required|unique:colors,color|max:255',
+            'attribute' => 'required|unique:attributes,name|max:255',
         ]);
 
-        Color::create([
-            'color' => $request->color,
+        Attribute::create([
+            'name' => $request->attribute,
         ]);
 
 
-        return redirect()->route('admin.attribute.index')->with('success', 'Color added successfully.');
+        return redirect()->route('admin.attribute.index')->with('success', 'Attribute added successfully.');
     }
 
-    public function color_destroy(string $id)
+    public function value_store(Request $request)
     {
-        $color = Color::findOrFail($id);
+        $request->validate([
+            'value' => 'required|max:255',
+        ]);
+
+        foreach ($request->value as $key => $value) {
+            if(!$value) continue;
+
+            AttributeValue::create([
+                'attribute_id'   => $request->attribute_id,
+                'value'     => $value,
+            ]);
+        }
+
+        return redirect()->route('admin.attribute.index')->with('success', 'Attribyte Value Added successfully.');
+    }
+
+    public function value_destroy(string $id)
+    {
+        $attribute = AttributeValue::findOrFail($id);
 
         try {
             // Delete brand
-            $color->delete();
+            $attribute->delete();
         } catch (\Exception $e) {
             Log::error($e);
             return error($e->getMessage());
         }
 
-        return response()->json(['success' => true, 'message' => 'Color Deleted Successfully'], 200);
+        return response()->json(['success' => true, 'message' => 'Attribute Value Deleted Successfully'], 200);
     }
 
-    public function colorUpdateAjax(Request $request)
+    public function valueUpdateAjax(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'color' => 'required|unique:colors,color,' . $request->id,
+            'value' => 'required',
         ]);
 
         // Return the validation errors
@@ -61,32 +80,20 @@ class VariationController extends Controller
         }
 
         // Update the Brand
-        $color = Color::findOrFail($request->id);
+        $value = AttributeValue::findOrFail($request->id);
 
-        $color->update([
-            'color' => $request->color,
+        $value->update([
+            'value' => $request->value,
         ]);
 
-        Session::flash('success', 'Color updated successfully');
+        Session::flash('success', 'Attribute Value updated successfully');
 
         return response()->json([
             'success' => true
         ]);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'attribute' => 'required|unique:attributes,attribute|max:255',
-        ]);
 
-        Attribute::create([
-            'attribute' => $request->attribute,
-        ]);
-
-
-        return redirect()->route('admin.attribute.index')->with('success', 'Attribute added successfully.');
-    }
 
     public function destroy(string $id)
     {
@@ -106,7 +113,7 @@ class VariationController extends Controller
     public function updateAjax(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'attribute' => 'required|unique:attributes,attribute,' . $request->id,
+            'attribute' => 'required|unique:attributes,name,' . $request->id,
         ]);
 
         // Return the validation errors
@@ -120,10 +127,10 @@ class VariationController extends Controller
         $attribute = Attribute::findOrFail($request->id);
 
         $attribute->update([
-            'attribute' => $request->attribute,
+            'name' => $request->attribute,
         ]);
 
-        Session::flash('success', 'Brand updated successfully');
+        Session::flash('success', 'Brand Attribute updated successfully');
 
         return response()->json([
             'success' => true

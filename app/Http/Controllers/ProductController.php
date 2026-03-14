@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\ProcessProductImages;
 use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
@@ -94,12 +95,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $colors = Color::all();
+        $attributeValue = AttributeValue::all();
         $attributes = Attribute::all();
         $categories = Category::where('status', 1)->get();
         $brands = Brand::where('status',1)->get();
 
-        return view('backend.product.create', compact('colors','attributes', 'categories','brands'));
+        return view('backend.product.create', compact('attributeValue','attributes', 'categories','brands'));
     }
 
 
@@ -108,6 +109,12 @@ class ProductController extends Controller
         $subcategories = Subcategory::where('category_id', $id)->get();
 
         return response()->json($subcategories);
+    }
+    public function getAttributeValue($id)
+    {
+        $attributeValue = AttributeValue::where('attribute_id', $id)->get();
+
+        return response()->json($attributeValue);
     }
 
 
@@ -222,8 +229,14 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+    {   
+        $product = Product::find($id);
+        $colors = Color::all();
+        $attributes = Attribute::all();
+        $categories = Category::where('status', 1)->get();
+        $brands = Brand::where('status',1)->get();
+
+        return view('backend.product.edit', compact('product','colors','attributes', 'categories','brands'));
     }
 
     /**

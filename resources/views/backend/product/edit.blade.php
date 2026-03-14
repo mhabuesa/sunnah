@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Add Product')
+@section('title', 'Edit Product')
 @push('style')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
         integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
@@ -15,7 +15,7 @@
     <div class="text-center text-md-start">
         <div class="flex-grow-1 mb-1 mb-md-0">
             <h1 class="m-3 h4 fw-bold mb-2">
-                <img class="png_icon" src="{{ asset('assets/icon/png/product_cart2.png') }}" alt=""> Add New Product
+                <img class="png_icon" src="{{ asset('assets/icon/png/product_cart2.png') }}" alt=""> Edit Product
             </h1>
         </div>
     </div>
@@ -35,13 +35,13 @@
                                 <label class="form-label" for="name">Product name <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Enter Product Name.." value="{{ old('name') }}" required>
+                                    placeholder="Enter Product Name.." value="{{ old('name') ?? $product->name }}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="description">Description <span
                                         class="text-danger">*</span></label>
                                 <textarea id="description" name="description" required>
-                                    {{ old('description') }}
+                                    {{ old('description') ?? $product->description }}
                                 </textarea>
                                 @error('description')
                                     <small class="text-danger">{{ $message }}</small>
@@ -67,7 +67,8 @@
                                             style="width: 100%;" data-placeholder="Choose one.." required>
                                             <option></option>
                                             @foreach ($categories as $key => $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option {{ $product->category_id == $category->id ? 'selected' : '' }}
+                                                    value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -88,7 +89,8 @@
                                             style="width: 100%;" data-placeholder="Choose brand..">
                                             <option value="">Select Brand</option>
                                             @foreach ($brands as $key => $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                <option {{ $product->brand_id == $brand->id ? 'selected' : '' }}
+                                                    value="{{ $brand->id }}">{{ $brand->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -105,7 +107,7 @@
                                                 Code</a>
                                         </div>
                                         <input type="text" class="form-control" id="sku" name="sku"
-                                            placeholder="Enter Product SKU..">
+                                            placeholder="Enter Product SKU.." value="{{ $product->sku }}">
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +131,7 @@
                                                 title="Set the selling price for each unit of this product. This Unit Price section won’t be applied if you set a variation wise price."></i>
                                         </label>
                                         <input type="number" class="form-control" id="unit_price" name="unit_price"
-                                            placeholder="Unit Price..">
+                                            placeholder="Unit Price.." value="{{ $product->price }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 m-auto">
@@ -140,7 +142,7 @@
                                                 title="Add the Stock Quantity of this product that will be visible to customers."></i>
                                         </label>
                                         <input type="number" class="form-control" id="current_stock"
-                                            name="current_stock" value="0">
+                                            name="current_stock" value="{{ $product->stock }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3 m-auto">
@@ -151,8 +153,10 @@
                                                 title="If “Flat”  discount amount will be set as fixed amount. If “Percentage”  discount amount will be set as percentage."></i>
                                         </label>
                                         <select name="discount_type" id="discount_type" class="form-control">
-                                            <option value="flat">Flat</option>
-                                            <option value="percentage">Percentage</option>
+                                            <option {{ $product->discount_type == 'flat' ? 'selected' : '' }}
+                                                value="flat">Flat</option>
+                                            <option {{ $product->discount_type == 'percentage' ? 'selected' : '' }}
+                                                value="percentage">Percentage</option>
                                         </select>
                                     </div>
                                 </div>
@@ -164,7 +168,7 @@
                                                 title="Add the discount amount in percentage or a fixed value here."></i>
                                         </label>
                                         <input type="number" class="form-control" id="discount" name="discount"
-                                            value="0">
+                                            value="{{ $product->discount }}">
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +182,8 @@
                             <div class="d-flex">
                                 <h3 class="block-title text-capitalize">Product Variation Setup</h3>
                                 <div class="form-check form-switch text-center mx-3">
-                                    <input class="form-check-input" id="status" type="checkbox">
+                                    <input class="form-check-input" id="status" type="checkbox"
+                                        {{ $product->variations ? 'chacked' : '' }}>
                                 </div>
                             </div>
                         </div>
@@ -188,47 +193,49 @@
 
                                 <div id="variationContainer" class="d-flex flex-column gap-3">
 
-                                    <div
-                                        class="variationRow d-flex gap-3 overflow-auto py-2 align-items-end justify-content-center">
+                                    @foreach ($product->variations as $variation)
+                                        <div
+                                            class="variationRow d-flex gap-3 overflow-auto py-2 align-items-end justify-content-center">
 
-                                        <div class="flex-shrink-0" style="min-width: 150px;">
-                                            <label class="form-label" for="attribute">Select Attribute<span
-                                                    class="text-danger">*</span></label>
-                                            <select class="form-select attribute" id="attribute" name="attribute[]"
-                                                style="width: 100%;" data-placeholder="Choose one.." required>
-                                                <option value="">Select Attribute</option>
-                                                @foreach ($attributes as $attribute)
-                                                    <option value="{{ $attribute->id }}">{{ $attribute->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                            <div class="flex-shrink-0" style="min-width: 150px;">
+                                                <label class="form-label">Select Color</label>
+                                                <select name="color[]" class="form-control">
+                                                    <option value="">Select Color</option>
+                                                    @foreach ($colors as $color)
+                                                        <option {{$variation->color_id == $color->id ? 'selected':''}} value="{{ $color->id }}">{{ $color->color }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="flex-shrink-0" style="min-width: 150px;">
+                                                <label class="form-label">Select Attribute</label>
+                                                <select name="attribute[]" class="form-control">
+                                                    <option value="">Select Attribute</option>
+                                                    @foreach ($attributes as $attribute)
+                                                        <option {{$variation->attribute_id == $attribute->id ? 'selected':''}} value="{{ $attribute->id }}">{{ $attribute->attribute }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="flex-shrink-0" style="min-width: 150px;">
+                                                <label class="form-label">Variation Wise Price</label>
+                                                <input type="number" name="price_variation[]" class="form-control"
+                                                    placeholder="Price" value="{{$variation->price}}">
+                                            </div>
+
+                                            <div class="flex-shrink-0" style="min-width: 150px;">
+                                                <label class="form-label">Variation Wise Stock</label>
+                                                <input type="number" name="stock_variation[]" class="form-control"
+                                                   value="{{$variation->stock}}">
+                                            </div>
+
+                                            <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
+                                                <button type="button" class="btn btn-outline-danger removeRow">x</button>
+                                            </div>
+
                                         </div>
-
-                                        <div class="flex-shrink-0" style="min-width: 150px;">
-                                            <label class="form-label" for="attributeValue">Attribute Value</label>
-                                            <select class="form-select attributeValue" id="attributeValue" name="value[]"
-                                                style="width: 100%;" data-placeholder="Choose Attribute Value  ..">
-                                                <option value="">Select Attribute Value</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="flex-shrink-0" style="min-width: 150px;">
-                                            <label class="form-label">Variation Wise Price</label>
-                                            <input type="number" name="price_variation[]" class="form-control"
-                                                placeholder="Price">
-                                        </div>
-
-                                        <div class="flex-shrink-0" style="min-width: 150px;">
-                                            <label class="form-label">Variation Wise Stock</label>
-                                            <input type="number" name="stock_variation[]" class="form-control"
-                                                value="0">
-                                        </div>
-
-                                        <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
-                                            <button type="button" class="btn btn-outline-danger removeRow">x</button>
-                                        </div>
-
-                                    </div>
+                                    @endforeach
 
                                 </div>
 
@@ -385,25 +392,22 @@
                     'justify-content-center');
 
                 row.innerHTML = `
-            
             <div class="flex-shrink-0" style="min-width: 150px;">
-                <label class="form-label" for="attribute">Select Attribute<span
-                        class="text-danger">*</span></label>
-                <select class="form-select attribute" id="attribute" name="attribute[]"
-                    style="width: 100%;" data-placeholder="Choose one.." required>
-                    <option value="">Select Attribute</option>
-                    @foreach ($attributes as $attribute)
-                        <option value="{{ $attribute->id }}">{{ $attribute->name }}
-                        </option>
+                <label class="form-label">Select Color</label>
+                <select name="color[]" class="form-control">
+                    <option value="">Select Color</option>
+                    @foreach ($colors as $color)
+                        <option value="{{ $color->id }}">{{ $color->color }}</option>
                     @endforeach
                 </select>
             </div>
-
             <div class="flex-shrink-0" style="min-width: 150px;">
-                <label class="form-label" for="attributeValue">Attribute Value</label>
-                <select class="form-select attributeValue" id="attributeValue" name="value[]"
-                    style="width: 100%;" data-placeholder="Choose Attribute Value  ..">
-                    <option value="">Select Attribute Value</option>
+                <label class="form-label">Select Attribute</label>
+                <select name="attribute[]" class="form-control">
+                    <option value="">Select Attribute</option>
+                    @foreach ($attributes as $attribute)
+                        <option value="{{ $attribute->id }}">{{ $attribute->attribute }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="flex-shrink-0" style="min-width: 150px;">

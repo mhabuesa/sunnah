@@ -16,10 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Get Subcategories
+let productSubcategoryId = "{{ $product->subcategory_id }}";
+
 $('#category').on('change', function () {
 
     let categoryId = $(this).val();
-
     let subcategory = $('#subcategory');
 
     subcategory.html('<option value="">Loading...</option>');
@@ -31,14 +32,45 @@ $('#category').on('change', function () {
             let options = '<option value="">Select Sub Category</option>';
 
             data.forEach(function (item) {
-                options += `<option value="${item.id}">${item.name}</option>`;
+
+                let selected = item.id == productSubcategoryId ? 'selected' : '';
+
+                options += `<option value="${item.id}" ${selected}>${item.name}</option>`;
             });
 
-            subcategory.html(options).trigger('change');
+            subcategory.html(options);
 
         });
 
 });
+$(document).ready(function () {
+    $('#category').trigger('change');
+});
+
+$(document).on('change', '.attribute', function () {
+
+    let attributeId = $(this).val();
+    let attributeValue = $(this).closest('.variationRow').find('.attributeValue');
+
+    fetch('/admin/product/get-attributeValue/' + attributeId)
+        .then(response => response.json())
+        .then(data => {
+
+            let options = '<option value="">Select Attribute Value</option>';
+
+            data.forEach(function (item) {
+                options += `<option value="${item.id}">${item.value}</option>`;
+            });
+
+            attributeValue.html(options);
+
+        });
+
+});
+
+
+
+
 
 
 // Generate SKU

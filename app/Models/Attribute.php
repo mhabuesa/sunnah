@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Attribute extends Model
 {
     protected $guarded = ["id"];
+
+    public function attributeValue()
+    {
+        return $this->hasMany(AttributeValue::class);
+    }
 }

@@ -21,6 +21,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
+ Route::controller(HomeController::class)->group(function () {
+        Route::get('/fraudCheck', 'fraudCheck')->name('froudCheck');
+    });
 
 Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::controller(HomeController::class)->group(function () {
@@ -60,9 +63,9 @@ Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
         Route::post('/store', 'store')->name('store');
         Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         Route::post('/update', 'updateAjax')->name('update');
-        Route::post('/color/store', 'color_store')->name('color.store');
-        Route::delete('/color/destroy/{id}', 'color_destroy')->name('color.destroy');
-        Route::post('/color/update', 'colorUpdateAjax')->name('color.update');
+        Route::post('/value/store', 'value_store')->name('value.store');
+        Route::delete('/value/destroy/{id}', 'value_destroy')->name('value.destroy');
+        Route::post('/value/update', 'valueUpdateAjax')->name('value.update');
     });
 
     // Product Routes
@@ -70,6 +73,7 @@ Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/get-subcategories/{id}', 'getSubcategories')->name('get-subcategories');
+        Route::get('/get-attributeValue/{id}', 'getAttributeValue');
         Route::post('/store', 'store')->name('store');
         Route::get('/getList/ajax', 'getList')->name('getList.ajax');
         Route::get('/trash', 'trash')->name('trash');

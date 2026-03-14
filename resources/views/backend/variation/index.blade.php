@@ -11,31 +11,7 @@
     <!-- Main content -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6 m-auto">
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">
-                            Add New Color
-                        </h3>
-                    </div>
-                    <div class="block-content block-content-full overflow-x-auto">
-                        <form action="{{ route('admin.attribute.color.store') }}" method="POST">
-                            @csrf
-                            <div class="mb-4">
-                                <label class="form-label" for="category">Color </label>
-                                <input type="text" class="form-control" id="color" name="color" value="{{ old('color') }}" placeholder="Color Name">
-                                @error('color')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <div class="mb-0 text-end">
-                                <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 m-auto">
+            <div class="col-lg-6">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">
@@ -46,8 +22,9 @@
                         <form action="{{ route('admin.attribute.store') }}" method="POST">
                             @csrf
                             <div class="mb-4">
-                                <label class="form-label" for="category">Attribute</label>
-                                <input type="text" class="form-control" id="attribute" name="attribute" value="{{ old('attribute') }}" placeholder="Variant Value">
+                                <label class="form-label" for="category">Attribute Name </label>
+                                <input type="text" class="form-control" id="attribute" name="attribute"
+                                    value="{{ old('attribute') }}" placeholder="Attribute Name">
                                 @error('attribute')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
@@ -59,46 +36,51 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 m-auto mt-4">
+            <div class="col-lg-6">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">
-                            Color List
+                            Add New Attribute Value
                         </h3>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto">
-                        <table class="table table-bordered  table-vcenter">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">SL</th>
-                                    <th>Color</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($colors as $key => $color)
-                                    <tr>
-                                        <td class="text-center fs-sm">{{ $key + 1 }}</td>
-                                        <td class="fw-semibold fs-sm">{{ $color->color }}</td>
-
-                                        <td class="text-center">
-                                            <button type="button" class="border-0 btn btn-sm editColorBtn"
-                                                data-id="{{ $color->id }}" data-color="{{ $color->color }}">
-                                                <i class="fa fa-pencil text-secondary fa-xl"></i>
-                                            </button>
-                                            <button type="button" class="border-0 btn btn-sm"
-                                                onclick="deleteColor(this)" data-id="{{ $color->id }}"><i
-                                                    class="fa fa-trash text-danger fa-xl"></i></button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <form action="{{ route('admin.attribute.value.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-4">
+                                <label class="form-label" for="attribute">Attribute</label>
+                                <select name="attribute_id" id="attribute_id" class="form-control">
+                                    <option value="">Select Attribute</option>
+                                    @foreach ($attributes as $attribute)
+                                        <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('attribute_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div id="attribute-wrapper">
+                                <div class="mb-4 attribute-row d-flex align-items-center gap-2">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label">Attribute Value</label>
+                                        <input type="text" class="form-control" name="value[]"
+                                            placeholder="Attribute Value">
+                                    </div>
+                                    <button type="button" class="btn btn-danger remove-row mt-4">
+                                        <i class="fas fa-x"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success add-row">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="mb-0 text-end">
+                                <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 m-auto mt-4">
+            <div class="col-lg-8 m-auto mt-4">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">
@@ -106,11 +88,11 @@
                         </h3>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto">
-                        <table class="table table-bordered  table-vcenter">
+                        <table class="table table-bordered table-vcenter">
                             <thead>
                                 <tr>
                                     <th class="text-center">SL</th>
-                                    <th>Attribute</th>
+                                    <th>Name</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -118,10 +100,11 @@
                                 @foreach ($attributes as $key => $attribute)
                                     <tr>
                                         <td class="text-center fs-sm">{{ $key + 1 }}</td>
-                                        <td class="fw-semibold fs-sm">{{ $attribute->attribute }}</td>
+                                        <td class="fw-semibold fs-sm">{{ $attribute->name }}</td>
+
                                         <td class="text-center">
                                             <button type="button" class="border-0 btn btn-sm editAttributeBtn"
-                                                data-id="{{ $attribute->id }}" data-attribute="{{ $attribute->attribute }}">
+                                                data-id="{{ $attribute->id }}" data-attribute="{{ $attribute->name }}">
                                                 <i class="fa fa-pencil text-secondary fa-xl"></i>
                                             </button>
                                             <button type="button" class="border-0 btn btn-sm"
@@ -136,6 +119,59 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12 m-auto mt-4">
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">
+                            Attribute wise Value List
+                        </h3>
+                    </div>
+                    <div class="block-content block-content-full overflow-x-auto">
+                        <div class="row">
+                            @foreach ($attributes as $key => $attribute)
+                                <div class="col-lg-6">
+                                    <h3 class="block-title fw-bold">
+                                        {{$attribute->name}}
+                                    </h3>
+                                    <table class="table table-bordered  table-vcenter">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">SL</th>
+                                                <th>Attribute</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($attribute->attributeValue as $key => $value)
+                                                <tr>
+                                                    <td class="text-center fs-sm">{{ $key + 1 }}</td>
+                                                    <td class="fw-semibold fs-sm">{{ $value->value }}</td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="border-0 btn btn-sm editAttributeValueBtn"
+                                                            data-id="{{ $value->id }}"
+                                                            data-attribute_value="{{ $value->value }}">
+                                                            <i class="fa fa-pencil text-secondary fa-xl"></i>
+                                                        </button>
+                                                        <button type="button" class="border-0 btn btn-sm"
+                                                            onclick="deleteAttributeValue(this)"
+                                                            data-id="{{ $value->id }}"><i
+                                                                class="fa fa-trash text-danger fa-xl"></i></button>
+                                                    </td>
+                                                </tr>
+                                                @empty
+                                                <tr>
+                                                    <td colspan="3" class="text-center fw-semibold">No data Found</td>
+                                                </tr>
+                                            @endforelse
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -143,40 +179,12 @@
     <!-- /.container-fluid -->
     <!-- /.content -->
 
-    <div class="modal fade" id="editColorModal" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Color</h5>
-                </div>
-
-                <div class="modal-body">
-                    <input type="hidden" id="edit_color_id">
-
-                    <div class="mb-3">
-                        <label>Color</label>
-                        <input type="text" id="edit_color" class="form-control">
-                        <small class="text-danger d-none" id="colorError"></small>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" id="closeEditModal">Cancel</button>
-                    <button class="btn btn-primary" id="updateColorBtn">Update</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
     <div class="modal fade" id="editAttributeModal" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Sub Category</h5>
+                    <h5 class="modal-title">Edit Attribute</h5>
                 </div>
 
                 <div class="modal-body">
@@ -190,8 +198,36 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" id="closeAttributeEditModal">Cancel</button>
+                    <button class="btn btn-secondary" id="closeEditModal">Cancel</button>
                     <button class="btn btn-primary" id="updateAttributeBtn">Update</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="editAttributeValueModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Attribute Value</h5>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="edit_attribute_value_id">
+
+                    <div class="mb-3">
+                        <label>Attribute Value</label>
+                        <input type="text" id="edit_attribute_value" class="form-control">
+                        <small class="text-danger d-none" id="attributeValueError"></small>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="closeAttributeValueEditModal">Cancel</button>
+                    <button class="btn btn-primary" id="updateAttributeValueBtn">Update</button>
                 </div>
 
             </div>
@@ -223,45 +259,6 @@
 
     <!-- Page specific script -->
     <script>
-        function deleteColor(button) {
-            const id = $(button).data('id');
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let url = "{{ route('admin.attribute.color.destroy', ':id') }}";
-                    url = url.replace(':id', id);
-                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                    $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': token
-                        },
-                        success: function(data) {
-                            if (data.success) {
-                                showToast(data.message, "success");
-                                $(button).closest('tr').remove();
-                            } else {
-                                showToast(data.message, "error");
-                            }
-                        },
-                        error: function(xhr) {
-                            showToast("An error occurred: " + xhr.responseJSON.message, "error");
-                        }
-                    });
-                }
-            });
-        }
-
 
         function deleteAttribute(button) {
             const id = $(button).data('id');
@@ -270,8 +267,8 @@
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                confirmButtonAttribute: "#3085d6",
+                cancelButtonAttribute: "#d33",
                 confirmButtonText: "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -301,78 +298,47 @@
                 }
             });
         }
-    </script>
 
-    <script>
-        // 🔹 Edit Color button click
-        $(document).on('click', '.editColorBtn', function() {
+        function deleteAttributeValue(button) {
+            const id = $(button).data('id');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonValue: "#3085d6",
+                cancelButtonValue: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let url = "{{ route('admin.attribute.value.destroy', ':id') }}";
+                    url = url.replace(':id', id);
+                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            $('#edit_color_id').val($(this).data('id'));
-            $('#edit_color').val($(this).data('color'));
-
-            resetErrors();
-            $('#editColorModal').modal('show');
-        });
-
-        // 🔹 Cancel
-        $('#closeEditModal').on('click', function() {
-            $('#editColorModal').modal('hide');
-        });
-
-        // 🔹 Reset errors
-        function resetErrors() {
-            $('#colorError').addClass('d-none').text('');
-            $('#colorError').removeClass('is-invalid');
-        }
-
-        // 🔹 Input change hide errors
-        $('#colorError').on('input', function() {
-            resetErrors();
-        });
-
-        // 🔹 Update Color
-        $('#updateColorBtn').on('click', function() {
-
-            let id = $('#edit_color_id').val();
-
-            resetErrors();
-
-            $.ajax({
-                url: "{{ route('admin.attribute.color.update') }}",
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    id: id,
-                    color: $('#edit_color').val().trim(),
-                },
-                beforeSend: function() {
-                    $('#updateColorBtn')
-                        .prop('disabled', true)
-                        .text('Updating...');
-                },
-                success: function(res) {
-
-                    if (res.errors) {
-                        if (res.errors.color) {
-                            $('#colorError').removeClass('d-none').text(res.errors.color[0]);
-                            $('#edit_color').addClass('is-invalid');
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': token
+                        },
+                        success: function(data) {
+                            if (data.success) {
+                                showToast(data.message, "success");
+                                $(button).closest('tr').remove();
+                            } else {
+                                showToast(data.message, "error");
+                            }
+                        },
+                        error: function(xhr) {
+                            showToast("An error occurred: " + xhr.responseJSON.message, "error");
                         }
-                        return;
-                    }
-
-                    if (res.success) {
-                        location.reload(); // session toast will show
-                    }
-                },
-                complete: function() {
-                    $('#updateColorBtn')
-                        .prop('disabled', false)
-                        .text('Update');
+                    });
                 }
             });
-        });
+        }
+        
     </script>
-
 
     <script>
         // 🔹 Edit Attribute button click
@@ -386,7 +352,7 @@
         });
 
         // 🔹 Cancel
-        $('#closeAttributeEditModal').on('click', function() {
+        $('#closeEditModal').on('click', function() {
             $('#editAttributeModal').modal('hide');
         });
 
@@ -444,4 +410,108 @@
         });
     </script>
 
+
+    <script>
+        // 🔹 Edit Attribute button click
+        $(document).on('click', '.editAttributeValueBtn', function() {
+
+            $('#edit_attribute_value_id').val($(this).data('id'));
+            $('#edit_attribute_value').val($(this).data('attribute_value'));
+
+            resetErrors();
+            $('#editAttributeValueModal').modal('show');
+        });
+
+        // 🔹 Cancel
+        $('#closeAttributeValueEditModal').on('click', function() {
+            $('#editAttributeValueModal').modal('hide');
+        });
+
+        // 🔹 Reset errors
+        function resetErrors() {
+            $('#attributeValueError').addClass('d-none').text('');
+            $('#attributeValueError').removeClass('is-invalid');
+        }
+
+        // 🔹 Input change hide errors
+        $('#attributeValueError').on('input', function() {
+            resetErrors();
+        });
+
+        // 🔹 Update Attribute
+        $('#updateAttributeValueBtn').on('click', function() {
+
+            let id = $('#edit_attribute_value_id').val();
+
+            resetErrors();
+
+            $.ajax({
+                url: "{{ route('admin.attribute.value.update') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                    value: $('#edit_attribute_value').val().trim(),
+                },
+                beforeSend: function() {
+                    $('#updateAttributeValueBtn')
+                        .prop('disabled', true)
+                        .text('Updating...');
+                },
+                success: function(res) {
+
+                    if (res.errors) {
+                        if (res.errors.value) {
+                            $('#attributeValueError').removeClass('d-none').text(res.errors.value[0]);
+                            $('#edit_attribute_value').addClass('is-invalid');
+                        }
+                        return;
+                    }
+
+                    if (res.success) {
+                        location.reload(); // session toast will show
+                    }
+                },
+                complete: function() {
+                    $('#updateAttributeValueBtn')
+                        .prop('disabled', false)
+                        .text('Update');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            // Add row
+            $(document).on('click', '.add-row', function() {
+
+                let row = `
+        <div class="mb-4 attribute-row d-flex align-items-center gap-2">
+            <div class="flex-grow-1">
+                <label class="form-label">Attribute Value</label>
+                <input type="text" class="form-control" name="value[]" placeholder="Attribute Value">
+            </div>
+            <button type="button" class="btn btn-danger remove-row mt-4">
+                <i class="fas fa-x"></i>
+            </button>
+        </div>
+        `;
+
+                $('#attribute-wrapper').append(row);
+
+            });
+
+            // Remove row
+            $(document).on('click', '.remove-row', function() {
+
+                if ($('.attribute-row').length > 1) {
+                    $(this).closest('.attribute-row').remove();
+                }
+
+            });
+
+        });
+    </script>
 @endpush
