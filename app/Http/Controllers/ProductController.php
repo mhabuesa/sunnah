@@ -7,7 +7,6 @@ use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use App\Models\ProductMeta;
@@ -17,6 +16,7 @@ use App\Traits\ImageSaveTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Milon\Barcode\Facades\DNS1DFacade as DNS1D; 
 
 use function Illuminate\Log\log;
 
@@ -147,9 +147,6 @@ class ProductController extends Controller
             $slug = $slug . '-' . ($count + 1);
         }
 
-
-
-
         $product = Product::create([
             'name'=> $request->name,
             'description'=> $request->description,
@@ -166,15 +163,32 @@ class ProductController extends Controller
         ]);
 
         //product Variation
-        foreach ($request->color as $key => $color) {
-            if(!$color) continue;
+        foreach ($request->attribute as $key => $attribute) {
+
+            if(!$attribute) continue;
+
+            $variationSku = $request->sku_variation[$key] ?? null;
+
+            if(!$variationSku){
+
+                $variationSku = random_int(100000, 999999);
+
+                while (
+                    Product::where('sku', $variationSku)->exists() ||
+                    ProductVariation::where('sku', $variationSku)->exists()
+                ) {
+                    $variationSku = random_int(100000, 999999);
+                }
+
+            }
 
             ProductVariation::create([
-                'product_id'   => $product->id,
-                'color_id'     => $color,
-                'attribute_id' => $request->attribute[$key] ?? null,
-                'price'        => $request->price_variation[$key] ?? 0,
-                'stock'        => $request->stock_variation[$key] ?? 0,
+                'product_id'        => $product->id,
+                'attribute_id'      => $attribute,
+                'attributeValue_id' => $request->value[$key] ?? null,
+                'price'             => $request->price_variation[$key] ?? 0,
+                'stock'             => $request->stock_variation[$key] ?? 0,
+                'sku'               => $variationSku,
             ]);
         }
 
@@ -231,12 +245,20 @@ class ProductController extends Controller
     public function edit(string $id)
     {   
         $product = Product::find($id);
-        $colors = Color::all();
         $attributes = Attribute::all();
+        $attributeValue  = AttributeValue::all();
         $categories = Category::where('status', 1)->get();
         $brands = Brand::where('status',1)->get();
 
-        return view('backend.product.edit', compact('product','colors','attributes', 'categories','brands'));
+        return view('backend.product.edit', compact('product','attributeValue','attributes', 'categories','brands'));
+    }
+
+    public function deleteGalleryImage($id) { 
+        $gallery = ProductGallery::find($id); 
+        if($gallery){ 
+            $gallery->delete(); return response()->json(['success' => true, 'message' => 'Gallery Image Deleted!']); 
+        } 
+            return response()->json(['success' => false, 'message' => 'Not found!'], 404); 
     }
 
     /**
@@ -244,7 +266,108 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name'=> 'required',
+            'category'=> 'required',
+        ]);
+
+
+        $data = Product::findOrFail($id);
+
+        // Sku Generation
+        $sku = null;
+        if ($data->sku == $request->sku) {
+            $sku = $data->sku;
+        }else{
+            $sku = $request->sku ?? random_int(100000, 999999);
+            while (Product::where('sku', $sku)->exists()) {
+                $sku = random_int(100000, 999999);
+            }
+        }
+
+        $data->update([
+            'name'=> $request->name,
+            'description'=> $request->description,
+            'category_id'=> $request->category,
+            'subcategory_id'=> $request->subcategory,
+            'brand_id'=> $request->brand,
+            'sku'=> $sku,
+            'price'=> $request->unit_price,
+            'stock'=> $request->current_stock,
+            'discount_type'=> $request->discount_type,
+            'discount'=> $request->discount,
+            'video_url'=> $request->video,
+        ]);
+
+
+        //product Variation
+        //delete old Variations 
+        ProductVariation::where('product_id',$data->id )->delete();
+        foreach ($request->attribute as $key => $attribute) {
+
+            if(!$attribute) continue;
+
+            $variationSku = $request->sku_variation[$key] ?? null;
+
+            if(!$variationSku){
+
+                $variationSku = random_int(100000000, 999999999);
+
+                while (
+                    Product::where('sku', $variationSku)->exists() ||
+                    ProductVariation::where('sku', $variationSku)->exists()
+                ) {
+                    $variationSku = random_int(100000, 999999);
+                }
+
+            }
+
+            ProductVariation::create([
+                'product_id'        => $data->id,
+                'attribute_id'      => $attribute,
+                'attributeValue_id' => $request->value[$key] ?? null,
+                'price'             => $request->price_variation[$key] ?? 0,
+                'stock'             => $request->stock_variation[$key] ?? 0,
+                'sku'               => $variationSku,
+            ]);
+        }
+
+        if ($request->filled('meta_title')) {
+
+            ProductMeta::where('product_id', $data->id)->update([
+                'meta_title'        => $request->meta_title,
+                'meta_description'  => $request->meta_description,
+            ]);
+        }
+
+
+          /* ---------------- Image ---------------- */
+        // main image
+        $mainImagePath = null;
+        if ($request->hasFile('image')) {
+            $this->deleteImage(public_path($data->image));
+            $mainImagePath = $request->file('image')->store('uploads/product', 'public');
+        }
+
+        // gallery
+        $galleryPaths = [];
+        if ($request->hasFile('gallery')) {
+            foreach ($request->gallery as $image) {
+                $galleryPaths[] = $image->store('uploads/product/gallery', 'public');
+            }
+        }
+
+        // Meta image
+        $metaImagePath = null;
+        if ($request->hasFile('meta_image')) {
+            $this->deleteImage(public_path($data->meta->meta_image));
+            $metaImagePath = $request->file('meta_image')->store('uploads/product/meta', 'public');
+        }
+
+          // dispatch job for heavy processing
+        ProcessProductImages::dispatch($data->id, $mainImagePath, $galleryPaths, $metaImagePath);
+
+        return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
     }
 
     /**
@@ -346,5 +469,68 @@ class ProductController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Product Featured Updated Successfully'], 200);
+    }
+
+    public function barCode(Request $request,$id) {
+        $product = Product::find($id);
+        $sku = $product->sku;
+         if($product->variations->count() > 0) { 
+            $stock = $product->variations->first()->stock;
+         }else{
+            $stock = $product->stock;
+         }
+        return view('backend.product.barcode', [
+            'product'=> $product,
+            'sku'=> $sku,
+            'stock'=> $stock
+        ]);
+    }
+
+    public function generateBarcode(Request $request)
+    {
+        $sku = $request->sku;
+        $qty = $request->qty;
+        $appName = config('app.name');
+
+        
+        
+        // যদি variant SKU হয়
+        $variant = ProductVariation::where('sku',$sku)->first();
+        $variation = null;
+        if($variant) {
+            $price = $variant->price;
+            $product = Product::where('id',$variant->product_id)->first();
+
+            $attribute = $variant && $variant->attribute ? $variant->attribute->name : '';
+            $variantValue = $variant && $variant->attributeValue ? $variant->attributeValue->value : '';
+            $variation = $variant ? $attribute .'-'.$variantValue : ''; 
+        }else{
+            $product = Product::where('sku',$sku)->first();
+            $price = $product->price;
+        }
+
+            Log::info($product);
+                
+        $productName = $product ? Str::limit($product->name, 20, '...') : '';   
+
+
+        $html = '';
+
+        for ($i = 0; $i < $qty; $i++) {
+
+           $html .= '
+            <div class="barCodeWrapper">
+                <div class="fw-semibold mb-2">'.$appName.'</div>
+                <div class="product-name">'.$productName.'</div>
+                <div class="product-name mb-2">৳ '.$price.'</div>
+                <div class="barcode-img">'.DNS1D::getBarcodeHTML($sku, 'C128', 1.5, 33).'</div>
+                <div class="sku-text">Code: '.$sku.'</div>
+                <div class="product-name">'.$variation.'</div>
+            </div>';
+        }
+
+        return response()->json([
+            'html'=>$html
+        ]);
     }
 }

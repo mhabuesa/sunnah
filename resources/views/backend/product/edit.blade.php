@@ -21,8 +21,9 @@
     </div>
 
     <div class="container-fluid">
-        <form id="productForm" action="{{ route('admin.product.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.product.update', $product->id) }}" method="post" enctype="multipart/form-data">
             @csrf
+            @method('put')
             <div class="row">
 
                 <div class="col-lg-12 m-auto mt-2">
@@ -63,9 +64,8 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="category">Category<span
                                                 class="text-danger">*</span></label>
-                                        <select class="js-select2 form-select" id="category" name="category"
-                                            style="width: 100%;" data-placeholder="Choose one.." required>
-                                            <option></option>
+                                        <select class="form-select" id="category" name="category" style="width: 100%;"
+                                            data-placeholder="Choose one.." required>
                                             @foreach ($categories as $key => $category)
                                                 <option {{ $product->category_id == $category->id ? 'selected' : '' }}
                                                     value="{{ $category->id }}">{{ $category->name }}</option>
@@ -76,8 +76,8 @@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         <label class="form-label" for="subcategory">Sub Category</label>
-                                        <select class="js-select2 form-select" id="subcategory" name="subcategory"
-                                            style="width: 100%;" data-placeholder="Choose Sub Category  ..">
+                                        <select class="form-select" id="subcategory" name="subcategory"
+                                            data-selectedsubcategory="{{ $product->subcategory_id }}">
                                             <option value="">Select Sub Category</option>
                                         </select>
                                     </div>
@@ -85,9 +85,9 @@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         <label class="form-label" for="brand">Brand</label>
-                                        <select class="js-select2 form-select" id="brand" name="brand"
-                                            style="width: 100%;" data-placeholder="Choose brand..">
-                                            <option value="">Select Brand</option>
+                                        <select class="form-select" id="brand" name="brand" style="width: 100%;"
+                                            data-placeholder="Choose brand..">
+                                            <option>Select Brand</option>
                                             @foreach ($brands as $key => $brand)
                                                 <option {{ $product->brand_id == $brand->id ? 'selected' : '' }}
                                                     value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -183,51 +183,63 @@
                                 <h3 class="block-title text-capitalize">Product Variation Setup</h3>
                                 <div class="form-check form-switch text-center mx-3">
                                     <input class="form-check-input" id="status" type="checkbox"
-                                        {{ $product->variations ? 'chacked' : '' }}>
+                                        {{ $product->variations->count() > 0 ? 'checked' : '' }}>
                                 </div>
                             </div>
                         </div>
-                        <div id="variationBody" class="block-content block-content-full" style="display:none;">
+                        <div id="variationBody" class="block-content block-content-full"
+                            style="display:
+                            {{ $product->variations->count() > 0 ? '' : 'none' }};">
 
                             <div id="variationContent">
 
                                 <div id="variationContainer" class="d-flex flex-column gap-3">
-
+                                    <div class="mt-2">
+                                        <span class="fw-semibold">Previous Variation</span>
+                                    </div>
                                     @foreach ($product->variations as $variation)
                                         <div
                                             class="variationRow d-flex gap-3 overflow-auto py-2 align-items-end justify-content-center">
 
                                             <div class="flex-shrink-0" style="min-width: 150px;">
-                                                <label class="form-label">Select Color</label>
-                                                <select name="color[]" class="form-control">
-                                                    <option value="">Select Color</option>
-                                                    @foreach ($colors as $color)
-                                                        <option {{$variation->color_id == $color->id ? 'selected':''}} value="{{ $color->id }}">{{ $color->color }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="flex-shrink-0" style="min-width: 150px;">
-                                                <label class="form-label">Select Attribute</label>
-                                                <select name="attribute[]" class="form-control">
+                                                <label class="form-label" for="attribute">Select Attribute<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-select attribute" id="attribute" name="attribute[]"
+                                                    style="width: 100%;" data-placeholder="Choose one..">
                                                     <option value="">Select Attribute</option>
                                                     @foreach ($attributes as $attribute)
-                                                        <option {{$variation->attribute_id == $attribute->id ? 'selected':''}} value="{{ $attribute->id }}">{{ $attribute->attribute }}
+                                                        <option
+                                                            {{ $variation->attribute_id == $attribute->id ? 'selected' : '' }}
+                                                            value="{{ $attribute->id }}">{{ $attribute->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
                                             <div class="flex-shrink-0" style="min-width: 150px;">
+                                                <label class="form-label" for="attributeValue">Attribute Value</label>
+                                                <select class="form-select attributeValue" name="value[]"
+                                                    style="width: 100%;"
+                                                    data-selected="{{ $variation->attributeValue_id }}">
+                                                    <option value="">Select Attribute Value</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="flex-shrink-0" style="min-width: 150px;">
                                                 <label class="form-label">Variation Wise Price</label>
                                                 <input type="number" name="price_variation[]" class="form-control"
-                                                    placeholder="Price" value="{{$variation->price}}">
+                                                    placeholder="Price" value="{{ $variation->price }}">
                                             </div>
 
                                             <div class="flex-shrink-0" style="min-width: 150px;">
                                                 <label class="form-label">Variation Wise Stock</label>
                                                 <input type="number" name="stock_variation[]" class="form-control"
-                                                   value="{{$variation->stock}}">
+                                                    value="{{ $variation->stock }}">
+                                            </div>
+                                            <div class="flex-shrink-0" style="min-width: 150px;">
+                                                <label class="form-label">Variation Wise SKU</label>
+                                                <input type="text" name="sku_variation[]" class="form-control"
+                                                    placeholder="Enter Variation SKU" value="{{ $variation->sku }}">
                                             </div>
 
                                             <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
@@ -236,6 +248,10 @@
 
                                         </div>
                                     @endforeach
+
+                                    <div class="mt-2">
+                                        <span class="fw-semibold">New Variation</span>
+                                    </div>
 
                                 </div>
 
@@ -258,11 +274,15 @@
                         <div class="block-content block-content-full">
                             <div class="border rounded p-3 text-center" style="background:#f8f9fa; min-height: 220px;">
 
-                                <div class="thumbnail-box" id="thumbnailBox">
-                                    <span id="thumbnailText">Upload Image</span>
-                                    <img id="thumbnailPreview" src="" style="display:none;">
+                                <div class="thumbnail-box" id="thumbnailBox"
+                                    style="height: {{ $product->image == null ? '220px' : 'auto' }};">
+                                    @if ($product->image == null)
+                                        <span id="thumbnailText">Upload Image</span>
+                                    @endif
+                                    <img id="thumbnailPreview" src="{{ asset($product->image) }}"
+                                        style="display:{{ $product->image == null ? 'none' : 'block' }}; padding: 10px;">
                                     <input type="file" id="thumbnailInput" name="image" accept=".jpg,.jpeg,.png"
-                                        hidden required>
+                                        hidden>
                                 </div>
 
                                 <small class="text-muted mt-2 d-block">
@@ -287,16 +307,28 @@
                         <div class="block-content block-content-full h-100">
                             <div class="border rounded p-3 h-100" style="background:#f8f9fa">
 
-                                <div id="imagePreviewContainer" class="d-flex flex-wrap gap-3"></div>
-
+                                <div id="imagePreviewContainer" class="d-flex flex-wrap gap-3">
+                                    @foreach ($product->galleries as $gallery)
+                                        <div class="image-box previous-image" data-id="{{ $gallery->id }}"
+                                            style="width: 200px; height: 200px; border: 2px dashed rgb(204, 204, 204); border-radius: 8px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgb(255, 255, 255);">
+                                            <img src="{{ asset($gallery->image) }}"
+                                                style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
+                                            <button type="button" class="delete-gallery-img"
+                                                onclick="deleteGalleryImage({{ $gallery->id }}, this)"
+                                                style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;">
+                                                ×
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
                                 <small class="text-muted mt-2 d-block">
                                     Supported: <b>.jpg .jpeg .png</b>
                                 </small>
+
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <div class="col-12 mt-3">
                     <div class="block block-rounded">
@@ -313,7 +345,8 @@
                                     embed link not direct
                                     link.)</small></label>
                             <input type="text" name="video" class="form-control"
-                                placeholder="Ex: https://www.youtube.com/embed/5R06LRdUCSE">
+                                placeholder="Ex: https://www.youtube.com/embed/5R06LRdUCSE"
+                                value="{{ $product->video_url }}">
                         </div>
                     </div>
                 </div>
@@ -335,18 +368,21 @@
                                     <div class="mb-3">
                                         <label for="">Meta Title</label>
                                         <input type="text" name="meta_title" class="form-control"
-                                            placeholder="Meta Title">
+                                            placeholder="Meta Title" value="{{ $product->meta->meta_title }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="">Meta Description</label>
-                                        <textarea name="meta_description" class="form-control" rows="6" placeholder="Meta Description"></textarea>
+                                        <textarea name="meta_description" class="form-control" rows="6" placeholder="Meta Description">{{ $product->meta->meta_description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="">Meta Image</label>
                                     <div class="metaImg-box mt-1" id="metaImgBox">
-                                        <span id="metaImgText">Upload Image</span>
-                                        <img id="metaImgPreview" src="" style="display:none;">
+                                        @if ($product->meta->meta_image == null)
+                                            <span id="metaImgText">Upload Image</span>
+                                        @endif
+                                        <img id="metaImgPreview" src="{{ asset($product->meta->meta_image) }}"
+                                            style="display:{{ $product->meta->meta_image != null ? '' : 'none' }};">
                                         <input type="file" id="metaImgInput" name="meta_image"
                                             accept=".jpg,.jpeg,.png" hidden>
                                     </div>
@@ -363,8 +399,7 @@
             </div>
 
             <div class="my-3 text-end">
-                <button type="button" id="resetFormBtn" class="btn btn-outline-secondary">Reset</button>
-                <button class="btn btn-primary  mx-2" type="submit">Submit</button>
+                <button class="btn btn-primary  mx-2" type="submit">Update</button>
             </div>
         </form>
     </div>
@@ -393,21 +428,23 @@
 
                 row.innerHTML = `
             <div class="flex-shrink-0" style="min-width: 150px;">
-                <label class="form-label">Select Color</label>
-                <select name="color[]" class="form-control">
-                    <option value="">Select Color</option>
-                    @foreach ($colors as $color)
-                        <option value="{{ $color->id }}">{{ $color->color }}</option>
+                <label class="form-label" for="attribute">Select Attribute<span
+                        class="text-danger">*</span></label>
+                <select class="form-select attribute" id="attribute" name="attribute[]"
+                    style="width: 100%;" data-placeholder="Choose one..">
+                    <option value="">Select Attribute</option>
+                    @foreach ($attributes as $attribute)
+                        <option value="{{ $attribute->id }}">{{ $attribute->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
+
             <div class="flex-shrink-0" style="min-width: 150px;">
-                <label class="form-label">Select Attribute</label>
-                <select name="attribute[]" class="form-control">
-                    <option value="">Select Attribute</option>
-                    @foreach ($attributes as $attribute)
-                        <option value="{{ $attribute->id }}">{{ $attribute->attribute }}</option>
-                    @endforeach
+                <label class="form-label" for="attributeValue">Attribute Value</label>
+                <select class="form-select attributeValue" id="attributeValue" name="value[]"
+                    style="width: 100%;" data-placeholder="Choose Attribute Value  ..">
+                    <option value="">Select Attribute Value</option>
                 </select>
             </div>
             <div class="flex-shrink-0" style="min-width: 150px;">
@@ -417,6 +454,10 @@
             <div class="flex-shrink-0" style="min-width: 150px;">
                 <label class="form-label">Variation Wise Stock</label>
                 <input type="number" name="stock_variation[]" class="form-control" value="0">
+            </div>
+            <div class="flex-shrink-0" style="min-width: 150px;">
+                <label class="form-label">Variation Wise SKU</label>
+                <input type="text" name="sku_variation[]" class="form-control" placeholder="Enter Variation SKU">
             </div>
             <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
                 <button type="button" class="btn btn-outline-danger removeRow">x</button>

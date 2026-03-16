@@ -221,7 +221,11 @@
                                         <div class="flex-shrink-0" style="min-width: 150px;">
                                             <label class="form-label">Variation Wise Stock</label>
                                             <input type="number" name="stock_variation[]" class="form-control"
-                                                value="0">
+                                                placeholder="Enter Stock">
+                                        </div>
+                                        <div class="flex-shrink-0" style="min-width: 150px;">
+                                            <label class="form-label">Variation Wise SKU</label>
+                                            <input type="text" name="sku_variation[]" class="form-control" placeholder="Enter Variation SKU">
                                         </div>
 
                                         <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
@@ -412,7 +416,11 @@
             </div>
             <div class="flex-shrink-0" style="min-width: 150px;">
                 <label class="form-label">Variation Wise Stock</label>
-                <input type="number" name="stock_variation[]" class="form-control" value="0">
+                <input type="number" name="stock_variation[]" class="form-control" placeholder="Enter Stock">
+            </div>
+            <div class="flex-shrink-0" style="min-width: 150px;">
+                <label class="form-label">Variation Wise SKU</label>
+                <input type="text" name="sku_variation[]" class="form-control" placeholder="Enter Variation SKU">
             </div>
             <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
                 <button type="button" class="btn btn-outline-danger removeRow">x</button>

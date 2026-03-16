@@ -23,7 +23,7 @@ class ProcessProductImages implements ShouldQueue
         public int $productId,
         public ?string $mainImage,
         public array $gallery,
-        public string $metaImage
+        public ?string $metaImage
     ) {}
 
     /**

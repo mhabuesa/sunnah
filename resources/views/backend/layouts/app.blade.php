@@ -42,7 +42,7 @@
         @include('backend.layouts.partials.header')
 
         <main id="main-container">
-            <div class="content mt-4">
+            <div class="content">
                 @yield('content')
             </div>
         </main>

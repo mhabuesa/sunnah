@@ -24,51 +24,56 @@
 
     <div class="row">
         <div class="col-xl-4 order-xl-1">
-            <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">
-                        <i class="fa fa-fw fa-boxes text-muted me-1"></i> Product Variation
-                    </h3>
-                </div>
-                <div class="block-content table-responsive">
-                    <table class="table table-borderless table-hover table-vcenter">
-                        <thead>
-                            <tr>
-                                <th>Color</th>
-                                <th>Attribute</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($product->variations as $key => $variation)
+            @if ($product->variations->count() > 0)
+                <div class="block block-rounded js-ecom-div-nav d-none d-xl-block">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">
+                            <i class="fa fa-fw fa-boxes text-muted me-1"></i> Product Variation
+                        </h3>
+                    </div>
+                    <div class="block-content table-responsive">
+                        <table class="table table-borderless table-hover table-vcenter">
+                            <thead>
                                 <tr>
-                                    <td>{{ $variation->color->color }}</td>
-                                    <td>{{ $variation->attribute->attribute }}</td>
-                                    <td>{{ $variation->price }}</td>
-                                    <td>{{ $variation->stock }}</td>
+                                    <th>Attribute</th>
+                                    <th>Attribute Value</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($product->variations as $key => $variation)
+                                    <tr>
+                                        <td>{{ $variation->attribute?->name }}</td>
+                                        <td>{{ $variation->attributeValue?->value }}</td>
+                                        <td>{{ $variation->price }}</td>
+                                        <td>{{ $variation->stock }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            @endif
 
-            <div class="block block-rounded js-ecom-div-cart d-none d-xl-block">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">
-                        <i class="fa fa-fw fa-chart-line text-muted me-1"></i> SEO Information
-                    </h3>
+            @if ($product->meta)
+                <div class="block block-rounded js-ecom-div-cart d-none d-xl-block">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">
+                            <i class="fa fa-fw fa-chart-line text-muted me-1"></i> SEO Information
+                        </h3>
+                    </div>
+                    <div class="block-content">
+                        <p><span class="fw-semibold">Meta Title:</span> {{ $product->meta->meta_title }}</p>
+                        <p><span class="fw-semibold d-block ">Meta Description:</span>
+                            {{ $product->meta->meta_description }}
+                        </p>
+                        <p><span class="fw-semibold d-block ">Meta Image:</span>
+                            <img class="w-75" src="{{ asset($product->meta->meta_image) }}" alt="">
+                        </p>
+                    </div>
                 </div>
-                <div class="block-content">
-                    <p><span class="fw-semibold">Meta Title:</span> {{ $product->meta->meta_title }}</p>
-                    <p><span class="fw-semibold d-block ">Meta Description:</span> {{ $product->meta->meta_description }}
-                    </p>
-                    <p><span class="fw-semibold d-block ">Meta Image:</span>
-                        <img class="w-75" src="{{ asset($product->meta->meta_image) }}" alt="">
-                    </p>
-                </div>
-            </div>
+            @endif
         </div>
         <div class="col-xl-8 order-xl-0">
             <div class="block block-rounded">

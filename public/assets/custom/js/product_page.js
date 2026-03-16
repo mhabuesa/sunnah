@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // Get Subcategories
-let productSubcategoryId = "{{ $product->subcategory_id }}";
+let productSubcategoryId = $('#subcategory').data('selectedsubcategory');
 
 $('#category').on('change', function () {
 
@@ -46,25 +46,51 @@ $('#category').on('change', function () {
 $(document).ready(function () {
     $('#category').trigger('change');
 });
+$(document).ready(function () {
 
-$(document).on('change', '.attribute', function () {
+    // ১. ভ্যালু লোড করার কমন ফাংশন
+    function loadAttributeValues(attributeId, targetDropdown, selectedValue = null) {
+        if (!attributeId) {
+            targetDropdown.html('<option value="">Select Attribute Value</option>');
+            return;
+        }
 
-    let attributeId = $(this).val();
-    let attributeValue = $(this).closest('.variationRow').find('.attributeValue');
+        fetch('/admin/product/get-attributeValue/' + attributeId)
+            .then(response => response.json())
+            .then(data => {
+                let options = '<option value="">Select Attribute Value</option>';
 
-    fetch('/admin/product/get-attributeValue/' + attributeId)
-        .then(response => response.json())
-        .then(data => {
+                // selectedValue কে স্ট্রিং বা নাম্বারে কনভার্ট করে নিশ্চিত হওয়া
+                let checkValue = selectedValue ? selectedValue.toString() : null;
 
-            let options = '<option value="">Select Attribute Value</option>';
+                data.forEach(function (item) {
+                    // এখানে চেক করা হচ্ছে ডাটার ID এবং আমাদের ডাটাবেসের ID এক কি না
+                    let isSelected = (checkValue && checkValue == item.id.toString()) ? 'selected' : '';
+                    options += `<option value="${item.id}" ${isSelected}>${item.value}</option>`;
+                });
 
-            data.forEach(function (item) {
-                options += `<option value="${item.id}">${item.value}</option>`;
-            });
+                targetDropdown.html(options);
+            })
+            .catch(error => console.error('Error fetching attribute values:', error));
+    }
 
-            attributeValue.html(options);
+    // ২. পেজ লোড হওয়ার সময় Previous Variation গুলোর ভ্যালু লোড করা
+    $('.variationRow').each(function () {
+        let attributeId = $(this).find('.attribute').val();
+        let targetDropdown = $(this).find('.attributeValue');
+        let selectedValue = targetDropdown.data('selected'); // data-selected থেকে আইডি নিবে
 
-        });
+        if (attributeId) {
+            loadAttributeValues(attributeId, targetDropdown, selectedValue);
+        }
+    });
+
+    // ৩. অ্যাট্রিবিউট চেঞ্জ করলে নতুন ভ্যালু লোড করা
+    $(document).on('change', '.attribute', function () {
+        let attributeId = $(this).val();
+        let targetDropdown = $(this).closest('.variationRow').find('.attributeValue');
+        loadAttributeValues(attributeId, targetDropdown);
+    });
 
 });
 
@@ -76,7 +102,7 @@ $(document).on('change', '.attribute', function () {
 // Generate SKU
 document.addEventListener("DOMContentLoaded", function () {
 
-    function generateNumericSKU(length = 8) {
+    function generateNumericSKU(length = 6) {
         // Only digits 0-9
         let code = '';
         const digits = '0123456789';
@@ -90,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const skuInput = document.getElementById('sku');
 
     btn.addEventListener('click', function () {
-        const code = generateNumericSKU(8);
+        const code = generateNumericSKU(6);
         skuInput.value = code;
     });
 
@@ -139,8 +165,44 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// SweetAlert কনফার্মেশনের মাধ্যমে বিদ্যমান ইমেজ ডিলিট করার ফাংশন
+function deleteGalleryImage(id, button) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "GET",
+                url: "/admin/product/deleteGalleryImage/" + id,
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $(button).closest('.image-box').remove();
+                        showToast(response.message, 'success');
+                    } else {
+                        Swal.fire('Error!', response.message, 'error');
+                    }
+                },
+                error: function (xhr) {
+                    // আসল এরর দেখার জন্য কনসোলে চেক করুন 
+                    console.error("Status: " + xhr.status);
+                    console.error("Response: " + xhr.responseText);
+                    Swal.fire('Error!', 'Server communication error (Status: ' + xhr.status + ')', 'error');
+                }
+            });
+        }
+    });
+}
 
-// Multiple Image Upload
+// Multiple Image Upload (নতুন ইমেজের জন্য)
 document.addEventListener("DOMContentLoaded", function () {
 
     const container = document.getElementById("imagePreviewContainer");
@@ -162,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const input = document.createElement("input");
         input.type = "file";
-        input.name = "gallery[]";
+        input.name = "gallery[]"; // নতুন ইমেজ ফর্মে পাঠানোর জন্য নাম
         input.accept = "image/png,image/jpeg";
         input.hidden = true;
 
@@ -190,33 +252,34 @@ document.addEventListener("DOMContentLoaded", function () {
                     <img src="${e.target.result}"
                     style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
 
-                    <button type="button"
+                    <button type="button" class="remove-new-img"
                     style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%;width:25px;height:25px;">
                     ×
                     </button>
                 `;
 
+                // ইনপুট ফাইলটি বক্সে যোগ করা যাতে ফর্মে ডেটা যায়
                 box.appendChild(input);
 
-                box.querySelector("button").onclick = function (ev) {
+                box.querySelector(".remove-new-img").onclick = function (ev) {
                     ev.stopPropagation();
                     box.remove();
                 };
 
-                createUploadBox();
+                createUploadBox(); // নতুন আপলোড বক্স যোগ করা
             };
 
             reader.readAsDataURL(file);
         });
 
+        // কন্টেইনারের শেষে যোগ করা
         container.appendChild(box);
     }
 
-    // initial upload box
+    // প্রথমবার আপলোড বক্স তৈরি করা
     createUploadBox();
 
 });
-
 
 // Meta Image Upload
 document.addEventListener("DOMContentLoaded", function () {
