@@ -182,3 +182,11 @@
     border-radius: 5px;
     border: 1px solid #00a552;
 }
+
+.product_body {
+    border: 1px dashed gray;
+}
+
+.product_card {
+    padding: 5px 10px;
+}

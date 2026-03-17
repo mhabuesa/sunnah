@@ -254,6 +254,13 @@
                         <span class="nav-main-link-name">Dashboard</span>
                     </a>
                 </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link {{ request()->routeIs('admin.pos.*') ? 'active' : '' }}"
+                        href="{{ route('admin.pos.index') }}">
+                        <i class="nav-main-link-icon fa fa-cart-arrow-down"></i>
+                        <span class="nav-main-link-name">POS</span>
+                    </a>
+                </li>
                 <li class="nav-main-heading">Product Management</li>
                 <li
                     class="nav-main-item {{ request()->routeIs('admin.category.*') ? 'open' : (request()->routeIs('admin.subcategory.*') ? 'open' : '') }}">
@@ -330,6 +337,36 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-main-heading">
+                    </i> Users Management
+                </li>
+                <li class="nav-main-item {{ request()->routeIs('admin.user.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+
+                        <i class="nav-main-link-icon fas fa-newspaper"></i>
+                        <span class="nav-main-link-name">Users</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.user.index') ? 'active' : '' }}"
+                                href="{{ route('admin.user.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-file-invoice me-2"></i> User List
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.user.create') ? 'active' : '' }}"
+                                href="{{ route('admin.user.create') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-circle-plus me-2"></i> Add New User
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-main-heading">
                     </i> Post Management
                 </li>

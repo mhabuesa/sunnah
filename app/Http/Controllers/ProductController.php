@@ -163,33 +163,36 @@ class ProductController extends Controller
         ]);
 
         //product Variation
-        foreach ($request->attribute as $key => $attribute) {
+        if($request->attribute){
+            
+            foreach ($request->attribute as $key => $attribute) {
 
-            if(!$attribute) continue;
+                if(!$attribute) continue;
 
-            $variationSku = $request->sku_variation[$key] ?? null;
+                $variationSku = $request->sku_variation[$key] ?? null;
 
-            if(!$variationSku){
+                if(!$variationSku){
 
-                $variationSku = random_int(100000, 999999);
-
-                while (
-                    Product::where('sku', $variationSku)->exists() ||
-                    ProductVariation::where('sku', $variationSku)->exists()
-                ) {
                     $variationSku = random_int(100000, 999999);
+
+                    while (
+                        Product::where('sku', $variationSku)->exists() ||
+                        ProductVariation::where('sku', $variationSku)->exists()
+                    ) {
+                        $variationSku = random_int(100000, 999999);
+                    }
+
                 }
 
+                ProductVariation::create([
+                    'product_id'        => $product->id,
+                    'attribute_id'      => $attribute,
+                    'attributeValue_id' => $request->value[$key] ?? null,
+                    'price'             => $request->price_variation[$key] ?? 0,
+                    'stock'             => $request->stock_variation[$key] ?? 0,
+                    'sku'               => $variationSku,
+                ]);
             }
-
-            ProductVariation::create([
-                'product_id'        => $product->id,
-                'attribute_id'      => $attribute,
-                'attributeValue_id' => $request->value[$key] ?? null,
-                'price'             => $request->price_variation[$key] ?? 0,
-                'stock'             => $request->stock_variation[$key] ?? 0,
-                'sku'               => $variationSku,
-            ]);
         }
 
 
@@ -301,35 +304,37 @@ class ProductController extends Controller
 
 
         //product Variation
-        //delete old Variations 
-        ProductVariation::where('product_id',$data->id )->delete();
-        foreach ($request->attribute as $key => $attribute) {
+        if($request->attribute){
+            //delete old Variations 
+            ProductVariation::where('product_id',$data->id )->delete();
+            foreach ($request->attribute as $key => $attribute) {
 
-            if(!$attribute) continue;
+                if(!$attribute) continue;
 
-            $variationSku = $request->sku_variation[$key] ?? null;
+                $variationSku = $request->sku_variation[$key] ?? null;
 
-            if(!$variationSku){
+                if(!$variationSku){
 
-                $variationSku = random_int(100000000, 999999999);
+                    $variationSku = random_int(100000000, 999999999);
 
-                while (
-                    Product::where('sku', $variationSku)->exists() ||
-                    ProductVariation::where('sku', $variationSku)->exists()
-                ) {
-                    $variationSku = random_int(100000, 999999);
+                    while (
+                        Product::where('sku', $variationSku)->exists() ||
+                        ProductVariation::where('sku', $variationSku)->exists()
+                    ) {
+                        $variationSku = random_int(100000, 999999);
+                    }
+
                 }
 
+                ProductVariation::create([
+                    'product_id'        => $data->id,
+                    'attribute_id'      => $attribute,
+                    'attributeValue_id' => $request->value[$key] ?? null,
+                    'price'             => $request->price_variation[$key] ?? 0,
+                    'stock'             => $request->stock_variation[$key] ?? 0,
+                    'sku'               => $variationSku,
+                ]);
             }
-
-            ProductVariation::create([
-                'product_id'        => $data->id,
-                'attribute_id'      => $attribute,
-                'attributeValue_id' => $request->value[$key] ?? null,
-                'price'             => $request->price_variation[$key] ?? 0,
-                'stock'             => $request->stock_variation[$key] ?? 0,
-                'sku'               => $variationSku,
-            ]);
         }
 
         if ($request->filled('meta_title')) {

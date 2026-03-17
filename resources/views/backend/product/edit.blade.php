@@ -368,21 +368,21 @@
                                     <div class="mb-3">
                                         <label for="">Meta Title</label>
                                         <input type="text" name="meta_title" class="form-control"
-                                            placeholder="Meta Title" value="{{ $product->meta->meta_title }}">
+                                            placeholder="Meta Title" value="{{ $product->meta?->meta_title }}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="">Meta Description</label>
-                                        <textarea name="meta_description" class="form-control" rows="6" placeholder="Meta Description">{{ $product->meta->meta_description }}</textarea>
+                                        <textarea name="meta_description" class="form-control" rows="6" placeholder="Meta Description">{{ $product->meta?->meta_description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="">Meta Image</label>
                                     <div class="metaImg-box mt-1" id="metaImgBox">
-                                        @if ($product->meta->meta_image == null)
+                                        @if ($product->meta?->meta_image == null)
                                             <span id="metaImgText">Upload Image</span>
                                         @endif
-                                        <img id="metaImgPreview" src="{{ asset($product->meta->meta_image) }}"
-                                            style="display:{{ $product->meta->meta_image != null ? '' : 'none' }};">
+                                        <img id="metaImgPreview" src="{{ asset($product->meta?->meta_image) }}"
+                                            style="display:{{ $product->meta?->meta_image != null ? '' : 'none' }};">
                                         <input type="file" id="metaImgInput" name="meta_image"
                                             accept=".jpg,.jpeg,.png" hidden>
                                     </div>

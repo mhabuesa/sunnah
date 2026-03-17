@@ -100,7 +100,10 @@ class ProfileController extends Controller
         // Update user details
         User::where('id', $user->id)->update([
             'name' => $request->name,
+            'phone' => $request->phone,
             'email' => $request->email,
+            'address' => $request->address,
+            'nid' => $request->nid,
             'image' => $image_name ?? $user->image,
         ]);
 

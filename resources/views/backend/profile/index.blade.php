@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', 'Profile')
 @section('content')
     <main id="main-container">
         <div class="bg-image">
@@ -42,10 +43,34 @@
                                     @enderror
                                 </div>
                                 <div class="mb-4">
+                                    <label class="form-label" for="phone">Phone</label>
+                                    <input type="phone" class="form-control" id="phone" name="phone"
+                                        placeholder="Enter your phone.." value="{{ auth()->user()->phone }}">
+                                    @error('phone')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-4">
                                     <label class="form-label" for="one-profile-edit-email">Email Address</label>
                                     <input type="email" class="form-control" id="one-profile-edit-email" name="email"
                                         placeholder="Enter your email.." value="{{ auth()->user()->email }}">
                                     @error('email')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" for="address">Address</label>
+                                    <input type="address" class="form-control" id="address" name="address"
+                                        placeholder="Enter your address.." value="{{ auth()->user()->address }}">
+                                    @error('address')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label" for="nid">NID</label>
+                                    <input type="text" class="form-control" id="nid" name="nid"
+                                        placeholder="Enter your nid.." value="{{ auth()->user()->nid }}">
+                                    @error('nid')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

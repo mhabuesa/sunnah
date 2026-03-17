@@ -20,8 +20,8 @@
         </td>
         <td class="text-center">
             <div class="d-flex">
-                <a href="{{ route('admin.product.barCode', $product->id) }}" class="border px-1 btn btn-sm">
-                    <i class="fa-solid fa-barcode text-info fa-xl border"></i>
+                <a href="{{ route('admin.product.barCode', $product->id) }}" class="border px-1 btn text-info btn-sm">
+                    <i class="fa-solid fa-barcode fa-xl"></i>
                 </a>
                 <a href="{{ route('admin.product.show', $product->id) }}" class="border-0 btn btn-sm">
                     <i class="fa fa-eye text-success fa-xl"></i>
