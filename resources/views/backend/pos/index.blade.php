@@ -16,6 +16,86 @@
             }
         }
     </style>
+    <style>
+        /* Variation Style */
+        .variation-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .variation-item input[type="radio"] {
+            display: none;
+            /* Hide real radio */
+        }
+
+        .variation-item label {
+            display: inline-block;
+            padding: 6px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .variation-item input[type="radio"]:checked+label {
+            border-color: #0d6efd;
+            background-color: #f0f7ff;
+            color: #0d6efd;
+        }
+
+        .variation-item label:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+
+    <style>
+        .options-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .options-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.25s ease-out;
+        }
+
+        .options-container:hover .options-overlay {
+            opacity: 1;
+        }
+
+        /* Modal Variations Styling */
+        .variation-item input[type="radio"] {
+            display: none;
+        }
+
+        .variation-item label {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 4px;
+            transition: 0.2s;
+        }
+
+        .variation-item input[type="radio"]:checked+label {
+            background: #0665d0;
+            color: #fff;
+            border-color: #0665d0;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="container-fluid">
@@ -221,5 +301,92 @@
                 }
             });
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.addToCart').click(function() {
+                let button = $(this);
+
+                // Data Extraction
+                let basePrice = parseFloat(button.data('price'));
+                let variations = button.data('variations');
+                let name = button.data('name');
+                let stock = button.data('stock');
+
+                // Modal basic field filling
+                $('#modalName').text(name);
+                $('#modalImage').attr('src', button.data('image'));
+                $('#modalSKU').text(button.data('sku'));
+                $('#modalCategory').text(button.data('category'));
+                $('#modalBrand').text(button.data('brand'));
+                $('#modalStock').text(stock > 0 ? 'In Stock' : 'Out of Stock');
+
+                // Reset Quantity
+                $('#qtyInput').val(1);
+
+                // Render Variation Buttons
+                if (variations && variations.length > 0) {
+                    let html =
+                        '<label class="form-label fw-bold">Select Option:</label><div class="variation-wrapper">';
+                    variations.forEach((v, index) => {
+                        let checked = (index === 0) ? 'checked' : '';
+                        html += `
+                    <div class="variation-item">
+                        <input type="radio" name="prod_variation" id="v_${v.id}" 
+                               value="${v.id}" data-price="${v.price}" ${checked}>
+                        <label for="v_${v.id}">${v.attr_value}</label>
+                    </div>
+                `;
+                    });
+                    html += '</div>';
+                    $('#modalVariations').html(html);
+
+                    // Change event for radio buttons
+                    $('input[name="prod_variation"]').on('change', function() {
+                        updateTotal();
+                    });
+                } else {
+                    $('#modalVariations').html('');
+                }
+
+                // Calculation Function
+                function updateTotal() {
+                    let qty = parseInt($('#qtyInput').val()) || 1;
+                    let currentUnitPrice = basePrice;
+
+                    // Variation select kora thakle tar price nibe
+                    let selectedVar = $('input[name="prod_variation"]:checked');
+                    if (selectedVar.length) {
+                        currentUnitPrice = parseFloat(selectedVar.data('price'));
+                    }
+
+                    let total = currentUnitPrice * qty;
+                    $('#modalPrice').text('৳' + currentUnitPrice.toLocaleString());
+                    $('#totalPrice').text('৳' + total.toLocaleString());
+                }
+
+                // Initialize Price
+                updateTotal();
+
+                // Quantity Buttons
+                $('.qty-increase').off().on('click', function() {
+                    let val = parseInt($('#qtyInput').val());
+                    $('#qtyInput').val(val + 1);
+                    updateTotal();
+                });
+
+                $('.qty-decrease').off().on('click', function() {
+                    let val = parseInt($('#qtyInput').val());
+                    if (val > 1) {
+                        $('#qtyInput').val(val - 1);
+                        updateTotal();
+                    }
+                });
+
+                $('#qtyInput').on('input', function() {
+                    updateTotal();
+                });
+            });
+        });
     </script>
 @endpush
