@@ -51,16 +51,16 @@
         }
 
         /* Chrome, Safari, Edge */
-        input[type="number"]::-webkit-outer-spin-button,
+        /* input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
-        }
+        } */
 
         /* Firefox */
-        input[type="number"] {
+        /* input[type="number"] {
             -moz-appearance: textfield;
-        }
+        } */
 
         .option-buttons li {
             display: inline-block;
