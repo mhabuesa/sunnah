@@ -513,8 +513,6 @@ class ProductController extends Controller
             $product = Product::where('sku',$sku)->first();
             $price = $product->price;
         }
-
-            Log::info($product);
                 
         $productName = $product ? Str::limit($product->name, 20, '...') : '';   
 
@@ -537,5 +535,77 @@ class ProductController extends Controller
         return response()->json([
             'html'=>$html
         ]);
+    }
+
+
+
+    public function printBarcode(Request $request)
+    {
+        $sku = $request->sku;
+        $qty = $request->qty;
+
+        $variant = ProductVariation::where('sku',$sku)->first();
+        $variation = null;
+
+        if($variant) {
+            $price = $variant->price;
+            $product = Product::find($variant->product_id);
+
+            $attribute = optional($variant->attribute)->name;
+            $variantValue = optional($variant->attributeValue)->value;
+
+            $variation = $attribute . '-' . $variantValue;
+        } else {
+            $product = Product::where('sku',$sku)->first();
+            $price = $product->price ?? 0;
+        }
+
+        Log::info($price);
+
+        $productName = $product ? Str::limit($product->name, 20) : '';
+
+        // 👉 Bangla check
+        $isBangla = preg_match('/[\x{0980}-\x{09FF}]/u', $productName);
+
+        $output = "";
+
+        for ($i = 0; $i < $qty; $i++) {
+
+            // center align
+            $output .= "\x1B\x61\x01";
+
+            $output .= config('app.name')."\n";
+
+            if (!$isBangla) {
+
+            $output .= $productName."\n";
+
+            }
+
+            $output .= $price."\n";
+
+            // barcode
+            $output .= "\x1D\x48\x02";
+            $output .= "\x1D\x77\x02";
+            $output .= "\x1D\x68\x50";
+
+            $output .= "\x1D\x6B\x04";
+            $output .= strtoupper($sku);
+            $output .= "\x00";
+
+            if($variation){
+                $output .= $variation."\n";
+            }
+
+            $output .= "\n\n\n\n";
+
+            // cut paper
+            $output .= "\x1D\x56\x00";
+        }
+
+        // 👉 raw print (text + barcode)
+        file_put_contents('/dev/usb/lp0', $output);
+
+        return response()->json(['status' => true]);
     }
 }

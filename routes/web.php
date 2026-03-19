@@ -99,6 +99,7 @@ use App\Http\Controllers\VariationController;
             Route::get('/deleteGalleryImage/{id}', 'deleteGalleryImage')->name('deleteGalleryImage');
             Route::get('/barCode/{id}', 'barCode')->name('barCode');
             Route::post('/generate-barcode','generateBarcode')->name('generate.barcode');
+            Route::post('/print-barcode','printBarcode')->name('printBarcode');
             Route::get('/getList/ajax', 'getList')->name('getList.ajax');
             Route::get('/trash', 'trash')->name('trash');
             Route::delete('/destroy/permanently/{id}', 'destroy_permanently')->name('destroy.permanently');

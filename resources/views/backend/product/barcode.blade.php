@@ -20,17 +20,18 @@
             /* এই অংশটি স্টিকার কেটে যাওয়া রোধ করবে */
             break-inside: avoid;
             page-break-inside: avoid;
-            margin-bottom: 10px;            
+            margin-bottom: 10px;
         }
 
         .barcode-img {
             margin: 0 auto 5px auto;
             display: block;
         }
-         .barcode-img > div:first-child{
+
+        .barcode-img>div:first-child {
             margin-left: auto;
             margin-right: auto;
-         }
+        }
 
         .product-name {
             font-size: 12px;
@@ -46,7 +47,7 @@
         /* প্রিন্ট এর জন্য বিশেষ সেটিংস */
         @media print {
             .barCodeWrapper {
-                width: 280px;   
+                width: 280px;
             }
 
             /* বারকোড ইমেজ এবং ব্যাকগ্রাউন্ড দেখানোর জন্য */
@@ -138,7 +139,7 @@
                                 <td>
                                     <button class="btn btn-primary btn-sm">Generate</button>
                                     <button class="btn btn-warning btn-sm">Reset</button>
-                                    <button class="btn btn-info btn-sm">Print</button>
+                                    <button class="btn btn-info btn-sm" id="printBtn">Print</button>
                                 </td>
                             </tr>
                         </table>
@@ -192,11 +193,57 @@
                 $('#barcodeArea').html('');
             });
 
-            // ৪. প্রিন্ট বাটন (সংশোধিত ও ক্লিন কোড)
-            $('.btn-info').on('click', function() {
-                // আমরা যেহেতু CSS-এ @media print ব্যবহার করেছি, 
-                // তাই বডি রিপ্লেস করার দরকার নেই। সরাসরি প্রিন্ট কল করলেই হবে।
-                window.print();
+
+        });
+
+        //Print Button
+        $('#printBtn').on('click', function() {
+
+            let variantSku = $('#variantSelect').val();
+            let productSku = "{{ $product->sku }}";
+            let sku = variantSku ? variantSku : productSku;
+            let qty = $('input[name="quantity"]').val();
+
+            if (!qty || qty < 1) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please enter a valid quantity',
+                });
+                return;
+            }
+
+            // 👉 SweetAlert confirmation
+            Swal.fire({
+                title: 'Are you sure you want to print?',
+                text: "Make sure before printing.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, print it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 👉 Confirmed, perform fetch
+                    fetch('/admin/product/print-barcode', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                sku: sku,
+                                qty: qty
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                             showToast('✅ Printed successfully!', 'success');
+                        })
+                        .catch(() => {
+                            showToast('❌ Print failed!', 'error');
+                        });
+                }
             });
 
         });
