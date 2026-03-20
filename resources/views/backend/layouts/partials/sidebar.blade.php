@@ -340,7 +340,7 @@
                 <li class="nav-main-heading">
                     </i> Users Management
                 </li>
-                <li class="nav-main-item {{ request()->routeIs('admin.user.*') ? 'open' : '' }}">
+                <li class="nav-main-item {{ request()->routeIs('admin.customer.*') ? 'open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
 
@@ -349,8 +349,8 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.user.index') ? 'active' : '' }}"
-                                href="{{ route('admin.user.index') }}">
+                            <a class="nav-main-link {{ request()->routeIs('admin.customer.index') ? 'active' : '' }}"
+                                href="{{ route('admin.customer.index') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-file-invoice me-2"></i> Customer List
                                 </span>

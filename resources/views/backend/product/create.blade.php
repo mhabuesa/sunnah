@@ -96,7 +96,7 @@
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         <div class="d-flex justify-content-between">
-                                            <label class="form-label" for="sku">SKU <i
+                                            <label class="form-label" for="barcodeInput">SKU <i
                                                     class="fas fa-info-circle js-bs-tooltip-enabled"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
                                                     title="Create a unique product code by clicking on the “Generate Code” button"></i></label>
@@ -104,7 +104,7 @@
                                             <a href="javascript:void(0)" id="generate_code" class="text-end">Generate
                                                 Code</a>
                                         </div>
-                                        <input type="text" class="form-control" id="sku" name="sku"
+                                        <input type="text" class="form-control barcode_input" id="barcodeInput" name="sku" autocomplete="off"
                                             placeholder="Enter Product SKU..">
                                     </div>
                                 </div>
@@ -225,7 +225,8 @@
                                         </div>
                                         <div class="flex-shrink-0" style="min-width: 150px;">
                                             <label class="form-label">Variation Wise SKU</label>
-                                            <input type="text" name="sku_variation[]" class="form-control" placeholder="Enter Variation SKU">
+                                            <input type="text" name="sku_variation[]" class="form-control barcode_input"
+                                                placeholder="Enter Variation SKU">
                                         </div>
 
                                         <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
@@ -420,7 +421,7 @@
             </div>
             <div class="flex-shrink-0" style="min-width: 150px;">
                 <label class="form-label">Variation Wise SKU</label>
-                <input type="text" name="sku_variation[]" class="form-control" placeholder="Enter Variation SKU">
+                <input type="text" name="sku_variation[]" class="form-control barcode_input" placeholder="Enter Variation SKU">
             </div>
             <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
                 <button type="button" class="btn btn-outline-danger removeRow">x</button>
@@ -453,6 +454,44 @@
                 });
             });
 
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let barcode = '';
+            let typingTimer;
+            let typingInterval = 50; // max interval between keypresses
+            let enterKey = 13;
+
+            const barcodeInput = document.getElementById('barcodeInput');
+
+            // Listen to all keydown events
+            document.addEventListener('keydown', function(e) {
+
+                // If Enter key pressed
+                if (e.keyCode === enterKey) {
+                    if (barcode.length > 0) {
+                        e.preventDefault(); // prevent form submission
+                        // Set barcode to input field
+                        barcodeInput.value = barcode;
+                        // Reset
+                        barcode = '';
+                    }
+                    return;
+                }
+
+                // Only consider numbers and letters for barcode
+                if ((e.key.length === 1)) {
+                    barcode += e.key;
+                }
+
+                // Reset barcode if idle too long
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(() => barcode = '', 500);
+            });
+
+            // OPTIONAL: focus hidden input always to capture scan
+            barcodeInput.focus();
         });
     </script>
 @endpush

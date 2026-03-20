@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PosController extends Controller
 {
     public function index() {
         $categories = Category::select('id','name')->get();
-        return view("backend.pos.index", ['categories'=> $categories]);
+        $carts = Cart::where('user_id', Auth::user()->id)->get();
+        return view("backend.pos.index", [
+            'categories'=> $categories,
+            'carts'=> $carts,
+            ]);
     }
 
     public function getProducts(Request $request)
@@ -35,6 +43,194 @@ class PosController extends Controller
         return response()->json([
             'html' => view('backend.pos.product_card', compact('products'))->render(),
             'pagination' => (string) $products->appends($request->all())->links('pagination::bootstrap-5')
+        ]);
+    }
+
+
+    public function addToCart(Request $request)
+    {
+        $userId = auth()->id();
+
+        // variation check
+        $cartQuery = Cart::where('user_id', $userId)
+            ->where('product_id', $request->product_id);
+
+        if ($request->variation_id) {
+            $cartQuery->where('variation_id', $request->variation_id);
+        } else {
+            $cartQuery->whereNull('variation_id');
+        }
+
+        $cart = $cartQuery->first();
+
+        // price determine
+        $price = 0;
+
+        if ($request->variation_id) {
+            $variant = ProductVariation::find($request->variation_id);
+            $price = $variant ? $variant->price : 0;
+        } else {
+            $product = Product::find($request->product_id);
+            $price = $product ? $product->price : 0;
+        }
+
+        if ($cart) {
+            $cart->qty += $request->qty;
+        } else {
+            $cart = new Cart();
+            $cart->user_id = $userId;
+            $cart->product_id = $request->product_id;
+            $cart->variation_id = $request->variation_id;
+            $cart->price = $price;
+            $cart->qty = $request->qty;
+        }
+
+        // ✅ ALWAYS update total_price
+        $cart->total_price = $cart->qty * $cart->price;
+        $cart->save();
+
+
+                $carts = Cart::with('product', 'variation.attributeValue')
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'carts' => $this->getCartData()
+        ]);
+    }
+
+    
+    public function updateCart(Request $request)
+    {
+        $cart = Cart::where('id', $request->id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $cart->qty = $request->qty;
+        $cart->total_price = $cart->qty * $cart->price; // ✅ IMPORTANT
+        $cart->save();
+
+        return response()->json([
+            'success' => true,
+            'carts' => $this->getCartData()
+        ]);
+    }
+
+
+    public function deleteCart(Request $request)
+    {
+        $cart = Cart::where('id', $request->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if ($cart) {
+            $cart->delete();
+        }
+
+        return response()->json([
+            'success' => true,
+            'carts' => $this->getCartData()
+        ]);
+    }
+
+    private function getCartData()
+    {
+        return Cart::with(['product', 'variation.attributeValue'])
+            ->where('user_id', auth()->id())
+            ->get()
+            ->map(function ($cart) {
+                return [
+                    'id' => $cart->id,
+                    'qty' => $cart->qty,
+                    'price' => $cart->price,
+                    'total_price' => $cart->total_price,
+
+                    'product' => [
+                        'name' => $cart->product->name,
+                        'image' => $cart->product->image,
+                    ],
+
+                    'variation' => $cart->variation ? [
+                        'attribute_value' => [
+                            'value' => $cart->variation->attributeValue->value
+                        ]
+                    ] : null
+                ];
+            });
+    }
+
+    public function clearCart()
+    {
+        Cart::where('user_id', auth()->id())->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+
+    public function scanBarcode(Request $request)
+    {
+        $sku = $request->sku;
+
+        $product = null;
+        $variation = null;
+
+        // 🔍 Check Variation SKU
+        $variation = ProductVariation::where('sku', $sku)->first();
+
+        if ($variation) {
+            $product = Product::find($variation->product_id);
+            $price = $variation->price;
+            $variation_id = $variation->id;
+        } else {
+            // 🔍 Check Product SKU
+            $product = Product::where('sku', $sku)->first();
+
+            if (!$product) {
+                return response()->json([
+                    'success' => false
+                ]);
+            }
+
+            $price = $product->price;
+            $variation_id = null;
+        }
+
+        // 🔥 CART CHECK (FIXED LOGIC)
+        $cartQuery = Cart::where('user_id', auth()->id())
+            ->where('product_id', $product->id);
+
+        if ($variation_id) {
+            $cartQuery->where('variation_id', $variation_id);
+        } else {
+            $cartQuery->whereNull('variation_id');
+        }
+
+        $cart = $cartQuery->first();
+
+        if ($cart) {
+            $cart->qty += 1;
+            $cart->total_price = $cart->qty * $cart->price;
+            $cart->save();
+        } else {
+            Cart::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $product->id,
+                'variation_id' => $variation_id,
+                'qty' => 1,
+                'price' => $price,
+                'total_price' => $price,
+            ]);
+        }
+
+        // ✅ UPDATED CART RETURN
+        $carts = Cart::with('product', 'variation.attributeValue')
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'carts' => $carts
         ]);
     }
 

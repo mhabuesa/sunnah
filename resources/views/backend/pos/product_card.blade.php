@@ -79,7 +79,9 @@
                         <hr>
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <span class="h5 mb-0">Total: <span id="totalPrice" class="text-primary"></span></span>
-                            <button class="btn btn-primary px-4 shadow">Confirm Add</button>
+                            <button id="addToCartBtn" data-product-id="" class="btn btn-primary px-4 shadow">
+                                Add to Cart
+                            </button>
                         </div>
 
                         <div class="small text-muted">
@@ -99,6 +101,7 @@
     $(document).ready(function() {
         $('.addToCart').click(function() {
             let button = $(this);
+            $('#addToCartBtn').attr('data-product-id', button.data('id'));
 
             // Data Extraction
             let basePrice = parseFloat(button.data('price'));

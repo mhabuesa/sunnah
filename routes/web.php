@@ -3,14 +3,16 @@
     use App\Http\Controllers\Auth\AuthenticatedSessionController;
     use App\Http\Controllers\BrandController;
     use App\Http\Controllers\CategoryController;
-    use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
-    use Illuminate\Support\Facades\Route;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Route;
 
     Route::get('/', function () {
         return view('welcome');
@@ -86,7 +88,16 @@ use App\Http\Controllers\VariationController;
         // Pos Routes
         Route::controller(PosController::class)->name('pos.')->prefix('pos')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::post('/addToCart', 'addToCart')->name('addToCart');
+            Route::post('/deleteCart', 'deleteCart')->name('deleteCart');
             Route::get('/products', 'getProducts')->name('products');
+            Route::post('/updateCart', 'updateCart')->name('updateCart');
+            Route::post('/clearCart', 'clearCart')->name('clearCart');
+            Route::post('/scanBarcode', 'scanBarcode')->name('scanBarcode');
+        });
+        //Customer Routes
+        Route::controller(CustomerController::class)->name('customer.')->prefix('customer')->group(function () {
+            Route::get('/', 'index')->name('index');
         });
 
         
