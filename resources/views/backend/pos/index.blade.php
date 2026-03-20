@@ -1047,7 +1047,7 @@
                         }, function(res) {
                             updateCartUI(res.carts);
                             calculateTotals();
-                            Swal.fire('Deleted!', 'Product removed.', 'success');
+                            showToast('Product Removed From Cart!', 'success');
                         }).always(() => {
                             btn.prop('disabled', false);
                         });
@@ -1073,7 +1073,7 @@
                         }, function() {
                             updateCartUI([]);
                             calculateTotals();
-                            Swal.fire('Cleared!', 'Cart has been cleared.', 'success');
+                            showToast('Cart has been cleared', 'success');
                         });
                     }
                 });
