@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Order;
+use App\Models\OrderDetails;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use Illuminate\Http\Request;
@@ -14,7 +17,7 @@ class PosController extends Controller
 {
     public function index() {
         $categories = Category::select('id','name')->get();
-        $carts = Cart::where('user_id', Auth::user()->id)->get();
+        $carts = Cart::where('user_id', Auth::user()->id)->where('type', 'pos')->get();
         return view("backend.pos.index", [
             'categories'=> $categories,
             'carts'=> $carts,
@@ -83,6 +86,7 @@ class PosController extends Controller
             $cart->variation_id = $request->variation_id;
             $cart->price = $price;
             $cart->qty = $request->qty;
+            $cart->type = 'pos';
         }
 
         // ✅ ALWAYS update total_price
@@ -162,7 +166,7 @@ class PosController extends Controller
 
     public function clearCart()
     {
-        Cart::where('user_id', auth()->id())->delete();
+        Cart::where('user_id', Auth::user()->id)->delete();
 
         return response()->json(['success' => true]);
     }
@@ -220,6 +224,7 @@ class PosController extends Controller
                 'qty' => 1,
                 'price' => $price,
                 'total_price' => $price,
+                'type'=> 'pos',
             ]);
         }
 
@@ -232,6 +237,54 @@ class PosController extends Controller
             'success' => true,
             'carts' => $carts
         ]);
+    }
+
+    public function orderStore(Request $request) {
+       $request->validate([
+        'customer_id'=> 'required',
+       ]);
+
+
+       $customer = Customer::findOrFail($request->customer_id);
+       
+       $order = Order::create([
+        'customer_id'=>  $request->customer_id,
+        'seller_id'=> Auth::user()->id,
+        'order_type'=> 'pos',
+        'payment_method'=>  $request->type,
+        'payment_status'=> $request->type != 'cod' ? 'paid' : 'unpaid',
+        'coupon_code' => $request->coupon_code,
+        'discount_amount' => $request->coupon_discount,
+        'extra_discount' => $request->extra_discount,
+        'shipping_address' => $customer->address,
+        'shipping_cost' => $request->shipping_cost,
+        'subtotal' => $request->subtotal,
+        'total' => $request->amount,
+       ]);
+
+        $carts = Cart::where('user_id', Auth::user()->id)->get();
+       foreach ($carts as $cart) {
+            $variant = null;
+            if ($cart->variation_id) {
+                $variation = ProductVariation::find($cart->variation_id);
+
+                if ($variation) {
+                    $variant = $variation->attribute->name . ' - ' . $variation->attributeValue->value;
+                }
+            }
+            OrderDetails::create([
+                'order_id' => $order->id,
+                'product_id' => $cart->product_id,
+                'variation_id' => $cart->variation_id,
+                'variant'=> $variant,
+                'qty'=> $cart->qty,
+                'price'=> $cart->price,
+            ]);
+        }
+
+        Cart::where('user_id', Auth::user()->id)->delete();
+        return redirect()->back()->with(['clear_customer'=> true, 'success'=> 'Order Created Successful']);
+        
     }
 
 

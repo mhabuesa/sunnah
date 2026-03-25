@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'POS')
+@section('title', 'Order Details')
 @push('style')
     <link rel="stylesheet" href="{{ asset('assets') }}/js/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
@@ -80,47 +80,43 @@
 @endpush
 
 @section('content')
+    <div class="text-center text-md-start">
+        <div class="flex-grow-1 mb-1 mb-md-0">
+            <h1 class="m-3 h4 fw-bold mb-2">
+                <img class="png_icon" src="{{ asset('assets/icon/png/product_cart2.png') }}" alt=""> Order Details
+            </h1>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row">
             <!-- PRODUCT SECTION -->
-            <div class="col-lg-7 m-auto mt-2">
+            <div class="col-lg-8 m-auto mt-2">
                 <div class="block block-rounded">
-                    <div class="block-header block-header-default d-block">
-                        <h3 class="block-title text-capitalize">Product Section</h3>
+                    <div class="block-header" style="align-items: normal" >
+                        <div class="text-start">
+                            <h3 class="block-title text-capitalize">Order ID #{{ $order->id }}</h3>
+                            <h3 class="block-title text-capitalize">
+                                <i class="fa-regular fa-calendar-days"></i> {{ $order->created_at->format('d-m-Y') }}
+                                <i class="fa-regular fa-alarm-clock"></i> {{ $order->created_at->format('H:i') }}
+                            </h3>
+                        </div>
+                        <div class="text-end">
+                            <a href="" class="btn btn-primary btn-sm"><i class="fa-solid fa-print"></i> Invoice Print</a>
+                            <div class="mt-2">
+                                <p class="mb-0">Status: <span class="badge bg-{{ $order->order_status == 'confirmed' ? 'success' : 'primary' }} text-capitalize">{{ $order->order_status }}</span></p>
+                                <p class="mb-0">Payment Method: <span class="text-primary fw-bold text-capitalize">{{ $order->payment_method }}</span></p>
+                                <p class="mb-0">Payment Status: <span class="text-primary text-capitalize text-{{ $order->payment_status == 'paid' ? 'success' : 'danger' }} fw-bold">{{ $order->payment_status }}</span></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto pb-0">
-                        <div class="mb-3 row">
-                            <div class="col-6">
-                                <select class="js-select2 form-select" id="category" style="width: 100%;">
-                                    <option value="all">All Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6 d-flex">
-                                <input type="text" name="query" class="form-control"
-                                    placeholder="Search by Name or SKU">
-                                <button class="btn btn-info btn-sm mx-2" id="refresh">
-                                    <i class="fa-solid fa-arrow-rotate-left"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="position-relative">
-                            <div id="tableLoader" class="position-absolute top-50 start-50 translate-middle d-none">
-                                <div class="spinner-border text-primary" role="status"></div>
-                            </div>
-                            <div class="row items-push" id="productContainer"></div>
-                        </div>
-                    </div>
-                    <div class="block-content block-content-full py-0">
-                        <div class="text-center mt-3" id="paginationContainer"></div>
+
                     </div>
                 </div>
             </div>
 
             <!-- BILLING SECTION -->
-            <div class="col-lg-5 m-auto mt-2">
+            <div class="col-lg-4 m-auto mt-2">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default d-block">
                         <div class="row">
@@ -131,239 +127,16 @@
                     </div>
 
                     <div class="block-content block-content-full overflow-x-auto">
-                        <form action="{{ route('admin.pos.order.store') }}" method="POST">
-                            @csrf
 
-                            <!-- Customer -->
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <select id="customer_id" name="customer_id" class="form-control" required>
-                                            <option value="">Select Customer</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-4 pe-0">
-                                        <button class="btn btn-info addCustomerBtn" type="button">Add New Customer</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Cart Table -->
-                            <div class="mb-3 table-responsive">
-                                <table class="table cart_table">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th width="90">Qty</th>
-                                            <th width="100">Price</th>
-                                            <th width="50">Delete</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody id="cartBody">
-                                        @forelse ($carts as $cart)
-                                            <tr data-id="{{ $cart->id }}">
-                                                <td>
-                                                    <div class="cartItem d-flex gap-2">
-                                                        <img src="{{ asset($cart->product->image) }}" width="40">
-                                                        <div class="cartItem-body">
-                                                            <h6 class="mb-0">{{ $cart->product->name }}</h6>
-                                                            <small>{{ $cart->variation?->attributeValue->value }}</small>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" class="form-control cart_qty"
-                                                        value="{{ $cart->qty }}" data-id="{{ $cart->id }}"
-                                                        data-price="{{ $cart->price }}" min="1">
-                                                </td>
-
-                                                <td class="cart_total">৳{{ $cart->total_price }}</td>
-
-                                                <td>
-                                                    <button type="button" class="btn btn-sm text-danger removeCartBtn"
-                                                        data-id="{{ $cart->id }}">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr id="emptyCart">
-                                                <td colspan="4" class="text-center">No Data Found</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- Summary -->
-                            <div class="mb-3">
-                                <div class="pt-4">
-                                    <dl>
-
-                                        <!-- Subtotal -->
-                                        <div class="d-flex justify-content-between">
-                                            <dt>Sub total :</dt>
-                                            <dd id="subTotal">৳0.00</dd>
-                                            <!-- Hidden Subtotal -->
-                                            <input type="hidden" name="subtotal" id="subTotalInput">
-                                        </div>
-
-                                        <!-- Extra Discount -->
-                                        <div class="d-flex justify-content-between">
-                                            <dt>Extra Discount :</dt>
-                                            <dd>
-                                                <input type="number" id="extraDiscountInput" name="extra_discount"
-                                                    class="form-control form-control-sm w-50 float-end" value="0">
-                                            </dd>
-                                        </div>
-
-                                        <!-- Coupon Discount -->
-                                        <div class="d-flex justify-content-between">
-                                            <dt>Coupon Discount :</dt>
-                                            <dd>
-                                                <input type="number" id="couponDiscountInput" name="coupon_discount"
-                                                    class="form-control form-control-sm w-50 float-end" value="0">
-                                            </dd>
-                                        </div>
-
-                                        <!-- Shipping -->
-                                        <div class="d-flex justify-content-between">
-                                            <dt>Shipping Cost :</dt>
-                                            <dd>
-                                                <input type="number" id="shippingCostInput" name="shipping_cost"
-                                                    class="form-control form-control-sm w-50 float-end" value="70"
-                                                    required>
-                                            </dd>
-                                        </div>
-
-                                        <!-- TOTAL -->
-                                        <div class="d-flex border-top pt-2 justify-content-between">
-                                            <dt class="fw-bold">Total :</dt>
-                                            <dd class="fw-bold" id="grandTotal">৳0.00</dd>
-                                        </div>
-
-                                    </dl>
-
-                                    <!-- Hidden Total -->
-                                    <input type="hidden" name="amount" id="finalAmount">
-
-                                    <!-- Payment -->
-                                    <div class="pt-4 mb-4">
-                                        <div class="mb-2">Paid By:</div>
-
-                                        <ul class="list-unstyled option-buttons d-flex gap-2">
-
-
-                                            <li>
-                                                <input type="radio" id="cod" value="cod" name="type"
-                                                    hidden checked>
-                                                <label for="cod" class="pay-btn">COD</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="cash" value="cash" name="type"
-                                                    hidden>
-                                                <label for="cash" class="pay-btn">Cash</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="wallet" value="wallet" name="type"
-                                                    hidden>
-                                                <label for="wallet" class="pay-btn">Wallet</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <!-- Error Message -->
-                                    <div id="formError" class="text-danger text-center mb-2 d-none"></div>
-
-                                </div>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="mb-3">
-                                <div class="d-flex gap-2 justify-content-between">
-
-                                    <button type="button" id="clearCart" class="btn btn-danger w-50">
-                                        Cancel Order
-                                    </button>
-
-                                    <button type="submit" class="btn btn-primary w-50">
-                                        Place Order
-                                    </button>
-
-                                </div>
-                            </div>
-
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="addCustomerModal" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title">New Customer</h5>
-                </div>
-
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label>Customer Name <small class="text-danger">*</small></label>
-                        <input type="text" id="edit_name" class="form-control" placeholder="Enter Customer Name">
-                        <small class="text-danger d-none text-capitalize" id="nameError"></small>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Phone <small class="text-danger">*</small></label>
-                        <input type="phone" id="phone" class="form-control" placeholder="Enter Phone Number">
-                        <small class="text-danger d-none text-capitalize" id="phoneError"></small>
-                    </div>
-                    <div class="mb-3">
-                        <label>Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter Email Address">
-                        <small class="text-danger d-none text-capitalize" id="emailError"></small>
-                    </div>
-                    <div class="mb-3">
-                        <label>Address <small class="text-danger">*</small></label>
-                        <input type="address" id="address" class="form-control" placeholder="Enter Address">
-                        <small class="text-danger d-none text-capitalize" id="addressError"></small>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" id="closeEditModal">Cancel</button>
-                    <button class="btn btn-primary" id="updateCustomerBtn">Create</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- PRODUCT MODAL -->
-    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add to Cart</h5><button type="button" class="btn-close"
-                        data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body"></div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @push('footer_scripts')
-    <script src="{{ asset('assets') }}/js/plugins/select2/js/select2.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
-    <script>
-        One.helpersOnLoad(['jq-select2']);
-    </script>
+
     <script>
         $(document).ready(function() {
             // CSRF Token Setup for all AJAX requests
@@ -748,11 +521,11 @@
                             }
                             if (res.errors.phone) {
                                 $('#phoneError').removeClass('d-none').text(res.errors.phone[
-                                0]);
+                                    0]);
                             }
                             if (res.errors.email) {
                                 $('#emailError').removeClass('d-none').text(res.errors.email[
-                                0]);
+                                    0]);
                             }
                             if (res.errors.address) {
                                 $('#addressError').removeClass('d-none').text(res.errors
@@ -792,7 +565,7 @@
                             }
                             if (errors.address) {
                                 $('#addressError').removeClass('d-none').text(errors.address[
-                                0]);
+                                    0]);
                             }
                         }
                     },

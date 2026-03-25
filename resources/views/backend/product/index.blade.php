@@ -33,55 +33,52 @@
                         </button>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto">
-                        <form action="{{ route('admin.brand.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="brand">Brand</label>
-                                        <select class="js-select2 form-select" id="brand" name="brand_id"
-                                            style="width: 100%;" data-placeholder="Choose brand..">
-                                            <option value="">Select Brand</option>
-                                            @foreach ($brands as $key => $brand)
-                                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="category">Category<span
-                                                class="text-danger">*</span></label>
-                                        <select class="js-select2 form-select" id="category" name="category"
-                                            style="width: 100%;" data-placeholder="Choose Category.." required>
-                                            <option></option>
-                                            @foreach ($categories as $key => $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="subcategory">Sub Category</label>
-                                        <select class="js-select2 form-select" id="subcategory" name="subcategory"
-                                            style="width: 100%;" data-placeholder="Choose Sub Category  ..">
-                                            <option value="">Select Sub Category</option>
-                                        </select>
-                                    </div>
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    <label class="form-label" for="brand">Brand</label>
+                                    <select class="js-select2 form-select" id="brand" name="brand_id"
+                                        style="width: 100%;" data-placeholder="Choose brand..">
+                                        <option value="">Select Brand</option>
+                                        @foreach ($brands as $key => $brand)
+                                            <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-
-                            <div class="mb-0 text-end">
-                                <button type="button" id="resetFilter" class="btn btn-warning mt-4">
-                                    Reset
-                                </button>
-
-                                <button type="button" id="applyFilter" class="btn btn-primary mt-4">
-                                    Show Data
-                                </button>
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    <label class="form-label" for="category">Category<span
+                                            class="text-danger">*</span></label>
+                                    <select class="js-select2 form-select" id="category" name="category"
+                                        style="width: 100%;" data-placeholder="Choose Category.." required>
+                                        <option></option>
+                                        @foreach ($categories as $key => $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </form>
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    <label class="form-label" for="subcategory">Sub Category</label>
+                                    <select class="js-select2 form-select" id="subcategory" name="subcategory"
+                                        style="width: 100%;" data-placeholder="Choose Sub Category  ..">
+                                        <option value="">Select Sub Category</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-0 text-end">
+                            <button type="button" id="resetFilter" class="btn btn-warning mt-4">
+                                Reset
+                            </button>
+
+                            <button type="button" id="applyFilter" class="btn btn-primary mt-4">
+                                Show Data
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

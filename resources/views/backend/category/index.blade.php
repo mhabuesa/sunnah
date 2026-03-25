@@ -296,7 +296,7 @@
 
     <script>
         // 🔹 Edit button click using event delegation
-        $(document).on('click', '.editCategoryBtn', function() {
+        $(document).on('click', '.editCustomerBtn', function() {
 
             $('#edit_category_id').val($(this).data('id'));
             $('#edit_name').val($(this).data('name'));
