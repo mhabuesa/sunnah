@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -87,8 +89,72 @@ class OrderController extends Controller
         return view('backend.pos.orders', compact('orders'));
     }
 
-    public function details($id) {
-        $order = Order::findOrFail($id);
+    public function details($id)
+    {
+        $order = Order::with([
+            'customer',
+            'orderDetails.product',
+            'orderDetails.variation'
+        ])->findOrFail($id);
+
         return view('backend.order.details', compact('order'));
     }
+
+
+    public function fraudCheck(Request $request)
+    {
+        $phone = $request->phone;
+        Log::info($phone);
+
+        $apiKey = config('api.FRAUD_CHECK_API');
+
+        try {
+
+            // API 1
+            $api1 = Http::get("https://dash.hoorin.com/api/courier/api", [
+                'apiKey' => $apiKey,
+                'searchTerm' => $phone
+            ]);
+
+            // API 2
+            $api2 = Http::get("https://dash.hoorin.com/api/courier/sheet", [
+                'apiKey' => $apiKey,
+                'searchTerm' => $phone
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'api1' => $api1->json(),
+                'api2' => $api2->json(),
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'API Error'
+            ]);
+        }
+    }
+
+    public function update(Request $request, $id) {
+        $request->validate([
+            'order_status'=> 'required',
+            'payment_method'=> 'required',
+            'payment_status'=> 'required',
+        ]);
+        Order::findOrFail($id)->update([
+            'payment_method'=> $request->payment_method,
+            'payment_status'=> $request->payment_status,
+            'order_status'=> $request->order_status,
+        ]);
+        return redirect()->back()->with('success','Order Update Successful');
+    }
+
+    public function printReceipt($id)
+    {
+        // ডেটাবেজ থেকে অর্ডার এবং আইটেমগুলো নিয়ে আসা
+        $order = Order::findOrFail($id);
+
+        return view('backend.order.receipt', compact('order'));
+}
 }

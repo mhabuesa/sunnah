@@ -57,4 +57,29 @@ class CustomerController extends Controller
 
         return response()->json($customers);
     }
+    public function updateInfo(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'address' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $customer = Customer::findOrFail($request->id);
+
+        $customer->update([
+            'name' => $request->name,
+            'address' => $request->address,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'customer' => $customer
+        ]);
+    }
 }

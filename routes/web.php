@@ -103,6 +103,7 @@ use Illuminate\Support\Facades\Route;
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::get('/search', 'search')->name('search');
+            Route::post('/updateInfo', 'updateInfo')->name('updateInfo');
         });
         
         //Customer Routes
@@ -111,6 +112,9 @@ use Illuminate\Support\Facades\Route;
             Route::get('/getOrders', 'getOrders')->name('getOrders');
             Route::get('/details/{id}', 'details')->name('details');
             Route::get('/invoice/{id}', 'invoice')->name('invoice');
+            Route::post('/fraudCheck', 'fraudCheck')->name('fraudCheck');
+            Route::post('/update/{id}', 'update')->name('update');
+            Route::get('/printReceipt/{id}', 'printReceipt')->name('printReceipt');
         });
 
         

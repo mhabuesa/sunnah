@@ -18,6 +18,7 @@
                 $table->string('phone')->unique();
                 $table->string('email')->nullable()->unique();
                 $table->string('address')->nullable();
+                $table->string('image')->nullable();
                 $table->boolean('status')->default(1);
                 $table->index('status');
                 $table->timestamps();

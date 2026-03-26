@@ -83,7 +83,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- PRODUCT SECTION -->
-            <div class="col-lg-7 m-auto mt-2">
+            <div class="col-lg-8 m-auto mt-2">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default d-block">
                         <h3 class="block-title text-capitalize">Product Section</h3>
@@ -120,7 +120,7 @@
             </div>
 
             <!-- BILLING SECTION -->
-            <div class="col-lg-5 m-auto mt-2">
+            <div class="col-lg-4 m-auto mt-2">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default d-block">
                         <div class="row">

@@ -42,7 +42,7 @@
                                         <label class="form-label" for="user">Users</label>
                                         <select class="js-select2 form-select" id="user" name="user_id"
                                             style="width: 100%;" data-placeholder="Choose users..">
-                                            <option value="">Select User</option>
+                                            <option value="">All User</option>
                                             @foreach ($users as $key => $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach

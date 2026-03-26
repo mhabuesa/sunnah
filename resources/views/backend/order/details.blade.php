@@ -6,75 +6,79 @@
         integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        @media (max-width: 768px) {
-            .md_mt-2 {
-                margin-top: 1rem !important;
-            }
+        .td_details {
+            font-size: 13px;
+            font-weight: 500
         }
 
-        .variation-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 5px;
+        .td_product {
+            font-size: 18px;
+            font-weight: 600;
         }
 
-        .variation-item input[type="radio"] {
-            display: none;
+        .product_image img {
+            height: 50px;
+            margin: auto 10px
         }
 
-        .variation-item label {
-            display: inline-block;
-            padding: 6px 15px;
-            border: 2px solid #dee2e6;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease-in-out;
+        .td_image {
+            display: inline-block !important;
         }
 
-        .variation-item input[type="radio"]:checked+label {
-            border-color: #0d6efd;
-            background: #f0f7ff;
-            color: #0d6efd;
+        #main-container .content {
+            padding-top: 0 !important
         }
 
-        .variation-item label:hover {
+
+
+
+
+
+        .summary-card {
             background: #f8f9fa;
+            border-radius: 10px;
+            padding: 5px 0px;
+            border: 1px solid #e5e5e5;
+            transition: 0.3s;
         }
 
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
+        .summary-card:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary-card .count {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0d6efd;
+            margin-bottom: 0px;
+        }
+
+        .summary-card .label {
+            font-size: 12px;
+            color: #6c757d;
             margin: 0;
         }
 
-        input[type="number"] {
-            -moz-appearance: textfield;
+
+
+        .courier-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
         }
 
-        .option-buttons li {
-            display: inline-block;
+        .courier-row:last-child {
+            border-bottom: none;
         }
 
-        .pay-btn {
-            border: 1px solid #d1d5db;
-            padding: 8px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            background: #fff;
-            color: #000;
-            transition: all 0.2s ease;
-        }
-
-        .pay-btn:hover {
-            background: #f3f4f6;
-        }
-
-        .option-buttons input[type="radio"]:checked+.pay-btn {
-            background: #374151;
-            color: #fff;
-            border-color: #374151;
+        .courier-row .name {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
     </style>
 @endpush
@@ -90,9 +94,9 @@
     <div class="container-fluid">
         <div class="row">
             <!-- PRODUCT SECTION -->
-            <div class="col-lg-8 m-auto mt-2">
+            <div class="col-lg-9  m-auto mt-2">
                 <div class="block block-rounded">
-                    <div class="block-header" style="align-items: normal" >
+                    <div class="block-header" style="align-items: normal">
                         <div class="text-start">
                             <h3 class="block-title text-capitalize">Order ID #{{ $order->id }}</h3>
                             <h3 class="block-title text-capitalize">
@@ -101,491 +105,557 @@
                             </h3>
                         </div>
                         <div class="text-end">
-                            <a href="" class="btn btn-primary btn-sm"><i class="fa-solid fa-print"></i> Invoice Print</a>
+                            <button onclick="printOrder({{ $order->id }})" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-print"></i> Invoice
+                                Print
+                            </button>
                             <div class="mt-2">
-                                <p class="mb-0">Status: <span class="badge bg-{{ $order->order_status == 'confirmed' ? 'success' : 'primary' }} text-capitalize">{{ $order->order_status }}</span></p>
-                                <p class="mb-0">Payment Method: <span class="text-primary fw-bold text-capitalize">{{ $order->payment_method }}</span></p>
-                                <p class="mb-0">Payment Status: <span class="text-primary text-capitalize text-{{ $order->payment_status == 'paid' ? 'success' : 'danger' }} fw-bold">{{ $order->payment_status }}</span></p>
+                                <p class="mb-0">Status: <span
+                                        class="badge bg-{{ $order->order_status == 'confirmed' ? 'success' : 'primary' }} text-capitalize">{{ $order->order_status }}</span>
+                                </p>
+                                <p class="mb-0">Payment Method: <span
+                                        class="text-primary fw-bold text-capitalize">{{ $order->payment_method }}</span></p>
+                                <p class="mb-0">Payment Status: <span
+                                        class="text-primary text-capitalize text-{{ $order->payment_status == 'paid' ? 'success' : 'danger' }} fw-bold">{{ $order->payment_status }}</span>
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto pb-0">
-
+                        <table class="table table-vcenter ">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Item Details</th>
+                                    <th width="140">Item Price</th>
+                                    <th width="140">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($order->orderDetails as $key => $item)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="product_image">
+                                                    <img class="rounded" src="{{ asset($item->product->image) }}"
+                                                        alt="{{ $item->product->name }}">
+                                                </div>
+                                                <div class="product_item">
+                                                    <div class="td_product">
+                                                        {{ Str::limit($item->product->name, 100, '...') }}
+                                                    </div>
+                                                    <div class="td_details">
+                                                        Qty : {{ $item->qty }}
+                                                    </div>
+                                                    @if ($item->variation)
+                                                        <div class="td_details">
+                                                            Variation: {{ $item->variation?->attributeValue->value }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>৳{{ $item->price }}</td>
+                                        <td>৳{{ $item->price * $item->qty }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="row justify-content-md-end mb-3">
+                            <div class="col-md-9 col-lg-8">
+                                <dl class="row text-sm-right text-end">
+                                    <dt class="col-5">Sub total</dt>
+                                    <dd class="col-6 title-color">
+                                        <strong>৳{{ $order->subtotal }}</strong>
+                                    </dd>
+                                    <dt class="col-sm-5">Extra discount</dt>
+                                    <dd class="col-sm-6 title-color">
+                                        <strong>-
+                                            ৳{{ $order->extra_discount }}</strong>
+                                    </dd>
+                                    <dt class="col-sm-5">Coupon discount</dt>
+                                    <dd class="col-sm-6 title-color">
+                                        <strong>-
+                                            ৳{{ $order->discount_amount }}</strong>
+                                    </dd>
+                                    <dt class="col-5 text-uppercase">Shipping Cost</dt>
+                                    <dd class="col-6 title-color">
+                                        <strong>৳{{ $order->shipping_cost }}</strong>
+                                    </dd>
+                                    <dt class="col-sm-5">Total</dt>
+                                    <dd class="col-6 title-color">
+                                        <strong>৳{{ $order->total }}</strong>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- BILLING SECTION -->
-            <div class="col-lg-4 m-auto mt-2">
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default d-block">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h3 class="block-title text-capitalize">Billing Section</h3>
+            <!-- Customer Info -->
+            <div class="col-lg-3 m-auto mt-2">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <!-- HEADER -->
+                                <h4 class="mb-4 d-flex justify-content-between align-items-center gap-2">
+                                    <span>Customer Information</span>
+                                    <span class="btn btn-outline-info btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editCustomerInfo">
+                                        <i class="fa fa-pencil text-primary"></i>
+                                    </span>
+                                </h4>
+
+                                <!-- CUSTOMER INFO -->
+                                <div class="d-flex">
+                                    <div>
+                                        @if ($order->customer->image)
+                                            <img class="avatar rounded-circle" width="60"
+                                                src="https://alziro.com/assets/back-end/img/placeholder/user.png">
+                                        @else
+                                            <img class="avatar rounded-circle" width="60"
+                                                src="https://placehold.co/400?text=IMAGE">
+                                        @endif
+                                    </div>
+
+                                    <div class="mx-3">
+                                        <div>
+                                            <strong id="customerName">
+                                                {{ $order->customer->name }}
+                                            </strong>
+                                        </div>
+
+                                        <div>
+                                            <strong id="customerPhone">
+                                                {{ $order->customer->phone }}
+                                            </strong>
+                                        </div>
+
+                                        <div>
+                                            Address:
+                                            <span id="customerAddress">
+                                                {{ $order->customer->address }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-danger btn-sm float-end mt-3" id="fraudCheckBtn">
+                                    Fraud Check
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <div class="block-content block-content-full overflow-x-auto">
+
+                    <div class="col-12 m-auto mt-2 d-none" id="fraudSection">
+                        <div class="block block-rounded mb-0">
+                            <div class="block-content block-content-full overflow-x-auto">
+
+                                <h4 class="text-center">Customer Delivery Report</h4>
+
+                                <!-- 🔥 REPORT CONTAINER -->
+                                <div id="fraudReport" class="mt-3">
+
+                                    <!-- Loading -->
+                                    <div id="fraudLoading" class="text-center py-4 d-none">
+                                        <div class="spinner-border text-danger"></div>
+                                        <p class="mb-0 mt-2">Checking fraud...</p>
+                                    </div>
+
+                                    <!-- Data -->
+                                    <div id="fraudContent"></div>
+
+                                </div>
+                                <div id="fraudScore"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= Order Info Update ================= -->
+                    <div class="col-12 m-auto mt-2 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <!-- HEADER -->
+                                <h4 class="mb-4 text-center">
+                                    <span>Order Info Update</span>
+                                </h4>
+
+                                <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
+                                    @csrf
+                                    <div class="mt-4">
+                                        <label for="order_status" class="form-label">Status</label>
+                                        <select name="order_status" id="order_status" class="form-control">
+                                            <option value="">Select Status</option>
+                                            <option {{ $order->order_status == 'pending' ? 'selected' : '' }}
+                                                value="pending"> Pending</option>
+                                            <option {{ $order->order_status == 'review_to_deliver' ? 'selected' : '' }}
+                                                value="review_to_deliver">On Review</option>
+                                            <option {{ $order->order_status == 'scheduled_delivery' ? 'selected' : '' }}
+                                                value="scheduled_delivery">Scheduled Delivery</option>
+                                            <option {{ $order->order_status == 'confirmed' ? 'selected' : '' }}
+                                                value="confirmed">Confirmed</option>
+                                            <option {{ $order->order_status == 'delivered' ? 'selected' : '' }}
+                                                value="delivered">Delivered</option>
+                                            <option {{ $order->order_status == 'failed' ? 'selected' : '' }}
+                                                value="failed">
+                                                Failed to Deliver</option>
+                                            <option {{ $order->order_status == 'canceled' ? 'selected' : '' }}
+                                                value="canceled">Canceled</option>
+                                            <option {{ $order->order_status == 'returned' ? 'selected' : '' }}
+                                                value="returned">Returned</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-4">
+                                        <label for="method" class="form-label">Payment Method</label>
+                                        <select name="payment_method" class="form-control" id="method">
+                                            <option {{ $order->payment_method == 'cod' ? 'selected' : '' }}
+                                                value="cod">COD</option>
+                                            <option {{ $order->payment_method == 'cash' ? 'selected' : '' }}
+                                                value="cash">Cash</option>
+                                            <option {{ $order->payment_method == 'wallet' ? 'selected' : '' }}
+                                                value="wallet">Wallet</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-4">
+                                        <label for="payment_status" class="form-label">Payment Status</label>
+                                        <select name="payment_status" class="form-control" id="payment_status">
+                                            <option {{ $order->payment_status == 'paid' ? 'selected' : '' }}
+                                                value="paid">Paid</option>
+                                            <option {{ $order->payment_status == 'unpaid' ? 'selected' : '' }}
+                                                value="unpaid">Unpaid</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <button class="btn btn-primary w-25" type="submit">Update</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- ================= MODAL ================= -->
+            <div class="modal fade" id="editCustomerInfo" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5>Edit Customer Info</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <form id="updateCustomerForm">
+                                @csrf
+                                <input type="hidden" id="customer_id" value="{{ $order->customer->id }}">
+
+                                <!-- NAME -->
+                                <div class="mb-3">
+                                    <label>Name</label>
+                                    <input type="text" id="edit_name" class="form-control"
+                                        value="{{ $order->customer->name }}">
+                                    <small class="text-danger d-none" id="editNameError"></small>
+                                </div>
+
+                                <!-- ADDRESS -->
+                                <div class="mb-3">
+                                    <label>Address</label>
+                                    <input type="text" id="edit_address" class="form-control"
+                                        value="{{ $order->customer->address }}">
+                                    <small class="text-danger d-none" id="editAddressError"></small>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+
+                            <button class="btn btn-primary" id="updateCustomerInfoBtn">
+                                Update
+                            </button>
+                        </div>
 
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection
 
 @push('footer_scripts')
-
     <script>
         $(document).ready(function() {
-            // CSRF Token Setup for all AJAX requests
+
+            // CSRF setup
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            // ================= SELECT2 INIT =================
-            $('#category').select2();
-            $('#customer_id').select2({
-                placeholder: "Select Customer",
-                allowClear: true,
-                minimumInputLength: 3,
-                ajax: {
-                    url: "{{ route('admin.customer.search') }}",
-                    dataType: 'json',
-                    delay: 250,
-                    data: params => ({
-                        search: params.term
-                    }),
-                    processResults: data => ({
-                        results: data.map(item => ({
-                            id: item.id,
-                            text: item.name + ' - ' + item.phone
-                        }))
-                    })
-                }
-            });
-
-            // ================= COOKIE FUNCTIONS =================
-            function setCookie(name, value, days = 7) {
-                let expires = "";
-                if (days) {
-                    let date = new Date();
-                    date.setTime(date.getTime() + (days * 86400000));
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + value + "; path=/" + expires;
-            }
-
-            function getCookie(name) {
-                let nameEQ = name + "=";
-                let ca = document.cookie.split(';');
-                for (let c of ca) {
-                    c = c.trim();
-                    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
-                }
-                return null;
-            }
-
-            // Restore Customer from Cookie
-            let customerCookie = getCookie('selected_customer');
-            if (customerCookie) {
-                try {
-                    let customer = JSON.parse(customerCookie);
-                    let option = new Option(customer.text, customer.id, true, true);
-                    $('#customer_id').append(option).trigger('change');
-                } catch (e) {
-                    console.error("Cookie parse error");
-                }
-            }
-
-            $('#customer_id').on('change', function() {
-                let selected = $(this).select2('data')[0];
-                if (selected) {
-                    setCookie('selected_customer', JSON.stringify({
-                        id: selected.id,
-                        text: selected.text
-                    }), 7);
-                } else {
-                    setCookie('selected_customer', '', -1);
-                }
-            });
-
-            // ================= LOAD PRODUCTS =================
-            function loadProducts(page = 1) {
-                $('#tableLoader').removeClass('d-none');
-                $.get("{{ route('admin.pos.products') }}", {
-                    page: page,
-                    category: $('#category').val(),
-                    search: $('input[name="query"]').val()
-                }, function(res) {
-                    $('#productContainer').html(res.html);
-                    $('#paginationContainer').html(res.pagination);
-                }).always(() => $('#tableLoader').addClass('d-none'));
-            }
-
-            loadProducts();
-            $('#category').on('change', () => loadProducts(1));
-            $('input[name="query"]').on('keyup', () => loadProducts(1));
-            $(document).on('click', '#paginationContainer .pagination a', function(e) {
-                e.preventDefault();
-                loadProducts($(this).attr('href').split('page=')[1]);
-            });
-
-            // ================= PRODUCT MODAL & ADD TO CART =================
-            $(document).off('click', '.productCard').on('click', '.productCard', function() {
-                let product_id = $(this).data('id');
-                $.get(`/admin/pos/product/${product_id}`, function(res) {
-                    $('#productModal .modal-body').html(res.html);
-                    $('#addToCartBtn').attr('data-product-id', product_id).prop('disabled', false);
-                    $('#productModal').modal('show');
-                });
-            });
-
-            $(document).off('click', '#addToCartBtn').on('click', '#addToCartBtn', function(e) {
-                e.preventDefault();
-                let btn = $(this);
-                let product_id = btn.attr('data-product-id');
-                let variation_id = $('input[name="prod_variation"]:checked').val() || null;
-                let qty = parseInt($('#qtyInput').val()) || 1;
-
-                if (btn.prop('disabled')) return;
-                if ($('input[name="prod_variation"]').length && !variation_id) {
-                    alert('Please select variation');
-                    return;
-                }
-
-                btn.prop('disabled', true).text('Adding...');
-
-                $.post("{{ route('admin.pos.addToCart') }}", {
-                    _token: "{{ csrf_token() }}",
-                    product_id,
-                    variation_id,
-                    qty
-                }, function(res) {
-                    updateCartUI(res.carts);
-                    calculateTotals();
-                    $('#productModal').modal('hide');
-                }).always(() => btn.prop('disabled', false).text('Add to Cart'));
-            });
-
-            // ================= UPDATE & CALCULATE CART =================
-            function updateCartUI(carts) {
-                let html = '';
-                if (!carts || carts.length === 0) {
-                    html = `<tr><td colspan="4" class="text-center">No Data Found</td></tr>`;
-                } else {
-                    carts.forEach(cart => {
-                        html += `
-                <tr data-id="${cart.id}">
-                    <td>
-                        <div class="cartItem d-flex gap-2">
-                            <img src="/${cart.product.image}" width="40">
-                            <div>
-                                <h6 class="mb-0">${cart.product.name}</h6>
-                                <small>${cart.variation ? cart.variation.attribute_value.value : ''}</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td><input type="number" class="form-control cart_qty" data-id="${cart.id}" data-price="${cart.price}" value="${cart.qty}" min="1"></td>
-                    <td class="cart_total">৳${(cart.qty * cart.price).toFixed(2)}</td>
-                    <td><button type="button" class="btn btn-sm text-danger removeCartBtn" data-id="${cart.id}"><i class="fa fa-trash"></i></button></td>
-                </tr>`;
-                    });
-                }
-                $('#cartBody').html(html);
-                calculateTotals();
-            }
-
-            // ================= CLEAR FULL CART (FIXED) =================
-            $(document).off('click', '#clearCart').on('click', '#clearCart', function(e) {
-                e.preventDefault(); // ফর্ম সাবমিট হওয়া আটকাবে
-
-                Swal.fire({
-                    title: 'Clear all cart?',
-                    text: "All products will be removed from your cart!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Yes, clear it!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let btn = $(this);
-                        btn.prop('disabled', true);
-
-                        $.post("{{ route('admin.pos.clearCart') }}", {
-                            _token: "{{ csrf_token() }}"
-                        }, function(res) {
-                            updateCartUI([]);
-                            calculateTotals();
-                            setCookie('selected_customer', '', -1);
-                            $('#customer_id').val(null).trigger('change');
-                            if (typeof showToast === "function") {
-                                showToast('Cart has been cleared', 'success');
-                            } else {
-                                Swal.fire('Cleared!', 'Your cart is empty.', 'success');
-                            }
-                        }).fail(function() {
-                            Swal.fire('Error!',
-                                'Something went wrong while clearing the cart.', 'error'
-                            );
-                        }).always(function() {
-                            btn.prop('disabled', false);
-                        });
-                    }
-                });
-            });
-
-            function calculateTotals() {
-                let subtotal = 0;
-                $('.cart_qty').each(function() {
-                    let qty = parseInt($(this).val()) || 0;
-                    let price = parseFloat($(this).data('price')) || 0;
-                    subtotal += (qty * price);
-                });
-
-                let extra = parseFloat($('#extraDiscountInput').val()) || 0;
-                let coupon = parseFloat($('#couponDiscountInput').val()) || 0;
-                let shipping = parseFloat($('#shippingCostInput').val()) || 0;
-                let grandTotal = subtotal - extra - coupon + shipping;
-
-                $('#subTotal').text('৳' + subtotal.toFixed(2));
-                $('#grandTotal').text('৳' + grandTotal.toFixed(2));
-                $('#finalAmount').val(grandTotal.toFixed(2));
-                $('#subTotalInput').val(subtotal.toFixed(2));
-            }
-
-            $(document).on('input', '.cart_qty', function() {
-                let id = $(this).data('id');
-                let qty = $(this).val();
-                if (qty < 1) return;
-
-                $.post("{{ route('admin.pos.updateCart') }}", {
-                    _token: "{{ csrf_token() }}",
-                    id,
-                    qty
-                }, function(res) {
-                    // Optional: update UI from response if needed
-                    calculateTotals();
-                });
-            });
-
-            $(document).off('click', '.removeCartBtn').on('click', '.removeCartBtn', function(e) {
-                e.preventDefault(); // Stop form submission
-                let btn = $(this);
-                let id = btn.data('id');
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!'
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        $.post("{{ route('admin.pos.deleteCart') }}", {
-                            _token: "{{ csrf_token() }}",
-                            id
-                        }, function(res) {
-                            updateCartUI(res.carts);
-                            showToast('Product Removed!', 'success');
-                        });
-                    }
-                });
-            });
-
-            // ================= BARCODE SCANNER =================
-            let barcodeBuffer = '';
-            let barcodeTimer;
-            $(document).on('keypress', function(e) {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-                if (e.which === 13) {
-                    e.preventDefault();
-                    if (barcodeBuffer.length > 0) {
-                        $.post("{{ route('admin.pos.scanBarcode') }}", {
-                            _token: "{{ csrf_token() }}",
-                            sku: barcodeBuffer
-                        }, function(res) {
-                            if (res.success) {
-                                updateCartUI(res.carts);
-                                new Audio(
-                                    "https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"
-                                ).play();
-                            } else {
-                                Swal.fire('Error', 'Product not found!', 'error');
-                            }
-                        });
-                    }
-                    barcodeBuffer = '';
-                } else {
-                    barcodeBuffer += String.fromCharCode(e.which);
-                    clearTimeout(barcodeTimer);
-                    barcodeTimer = setTimeout(() => {
-                        barcodeBuffer = '';
-                    }, 300);
-                }
-            });
-
-            // ================= NEW CUSTOMER & OTHER UI =================
-            $('#extraDiscountInput, #couponDiscountInput, #shippingCostInput').on('input', calculateTotals);
-
-
-            // ================= OPEN CUSTOMER MODAL =================
-            function clearCustomerForm() {
-                $('#edit_name, #phone, #email, #address').val('');
-            }
-
-            $(document).on('click', '.addCustomerBtn', function(e) {
-                e.preventDefault();
-                clearCustomerForm();
-                $('#addCustomerModal').modal('show');
-            });
-
-            // CLOSE MODAL
-            $(document).on('click', '#closeEditModal', function(e) {
-                e.preventDefault();
-                // error clear
-                $('#nameError, #phoneError, #emailError, #addressError')
-                    .addClass('d-none')
-                    .text('');
-                $('#addCustomerModal').modal('hide');
-            });
-
-            // ================= FORM VALIDATION =================
-            $('form').on('submit', function(e) {
-                let error = '';
-
-                let customer = $('#customer_id').val();
-                let cartCount = $('#cartBody tr').length;
-
-                // Empty cart check (No Data Found row ignore)
-                let hasProduct = true;
-                if (cartCount === 1 && $('#cartBody tr td').text().trim() === 'No Data Found') {
-                    hasProduct = false;
-                }
-
-                if (!customer) {
-                    error = 'Please select a customer';
-                } else if (!hasProduct) {
-                    error = 'Please add at least one product';
-                }
-
-                if (error !== '') {
-                    e.preventDefault();
-                    $('#formError').removeClass('d-none').text(error);
-                    return false;
-                }
-
-                // clear error if everything ok
-                $('#formError').addClass('d-none').text('');
-            });
-
-
-            // Form Submit 
-            $(document).on('click', '#updateCustomerBtn', function(e) {
+            // ================= UPDATE CUSTOMER =================
+            $(document).on('click', '#updateCustomerInfoBtn', function(e) {
                 e.preventDefault();
 
                 let btn = $(this);
 
-                // 🔥 error clear আগে
-                $('#nameError, #phoneError, #emailError, #addressError')
+                // clear errors
+                $('#editNameError, #editAddressError')
                     .addClass('d-none')
                     .text('');
 
-                let formData = new FormData();
-                formData.append('name', $('#edit_name').val());
-                formData.append('phone', $('#phone').val());
-                formData.append('email', $('#email').val());
-                formData.append('address', $('#address').val());
+                let id = $('#customer_id').val();
+                let name = $('#edit_name').val();
+                let address = $('#edit_address').val();
 
-                btn.prop('disabled', true).text('Saving...');
+                btn.prop('disabled', true).text('Updating...');
 
                 $.ajax({
-                    url: "{{ route('admin.customer.store') }}",
+                    url: "{{ route('admin.customer.updateInfo') }}",
                     type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
+                    data: {
+                        id: id,
+                        name: name,
+                        address: address
+                    },
 
                     success: function(res) {
 
-                        // 🔥 VALIDATION ERROR HANDLE
-                        if (res.errors) {
-
-                            if (res.errors.name) {
-                                $('#nameError').removeClass('d-none').text(res.errors.name[0]);
-                            }
-                            if (res.errors.phone) {
-                                $('#phoneError').removeClass('d-none').text(res.errors.phone[
-                                    0]);
-                            }
-                            if (res.errors.email) {
-                                $('#emailError').removeClass('d-none').text(res.errors.email[
-                                    0]);
-                            }
-                            if (res.errors.address) {
-                                $('#addressError').removeClass('d-none').text(res.errors
-                                    .address[0]);
-                            }
-
-                            return; // stop এখানেই
-                        }
-
-                        // ✅ SUCCESS
                         if (res.success) {
-                            let option = new Option(
-                                res.customer.name + ' - ' + res.customer.phone,
-                                res.customer.id,
-                                true,
-                                true
-                            );
 
-                            $('#customer_id').append(option).trigger('change');
-                            $('#addCustomerModal').modal('hide');
+                            // 🔥 LIVE UPDATE UI
+                            $('#customerName').text(res.customer.name);
+                            $('#customerAddress').text(res.customer.address);
+
+                            // close modal
+                            $('#editCustomerInfo').modal('hide');
+
+                            // optional toast
+                            if (typeof showToast === "function") {
+                                showToast('Customer updated successfully', 'success');
+                            }
                         }
                     },
 
                     error: function(xhr) {
-                        // 🔥 Laravel 422 error handle (better way)
+
                         if (xhr.status === 422) {
                             let errors = xhr.responseJSON.errors;
 
                             if (errors.name) {
-                                $('#nameError').removeClass('d-none').text(errors.name[0]);
+                                $('#editNameError')
+                                    .removeClass('d-none')
+                                    .text(errors.name[0]);
                             }
-                            if (errors.phone) {
-                                $('#phoneError').removeClass('d-none').text(errors.phone[0]);
-                            }
-                            if (errors.email) {
-                                $('#emailError').removeClass('d-none').text(errors.email[0]);
-                            }
+
                             if (errors.address) {
-                                $('#addressError').removeClass('d-none').text(errors.address[
-                                    0]);
+                                $('#editAddressError')
+                                    .removeClass('d-none')
+                                    .text(errors.address[0]);
                             }
                         }
                     },
 
-                    complete: () => btn.prop('disabled', false).text('Create')
+                    complete: function() {
+                        btn.prop('disabled', false).text('Update');
+                    }
                 });
             });
 
-            calculateTotals();
+            // ================= MODAL RESET =================
+            $('#editCustomerInfo').on('hidden.bs.modal', function() {
+                $('#editNameError, #editAddressError')
+                    .addClass('d-none')
+                    .text('');
+            });
+
         });
     </script>
 
-    @if (session('clear_customer'))
-        <script>
-            // Select2 reset
-            $('#customer_id').val(null).trigger('change');
-            $('#customer_id').empty();
+    <script>
+        $(document).on('click', '#fraudCheckBtn', function() {
 
-            // Cookie remove
-            document.cookie = "selected_customer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        </script>
-    @endif
+            let phone = "{{ $order->customer->phone }}";
+
+            // 🔥 Show section & loading
+            $('#fraudSection').removeClass('d-none');
+            $('#fraudLoading').removeClass('d-none');
+            $('#fraudContent').html('');
+            $('#fraudScore').html('');
+            $('#fraudCheckBtn').prop('disabled', true).text('Checking...');
+
+            $.ajax({
+                url: "{{ route('admin.orders.fraudCheck') }}",
+                type: "POST",
+                data: {
+                    phone: phone
+                },
+                timeout: 10000, // ⬅ 10 second timeout
+
+                success: function(res) {
+
+                    $('#fraudLoading').addClass('d-none');
+                    $('#fraudCheckBtn').prop('disabled', false).text('Fraud Check');
+
+                    if (res.success) {
+                        let summaries = res.api1?.Summaries || {};
+                        let totalSummary = res.api2?.Summaries || {};
+
+                        let html = '';
+
+                        // ===== TOTAL SUMMARY =====
+                        html += `
+                                <div class="row text-center d-flex justify-content-center g-3 mb-3">
+                                    <div class="col-md-3">
+                                        <div class="summary-card">
+                                            <h3 class="count">${totalSummary["Total Parcels"] || 0}</h3>
+                                            <p class="label">Total Order</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="summary-card">
+                                            <h3 class="count">${totalSummary["Total Delivered"] || 0}</h3>
+                                            <p class="label">Delivered</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="summary-card">
+                                            <h3 class="count text-danger">${totalSummary["Total Canceled"] || 0}</h3>
+                                            <p class="label text-danger">Canceled</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+
+                        // ===== Courier Table Header =====
+                        html += `
+                                <div class="d-flex justify-content-between px-3 py-2 border-bottom fw-semibold text-muted small">
+                                    <span>কুরিয়ার</span>
+                                    <span>অর্ডার</span>
+                                    <span>ডেলিভারি</span>
+                                    <span>বাতিল</span>
+                                    <span>বাতিল হার</span>
+                                </div>
+                                `;
+
+                        // ===== Courier Rows =====
+                        let totalOrders = 0;
+                        let totalCanceled = 0;
+
+                        Object.keys(summaries).forEach(courier => {
+                            let item = summaries[courier];
+
+                            let total = item["Total Parcels"] ?? item["Total Delivery"] ?? 0;
+                            let delivered = item["Delivered Parcels"] ?? item[
+                                "Successful Delivery"] ?? 0;
+                            let canceled = item["Canceled Parcels"] ?? item[
+                                "Canceled Delivery"] ?? 0;
+
+                            totalOrders += total;
+                            totalCanceled += canceled;
+
+                            let cancelRate = total > 0 ? ((canceled / total) * 100).toFixed(1) :
+                                0;
+
+                            let badgeClass = 'bg-success';
+                            if (cancelRate > 20) badgeClass = 'bg-danger';
+                            else if (cancelRate > 10) badgeClass = 'bg-warning';
+
+                            html += `
+                            <div class="courier-row">
+                                <div class="name">${courier}</div>
+                                <div>${total}</div>
+                                <div>${delivered}</div>
+                                <div>${canceled}</div>
+                                <div><span class="badge ${badgeClass}">${cancelRate}%</span></div>
+                            </div>`;
+                        });
+
+                        $('#fraudContent').html(html);
+
+                        // ===== Calculate Fraud Score =====
+                        let overallCancelRate = totalOrders > 0 ? (totalCanceled / totalOrders) * 100 :
+                            0;
+                        let fraudScoreText = '';
+                        let fraudBadgeClass = '';
+
+                        if (overallCancelRate > 20) {
+                            fraudScoreText = 'High Risk';
+                            fraudBadgeClass = 'bg-danger';
+                        } else if (overallCancelRate > 10) {
+                            fraudScoreText = 'Medium Risk';
+                            fraudBadgeClass = 'bg-warning';
+                        } else {
+                            fraudScoreText = 'Safe';
+                            fraudBadgeClass = 'bg-success';
+                        }
+
+                        $('#fraudScore').html(`
+                            <div class="mt-3 text-center">
+                                <span class="badge ${fraudBadgeClass} fs-5 px-3 py-2">${fraudScoreText}</span>
+                            </div>
+                            `);
+                    } else {
+                        $('#fraudContent').html(
+                            `<p class="text-danger text-center">Fraud check failed</p>`);
+                        $('#fraudScore').html('');
+                    }
+                },
+
+                error: function(xhr, status) {
+                    $('#fraudLoading').addClass('d-none');
+                    $('#fraudCheckBtn').prop('disabled', false).text('Fraud Check');
+
+                    // ✅ Check if timeout
+                    if (status === 'timeout') {
+                        $('#fraudContent').html(
+                            `<p class="text-danger text-center">Fraud check failed (Timeout)</p>`);
+                    } else {
+                        $('#fraudContent').html(`<p class="text-danger text-center">Server error</p>`);
+                    }
+
+                    $('#fraudScore').html('');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function printOrder(orderId) {
+            // আগের কোনো ফ্রেম থাকলে রিমুভ করা
+            let oldFrame = document.getElementById('printFrame');
+            if (oldFrame) oldFrame.remove();
+
+            // নতুন হিডেন আইফ্রেম তৈরি
+            let iframe = document.createElement('iframe');
+            iframe.id = 'printFrame';
+            iframe.style.display = 'none'; // হিডেন
+            document.body.appendChild(iframe);
+
+            // আইফ্রেমের সোর্স হিসেবে আমাদের নতুন ক্লিন প্রিন্ট রাউটটি দেওয়া
+            iframe.src = "{{ url('/admin/orders/printReceipt') }}/" + orderId;
+
+            // আইফ্রেম লোড হওয়ার পর স্বয়ংক্রিয়ভাবে প্রিন্ট শুরু হবে
+            // কারণ আমরা ভিউ ফাইলের বডিতে onload="window.print()" দিয়েছি
+        }
+    </script>
 @endpush
