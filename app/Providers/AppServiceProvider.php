@@ -4,8 +4,9 @@ namespace App\Providers;
 
 use App\Models\AppSetting;
 use App\Observers\AppSettingObserver;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         AppSetting::observe(AppSettingObserver::class);
+
+        if (!Schema::hasTable('app_settings')) {
+            return; // table না থাকলে কিছুই করবো না
+        }
 
         $settings = cache()->rememberForever('appSettings', function () {
             return AppSetting::first();
