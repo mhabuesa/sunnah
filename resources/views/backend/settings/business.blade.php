@@ -32,35 +32,35 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="name">Company Name</label>
                                         <input type="text" class="form-control" id="name" name="name"
-                                            placeholder="Enter Company Name.." value="{{ $data->name }}" required>
+                                            placeholder="Enter Company Name.." value="{{ $data?->name }}" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="phone">Phone</label>
                                         <input type="text" class="form-control" id="phone" name="phone"
-                                            placeholder="Enter Phone.." value="{{ $data->phone }}" required>
+                                            placeholder="Enter Phone.." value="{{ $data?->phone }}" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         <label class="form-label" for="email">Email</label>
                                         <input type="text" class="form-control" id="email" name="email"
-                                            placeholder="Enter Email.." value="{{ $data->email }}" required>
+                                            placeholder="Enter Email.." value="{{ $data?->email }}" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="mb-3">
                                         <label class="form-label" for="powered">Powered By</label>
                                         <input type="text" class="form-control" id="powered" name="powered"
-                                            placeholder="powered by" value="{{ $data->powered }}" required>
+                                            placeholder="powered by" value="{{ $data?->powered }}" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-9">
                                     <div class="mb-3">
                                         <label class="form-label" for="address">Company Address</label>
                                         <input type="text" class="form-control" id="address" name="address"
-                                            placeholder="Enter Company address.." value="{{ $data->address }}" required>
+                                            placeholder="Enter Company address.." value="{{ $data?->address }}" required>
                                     </div>
                                 </div>
                             </div>
