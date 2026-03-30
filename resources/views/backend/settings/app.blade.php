@@ -36,7 +36,7 @@
                                         <div class="mb-3">
                                             <label for="app_name" class="form-label">App Name</label>
                                             <input type="text" id="app_name" class="form-control" name="app_name"
-                                                value="{{old('app_name') ?? $data->app_name}}" placeholder="App Name" required>
+                                                value="{{old('app_name') ?? $data?->app_name}}" placeholder="App Name" required>
                                             @error('app_name')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -46,7 +46,7 @@
                                         <div class="mb-3">
                                             <label for="app_url" class="form-label">App URL</label>
                                             <input type="text" id="app_url" class="form-control" name="app_url"
-                                                value="{{old('app_url') ?? $data->app_url}}" placeholder="App Url" required>
+                                                value="{{old('app_url') ?? $data?->app_url}}" placeholder="App Url" required>
                                             @error('app_url')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -56,8 +56,8 @@
                                         <div class="mb-3">
                                             <label for="debug_mode" class="form-label">App Debug Mode</label>
                                             <select name="debug_mode" class="form-control" id="debug_mode">
-                                                <option {{ $data->debug_mode == 'false'?'selected':''}} value="false">False</option>
-                                                <option {{ $data->debug_mode == 'true'?'selected':''}} value="true">True</option>
+                                                <option {{ $data?->debug_mode == 'false'?'selected':''}} value="false">False</option>
+                                                <option {{ $data?->debug_mode == 'true'?'selected':''}} value="true">True</option>
                                             </select>
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@
                                             <select class="js-select2 form-select" id="timezone" name="timezone"
                                                 style="width: 100%;" data-placeholder="Choose Time Zone..">
                                                 @foreach ($timezones as $timezone)
-                                                    <option {{ $data->timezone == $timezone ?'selected':''}} value="{{ $timezone }}">{{ $timezone }}</option>
+                                                    <option {{ $data?->timezone == $timezone ?'selected':''}} value="{{ $timezone }}">{{ $timezone }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
