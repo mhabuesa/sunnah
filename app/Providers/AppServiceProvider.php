@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             return AppSetting::first();
         });
 
-        Config::set('app.debug', (bool) $settings->debug_mode);
+        Config::set('app.debug', (bool) $settings->debug_mode ?? 'false');
         Config::set('app.name', $settings->app_name ?? 'DevHunter');
         Config::set('app.url', $settings->app_url ?? 'URL');
         Config::set('app.timezone', $settings->timezone ?? 'Asia/Dhaka');
