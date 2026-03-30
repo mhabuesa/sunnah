@@ -166,25 +166,25 @@
                             <div class="col-md-9 col-lg-8">
                                 <dl class="row text-sm-right text-end">
                                     <dt class="col-5">Sub total</dt>
-                                    <dd class="col-6 title-color">
+                                    <dd class="col-6">
                                         <strong>৳{{ $order->subtotal }}</strong>
                                     </dd>
                                     <dt class="col-sm-5">Extra discount</dt>
-                                    <dd class="col-sm-6 title-color">
+                                    <dd class="col-sm-6">
                                         <strong>-
                                             ৳{{ $order->extra_discount }}</strong>
                                     </dd>
                                     <dt class="col-sm-5">Coupon discount</dt>
-                                    <dd class="col-sm-6 title-color">
+                                    <dd class="col-sm-6">
                                         <strong>-
                                             ৳{{ $order->discount_amount }}</strong>
                                     </dd>
                                     <dt class="col-5 text-uppercase">Shipping Cost</dt>
-                                    <dd class="col-6 title-color">
+                                    <dd class="col-6">
                                         <strong>৳{{ $order->shipping_cost }}</strong>
                                     </dd>
                                     <dt class="col-sm-5">Total</dt>
-                                    <dd class="col-6 title-color">
+                                    <dd class="col-6">
                                         <strong>৳{{ $order->total }}</strong>
                                     </dd>
                                 </dl>
@@ -198,8 +198,8 @@
             <div class="col-lg-3 m-auto mt-2">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
+                         <div class="block block-rounded mb-0">
+                            <div class="block-content block-content-full overflow-x-auto">
 
                                 <!-- HEADER -->
                                 <h4 class="mb-4 d-flex justify-content-between align-items-center gap-2">
@@ -224,9 +224,9 @@
 
                                     <div class="mx-3">
                                         <div>
-                                            <strong id="customerName">
+                                            <span id="customerName">
                                                 {{ $order->customer->name }}
-                                            </strong>
+                                            </span>
                                         </div>
 
                                         <div>
@@ -279,8 +279,8 @@
 
                     <!-- ================= Order Info Update ================= -->
                     <div class="col-12 m-auto mt-2 mb-3">
-                        <div class="card">
-                            <div class="card-body">
+                        <div class="block block-rounded mb-0">
+                            <div class="block-content block-content-full overflow-x-auto">
 
                                 <!-- HEADER -->
                                 <h4 class="mb-4 text-center">
@@ -611,7 +611,7 @@
 
                         $('#fraudScore').html(`
                             <div class="mt-3 text-center">
-                                <span class="badge ${fraudBadgeClass} fs-5 px-3 py-2">${fraudScoreText}</span>
+                                <span class="badge ${fraudBadgeClass} fs-7 ">${fraudScoreText}</span>
                             </div>
                             `);
                     } else {

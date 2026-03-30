@@ -52,11 +52,11 @@
                 <div class="row fs-sm">
                     <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
                         Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold"
-                            href="https://codehntr.com" target="_blank">DevHunter</a>
+                            href="https://codehntr.com" target="_blank">{{ setting()->powered }}</a>
                     </div>
                     <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
                         <a class="fw-semibold" href="{{ route('admin.dashboard') }}"
-                            target="_blank">{{ config('app.name') }}</a>
+                            target="_blank">{{ setting()->name }}</a>
                         &copy; <span data-toggle="year-copy"></span>
                     </div>
                 </div>
@@ -68,13 +68,6 @@
     <!-- Extra JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    {{-- <!-- Main JS -->
-    <script src="{{ asset('assets') }}/js/oneui.app.min-5.9.js"></script>
-    <!-- jQuery JS -->
-    <script src="{{ asset('assets') }}/js/lib/jquery.min.js"></script> --}}
-
-
 
     <!-- Main JS -->
     <script src="{{ asset('assets') }}/js/oneui.app.min-5.12.js"></script>

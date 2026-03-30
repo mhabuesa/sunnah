@@ -199,11 +199,7 @@
         //Print Button
         $('#printBtn').on('click', function() {
 
-            let variantSku = $('#variantSelect').val();
-            let productSku = "{{ $product->sku }}";
-            let sku = variantSku ? variantSku : productSku;
             let qty = $('input[name="quantity"]').val();
-
             if (!qty || qty < 1) {
                 Swal.fire({
                     icon: 'warning',
@@ -212,37 +208,58 @@
                 return;
             }
 
-            // 👉 SweetAlert confirmation
+            // SweetAlert confirmation
             Swal.fire({
-                title: 'Are you sure you want to print?',
-                text: "Make sure before printing.",
+                title: 'Are you sure you want to print all barcodes?',
+                text: "All generated barcodes will be printed.",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, print it!',
+                confirmButtonText: 'Yes, print all!',
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // 👉 Confirmed, perform fetch
-                    fetch('/admin/product/print-barcode', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            },
-                            body: JSON.stringify({
-                                sku: sku,
-                                qty: qty
-                            })
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                             showToast('✅ Printed successfully!', 'success');
-                        })
-                        .catch(() => {
-                            showToast('❌ Print failed!', 'error');
-                        });
+
+                    // Collect all SKUs from #barcodeArea
+                    let barcodes =  "{{ $firstVariantSku }}";
+
+                    if (barcodes.length == 0) {
+                        showToast('❌ No barcode to print!', 'error');
+                        return;
+                    }
+
+                    // 👉 AJAX to get printable Blade content
+                    $.ajax({
+                        url: '{{ route('admin.product.printBarcode') }}',
+                        type: 'POST',
+                        data: {
+                            skus: barcodes,
+                            qty: qty,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(res) {
+                            // Create a hidden iframe for printing
+                            let printFrame = document.createElement('iframe');
+                            printFrame.style.position = 'absolute';
+                            printFrame.style.width = '0';
+                            printFrame.style.height = '0';
+                            document.body.appendChild(printFrame);
+
+                            printFrame.contentWindow.document.open();
+                            printFrame.contentWindow.document.write(res
+                            .html); // Blade view HTML
+                            printFrame.contentWindow.document.close();
+
+                            // wait for load then print
+                            printFrame.onload = function() {
+                                printFrame.contentWindow.focus();
+                                printFrame.contentWindow.print();
+                                document.body.removeChild(printFrame);
+                            };
+                        },
+                        error: function() {
+                            showToast('❌ Failed to load printable content!', 'error');
+                        }
+                    });
                 }
             });
 

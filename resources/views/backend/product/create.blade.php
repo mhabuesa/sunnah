@@ -104,8 +104,8 @@
                                             <a href="javascript:void(0)" id="generate_code" class="text-end">Generate
                                                 Code</a>
                                         </div>
-                                        <input type="text" class="form-control barcode_input" id="barcodeInput" name="sku" autocomplete="off"
-                                            placeholder="Enter Product SKU..">
+                                        <input type="text" class="form-control barcode_input" id="barcodeInput"
+                                            name="sku" autocomplete="off" placeholder="Enter Product SKU..">
                                     </div>
                                 </div>
                             </div>
@@ -225,8 +225,8 @@
                                         </div>
                                         <div class="flex-shrink-0" style="min-width: 150px;">
                                             <label class="form-label">Variation Wise SKU</label>
-                                            <input type="text" name="sku_variation[]" class="form-control barcode_input"
-                                                placeholder="Enter Variation SKU">
+                                            <input type="text" name="sku_variation[]"
+                                                class="form-control barcode_input" placeholder="Enter Variation SKU">
                                         </div>
 
                                         <div class="flex-shrink-0 d-flex align-items-end" style="min-width: 50px;">
@@ -371,11 +371,21 @@
 @endsection
 
 @push('footer_scripts')
+    <script>
+        // Select2
+        One.helpersOnLoad(['jq-select2']);
+
+
+        // Rich Text Editor
+        var editor1 = new RichTextEditor("#description");
+
+        
+    </script>
     <script src="{{ asset('assets') }}/js/plugins/select2/js/select2.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
         integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('assets') }}/custom/js/product_page.js"></script>
+    <script src="{{ asset('assets') }}/custom/js/product_add_page.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

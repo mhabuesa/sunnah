@@ -9,7 +9,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
     use App\Http\Controllers\ProfileController;
-    use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
 use App\Models\Customer;
@@ -115,6 +116,18 @@ use Illuminate\Support\Facades\Route;
             Route::post('/fraudCheck', 'fraudCheck')->name('fraudCheck');
             Route::post('/update/{id}', 'update')->name('update');
             Route::get('/printReceipt/{id}', 'printReceipt')->name('printReceipt');
+        });
+
+        //Settings Routes
+        Route::controller(SettingController::class)->name('settings.')->prefix('settings')->group(function () {
+            Route::get('/business', 'business')->name('business');
+            Route::post('/business/update', 'business_update')->name('business.update');
+            
+            Route::get('/app/core', 'core_setting')->name('app.core');
+            Route::post('/app/core/update', 'core_update')->name('app.core.update');
+            
+            Route::get('/app/invoice', 'invoice_setting')->name('app.invoice');
+            Route::post('/app/invoice/update', 'invoice_update')->name('app.invoice.update');
         });
 
         

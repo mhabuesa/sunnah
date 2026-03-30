@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Log;
 
 class PosController extends Controller
 {
-    public function index() {
-        $categories = Category::select('id','name')->get();
+    public function index()
+    {
+        $categories = Category::select('id', 'name')->get();
         $carts = Cart::where('user_id', Auth::user()->id)->where('type', 'pos')->get();
         return view("backend.pos.index", [
-            'categories'=> $categories,
-            'carts'=> $carts,
-            ]);
+            'categories' => $categories,
+            'carts' => $carts,
+        ]);
     }
 
     public function getProducts(Request $request)
@@ -37,7 +38,7 @@ class PosController extends Controller
         if ($request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('sku', 'like', '%' . $request->search . '%');
+                    ->orWhere('sku', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -94,7 +95,7 @@ class PosController extends Controller
         $cart->save();
 
 
-                $carts = Cart::with('product', 'variation.attributeValue')
+        $carts = Cart::with('product', 'variation.attributeValue')
             ->where('user_id', Auth::user()->id)
             ->get();
 
@@ -104,7 +105,7 @@ class PosController extends Controller
         ]);
     }
 
-    
+
     public function updateCart(Request $request)
     {
         $cart = Cart::where('id', $request->id)
@@ -224,7 +225,7 @@ class PosController extends Controller
                 'qty' => 1,
                 'price' => $price,
                 'total_price' => $price,
-                'type'=> 'pos',
+                'type' => 'pos',
             ]);
         }
 
@@ -239,31 +240,34 @@ class PosController extends Controller
         ]);
     }
 
-    public function orderStore(Request $request) {
-       $request->validate([
-        'customer_id'=> 'required',
-       ]);
+    public function orderStore(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required',
+        ]);
 
 
-       $customer = Customer::findOrFail($request->customer_id);
-       
-       $order = Order::create([
-        'customer_id'=>  $request->customer_id,
-        'seller_id'=> Auth::user()->id,
-        'order_type'=> 'pos',
-        'payment_method'=>  $request->type,
-        'payment_status'=> $request->type != 'cod' ? 'paid' : 'unpaid',
-        'coupon_code' => $request->coupon_code,
-        'discount_amount' => $request->coupon_discount,
-        'extra_discount' => $request->extra_discount,
-        'shipping_address' => $customer->address,
-        'shipping_cost' => $request->shipping_cost,
-        'subtotal' => $request->subtotal,
-        'total' => $request->amount,
-       ]);
+        $customer = Customer::findOrFail($request->customer_id);
+        $invoiceNumber = $this->generateInvoiceNumber();
+
+        $order = Order::create([
+            'invoice_no' => $invoiceNumber,
+            'customer_id' =>  $request->customer_id,
+            'seller_id' => Auth::user()->id,
+            'order_type' => 'pos',
+            'payment_method' =>  $request->type,
+            'payment_status' => $request->type != 'cod' ? 'paid' : 'unpaid',
+            'coupon_code' => $request->coupon_code,
+            'discount_amount' => $request->coupon_discount,
+            'extra_discount' => $request->extra_discount,
+            'shipping_address' => $customer->address,
+            'shipping_cost' => $request->shipping_cost,
+            'subtotal' => $request->subtotal,
+            'total' => $request->amount,
+        ]);
 
         $carts = Cart::where('user_id', Auth::user()->id)->get();
-       foreach ($carts as $cart) {
+        foreach ($carts as $cart) {
             $variant = null;
             if ($cart->variation_id) {
                 $variation = ProductVariation::find($cart->variation_id);
@@ -272,22 +276,40 @@ class PosController extends Controller
                     $variant = $variation->attribute->name . ' - ' . $variation->attributeValue->value;
                 }
             }
+            $total = $cart->price * $cart->qty;
             OrderDetails::create([
                 'order_id' => $order->id,
                 'product_id' => $cart->product_id,
                 'variation_id' => $cart->variation_id,
-                'variant'=> $variant,
-                'qty'=> $cart->qty,
-                'price'=> $cart->price,
+                'variant' => $variant,
+                'qty' => $cart->qty,
+                'price' => $cart->price,
+                'total' => $total,
             ]);
         }
 
         Cart::where('user_id', Auth::user()->id)->delete();
-        return redirect()->back()->with(['clear_customer'=> true, 'success'=> 'Order Created Successful']);
-        
+        return redirect()->back()->with(['clear_customer' => true, 'success' => 'Order Created Successful']);
     }
 
+    private function generateInvoiceNumber()
+    {
+        $today = date('ymd');
 
+        // আজকের last invoice খুঁজতেছি
+        $lastOrder = Order::where('invoice_no', 'like', 'INV-' . $today . '-%')
+            ->latest()
+            ->first();
 
+        if ($lastOrder) {
+            // last number extract
+            $lastNumber = (int) substr($lastOrder->invoice_no, strrpos($lastOrder->invoice_no, '-') + 1);
+            $newNumber = $lastNumber + 1;
+        } else {
+            // আজকে প্রথম order
+            $newNumber = 1;
+        }
 
+        return 'INV-' . $today . '-' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
+    }
 }

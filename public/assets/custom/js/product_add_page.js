@@ -1,9 +1,3 @@
-// Select2
-One.helpersOnLoad(['jq-select2']);
-
-
-// Rich Text Editor
-var editor1 = new RichTextEditor("#description");
 
 
 // Tooltips
@@ -43,56 +37,6 @@ $('#category').on('change', function () {
         });
 
 });
-$(document).ready(function () {
-    $('#category').trigger('change');
-});
-$(document).ready(function () {
-
-    // ১. ভ্যালু লোড করার কমন ফাংশন
-    function loadAttributeValues(attributeId, targetDropdown, selectedValue = null) {
-        if (!attributeId) {
-            targetDropdown.html('<option value="">Select Attribute Value</option>');
-            return;
-        }
-
-        fetch('/admin/product/get-attributeValue/' + attributeId)
-            .then(response => response.json())
-            .then(data => {
-                let options = '<option value="">Select Attribute Value</option>';
-
-                // selectedValue কে স্ট্রিং বা নাম্বারে কনভার্ট করে নিশ্চিত হওয়া
-                let checkValue = selectedValue ? selectedValue.toString() : null;
-
-                data.forEach(function (item) {
-                    // এখানে চেক করা হচ্ছে ডাটার ID এবং আমাদের ডাটাবেসের ID এক কি না
-                    let isSelected = (checkValue && checkValue == item.id.toString()) ? 'selected' : '';
-                    options += `<option value="${item.id}" ${isSelected}>${item.value}</option>`;
-                });
-
-                targetDropdown.html(options);
-            })
-            .catch(error => console.error('Error fetching attribute values:', error));
-    }
-
-    // ২. পেজ লোড হওয়ার সময় Previous Variation গুলোর ভ্যালু লোড করা
-    $('.variationRow').each(function () {
-        let attributeId = $(this).find('.attribute').val();
-        let targetDropdown = $(this).find('.attributeValue');
-        let selectedValue = targetDropdown.data('selected'); // data-selected থেকে আইডি নিবে
-
-        if (attributeId) {
-            loadAttributeValues(attributeId, targetDropdown, selectedValue);
-        }
-    });
-
-    // ৩. অ্যাট্রিবিউট চেঞ্জ করলে নতুন ভ্যালু লোড করা
-    $(document).on('change', '.attribute', function () {
-        let attributeId = $(this).val();
-        let targetDropdown = $(this).closest('.variationRow').find('.attributeValue');
-        loadAttributeValues(attributeId, targetDropdown);
-    });
-
-});
 
 
 
@@ -102,7 +46,7 @@ $(document).ready(function () {
 // Generate SKU
 document.addEventListener("DOMContentLoaded", function () {
 
-    function generateNumericSKU(length = 6) {
+    function generateNumericSKU(length = 13) {
         // Only digits 0-9
         let code = '';
         const digits = '0123456789';
@@ -116,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const skuInput = document.getElementById('barcodeInput');
 
     btn.addEventListener('click', function () {
-        const code = generateNumericSKU(6);
+        const code = generateNumericSKU(13);
         skuInput.value = code;
     });
 
@@ -165,42 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// SweetAlert কনফার্মেশনের মাধ্যমে বিদ্যমান ইমেজ ডিলিট করার ফাংশন
-function deleteGalleryImage(id, button) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                type: "GET",
-                url: "/admin/product/deleteGalleryImage/" + id,
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function (response) {
-                    if (response.success) {
-                        $(button).closest('.image-box').remove();
-                        showToast(response.message, 'success');
-                    } else {
-                        Swal.fire('Error!', response.message, 'error');
-                    }
-                },
-                error: function (xhr) {
-                    // আসল এরর দেখার জন্য কনসোলে চেক করুন 
-                    console.error("Status: " + xhr.status);
-                    console.error("Response: " + xhr.responseText);
-                    Swal.fire('Error!', 'Server communication error (Status: ' + xhr.status + ')', 'error');
-                }
-            });
-        }
-    });
-}
 
 // Multiple Image Upload (নতুন ইমেজের জন্য)
 document.addEventListener("DOMContentLoaded", function () {
@@ -314,56 +222,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
-
-// Pagination 
-let currentPage = 1;
-let currentSearch = "";
-
-function loadOrders(reset = false) {
-    let button = $("#loadMore");
-
-    button.find('.btn-text').addClass('d-none');
-    button.find('.spinner-border').removeClass('d-none');
-
-    $.ajax({
-        url: "{{ route('admin.product.getList.ajax') }}",
-        data: {
-            page: currentPage,
-            search: currentSearch,
-        },
-        cache: false, // ✅ cache বন্ধ
-        success: function (res) {
-            if (reset) {
-                $("#tableBody").html("");
-            }
-            $("#tableBody").append(res.data);
-
-            if (!res.hasMore) {
-                button.hide();
-            } else {
-                button.show();
-            }
-        },
-        complete: function () {
-            button.find('.btn-text').removeClass('d-none');
-            button.find('.spinner-border').addClass('d-none');
-        }
-    });
-}
-
-// প্রথমবার লোড
-loadOrders(true);
-
-// Load More
-$("#loadMore").on("click", function () {
-    currentPage++;
-    loadOrders();
+// Reset Form Button
+document.getElementById("resetFormBtn").addEventListener("click", function () {
+    document.getElementById("productForm").reset();
 });
 
-// ✅ Search input
-$("#productSearch").on("keyup", function () {
-    currentSearch = $(this).val();
-    currentPage = 1;
-    loadOrders(true);
-});

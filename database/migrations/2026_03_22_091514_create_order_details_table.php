@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('variant')->nullable();
             $table->integer('qty');
             $table->integer('price');
+            $table->integer('total');
             $table->timestamps();
 
             // =========================

@@ -91,17 +91,19 @@
                     <div class="block-content block-content-full overflow-x-auto pb-0">
                         <div class="mb-3 row">
                             <div class="col-6">
-                                <select class="js-select2 form-select" id="category" style="width: 100%;">
-                                    <option value="all">All Category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="mb-4">
+                                    <select class="js-select2 form-select" id="category" style="width: 100%;">
+                                        <option value="all">All Category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-6 d-flex">
                                 <input type="text" name="query" class="form-control"
-                                    placeholder="Search by Name or SKU">
-                                <button class="btn btn-info btn-sm mx-2" id="refresh">
+                                    placeholder="Search by Name or SKU" style="height: 38px;">
+                                <button class="btn btn-info btn-sm mx-2" id="refresh" style="height: 38px;">
                                     <i class="fa-solid fa-arrow-rotate-left"></i>
                                 </button>
                             </div>
@@ -143,7 +145,8 @@
                                         </select>
                                     </div>
                                     <div class="col-4 pe-0">
-                                        <button class="btn btn-info addCustomerBtn" type="button">Add New Customer</button>
+                                        <button class="btn btn-info addCustomerBtn btn-sm" type="button">Add New
+                                            Customer</button>
                                     </div>
                                 </div>
                             </div>
@@ -461,6 +464,20 @@
                 loadProducts($(this).attr('href').split('page=')[1]);
             });
 
+            // ================= REFRESH BUTTON =================
+            $(document).off('click', '#refresh').on('click', '#refresh', function(e) {
+                e.preventDefault();
+
+                // Reset category select
+                $('#category').val('all').trigger('change');
+
+                // Clear search input
+                $('input[name="query"]').val('');
+
+                // Reload all products
+                loadProducts(1);
+            });
+
             // ================= PRODUCT MODAL & ADD TO CART =================
             $(document).off('click', '.productCard').on('click', '.productCard', function() {
                 let product_id = $(this).data('id');
@@ -567,12 +584,19 @@
                 });
             });
 
+            
             function calculateTotals() {
                 let subtotal = 0;
+
                 $('.cart_qty').each(function() {
                     let qty = parseInt($(this).val()) || 0;
                     let price = parseFloat($(this).data('price')) || 0;
-                    subtotal += (qty * price);
+                    let total = qty * price;
+
+                    // Update the row total in the table
+                    $(this).closest('tr').find('.cart_total').text('৳' + total.toFixed(2));
+
+                    subtotal += total;
                 });
 
                 let extra = parseFloat($('#extraDiscountInput').val()) || 0;
@@ -748,11 +772,11 @@
                             }
                             if (res.errors.phone) {
                                 $('#phoneError').removeClass('d-none').text(res.errors.phone[
-                                0]);
+                                    0]);
                             }
                             if (res.errors.email) {
                                 $('#emailError').removeClass('d-none').text(res.errors.email[
-                                0]);
+                                    0]);
                             }
                             if (res.errors.address) {
                                 $('#addressError').removeClass('d-none').text(res.errors
@@ -792,7 +816,7 @@
                             }
                             if (errors.address) {
                                 $('#addressError').removeClass('d-none').text(errors.address[
-                                0]);
+                                    0]);
                             }
                         }
                     },

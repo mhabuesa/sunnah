@@ -104,9 +104,9 @@ class OrderController extends Controller
     public function fraudCheck(Request $request)
     {
         $phone = $request->phone;
-        Log::info($phone);
 
         $apiKey = config('api.FRAUD_CHECK_API');
+        
 
         try {
 

@@ -4,6 +4,7 @@
             <span class="smini-visible">
                 <i class="fa fa-circle-notch text-primary"></i>
             </span>
+            {{-- <span class="smini-hide fs-5 tracking-wider">{{ setting()->name }}</span> --}}
             <span class="smini-hide fs-5 tracking-wider">{{ config('app.name') }}</span>
         </a>
         <div class="d-flex align-items-center gap-1">
@@ -318,27 +319,34 @@
                 </li>
 
                 <li class="nav-main-heading">
-                    </i> Post Management
+                    </i> System Settings
                 </li>
-                <li class="nav-main-item">
+                <li class="nav-main-item {{ request()->routeIs('admin.settings.*') ? 'open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
 
                         <i class="nav-main-link-icon fas fa-newspaper"></i>
-                        <span class="nav-main-link-name">Posts</span>
+                        <span class="nav-main-link-name">Settings</span>
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link" href="#">
+                            <a class="nav-main-link {{ request()->routeIs('admin.settings.business') ? 'active' : '' }}" href="{{route('admin.settings.business')}}">
                                 <span class="nav-main-link-name">
-                                    <i class="fas fa-circle-plus me-2"></i> Add New Post
+                                    <i class="fas fa-circle-plus me-2"></i> Business Settings
                                 </span>
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link " href="#">
+                            <a class="nav-main-link {{ request()->routeIs('admin.settings.app.*') ? 'active' : '' }}" href="{{route('admin.settings.app.core')}}">
                                 <span class="nav-main-link-name">
-                                    <i class="fas fa-file-invoice me-2"></i> Post List
+                                    <i class="fas fa-circle-plus me-2"></i> App Settings
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.settings.app.*') ? 'active' : '' }}" href="{{route('admin.settings.app.core')}}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-circle-plus me-2"></i> Meta Settings
                                 </span>
                             </a>
                         </li>

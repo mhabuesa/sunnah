@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const btn = document.getElementById('generate_code');
-    const skuInput = document.getElementById('barcodeInput');
+    const skuInput = document.getElementById('sku');
 
     btn.addEventListener('click', function () {
         const code = generateNumericSKU(6);
@@ -313,6 +313,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
+// Reset Form Button
+document.getElementById("resetFormBtn").addEventListener("click", function () {
+    document.getElementById("productForm").reset();
+});
 
 
 
