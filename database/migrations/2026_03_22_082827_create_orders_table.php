@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('invoice_no', 20)->unique();
             $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
             $table->string('seller_id')->nullable();
             $table->string('order_type')->nullable(); // pos / web
