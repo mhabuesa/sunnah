@@ -39,8 +39,8 @@
                                         <div class="mb-3">
                                             <label for="invoice_type" class="form-label">Invoice Type</label>
                                             <select name="invoice_type" class="form-control" id="invoice_type">
-                                                <option {{$data->invoice == 'thermal' ?'selected' :''}} value="thermal">Thermal Receipt</option>
-                                                <option {{$data->invoice == 'invoice' ?'selected' :''}} value="invoice">Normal Paper Invoice</option>
+                                                <option {{ $data?->invoice == 'thermal' ?'selected' :''}} value="thermal">Thermal Receipt</option>
+                                                <option {{ $data?->invoice == 'invoice' ?'selected' :''}} value="invoice">Normal Paper Invoice</option>
                                             </select>
                                         </div>
                                     </div>
