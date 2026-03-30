@@ -77,7 +77,7 @@
                         <div class="block-content block-content-full overflow-x-auto">
                             <div class="mb-3 text-center">
                                 <img id="header_logo_preview"
-                                    src="{{ $data->header_logo ? asset($data->header_logo) : 'https://placehold.co/600x400' }}"
+                                    src="{{ $data?->header_logo ? asset($data?->header_logo) : 'https://placehold.co/600x400' }}"
                                     height="100" alt="">
                             </div>
                             <div class="mb-3">
@@ -97,7 +97,7 @@
                         <div class="block-content block-content-full overflow-x-auto">
                             <div class="mb-3 text-center">
                                 <img id="footer_logo_preview"
-                                    src="{{ $data->footer_logo ? asset($data->footer_logo) : 'https://placehold.co/600x400' }}"
+                                    src="{{ $data?->footer_logo ? asset($data?->footer_logo) : 'https://placehold.co/600x400' }}"
                                     height="100" alt="">
                             </div>
                             <div class="mb-3">
@@ -117,7 +117,7 @@
                         <div class="block-content block-content-full overflow-x-auto">
                             <div class="mb-3 text-center">
                                 <img id="favicon_preview"
-                                    src="{{ $data->favicon ? asset($data->favicon) : 'https://placehold.co/600x400' }}"
+                                    src="{{ $data?->favicon ? asset($data?->favicon) : 'https://placehold.co/600x400' }}"
                                     height="100" alt="">
                             </div>
                             <div class="mb-3">
