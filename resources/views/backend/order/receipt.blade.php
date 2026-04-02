@@ -138,6 +138,10 @@
             <p><strong>Invoice:</strong> #{{ $order->invoice_no }}</p>
             <p><strong>Date:</strong> {{ $order->created_at->format('d/m/Y h:i A') }}</p>
         </div>
+        <div style="font-size: 11px;">
+            <p><strong>Name:</strong> {{ $order->customer->name }}</p>
+            <p><strong>Phone:</strong> {{ $order->customer->phone }}</p>
+        </div>
 
         <table>
             <thead>
