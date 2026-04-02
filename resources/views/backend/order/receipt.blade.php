@@ -134,7 +134,7 @@
 
         <div class="divider"></div>
 
-        <div style="font-size: 11px;">
+        <div style="font-size: 11px; margin-top: 5px;">
             <p><strong>Invoice:</strong> #{{ $order->invoice_no }}</p>
             <p><strong>Date:</strong> {{ $order->created_at->format('d/m/Y h:i A') }}</p>
         </div>
