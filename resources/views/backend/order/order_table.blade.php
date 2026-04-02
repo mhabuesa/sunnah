@@ -19,13 +19,39 @@
                 <div class="btn-group">
                     <a href="{{ route('admin.orders.details', $order->id) }}"
                         class="btn btn-alt-secondary js-bs-tooltip-enabled"><i class="fa fa-fw text-info fa-eye"></i></a>
-                    <a href="{{ route('admin.orders.invoice', $order->id) }}"
+                    <a href="{{ route('admin.orders.invoice', $order->id) }}" target="_blank"
                         class="btn btn-alt-secondary js-bs-tooltip-enabled"><i
                             class="fa fa-fw text-success fa-receipt"></i></a>
-                    <button type="button" class="btn btn-alt-secondary js-bs-tooltip-enabled" data-bs-toggle="tooltip"
-                        aria-label="Remove Client" data-bs-original-title="Remove Client">
+                    <button type="button" class="btn btn-alt-secondary" onclick="deleteOrder(this)"
+                        data-id="{{ $order->id }}">
                         <i class="fa fa-fw fa-trash text-danger "></i>
                     </button>
+                    @if ($order->order_status == 'confirmed')
+                        @if ($delivery->count() > 1)
+                            {{-- <button type="button" class="btn btn-alt-secondary dropdown-toggle"
+                                data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-truck-arrow-right"></i>
+                            </button> --}}
+                            <button type="button" class="btn btn-secondary dropdown-toggle deliveryToggle">
+                                <i class="fa-solid fa-truck-arrow-right"></i>
+                            </button>
+
+                            <div class="dropdown-menu fs-sm deliveryMenu">
+                                @foreach ($delivery as $method)
+                                    <a href="{{ route('admin.deliver.details', ['method' => urlencode($method->name), 'id' => $order->id]) }}"
+                                        class="btn btn-alt-secondary dropdown-item text-capitalize">
+                                        {{ $method->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        @else
+                            @php $method = $delivery->first(); @endphp
+                            <a href="{{ route('admin.deliver.details', ['method' => urlencode($method->name), 'id' => $order->id]) }}"
+                                class="btn btn-alt-secondary js-bs-tooltip-enabled">
+                                <i class="fa-solid fa-truck-arrow-right"></i>
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </td>
         </tr>

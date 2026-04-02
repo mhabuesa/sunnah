@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 <li class="nav-main-heading">Order Management</li>
-                <li class="nav-main-item {{ request()->routeIs('admin.orders.*') ? 'open' : '' }}">
+                <li class="nav-main-item {{ request()->routeIs('admin.orders.*') ? 'open' : (request()->routeIs('admin.deliver.details') ? 'open' :'') }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" href="#">
                         <i class="nav-main-link-icon fas fa-cart-arrow-down"></i>
                         <span class="nav-main-link-name">Orders</span>
@@ -71,8 +71,9 @@
                                 <span class="nav-main-link-name">
                                     <i
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'all' ? 'success' : 'muted' }} me-2"></i>
-                                    All
+                                    All 
                                 </span>
+                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('all')}}</span>
                             </a>
                         </li>
 
@@ -85,6 +86,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'pending' ? 'success' : 'muted' }} me-2"></i>
                                     Pending
                                 </span>
+                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('pending')}}</span>
                             </a>
                         </li>
 
@@ -97,6 +99,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'on_review' ? 'success' : 'muted' }} me-2"></i>
                                     On Review
                                 </span>
+                                <span class="badge badge-soft-warning badge-pill ml-1">{{ordersCount('on_review')}}</span>
                             </a>
                         </li>
 
@@ -109,6 +112,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'schedule' ? 'success' : 'muted' }} me-2"></i>
                                     Scheduled Delivery
                                 </span>
+                                <span class="badge badge-soft-warning badge-pill ml-1">{{ordersCount('schedule')}}</span>
                             </a>
                         </li>
 
@@ -121,6 +125,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'confirmed' ? 'success' : 'muted' }} me-2"></i>
                                     Confirmed
                                 </span>
+                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('confirmed')}}</span>
                             </a>
                         </li>
 
@@ -133,6 +138,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'out_for_delivery' ? 'success' : 'muted' }} me-2"></i>
                                     Out for Delivery
                                 </span>
+                                <span class="badge badge-soft-warning badge-pill ml-1">{{ordersCount('out_for_delivery')}}</span>
                             </a>
                         </li>
 
@@ -145,6 +151,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'delivered' ? 'success' : 'muted' }} me-2"></i>
                                     Delivered
                                 </span>
+                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('delivered')}}</span>
                             </a>
                         </li>
 
@@ -157,6 +164,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'failed' ? 'success' : 'muted' }} me-2"></i>
                                     Failed to Delivered
                                 </span>
+                                 <span class="badge badge-soft-danger badge-pill ml-1">{{ordersCount('failed')}}</span>
                             </a>
                         </li>
 
@@ -169,6 +177,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'canceled' ? 'success' : 'muted' }} me-2"></i>
                                     Canceled
                                 </span>
+                                <span class="badge badge-soft-danger badge-pill ml-1">{{ordersCount('canceled')}}</span>
                             </a>
                         </li>
 
@@ -181,6 +190,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'returned' ? 'success' : 'muted' }} me-2"></i>
                                     Returned
                                 </span>
+                                <span class="badge badge-soft-danger badge-pill ml-1">{{ordersCount('returned')}}</span>
                             </a>
                         </li>
 

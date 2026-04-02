@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeliveryMethod;
 use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
@@ -11,7 +12,8 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    public function list($type = 'pending') {
+    public function list($type = 'pending')
+    {
         $users = User::all();
         return view("backend.order.list", compact("type", "users"));
     }
@@ -52,14 +54,14 @@ class OrderController extends Controller
                     break;
                 case 'this_month':
                     $query->whereMonth('created_at', $today->month)
-                          ->whereYear('created_at', $today->year);
+                        ->whereYear('created_at', $today->year);
                     break;
                 case 'this_year':
                     $query->whereYear('created_at', $today->year);
                     break;
                 case 'custom_date':
                     if ($request->from && $request->to) {
-                        $query->whereBetween('created_at', [$request->from.' 00:00:00', $request->to.' 23:59:59']);
+                        $query->whereBetween('created_at', [$request->from . ' 00:00:00', $request->to . ' 23:59:59']);
                     }
                     break;
             }
@@ -68,23 +70,24 @@ class OrderController extends Controller
         // 6. Search by order ID, customer name, or phone
         if ($request->search) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('id', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function($q2) use ($search) {
-                      $q2->where('name', 'like', "%{$search}%")
-                         ->orWhere('phone', 'like', "%{$search}%");
-                  });
+                    ->orWhereHas('customer', function ($q2) use ($search) {
+                        $q2->where('name', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
+                    });
             });
         }
 
         $orders = $query->paginate(10);
 
+        $delivery = DeliveryMethod::all()->keyBy('name');
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('backend.order.order_table', compact('orders'))->render(),
+                'html' => view('backend.order.order_table', compact('orders','delivery'))->render(),
                 'pagination' => (string) $orders->links('pagination::bootstrap-5')
             ]);
-        }
+        }       
 
         return view('backend.pos.orders', compact('orders'));
     }
@@ -101,33 +104,89 @@ class OrderController extends Controller
     }
 
 
+    // public function fraudCheck(Request $request)
+    // {
+    //     $phone = $request->phone;
+
+    //     $apiKey = config('api.FRAUD_CHECK_API');
+
+
+    //     try {
+
+    //         // API 1
+    //         $api1 = Http::get("https://dash.hoorin.com/api/courier/api", [
+    //             'apiKey' => $apiKey,
+    //             'searchTerm' => $phone
+    //         ]);
+
+    //         // API 2
+    //         $api2 = Http::get("https://dash.hoorin.com/api/courier/sheet", [
+    //             'apiKey' => $apiKey,
+    //             'searchTerm' => $phone
+    //         ]);
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'api1' => $api1->json(),
+    //             'api2' => $api2->json(),
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'API Error'
+    //         ]);
+    //     }
+    // }
+
     public function fraudCheck(Request $request)
     {
         $phone = $request->phone;
 
-        $apiKey = config('api.FRAUD_CHECK_API');
-        
+        $apiKey = config('api.BDCOURIER_API');
 
         try {
 
-            // API 1
-            $api1 = Http::get("https://dash.hoorin.com/api/courier/api", [
-                'apiKey' => $apiKey,
-                'searchTerm' => $phone
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $apiKey,
+                'Content-Type' => 'application/json',
+            ])->post('https://api.bdcourier.com/courier-check', [
+                'phone' => $phone
             ]);
 
-            // API 2
-            $api2 = Http::get("https://dash.hoorin.com/api/courier/sheet", [
-                'apiKey' => $apiKey,
-                'searchTerm' => $phone
-            ]);
+            $res = $response->json();
+
+            $couriers = $res['data'] ?? [];
+
+            $summaries = [];
+
+            foreach ($couriers as $key => $courier) {
+
+                // summary key skip কর
+                if ($key === 'summary') continue;
+
+                $summaries[$courier['name']] = [
+                    "Total Parcels" => $courier['total_parcel'] ?? 0,
+                    "Delivered Parcels" => $courier['success_parcel'] ?? 0,
+                    "Canceled Parcels" => $courier['cancelled_parcel'] ?? 0,
+                ];
+            }
+
+            $totalSummary = $couriers['summary'] ?? [];
 
             return response()->json([
                 'success' => true,
-                'api1' => $api1->json(),
-                'api2' => $api2->json(),
+                'api1' => [
+                    'Summaries' => $summaries
+                ],
+                'api2' => [
+                    'Summaries' => [
+                        "Total Parcels" => $totalSummary['total_parcel'] ?? 0,
+                        "Total Delivered" => $totalSummary['success_parcel'] ?? 0,
+                        "Total Canceled" => $totalSummary['cancelled_parcel'] ?? 0,
+                    ]
+                ]
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -136,25 +195,54 @@ class OrderController extends Controller
         }
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $request->validate([
-            'order_status'=> 'required',
-            'payment_method'=> 'required',
-            'payment_status'=> 'required',
+            'order_status' => 'required',
+            'payment_method' => 'required',
+            'payment_status' => 'required',
         ]);
         Order::findOrFail($id)->update([
-            'payment_method'=> $request->payment_method,
-            'payment_status'=> $request->payment_status,
-            'order_status'=> $request->order_status,
+            'payment_method' => $request->payment_method,
+            'payment_status' => $request->payment_status,
+            'order_status' => $request->order_status,
         ]);
-        return redirect()->back()->with('success','Order Update Successful');
+        return redirect()->back()->with('success', 'Order Update Successful');
+    }
+
+    public function invoice($id)
+    {
+        $order = Order::findOrFail($id);
+        $print = false; // show mode
+        return view('backend.order.invoice', compact('order', 'print'));
     }
 
     public function printReceipt($id)
     {
-        // ডেটাবেজ থেকে অর্ডার এবং আইটেমগুলো নিয়ে আসা
+
+        $order = Order::findOrFail($id);
+        $print = true;
+
+        if (setting()->invoice == 'invoice') {
+            return view('backend.order.invoice', compact('order', 'print'));
+        } else {
+
+            return view('backend.order.receipt', compact('order'));
+        }
+    }
+
+    public function destroy(string $id)
+    {
         $order = Order::findOrFail($id);
 
-        return view('backend.order.receipt', compact('order'));
-}
+        try {
+            // Delete order
+            $order->delete();
+        } catch (\Exception $e) {
+            Log::error($e);
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'Order Deleted Successfully'], 200);
+    }
 }

@@ -53,7 +53,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="date_type">Date Type</label>
                                         <select class="form-control __form-control" name="date_type" id="date_type">
-                                            <option value="" >
+                                            <option value="">
                                                 All Data
                                             </option>
                                             <option value="today">
@@ -277,6 +277,47 @@
         </script>
 
         <script>
+            function deleteOrder(button) {
+                const id = $(button).data('id');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let url = "{{ route('admin.orders.destroy', ':id') }}";
+                        url = url.replace(':id', id);
+                        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': token
+                            },
+                            success: function(data) {
+                                if (data.success) {
+                                    showToast(data.message, "success");
+                                    $(button).closest('tr').remove();
+                                } else {
+                                    showToast(data.message, "error");
+                                }
+                            },
+                            error: function(xhr) {
+                                showToast("An error occurred: " + xhr.responseJSON.message, "error");
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+
+        <script>
             $(document).ready(function() {
 
                 // Filter form initially hidden
@@ -292,6 +333,36 @@
                     $('#filterForm').slideUp();
                 });
 
+            });
+        </script>
+
+        <script>
+            document.querySelectorAll('.deliveryToggle').forEach((btn) => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+
+                    const menu = this.nextElementSibling;
+
+                    // অন্য সব dropdown close
+                    document.querySelectorAll('.deliveryMenu').forEach((m) => {
+                        if (m !== menu) {
+                            m.classList.remove('show');
+                            m.removeAttribute('style');
+                        }
+                    });
+
+                    // toggle current
+                    if (menu.classList.contains('show')) {
+                        menu.classList.remove('show');
+                        menu.removeAttribute('style');
+                    } else {
+                        menu.classList.add('show');
+                        menu.style.position = 'absolute';
+                        menu.style.inset = 'auto auto 0px 0px';
+                        menu.style.margin = '0px';
+                        menu.style.transform = 'translate(0px, -40px)';
+                    }
+                });
             });
         </script>
     @endpush

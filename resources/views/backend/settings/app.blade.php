@@ -25,14 +25,14 @@
             enctype="multipart/form-data">
             @csrf
             <div class="row">
-                <div class="col-lg-8 m-auto mt-2">
+                <div class="col-lg-7 m-auto mt-2">
                     <div class="block block-rounded pb-2">
                         @include('backend.settings.partials.tab_header')
                         <div class="block-content tab-content">
                             <div class="tab-pane active show" id="btabs-alt-static-home" role="tabpanel"
                                 aria-labelledby="btabs-alt-static-home-tab" tabindex="0">
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="app_name" class="form-label">App Name</label>
                                             <input type="text" id="app_name" class="form-control" name="app_name"
@@ -42,7 +42,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="app_url" class="form-label">App URL</label>
                                             <input type="text" id="app_url" class="form-control" name="app_url"
@@ -52,22 +52,13 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="debug_mode" class="form-label">App Debug Mode</label>
-                                            <select name="debug_mode" class="form-control" id="debug_mode">
-                                                <option {{ $data?->debug_mode == 'false'?'selected':''}} value="false">False</option>
-                                                <option {{ $data?->debug_mode == 'true'?'selected':''}} value="true">True</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="timezone" class="form-label">Time Zone</label>
                                             <select class="js-select2 form-select" id="timezone" name="timezone"
                                                 style="width: 100%;" data-placeholder="Choose Time Zone..">
                                                 @foreach ($timezones as $timezone)
-                                                    <option {{ $data?->timezone == $timezone ?'selected':''}} value="{{ $timezone }}">{{ $timezone }}</option>
+                                                    <option {{old('timezone') == $timezone ?'selected':''}} {{ $data?->timezone == $timezone ?'selected':''}} value="{{ $timezone }}">{{ $timezone }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

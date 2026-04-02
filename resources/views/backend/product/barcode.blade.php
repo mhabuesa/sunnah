@@ -161,7 +161,7 @@
 @endsection
 
 @push('footer_scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
 
             // ১. পেজ লোড হলে প্রথম ভেরিয়েন্ট এর বারকোড অটো লোড হবে
@@ -277,6 +277,153 @@
                 },
                 beforeSend: function() {
                     // লোডিং এর জন্য কিছু চাইলে এখানে দিতে পারেন
+                    $('.btn-primary').prop('disabled', true).text('Generating...');
+                },
+                success: function(res) {
+                    $('#barcodeArea').html(res.html);
+                },
+                complete: function() {
+                    $('.btn-primary').prop('disabled', false).text('Generate');
+                },
+                error: function() {
+                    alert('বারকোড জেনারেট করতে সমস্যা হয়েছে।');
+                }
+            });
+        }
+    </script> --}}
+
+    <script>
+        let currentSku = null;
+        let currentQty = null;
+        let isGenerated = false; // ✅ generate হয়েছে কিনা track করবে
+
+        $(document).ready(function() {
+
+            // ১. Initial load (auto generate first variant)
+            let initialSku = "{{ $firstVariantSku }}";
+            let initialQty = 4;
+
+            if (initialSku) {
+                currentSku = initialSku;
+                currentQty = initialQty;
+                isGenerated = true;
+
+                generateBarcode(initialSku, initialQty);
+            }
+
+            // ২. Generate button
+            $('.btn-primary').on('click', function() {
+
+                let variantSku = $('#variantSelect').val();
+                let productSku = "{{ $product->sku }}";
+                let sku = variantSku ? variantSku : productSku;
+
+                let qty = $('input[name="quantity"]').val();
+
+                if (!qty || qty < 1) {
+                    alert('দয়া করে সঠিক পরিমাণ দিন।');
+                    return;
+                }
+
+                currentSku = sku;
+                currentQty = qty;
+                isGenerated = true;
+
+                generateBarcode(sku, qty);
+            });
+
+            // ৩. Reset button
+            $('.btn-warning').on('click', function() {
+                $('input[name="quantity"]').val('4');
+                $('#variantSelect').prop('selectedIndex', 0);
+                $('#barcodeArea').html('');
+
+                currentSku = null;
+                currentQty = null;
+                isGenerated = false;
+
+                $('input[name="quantity"]').prop('disabled', false);
+            });
+
+        });
+
+        // ৪. Print button
+        $('#printBtn').on('click', function() {
+
+            if (!isGenerated || !currentSku || !currentQty) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please generate barcode first!',
+                });
+                return;
+            }
+
+            let barcodeCount = $('#barcodeArea').children().length;
+
+            if (barcodeCount === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Please generate barcode first!',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Are you sure you want to print all barcodes?',
+                text: "All generated barcodes will be printed.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, print all!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: '{{ route('admin.product.printBarcode') }}',
+                        type: 'POST',
+                        data: {
+                            skus: currentSku,
+                            qty: currentQty, // ✅ fixed qty (generate time)
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(res) {
+
+                            let printFrame = document.createElement('iframe');
+                            printFrame.style.position = 'absolute';
+                            printFrame.style.width = '0';
+                            printFrame.style.height = '0';
+                            document.body.appendChild(printFrame);
+
+                            printFrame.contentWindow.document.open();
+                            printFrame.contentWindow.document.write(res.html);
+                            printFrame.contentWindow.document.close();
+
+                            printFrame.onload = function() {
+                                printFrame.contentWindow.focus();
+                                printFrame.contentWindow.print();
+                                document.body.removeChild(printFrame);
+                            };
+                        },
+                        error: function() {
+                            showToast('❌ Failed to load printable content!', 'error');
+                        }
+                    });
+                }
+            });
+        });
+
+        // ৫. Generate Barcode AJAX
+        function generateBarcode(sku, qty) {
+            $.ajax({
+                url: "{{ route('admin.product.generate.barcode') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    sku: sku,
+                    qty: qty
+                },
+                beforeSend: function() {
                     $('.btn-primary').prop('disabled', true).text('Generating...');
                 },
                 success: function(res) {

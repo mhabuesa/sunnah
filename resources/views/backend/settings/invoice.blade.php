@@ -28,7 +28,7 @@
         <form id="productForm" action="{{ route('admin.settings.app.invoice.update') }}" method="post">
             @csrf
             <div class="row">
-                <div class="col-lg-8 m-auto mt-2">
+                <div class="col-lg-7 m-auto mt-2">
                     <div class="block block-rounded pb-2">
                         @include('backend.settings.partials.tab_header')
                         <div class="block-content tab-content">

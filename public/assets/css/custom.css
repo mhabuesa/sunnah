@@ -239,3 +239,32 @@
 .text-capitalize {
     text-transform: capitalize !important;
 }
+
+
+
+.badge-soft-info {
+    color: #ffffff;
+    background-color: rgb(0 201 219 / 42%);
+}
+
+.badge-soft-warning Specificity: (0, 1, 0) {
+    color: #f5ca99;
+    background-color: rgba(245, 202, 153, 0.1);
+}
+
+.badge-soft-danger {
+    color: #ffffff;
+    background-color: rgb(237 76 120 / 49%);
+}
+
+.badge-soft-warning {
+    color: #ffffff !important;
+    background-color: rgb(255 136 0 / 64%);
+}
+
+.badge-pill {
+    padding-right: 0.6em;
+    padding-left: 0.6em;
+    border-radius: 5px;
+    font-weight: 300;
+}

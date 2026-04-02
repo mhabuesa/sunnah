@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_settings', function (Blueprint $table) {
+        Schema::create('delivery_methods', function (Blueprint $table) {
             $table->id();
-            $table->string('app_name')->nullable();
-            $table->string('app_url')->nullable();
-            $table->string('timezone')->nullable();
-            $table->string('invoice')->nullable();
+            $table->string('name')->unique();
+            $table->json('config')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_settings');
+        Schema::dropIfExists('delivery_methods');
     }
 };

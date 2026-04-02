@@ -29,11 +29,6 @@
             padding-top: 0 !important
         }
 
-
-
-
-
-
         .summary-card {
             background: #f8f9fa;
             border-radius: 10px;
@@ -105,18 +100,54 @@
                             </h3>
                         </div>
                         <div class="text-end">
-                            <button onclick="printOrder({{ $order->id }})" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-print"></i> Invoice
-                                Print
+                            <button onclick="printOrder({{ $order->id }})"
+                                class="btn btn-primary btn-sm {{ setting()->invoice }}">
+                                <i class="fa-solid fa-print"></i>
+                                @if (setting()->invoice == 'invoice')
+                                    Invoice Print
+                                @else
+                                    Receipt Print
+                                @endif
+
                             </button>
+                            @php
+                                $statusLabels = [
+                                    'pending' => ['label' => 'Pending', 'color' => 'warning'],
+                                    'review_to_deliver' => ['label' => 'On Review', 'color' => 'info'],
+                                    'scheduled_delivery' => ['label' => 'Scheduled Delivery', 'color' => 'primary'],
+                                    'confirmed' => ['label' => 'Confirmed', 'color' => 'success'],
+                                    'delivered' => ['label' => 'Delivered', 'color' => 'success'],
+                                    'failed' => ['label' => 'Failed To Deliver', 'color' => 'danger'],
+                                    'canceled' => ['label' => 'Canceled', 'color' => 'danger'],
+                                    'returned' => ['label' => 'Returned', 'color' => 'secondary'],
+                                    'out_for_delivery' => ['label' => 'Out For Delivery', 'color' => 'info'],
+                                ];
+
+                                $currentStatus = $statusLabels[$order->order_status] ?? [
+                                    'label' => ucfirst($order->order_status),
+                                    'color' => 'primary',
+                                ];
+                            @endphp
+
                             <div class="mt-2">
-                                <p class="mb-0">Status: <span
-                                        class="badge bg-{{ $order->order_status == 'confirmed' ? 'success' : 'primary' }} text-capitalize">{{ $order->order_status }}</span>
+                                <p class="mb-0">
+                                    Status:
+                                    <span class="badge bg-{{ $currentStatus['color'] }} text-capitalize">
+                                        {{ $currentStatus['label'] }}
+                                    </span>
                                 </p>
-                                <p class="mb-0">Payment Method: <span
-                                        class="text-primary fw-bold text-capitalize">{{ $order->payment_method }}</span></p>
-                                <p class="mb-0">Payment Status: <span
-                                        class="text-primary text-capitalize text-{{ $order->payment_status == 'paid' ? 'success' : 'danger' }} fw-bold">{{ $order->payment_status }}</span>
+
+                                <p class="mb-0">
+                                    Payment Method:
+                                    <span class="text-primary fw-bold text-capitalize">{{ $order->payment_method }}</span>
+                                </p>
+
+                                <p class="mb-0">
+                                    Payment Status:
+                                    <span
+                                        class="text-{{ $order->payment_status == 'paid' ? 'success' : 'danger' }} fw-bold text-capitalize">
+                                        {{ $order->payment_status }}
+                                    </span>
                                 </p>
                             </div>
                         </div>
@@ -198,7 +229,7 @@
             <div class="col-lg-3 m-auto mt-2">
                 <div class="row">
                     <div class="col-12">
-                         <div class="block block-rounded mb-0">
+                        <div class="block block-rounded mb-0">
                             <div class="block-content block-content-full overflow-x-auto">
 
                                 <!-- HEADER -->
@@ -301,6 +332,10 @@
                                                 value="scheduled_delivery">Scheduled Delivery</option>
                                             <option {{ $order->order_status == 'confirmed' ? 'selected' : '' }}
                                                 value="confirmed">Confirmed</option>
+                                            @if ($order->order_status == 'out_for_delivery')
+                                                <option {{ $order->order_status == 'out_for_delivery' ? 'selected' : '' }}
+                                                    value="delivered">Out For Delivery</option>
+                                            @endif
                                             <option {{ $order->order_status == 'delivered' ? 'selected' : '' }}
                                                 value="delivered">Delivered</option>
                                             <option {{ $order->order_status == 'failed' ? 'selected' : '' }}

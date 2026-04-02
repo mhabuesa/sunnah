@@ -11,7 +11,7 @@ class AppSettingObserver
      */
     public function created(AppSetting $appSetting): void
     {
-        //
+        cache()->forget('appSettings');
     }
 
     /**

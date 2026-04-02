@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AppSetting;
 use App\Models\BusinessSettingModel;
+use App\Models\DeliveryMethod;
 use App\Traits\ImageSaveTrait;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -93,7 +94,6 @@ class SettingController extends Controller
         $request->validate([
             'app_name' => 'required',
             'app_url' => 'required',
-            'debug_mode' => 'required',
             'timezone' => 'required',
         ]);
 
@@ -102,7 +102,6 @@ class SettingController extends Controller
         $data = [
             'app_name' => $request->app_name,
             'app_url' => $request->app_url,
-            'debug_mode' => $request->debug_mode,
             'timezone' => $request->timezone,
         ];
 
@@ -126,13 +125,69 @@ class SettingController extends Controller
 
         if ($appSetting) {
             $appSetting->update([
-                'invoice'=>$request->invoice_type
+                'invoice' => $request->invoice_type
             ]);
         } else {
             AppSetting::create([
-                'invoice'=>$request->invoice_type
+                'invoice' => $request->invoice_type
             ]);
         }
-         return redirect()->back()->with('success', 'Invoice Setting Updated');
+        return redirect()->back()->with('success', 'Invoice Setting Updated');
+    }
+
+    public function delivery_setting()
+    {
+        $delivery = DeliveryMethod::all()->keyBy('name');
+        return view('backend.settings.delivery', compact('delivery'));
+    }
+
+    public function steadfast(Request $request)
+    {
+        $request->validate([
+            'base_url' => 'required',
+            'api_key' => 'required',
+            'secret_key' => 'required',
+        ]);
+
+        DeliveryMethod::updateOrCreate(
+            ['name' => 'steadfast'],
+            [
+                'config' => [
+                    'base_url' => $request->base_url,
+                    'api_key' => $request->api_key,
+                    'secret_key' => $request->secret_key,
+                ]
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Steadfast Delivery Updated');
+    }
+
+    public function pathao(Request $request)
+    {
+        $request->validate([
+            'base_url' => 'required',
+            'store_id' => 'required',
+            'client_id' => 'required',
+            'client_secret' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        DeliveryMethod::updateOrCreate(
+            ['name' => 'pathao'],
+            [
+                'config' => [
+                    'base_url' =>  $request->base_url,
+                    'store_id' =>  $request->store_id,
+                    'client_id' =>  $request->client_id,
+                    'client_secret' =>  $request->client_secret,
+                    'username' =>  $request->username,
+                    'password' =>  $request->password,
+                ]
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Pathao Delivery Updated');
     }
 }

@@ -1,0 +1,210 @@
+@extends('backend.layouts.app')
+@section('title', 'App Setting')
+@push('style')
+    <link rel="stylesheet" href="{{ asset('assets') }}/js/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        #main-container .content {
+            padding-top: 0 !important
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+    </style>
+@endpush
+@section('content')
+    <div class="text-center text-md-start">
+        <div class="flex-grow-1 mb-1 mb-md-0">
+            <h1 class="m-3 h4 fw-bold mb-2">
+                <i class="fa-solid fa-truck-arrow-right"></i> Transfer to <span
+                    class="text-capitalize">{{ $method }}</span>
+            </h1>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-10 m-auto mt-2">
+                <form action="{{ route('admin.deliver.pathao.submit', $order->id) }}" method="POST">
+                    @csrf
+                    <div class="block block-rounded border">
+                        <div class="block-header block-header-default">
+                            <h3 class="block-title text-capitalize">Order Details</h3>
+                        </div>
+                        <div class="block-content block-content-full overflow-x-auto">
+                            <table class="table">
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <td>
+                                        <input type="text" class="form-control" name="invoice_id"
+                                            value="{{ $order->invoice_no }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Recipient Name <small class="text-danger">*</small></th>
+                                    <td>
+                                        <input type="text" class="form-control" name="name"
+                                            value="{{ $order->customer->name }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Recipient Phone <small class="text-danger">*</small></th>
+                                    <td>
+                                        <input type="text" class="form-control" name="phone"
+                                            value="{{ $order->customer->phone }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery City<small class="text-danger">*</small></th>
+                                    <td>
+                                        <select name="city_id" id="city_id" class="form-control js-select2" required>
+                                            <option value="">Loading cities...</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery Zone<small class="text-danger">*</small></th>
+                                    <td>
+                                        <select name="zone_id" id="zone_id" class="form-control js-select2" required>
+                                            <option value="">Select Zone</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Delivery Area</th>
+                                    <td>
+                                        <select name="area_id" id="area_id" class="form-control js-select2" required>
+                                            <option value="">Select Area</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Recipient Address <small class="text-danger">*</small></th>
+                                    <td>
+                                        <input type="text" class="form-control" name="address"
+                                            value="{{ $order->customer->address }}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>COD Amount <small class="text-danger">*</small></th>
+                                    <td>
+                                        <input type="text" class="form-control" name="note"
+                                            value="{{ $order->total }}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Important Note<small class="text-mute">(Optional)</small></th>
+                                    <td>
+                                        <input type="text" class="form-control" name="invoice_id"
+                                            value="{{ $order->order_note }}">
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="mb-2 text-center">
+                                <button id="submitBtn" class="btn btn-primary w-25 mx-2" type="submit">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+@endsection
+@push('footer_scripts')
+    <script>
+        // Select2
+        One.helpersOnLoad(['jq-select2']);
+    </script>
+    <script src="{{ asset('assets') }}/js/plugins/select2/js/select2.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+        integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Load cities on page load
+            $.ajax({
+                url: '{{ route('admin.deliver.pathao.cities') }}',
+                type: 'GET',
+                beforeSend: function() {
+                    $('#city_id').html('<option>Loading cities...</option>');
+                },
+                success: function(data) {
+                    var options = '<option value="">Select City</option>';
+                    $.each(data, function(key, city) {
+                        options += '<option value="' + city.city_id + '">' + city.city_name
+                            .trim() + '</option>';
+                    });
+                    $('#city_id').html(options);
+                },
+                error: function() {
+                    $('#city_id').html('<option value="">Failed to load cities</option>');
+                }
+            });
+
+            // Load zones when city is selected
+            $('#city_id').on('change', function() {
+                var cityId = $(this).val();
+                $('#zone_id').html('<option>Loading...</option>');
+                $('#area_id').html('<option>Select Area</option>');
+
+                if (cityId) {
+                    $.ajax({
+                        url: '/admin/deliver/pathao/zones/' + cityId,
+                        type: 'GET',
+                        success: function(data) {
+                            var options = '<option value="">Select Zone</option>';
+                            // $.each(data, function(index, zone) {
+                            //     options += '<option value="' + zone.zone_id + '">' +
+                            //         zone.zone_name + '</option>';
+                            // });
+                            $.each(data, function(index, zone) {
+                                options += '<option value="' + zone.zone_id + '">' +
+                                    zone.zone_name + '</option>';
+                            });
+                            $('#zone_id').html(options);
+                        }
+                    });
+                }
+            });
+
+            // Load areas when zone is selected
+            $('#zone_id').on('change', function() {
+                var zoneId = $(this).val();
+                $('#area_id').html('<option>Loading...</option>');
+
+                if (zoneId) {
+                    $.ajax({
+                        url: '/admin/deliver/pathao/areas/' + zoneId,
+                        type: 'GET',
+                        success: function(data) {
+                            var options = '<option value="">Select Area</option>';
+                            $.each(data, function(index, area) {
+                                options += '<option value="' + area.area_id + '">' +
+                                    area.area_name + '</option>';
+                            });
+                            $('#area_id').html(options);
+                        }
+                    });
+                }
+            });
+        });
+
+        $('form').on('submit', function() {
+            var btn = $('#submitBtn');
+            btn.prop('disabled', true);
+            btn.html(`
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                Processing...
+            `);
+        });
+    </script>
+@endpush

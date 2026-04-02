@@ -35,8 +35,7 @@
 </head>
 
 <body>
-    <div id="page-container"
-        class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed ">
+    <div id="page-container" class="sidebar-o sidebar-dark enable-page-overlay side-scroll page-header-fixed ">
 
         @include('backend.layouts.partials.sidebar')
         @include('backend.layouts.partials.header')
