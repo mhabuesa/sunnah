@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\DeliveryMethod;
 use App\Models\Order;
 use App\Services\PathaoService;
+use App\Services\RedxService;
 use App\Services\SteadfastService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use SteadFast\SteadFastCourierLaravelPackage\Facades\SteadfastCourier;
 
 class DeliveryController extends Controller
 {
@@ -20,6 +18,27 @@ class DeliveryController extends Controller
         $this->pathao = new PathaoService();
     }
 
+    // public function steadfast_details($id)
+    // {
+    //     $order = Order::with('customer')->where('id', $id)->first();
+    //     $method = 'steadfast';
+    //     return view('backend.delivery.steadfast', compact('order', 'method'));
+    // }
+
+    // public function pathao_details($id)
+    // {
+    //     $order = Order::with('customer')->where('id', $id)->first();
+    //     $method = 'pathao';
+    //     return view('backend.delivery.pathao', compact('order', 'method'));
+    // }
+
+    // public function redx_details($id)
+    // {
+    //     $order = Order::with('customer')->where('id', $id)->first();
+    //     $method = 'redx';
+    //     return view('backend.delivery.redx', compact('order', 'method'));
+    // }
+    
     public function details($method, $id)
     {
         $order = Order::with('customer')->where('id', $id)->first();
@@ -44,7 +63,7 @@ class DeliveryController extends Controller
             'recipient_phone' => $order->customer->phone,
             'recipient_address' => $order->customer->address,
             'cod_amount' => $order->total,
-            'note' => $request->note, // optional
+            'note' => $request->note,
         ];
 
         $steadfast =  new SteadfastService();
@@ -89,7 +108,7 @@ class DeliveryController extends Controller
         $method = 'pathao';
 
 
-        $order = Order::findOrFail($id); // order fetch
+        $order = Order::findOrFail($id);
 
         $deliveryMethod = DeliveryMethod::where('name', $method)->firstOrFail();
 
@@ -110,7 +129,6 @@ class DeliveryController extends Controller
         ]);
 
 
-        // ✅ Check success
         if (isset($response['code']) && $response['code'] == 200) {
 
             $order->delivery_method =  $method;
@@ -126,5 +144,55 @@ class DeliveryController extends Controller
                 $response['message'] ?? 'Pathao order failed'
             );
         }
+    }
+
+    public function redx_areas()
+    {
+        $service = new RedxService();
+        $response = $service->getAreas();
+
+        return response()->json($response['areas'] ?? []);
+    }
+
+    public function redx_submit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required',
+            'area_id' => 'required',
+            'area_name' => 'required',
+            'address' => 'required',
+            'cod' => 'required',
+            'weight' => 'required',
+        ]);
+
+        $order = Order::findOrFail($id);
+
+        $data = [
+            "customer_name" => $request->name,
+            "customer_phone" => $request->phone,
+            "delivery_area" => $request->area_name,
+            "delivery_area_id" => (int)$request->area_id,
+            "customer_address" => $request->address,
+            "merchant_invoice_id" => $order->invoice_no,
+            "cash_collection_amount" => $request->cod,
+            "parcel_weight" => (int)$request->weight,
+            "value" => $request->cod,
+            "instruction" => "N/A",
+        ];
+
+        $service = new RedxService();
+        $response = $service->createOrder($data);
+
+        if (isset($response['tracking_id'])) {
+            $order->delivery_method =  'redx';
+            $order->delivery_cons_id = $response['tracking_id'];
+            $order->order_status = 'out_for_delivery';
+            $order->save();
+
+            return redirect()->back()->with('success', 'Order sent to Redx successfully!');
+        }
+
+        return back()->with('error', 'Failed to create parcel');
     }
 }

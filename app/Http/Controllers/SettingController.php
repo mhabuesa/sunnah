@@ -9,6 +9,7 @@ use App\Traits\ImageSaveTrait;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class SettingController extends Controller
 {
@@ -138,6 +139,20 @@ class SettingController extends Controller
     public function delivery_setting()
     {
         $delivery = DeliveryMethod::all()->keyBy('name');
+
+        $methods = ['steadfast', 'pathao', 'redx'];
+
+        foreach ($methods as $method) {
+            $delivery[$method] = $delivery[$method] ?? new \App\Models\DeliveryMethod([
+                'name' => $method,
+                'status' => 0,
+                'config' => [
+                    'base_url' => '',
+                    'token' => ''
+                ]
+            ]);
+        }
+
         return view('backend.settings.delivery', compact('delivery'));
     }
 
@@ -189,5 +204,73 @@ class SettingController extends Controller
         );
 
         return redirect()->back()->with('success', 'Pathao Delivery Updated');
+    }
+
+    public function redx(Request $request)
+    {
+        $request->validate([
+            'base_url' => 'required',
+            'token' => 'required',
+        ]);
+
+        DeliveryMethod::updateOrCreate(
+            ['name' => 'redx'],
+            [
+                'config' => [
+                    'base_url' =>  $request->base_url,
+                    'token' =>  $request->token,
+                ]
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Redx Delivery Updated');
+    }
+
+    public function steadfast_status()
+    {
+        $status = DeliveryMethod::where('name', 'steadfast')->first();
+        try {
+            // Update category status
+            $status->update([
+                'status' => $status->status == '1' ? '0' : '1',
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'Steadfast status Updated Successfully'], 200);
+    }
+
+    public function pathao_status()
+    {
+        $status = DeliveryMethod::where('name', 'pathao')->first();
+        try {
+            // Update category status
+            $status->update([
+                'status' => $status->status == '1' ? '0' : '1',
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'Pathao status Updated Successfully'], 200);
+    }
+
+    public function redx_status()
+    {
+        $status = DeliveryMethod::where('name', 'redx')->first();
+        try {
+            // Update category status
+            $status->update([
+                'status' => $status->status == '1' ? '0' : '1',
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'Redx status Updated Successfully'], 200);
     }
 }

@@ -133,17 +133,26 @@
 
             Route::get('/app/delivery', 'delivery_setting')->name('app.delivery');
             Route::post('/app/delivery/steadfast', 'steadfast')->name('app.delivery.steadfast');
+            Route::post('/app/delivery/steadfast/status', 'steadfast_status')->name('app.delivery.steadfast.status');
             Route::post('/app/delivery/pathao', 'pathao')->name('app.delivery.pathao');
+            Route::post('/app/delivery/pathao/status', 'pathao_status')->name('app.delivery.pathao.status');
+            Route::post('/app/delivery/redx', 'redx')->name('app.delivery.redx');
+            Route::post('/app/delivery/redx/status', 'redx_status')->name('app.delivery.redx.status');
         });
 
         //Delivery Routes
         Route::controller(DeliveryController::class)->name('deliver.')->prefix('deliver')->group(function () {
+            // Route::get('/details/steadfast/{id}', 'steadfast_details')->name('steadfast.details');
+            // Route::get('/details/pathao/{id}', 'pathao_details')->name('pathao.details');
+            // Route::get('/details/redx/{id}', 'redx_details')->name('redx.details');
             Route::get('/details/{method}/{id}', 'details')->name('details');
             Route::post('/steadfast/submit', 'steadfast_submit')->name('steadfast.submit');
             Route::get('/pathao/cities', 'getCities')->name('pathao.cities');
             Route::get('/pathao/zones/{city_id}', 'getZones')->name('pathao.zones');
             Route::get('/pathao/areas/{zone_id}', 'getAreas')->name('pathao.areas');
             Route::post('/pathao/submit/{id}', 'pathao_submit')->name('pathao.submit');
+            Route::get('/redx/areas', 'redx_areas')->name('redx.areas');
+            Route::post('/redx/submit/{id}', 'redx_submit')->name('redx.submit');
         });
 
 

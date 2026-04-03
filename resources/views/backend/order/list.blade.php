@@ -385,31 +385,4 @@
 
             });
         </script>
-
-        {{-- <script>
-            document.querySelectorAll('.deliveryToggle').forEach((btn) => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-
-                    const menu = this.parentElement.querySelector('.deliveryMenu');
-
-                    // Close all other dropdowns
-                    document.querySelectorAll('.deliveryMenu').forEach((m) => {
-                        if (m !== menu) {
-                            m.classList.remove('show');
-                        }
-                    });
-
-                    // Toggle current dropdown
-                    menu.classList.toggle('show');
-                });
-            });
-
-            // Click outside -> close সব
-            document.addEventListener('click', function() {
-                document.querySelectorAll('.deliveryMenu').forEach((m) => {
-                    m.classList.remove('show');
-                });
-            });
-        </script> --}}
     @endpush

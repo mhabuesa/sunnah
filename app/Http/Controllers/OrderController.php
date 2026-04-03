@@ -81,7 +81,7 @@ class OrderController extends Controller
 
         $orders = $query->paginate(10);
 
-        $delivery = DeliveryMethod::all()->keyBy('name');
+        $delivery = DeliveryMethod::where('status', '1')->get();
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('backend.order.order_table', compact('orders','delivery'))->render(),
