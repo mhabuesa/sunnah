@@ -32,14 +32,14 @@ class DeliveryController extends Controller
         }
     }
 
-    public function steadfast_submit(Request $request, $id)
+    public function steadfast_submit(Request $request)
     {
 
         // dd($request->all());
         $method = 'steadfast';
+        $order_id = $request->order_id;
 
-
-        $order = Order::findOrFail($id); // order fetch
+        $order = Order::findOrFail($order_id); // order fetch
 
 
         // $orderData = [
