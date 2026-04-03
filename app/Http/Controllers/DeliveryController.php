@@ -63,6 +63,8 @@ class DeliveryController extends Controller
         $service = new SteadfastService();
         $response = $service->createOrder($orderData);
 
+        dd($response);
+
         if (isset($response['status']) && $response['status'] === 'success') {
             $order->delivery_method = $method;
             $order->order_status = 'out_for_delivery';
