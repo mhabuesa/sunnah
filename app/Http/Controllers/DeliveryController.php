@@ -35,37 +35,34 @@ class DeliveryController extends Controller
 
     public function steadfast_submit(Request $request)
     {
-        // Dummy order data (from doc example)
+
+        $order_id = $request->order_id;
+        $order = Order::find($order_id);
         $orderData = [
-            'invoice' => 'Aa12-das4',
-            'recipient_name' => 'John Smith',
-            'recipient_phone' => '01714567890',
-            'alternative_phone' => '01712345678',
-            'recipient_email' => 'john@example.com',
-            'recipient_address' => "Fla# A1, House# 17/1, Road# 3/A, Dhanmondi, Dhaka-1209",
-            'cod_amount' => 1060,
-            'note' => 'Deliver within 3 PM',
-            'item_description' => '2x T-shirt, 1x Jeans',
-            'total_lot' => 3,
-            'delivery_type' => 0,
+            'invoice' => $order->invoice_id,
+            'recipient_name' => $order->customer->name,
+            'recipient_phone' => $order->customer->phone,
+            'recipient_address' => $order->customer->address,
+            'cod_amount' => $order->total,
+            'note' => $request->note, // optional
         ];
 
         $steadfast =  new SteadfastService();
         $response = $steadfast->createOrder($orderData);
 
-        dd($response);
-        // Debug & logging
-        if ($response->failed()) {
-            Log::error('Steadfast API Error', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-
-            return back()->with('error', 'Steadfast API failed: ' . $response->body());
+        if (!isset($response['status']) || $response['status'] != 200) {
+            $errors = $response['errors'] ?? [];
+            $errorMessages = collect($errors)->flatten()->implode(', ');
+            return redirect()->back()->with('error', $errorMessages ?: 'Failed to place order.');
         }
 
-        $data = $response->json();
-        return back()->with('success', 'Order placed successfully! Tracking Code: ' . ($data['consignment']['tracking_code'] ?? 'N/A'));
+        $order->update([
+            'order_status' => 'out_for_delivery',
+            'delivery_cons_id' => $response['consignment']['tracking_code'],
+            'delivery_method' => 'steadfast',
+        ]);
+
+        return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Steadfast successfully!');
     }
 
     public function getCities()

@@ -36,8 +36,6 @@ class SteadfastService
         if ($response->failed()) {
             Log::error('Steadfast API Error: ' . $response->body());
         }
-
-        dd($response);
         return $response->json();
     }
 }
