@@ -39,7 +39,7 @@ class DeliveryController extends Controller
         $order_id = $request->order_id;
         $order = Order::find($order_id);
         $orderData = [
-            'invoice' => $order->invoice_id,
+            'invoice' => $order->invoice_no,
             'recipient_name' => $order->customer->name,
             'recipient_phone' => $order->customer->phone,
             'recipient_address' => $order->customer->address,
