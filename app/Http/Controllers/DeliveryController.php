@@ -39,7 +39,7 @@ class DeliveryController extends Controller
         $orderData = [
             'invoice' => 'Aa12-das4',
             'recipient_name' => 'John Smith',
-            'recipient_phone' => '01234567890',
+            'recipient_phone' => '01714567890',
             'alternative_phone' => '01712345678',
             'recipient_email' => 'john@example.com',
             'recipient_address' => "Fla# A1, House# 17/1, Road# 3/A, Dhanmondi, Dhaka-1209",
@@ -50,13 +50,7 @@ class DeliveryController extends Controller
             'delivery_type' => 0,
         ];
 
-        // API call
-        $response = Http::withHeaders([
-            'Api-Key' => env('STEADFAST_API_KEY'),
-            'Secret-Key' => env('STEADFAST_SECRET_KEY'),
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ])->post('https://portal.steadfast.com.bd/api/v1/create_order', $orderData);
+       $response = SteadfastCourier::placeOrder($orderData);
 
         // Debug & logging
         if ($response->failed()) {
