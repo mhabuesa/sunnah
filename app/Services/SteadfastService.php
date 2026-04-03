@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\DeliveryMethod;
 use Illuminate\Support\Facades\Http;
 
 class SteadfastService
@@ -9,50 +10,29 @@ class SteadfastService
     protected $apiKey;
     protected $secretKey;
     protected $baseUrl;
+    protected $config;
 
-    public function __construct($config)
+    public function __construct()
     {
-        $this->apiKey = $config['api_key'];
-        $this->secretKey = $config['secret_key'];
-        $this->baseUrl = $config['base_url'];
-    }
+        // Service modhye config fetch kora
+        $deliveryMethod = DeliveryMethod::where('name', 'steadfast')->firstOrFail();
+        $this->config = $deliveryMethod->config;
 
-    protected function client()
-    {
-        return Http::withHeaders([
-            'Api-Key' => $this->apiKey,
-            'Secret-Key' => $this->secretKey,
-            'Content-Type' => 'application/json'
-        ]);
+        $this->apiKey = $this->config['api_key'];
+        $this->secretKey = $this->config['secret_key'];
+        $this->baseUrl = $this->config['base_url'];
     }
 
     // 📦 Create Order
     public function createOrder($data)
     {
-        // $response = $this->client()
-        //     ->post($this->baseUrl . '/create_order', $data);
 
-        // dd([
-        //     'data_sent' => $data,
-        //     'status' => $response->status(),
-        //     'body' => $response->body(),
-        // ]);
+        $response = Http::withHeaders([
+            'Api-Key' => $this->apiKey,
+            'Secret-Key' => $this->secretKey,
+            'Content-Type' => 'application/json',
+        ])->post($this->baseUrl . '/create_order', $data);
 
-        $response = $this->client()->post($this->baseUrl . '/create_order', $data);
-
-        dd([
-            'sent' => $data,
-            'status' => $response->status(),
-            'body' => substr($response->body(), 0, 500), // limit
-        ]);
-
-
-        // return $this->client()->post($this->baseUrl . '/create_order', $data)->json();
-    }
-
-    // 🔍 Track Order
-    public function trackOrder($trackingCode)
-    {
-        return $this->client()->get($this->baseUrl . '/status_by_cid/' . $trackingCode)->json();
+        return $response->json();
     }
 }

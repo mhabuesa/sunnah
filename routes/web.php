@@ -139,7 +139,7 @@
         //Delivery Routes
         Route::controller(DeliveryController::class)->name('deliver.')->prefix('deliver')->group(function () {
             Route::get('/details/{method}/{id}', 'details')->name('details');
-            Route::post('/steadfast/submit/{id}', 'steadfast_submit')->name('steadfast.submit');
+            Route::post('/steadfast/submit', 'steadfast_submit')->name('steadfast.submit');
             Route::get('/pathao/cities', 'getCities')->name('pathao.cities');
             Route::get('/pathao/zones/{city_id}', 'getZones')->name('pathao.zones');
             Route::get('/pathao/areas/{zone_id}', 'getAreas')->name('pathao.areas');

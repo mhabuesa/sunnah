@@ -198,13 +198,21 @@
             });
         });
 
-        $('form').on('submit', function() {
+
+        $('form').on('submit', function(e) {
+
+            // browser validation check
+            if (!this.checkValidity()) {
+                return;
+            }
+
+
             var btn = $('#submitBtn');
             btn.prop('disabled', true);
             btn.html(`
-                <span class="spinner-border spinner-border-sm" role="status"></span>
-                Processing...
-            `);
+            <span class="spinner-border spinner-border-sm" role="status"></span>
+            Processing...
+        `);
         });
     </script>
 @endpush

@@ -32,11 +32,11 @@
                                 data-bs-toggle="dropdown">
                                 <i class="fa-solid fa-truck-arrow-right"></i>
                             </button> --}}
-                            <button type="button" class="btn btn-secondary dropdown-toggle deliveryToggle">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
                                 <i class="fa-solid fa-truck-arrow-right"></i>
                             </button>
 
-                            <div class="dropdown-menu fs-sm deliveryMenu">
+                            <div class="dropdown-menu fs-sm deliveryMenu" >
                                 @foreach ($delivery as $method)
                                     <a href="{{ route('admin.deliver.details', ['method' => urlencode($method->name), 'id' => $order->id]) }}"
                                         class="btn btn-alt-secondary dropdown-item text-capitalize">

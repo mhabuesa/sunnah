@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Services\PathaoService;
 use App\Services\SteadfastService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use SteadFast\SteadFastCourierLaravelPackage\Facades\SteadfastCourier;
 
 class DeliveryController extends Controller
 {
@@ -39,38 +41,31 @@ class DeliveryController extends Controller
 
         $order = Order::findOrFail($id); // order fetch
 
-        $deliveryMethod = DeliveryMethod::where('name', $method)->firstOrFail();
-        $service = new SteadfastService($deliveryMethod->config);
 
+        // $orderData = [
+        //     "invoice" => $order->invoice_no,
+        //     "recipient_name" => $request->name,
+        //     "recipient_phone" => $request->phone,
+        //     "recipient_address" => $request->address,
+        //     "cod_amount" => $request->amount,
+        //     "note" => $request->note,
+        // ];
 
-        $data = [
-            "invoice" => (string) $order->invoice_no,
-            "recipient_name" => $request->name,
-            "recipient_phone" => $request->phone,
-            "recipient_address" => $request->address,
-            "cod_amount" => (int) $request->amount,
-            "note" => $request->note ?? null,
+        $orderData = [
+            'invoice' => $order->invoice_no,
+            'recipient_name' => 'John Doe',
+            'recipient_phone' => '01234567890',
+            'recipient_address' => 'Fla# A1,House# 17/1, Road# 3/A, Dhanmondi,Dhaka-1209',
+            'cod_amount' => 1000,
+            'note' => 'Handle with care'
         ];
 
-        // Check required fields (exclude 'note')
-        $requiredFields = collect($data)->except('note');
-
-        if ($requiredFields->contains(null)) {
-            return redirect()->back()->with('error', 'Order data is incomplete.');
-        }
-
-        $response = $service->createOrder($data);
-
-        if (!isset($response['status']) || $response['status'] != 200) {
-            $errors = $response['errors'] ?? [];
-            $errorMessages = collect($errors)->flatten()->implode(', ');
-            return redirect()->back()->with('error', $errorMessages ?: 'Failed to place order.');
-        }
-
-        dd($response);
+        $service = new SteadfastService();
+        $response = $service->createOrder($orderData);
 
         if (isset($response['status']) && $response['status'] === 'success') {
             $order->delivery_method = $method;
+            $order->order_status = 'out_for_delivery';
             $order->delivery_cons_id = $response['consignment']['tracking_code'];
             $order->save();
             return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Steadfast successfully!');
@@ -127,9 +122,9 @@ class DeliveryController extends Controller
         // ✅ Check success
         if (isset($response['code']) && $response['code'] == 200) {
 
-            $order->delivery_method = 'pathao';
+            $order->delivery_method =  $method;
             $order->delivery_cons_id = $response['data']['consignment_id'];
-            $order->order_status = 'delivered';
+            $order->order_status = 'out_for_delivery';
             $order->save();
 
             return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Pathao successfully!');

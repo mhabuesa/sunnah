@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'App Setting')
+@section('title', 'Steadfast Delivery')
 @push('style')
     <link rel="stylesheet" href="{{ asset('assets') }}/js/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
@@ -15,7 +15,8 @@
     <div class="text-center text-md-start">
         <div class="flex-grow-1 mb-1 mb-md-0">
             <h1 class="m-3 h4 fw-bold mb-2">
-                <i class="fa-solid fa-truck-arrow-right"></i> Transfer to <span class="text-capitalize">{{$method}}</span>
+                <i class="fa-solid fa-truck-arrow-right"></i> Transfer to <span
+                    class="text-capitalize">{{ $method }}</span>
             </h1>
         </div>
     </div>
@@ -24,7 +25,7 @@
 
         <div class="row">
             <div class="col-lg-10 m-auto mt-2">
-                <form action="{{route('admin.deliver.steadfast.submit', $order->id)}}" method="POST">
+                <form action="{{ route('admin.deliver.steadfast.submit') }}" method="POST">
                     @csrf
                     <div class="block block-rounded border">
                         <div class="block-header block-header-default">
@@ -35,42 +36,49 @@
                                 <tr>
                                     <th>Invoice ID</th>
                                     <td>
-                                        <input type="text" class="form-control" name="invoice_id" value="{{$order->invoice_no}}" readonly>
+                                        <input type="text" class="form-control" name="invoice_id"
+                                            value="{{ $order->invoice_no }}" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Recipient Name <small class="text-danger">*</small></th>
                                     <td>
-                                        <input type="text" class="form-control" name="name" value="{{$order->customer->name}}">
+                                        <input type="text" class="form-control" name="name"
+                                            value="{{ $order->customer->name }}" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Recipient Phone <small class="text-danger">*</small></th>
                                     <td>
-                                        <input type="text" class="form-control" name="phone" value="{{$order->customer->phone}}">
+                                        <input type="text" class="form-control" name="phone"
+                                            value="{{ $order->customer->phone }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Recipient Address <small class="text-danger">*</small></th>
                                     <td>
-                                        <input type="text" class="form-control" name="address" value="{{$order->customer->address}}">
+                                        <input type="text" class="form-control" name="address"
+                                            value="{{ $order->customer->address }}">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>COD Amount <small class="text-danger">*</small></th>
                                     <td>
-                                        <input type="text" class="form-control" name="amount" value="{{$order->total}}" readonly>
+                                        <input type="text" class="form-control" name="amount"
+                                            value="{{ $order->total }}" readonly>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Important Note<small class="text-mute">(Optional)</small></th>
                                     <td>
-                                        <input type="text" class="form-control" name="note" value="{{$order->order_note}}">
+                                        <input type="text" class="form-control" name="note"
+                                            value="{{ $order->order_note }}">
                                     </td>
                                 </tr>
+                                <input type="hidden" name="order_id" value="{{$order->id}}">
                             </table>
                             <div class="mb-2 text-center">
-                                <button class="btn btn-primary w-25 mx-2" type="submit">Submit</button>
+                                <button class="btn btn-primary w-25 mx-2" id="submitBtn" type="submit">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -90,4 +98,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
         integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $('form').on('submit', function(e) {
+
+            // browser validation check
+            if (!this.checkValidity()) {
+                return;
+            }
+
+
+            var btn = $('#submitBtn');
+            btn.prop('disabled', true);
+            btn.html(`
+            <span class="spinner-border spinner-border-sm" role="status"></span>
+            Processing...
+        `);
+        });
+    </script>
 @endpush

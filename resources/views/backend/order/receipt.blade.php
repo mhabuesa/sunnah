@@ -174,6 +174,10 @@
                     <td class="text-right">Discount:</td>
                     <td class="text-right">(-) {{ $order->discount_amount + $order->extra_discount }}</td>
                 </tr>
+                <tr>
+                    <td class="text-right">Shipping Cost:</td>
+                    <td class="text-right">(+) {{ $order->shipping_cost }}</td>
+                </tr>
                 <tr class="grand-total">
                     <td class="text-right bold">Total:</td>
                     <td class="text-right bold">৳ {{ $order->total }}</td>
