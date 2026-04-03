@@ -37,7 +37,7 @@ class SteadfastService
             Log::error('Steadfast API Error: ' . $response->body());
         }
 
-        dd($response->json());
+        dd($response);
         return $response->json();
     }
 }
