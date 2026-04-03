@@ -60,20 +60,27 @@ class DeliveryController extends Controller
             'note' => 'Handle with care'
         ];
 
-        $service = new SteadfastService();
-        $response = $service->createOrder($orderData);
-
-        dd($response);
-
-        if (isset($response['status']) && $response['status'] === 'success') {
-            $order->delivery_method = $method;
-            $order->order_status = 'out_for_delivery';
-            $order->delivery_cons_id = $response['consignment']['tracking_code'];
-            $order->save();
-            return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Steadfast successfully!');
-        } else {
-            return redirect()->back()->with('error', 'Failed to create order: ' . $response['message'] ?? 'Unknown error');
+        $response = SteadfastCourier::placeOrder($orderData);
+        if (!isset($response['status']) || $response['status'] != 200) {
+            $errors = $response['errors'] ?? [];
+            $errorMessages = collect($errors)->flatten()->implode(', ');
+            return redirect()->back()->with('error', $errorMessages ?: 'Failed to place order.');
         }
+
+        // $service = new SteadfastService();
+        // $response = $service->createOrder($orderData);
+
+        // dd($response);
+
+        // if (isset($response['status']) && $response['status'] === 'success') {
+        //     $order->delivery_method = $method;
+        //     $order->order_status = 'out_for_delivery';
+        //     $order->delivery_cons_id = $response['consignment']['tracking_code'];
+        //     $order->save();
+        //     return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Steadfast successfully!');
+        // } else {
+        //     return redirect()->back()->with('error', 'Failed to create order: ' . $response['message'] ?? 'Unknown error');
+        // }
     }
 
     public function getCities()
