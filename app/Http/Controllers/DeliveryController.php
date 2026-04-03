@@ -8,6 +8,7 @@ use App\Services\PathaoService;
 use App\Services\SteadfastService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use SteadFast\SteadFastCourierLaravelPackage\Facades\SteadfastCourier;
 
 class DeliveryController extends Controller
@@ -34,53 +35,41 @@ class DeliveryController extends Controller
 
     public function steadfast_submit(Request $request)
     {
-
-        // dd($request->all());
-        $method = 'steadfast';
-        $order_id = $request->order_id;
-
-        $order = Order::findOrFail($order_id); // order fetch
-
-
-        // $orderData = [
-        //     "invoice" => $order->invoice_no,
-        //     "recipient_name" => $request->name,
-        //     "recipient_phone" => $request->phone,
-        //     "recipient_address" => $request->address,
-        //     "cod_amount" => $request->amount,
-        //     "note" => $request->note,
-        // ];
-
+        // Dummy order data (from doc example)
         $orderData = [
-            'invoice' => $order->invoice_no,
-            'recipient_name' => 'John Doe',
+            'invoice' => 'Aa12-das4',
+            'recipient_name' => 'John Smith',
             'recipient_phone' => '01234567890',
-            'recipient_address' => 'Fla# A1,House# 17/1, Road# 3/A, Dhanmondi,Dhaka-1209',
-            'cod_amount' => 1000,
-            'note' => 'Handle with care'
+            'alternative_phone' => '01712345678',
+            'recipient_email' => 'john@example.com',
+            'recipient_address' => "Fla# A1, House# 17/1, Road# 3/A, Dhanmondi, Dhaka-1209",
+            'cod_amount' => 1060,
+            'note' => 'Deliver within 3 PM',
+            'item_description' => '2x T-shirt, 1x Jeans',
+            'total_lot' => 3,
+            'delivery_type' => 0,
         ];
 
-        $response = SteadfastCourier::placeOrder($orderData);
-        if (!isset($response['status']) || $response['status'] != 200) {
-            $errors = $response['errors'] ?? [];
-            $errorMessages = collect($errors)->flatten()->implode(', ');
-            return redirect()->back()->with('error', $errorMessages ?: 'Failed to place order.');
+        // API call
+        $response = Http::withHeaders([
+            'Api-Key' => env('STEADFAST_API_KEY'),
+            'Secret-Key' => env('STEADFAST_SECRET_KEY'),
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->post('https://portal.steadfast.com.bd/api/v1/create_order', $orderData);
+
+        // Debug & logging
+        if ($response->failed()) {
+            Log::error('Steadfast API Error', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return back()->with('error', 'Steadfast API failed: ' . $response->body());
         }
 
-        // $service = new SteadfastService();
-        // $response = $service->createOrder($orderData);
-
-        // dd($response);
-
-        // if (isset($response['status']) && $response['status'] === 'success') {
-        //     $order->delivery_method = $method;
-        //     $order->order_status = 'out_for_delivery';
-        //     $order->delivery_cons_id = $response['consignment']['tracking_code'];
-        //     $order->save();
-        //     return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Steadfast successfully!');
-        // } else {
-        //     return redirect()->back()->with('error', 'Failed to create order: ' . $response['message'] ?? 'Unknown error');
-        // }
+        $data = $response->json();
+        return back()->with('success', 'Order placed successfully! Tracking Code: ' . ($data['consignment']['tracking_code'] ?? 'N/A'));
     }
 
     public function getCities()
