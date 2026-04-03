@@ -14,18 +14,13 @@ class SteadfastService
 
     public function __construct()
     {
-        // Settings database theke nite ekti default ba try-catch use kora bhalo
         $deliveryMethod = DeliveryMethod::where('name', 'steadfast')->first();
-
-        if (!$deliveryMethod) {
-            throw new \Exception("Steadfast delivery method not configured in database.");
-        }
 
         $config = $deliveryMethod->config;
 
         $this->apiKey = $config['api_key'] ?? '';
         $this->secretKey = $config['secret_key'] ?? '';
-        $this->baseUrl = rtrim($config['base_url'], '/'); // Shesh-er slash remove korbe
+        $this->baseUrl = $config['base_url']; 
     }
 
     // 📦 Create Order

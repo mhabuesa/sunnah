@@ -50,9 +50,10 @@ class DeliveryController extends Controller
             'delivery_type' => 0,
         ];
 
-       $response = SteadfastCourier::placeOrder($orderData);
+        $steadfast =  new SteadfastService();
+        $response = $steadfast->createOrder($orderData);
 
-       dd($response);
+        dd($response);
         // Debug & logging
         if ($response->failed()) {
             Log::error('Steadfast API Error', [
