@@ -118,6 +118,7 @@
             Route::post('/update/{id}', 'update')->name('update');
             Route::get('/printReceipt/{id}', 'printReceipt')->name('printReceipt');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::get('/bulkPrint', 'bulkPrint')->name('bulkPrint');
         });
 
         //Settings Routes
@@ -142,9 +143,6 @@
 
         //Delivery Routes
         Route::controller(DeliveryController::class)->name('deliver.')->prefix('deliver')->group(function () {
-            // Route::get('/details/steadfast/{id}', 'steadfast_details')->name('steadfast.details');
-            // Route::get('/details/pathao/{id}', 'pathao_details')->name('pathao.details');
-            // Route::get('/details/redx/{id}', 'redx_details')->name('redx.details');
             Route::get('/details/{method}/{id}', 'details')->name('details');
             Route::post('/steadfast/submit', 'steadfast_submit')->name('steadfast.submit');
             Route::get('/pathao/cities', 'getCities')->name('pathao.cities');

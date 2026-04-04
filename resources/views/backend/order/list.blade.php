@@ -196,6 +196,8 @@
                             <table class="table table-vcenter">
                                 <thead>
                                     <tr>
+                                        <th><input id="select_all" type="checkbox" class="form-check-input me-2"> <label
+                                                for="select_all">Select All</label> </th>
                                         <th>SL</th>
                                         <th>Order ID</th>
                                         <th>Order Date</th>
@@ -209,6 +211,15 @@
                                 <tbody id="orderContainer">
                                     {{-- AJAX load --}}
                                 </tbody>
+                                <tfoot>
+                                    <td colspan="9">
+                                        <button id="printSelected" class="btn btn-primary btn-sm">
+                                            <span class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                                                aria-hidden="true"></span>
+                                            <span class="btn-text">Print Selected</span>
+                                        </button>
+                                    </td>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="block-content block-content-full py-0">
@@ -383,6 +394,72 @@
                     $('#filterForm').slideUp();
                 });
 
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+
+                // Select All click
+                $('#select_all').on('change', function() {
+                    $('.selectRow').prop('checked', $(this).prop('checked'));
+                });
+
+                // Individual checkbox change
+                $(document).on('change', '.selectRow', function() {
+
+                    // total checkbox count
+                    let total = $('.selectRow').length;
+
+                    // checked checkbox count
+                    let checked = $('.selectRow:checked').length;
+
+                    // if all checked → select_all checked
+                    if (total === checked) {
+                        $('#select_all').prop('checked', true);
+                    } else {
+                        $('#select_all').prop('checked', false);
+                    }
+                });
+
+            });
+        </script>
+
+        <script>
+            $('#printSelected').on('click', function() {
+
+                let ids = [];
+                $('.selectRow:checked').each(function() {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length === 0) {
+                    showToast('Please select at least one order', 'error');
+                    return;
+                }
+
+                let $button = $(this);
+                let $spinner = $button.find('.spinner-border');
+                let $btnText = $button.find('.btn-text');
+
+                // Show spinner
+                $spinner.removeClass('d-none');
+                $btnText.text('Processing...');
+                $button.prop('disabled', true);
+
+                // create hidden iframe
+                let iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+
+                // When iframe loads, hide spinner
+                iframe.onload = function() {
+                    $spinner.addClass('d-none');
+                    $btnText.text('Print Selected');
+                    $button.prop('disabled', false);
+                };
+
+                iframe.src = "{{ route('admin.orders.bulkPrint') }}?ids=" + ids.join(',');
+                document.body.appendChild(iframe);
             });
         </script>
     @endpush

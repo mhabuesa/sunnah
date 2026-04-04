@@ -32,6 +32,7 @@ return new class extends Migration
             $table->text('order_note')->nullable();
             $table->string('order_status')->default('pending');
             $table->boolean('is_seen')->default(0);
+            $table->dateTime('scheduled_at')->nullable();
             $table->timestamps();
 
             // =========================

@@ -38,7 +38,7 @@ class DeliveryController extends Controller
     //     $method = 'redx';
     //     return view('backend.delivery.redx', compact('order', 'method'));
     // }
-    
+
     public function details($method, $id)
     {
         $order = Order::with('customer')->where('id', $id)->first();
@@ -190,7 +190,7 @@ class DeliveryController extends Controller
             $order->order_status = 'out_for_delivery';
             $order->save();
 
-            return redirect()->back()->with('success', 'Order sent to Redx successfully!');
+            return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Redx successfully!');
         }
 
         return back()->with('error', 'Failed to create parcel');

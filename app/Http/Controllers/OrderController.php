@@ -84,10 +84,10 @@ class OrderController extends Controller
         $delivery = DeliveryMethod::where('status', '1')->get();
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('backend.order.order_table', compact('orders','delivery'))->render(),
+                'html' => view('backend.order.order_table', compact('orders', 'delivery'))->render(),
                 'pagination' => (string) $orders->links('pagination::bootstrap-5')
             ]);
-        }       
+        }
 
         return view('backend.pos.orders', compact('orders'));
     }
@@ -206,6 +206,7 @@ class OrderController extends Controller
             'payment_method' => $request->payment_method,
             'payment_status' => $request->payment_status,
             'order_status' => $request->order_status,
+            'scheduled_at' => $request->scheduled_at,
         ]);
         return redirect()->back()->with('success', 'Order Update Successful');
     }
@@ -244,5 +245,12 @@ class OrderController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Order Deleted Successfully'], 200);
+    }
+
+    public function bulkPrint(Request $request)
+    {
+        $ids = explode(',', $request->ids);
+        $orders = Order::whereIn('id', $ids)->get();
+        return view('backend.order.bulk_print', compact('orders'));
     }
 }

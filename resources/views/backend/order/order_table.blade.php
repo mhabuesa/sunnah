@@ -1,5 +1,6 @@
         @forelse ($orders as $key => $order)
             <tr>
+                <td><input type="checkbox" class="form-check-input selectRow" value="{{$order->id}}" name="selectRowId[]"></td>
                 <th class="text-center" scope="row">{{ $orders->firstItem() + $key }}</th>
                 <td>#{{ $order->id }}</td>
                 <td>{{ $order->created_at->format('d M Y') }}</td>
@@ -17,33 +18,55 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <a href="{{ route('admin.orders.details', $order->id) }}"
-                            class="btn btn-alt-secondary js-bs-tooltip-enabled"><i
-                                class="fa fa-fw text-info fa-eye"></i></a>
+
+                        {{-- View --}}
+                        <a href="{{ route('admin.orders.details', $order->id) }}" class="btn btn-alt-secondary">
+                            <i class="fa fa-fw text-info fa-eye"></i>
+                        </a>
+
+                        {{-- Invoice --}}
                         <a href="{{ route('admin.orders.invoice', $order->id) }}" target="_blank"
-                            class="btn btn-alt-secondary js-bs-tooltip-enabled"><i
-                                class="fa fa-fw text-success fa-receipt"></i></a>
+                            class="btn btn-alt-secondary">
+                            <i class="fa fa-fw text-success fa-receipt"></i>
+                        </a>
+
+                        {{-- Delete --}}
                         <button type="button" class="btn btn-alt-secondary" onclick="deleteOrder(this)"
                             data-id="{{ $order->id }}">
-                            <i class="fa fa-fw fa-trash text-danger "></i>
+                            <i class="fa fa-fw fa-trash text-danger"></i>
                         </button>
-                        @if ($order->order_status == 'confirmed')
-                            @if ($delivery->count() > 0)
-                                <button type="button" class="btn btn-secondary dropdown-toggle"
+
+                        {{-- Delivery --}}
+                        @if ($order->order_status === 'confirmed' && $delivery->isNotEmpty())
+                            @php
+                                $deliveryRoute = fn($method) => route('admin.deliver.details', [
+                                    'method' => urlencode($method->name),
+                                    'id' => $order->id,
+                                ]);
+                            @endphp
+
+                            @if ($delivery->count() > 1)
+                                {{-- Dropdown --}}
+                                <button type="button" class="btn btn-dark dropdown-toggle"
                                     data-bs-toggle="dropdown">
                                     <i class="fa-solid fa-truck-arrow-right"></i>
                                 </button>
 
-                                <div class="dropdown-menu fs-sm deliveryMenu">
+                                <div class="dropdown-menu fs-sm">
                                     @foreach ($delivery as $method)
-                                        <a href="{{ route('admin.deliver.details', ['method' => urlencode($method->name), 'id' => $order->id]) }}"
-                                            class="btn btn-alt-secondary dropdown-item text-capitalize">
+                                        <a href="{{ $deliveryRoute($method) }}" class="dropdown-item text-capitalize">
                                             {{ $method->name }}
                                         </a>
                                     @endforeach
                                 </div>
+                            @else
+                                {{-- Single delivery --}}
+                                <a href="{{ $deliveryRoute($delivery->first()) }}" class="btn btn-dark">
+                                    <i class="fa-solid fa-truck-arrow-right"></i>
+                                </a>
                             @endif
                         @endif
+
                     </div>
                 </td>
             </tr>

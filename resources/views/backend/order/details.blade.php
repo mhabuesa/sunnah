@@ -113,8 +113,8 @@
                             @php
                                 $statusLabels = [
                                     'pending' => ['label' => 'Pending', 'color' => 'warning'],
-                                    'review_to_deliver' => ['label' => 'On Review', 'color' => 'info'],
-                                    'scheduled_delivery' => ['label' => 'Scheduled Delivery', 'color' => 'primary'],
+                                    'on_review' => ['label' => 'On Review', 'color' => 'info'],
+                                    'schedule' => ['label' => 'Scheduled Delivery', 'color' => 'primary'],
                                     'confirmed' => ['label' => 'Confirmed', 'color' => 'success'],
                                     'delivered' => ['label' => 'Delivered', 'color' => 'success'],
                                     'failed' => ['label' => 'Failed To Deliver', 'color' => 'danger'],
@@ -326,10 +326,10 @@
                                             <option value="">Select Status</option>
                                             <option {{ $order->order_status == 'pending' ? 'selected' : '' }}
                                                 value="pending"> Pending</option>
-                                            <option {{ $order->order_status == 'review_to_deliver' ? 'selected' : '' }}
-                                                value="review_to_deliver">On Review</option>
-                                            <option {{ $order->order_status == 'scheduled_delivery' ? 'selected' : '' }}
-                                                value="scheduled_delivery">Scheduled Delivery</option>
+                                            <option {{ $order->order_status == 'on_review' ? 'selected' : '' }}
+                                                value="on_review">On Review</option>
+                                            <option {{ $order->order_status == 'schedule' ? 'selected' : '' }}
+                                                value="schedule">Scheduled Delivery</option>
                                             <option {{ $order->order_status == 'confirmed' ? 'selected' : '' }}
                                                 value="confirmed">Confirmed</option>
                                             @if ($order->order_status == 'out_for_delivery')
@@ -346,6 +346,12 @@
                                             <option {{ $order->order_status == 'returned' ? 'selected' : '' }}
                                                 value="returned">Returned</option>
                                         </select>
+                                    </div>
+                                    <div class="mt-4 {{ $order->order_status == 'schedule' ? '' : 'd-none' }}"
+                                        id="schedule_delivery">
+                                        <label for="scheduled_at" class="form-label">Scheduled Date</label>
+                                        <input type="date" class="form-control" name="scheduled_at"
+                                            value="{{ $order->scheduled_at?->format('Y-m-d') }}" id="scheduled_at">
                                     </div>
                                     <div class="mt-4">
                                         <label for="method" class="form-label">Payment Method</label>
@@ -676,21 +682,58 @@
 
     <script>
         function printOrder(orderId) {
-            // আগের কোনো ফ্রেম থাকলে রিমুভ করা
             let oldFrame = document.getElementById('printFrame');
             if (oldFrame) oldFrame.remove();
 
-            // নতুন হিডেন আইফ্রেম তৈরি
             let iframe = document.createElement('iframe');
             iframe.id = 'printFrame';
-            iframe.style.display = 'none'; // হিডেন
+            iframe.style.display = 'none';
             document.body.appendChild(iframe);
 
-            // আইফ্রেমের সোর্স হিসেবে আমাদের নতুন ক্লিন প্রিন্ট রাউটটি দেওয়া
             iframe.src = "{{ url('/admin/orders/printReceipt') }}/" + orderId;
-
-            // আইফ্রেম লোড হওয়ার পর স্বয়ংক্রিয়ভাবে প্রিন্ট শুরু হবে
-            // কারণ আমরা ভিউ ফাইলের বডিতে onload="window.print()" দিয়েছি
         }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const statusSelect = document.getElementById("order_status");
+            const scheduleDiv = document.getElementById("schedule_delivery");
+            const dateInput = document.getElementById("scheduled_at");
+
+            // prepare animation style
+            scheduleDiv.style.overflow = "hidden";
+            scheduleDiv.style.transition = "all 0.3s ease";
+
+            // Initial check
+            toggleScheduleField(true);
+
+            // On change
+            statusSelect.addEventListener("change", () => toggleScheduleField(false));
+
+            function toggleScheduleField(isInitial = false) {
+                if (statusSelect.value === "schedule") {
+                    scheduleDiv.classList.remove("d-none");
+
+                    if (!isInitial) {
+                        scheduleDiv.style.maxHeight = "0px";
+                        setTimeout(() => {
+                            scheduleDiv.style.maxHeight = scheduleDiv.scrollHeight + "px";
+                        }, 10);
+                    } else {
+                        scheduleDiv.style.maxHeight = "none";
+                    }
+
+                    dateInput.setAttribute("required", true);
+
+                } else {
+                    scheduleDiv.style.maxHeight = "0px";
+                    dateInput.removeAttribute("required");
+
+                    setTimeout(() => {
+                        scheduleDiv.classList.add("d-none");
+                    }, 300);
+                }
+            }
+        });
     </script>
 @endpush
