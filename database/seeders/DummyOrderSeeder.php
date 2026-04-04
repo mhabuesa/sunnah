@@ -14,7 +14,7 @@ class DummyOrderSeeder extends Seeder
     public function run(): void
     {
         // 10000 dummy orders insert
-        $orders = Order::factory()->count(10000)->create();
+        $orders = Order::factory()->count(30000)->create();
 
         foreach ($orders as $order) {
             // prottek order e ekta fixed detail
