@@ -1,8 +1,10 @@
     <?php
 
-    use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
     use App\Http\Controllers\BrandController;
     use App\Http\Controllers\CategoryController;
+    use App\Http\Controllers\CouponController;
     use App\Http\Controllers\CustomerController;
     use App\Http\Controllers\DeliveryController;
     use App\Http\Controllers\HomeController;
@@ -11,21 +13,18 @@
     use App\Http\Controllers\ProductController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\SettingController;
+    use App\Http\Controllers\SmsCampaignController;
+    use App\Http\Controllers\SmsController;
     use App\Http\Controllers\SubcategoryController;
     use App\Http\Controllers\UserController;
     use App\Http\Controllers\VariationController;
     use App\Models\Customer;
     use Illuminate\Support\Facades\Route;
-
-    Route::get('/', function () {
-        return view('welcome');
-    });
-
-
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-        Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-        Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    
+    Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/login', 'create')->name('login');
+        Route::post('/login', 'store');
+        Route::post('/logout', 'destroy')->name('logout');
     });
 
     Route::controller(HomeController::class)->group(function () {
@@ -98,6 +97,7 @@
             Route::post('/clearCart', 'clearCart')->name('clearCart');
             Route::post('/scanBarcode', 'scanBarcode')->name('scanBarcode');
             Route::post('/order/store', 'orderStore')->name('order.store');
+            Route::post('/applyCoupon', 'applyCoupon')->name('applyCoupon');
         });
 
         //Customer Routes
@@ -139,6 +139,12 @@
             Route::post('/app/delivery/pathao/status', 'pathao_status')->name('app.delivery.pathao.status');
             Route::post('/app/delivery/redx', 'redx')->name('app.delivery.redx');
             Route::post('/app/delivery/redx/status', 'redx_status')->name('app.delivery.redx.status');
+            Route::get('/app/sms', 'sms')->name('app.sms');
+            Route::post('/app/sms/update', 'sms_update')->name('app.sms.update');
+            Route::post('/app/sms-config/update', 'sms_config_update')->name('app.sms.config.update');
+            Route::get('/app/fraudCheck', 'fraudCheck')->name('app.fraudCheck');
+            Route::post('/app/fraudCheck/update', 'fraudCheck_update')->name('app.fraudCheck.update');
+            Route::post('/app/fraudCheck/status', 'fraudCheck_status')->name('app.fraudCheck.status');
         });
 
         //Delivery Routes
@@ -151,6 +157,22 @@
             Route::post('/pathao/submit/{id}', 'pathao_submit')->name('pathao.submit');
             Route::get('/redx/areas', 'redx_areas')->name('redx.areas');
             Route::post('/redx/submit/{id}', 'redx_submit')->name('redx.submit');
+        });
+
+        //Coupon Routes
+        Route::controller(CouponController::class)->name('coupon.')->prefix('coupon')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::post('/status', 'status_update')->name('status.update');
+            Route::post('/update', 'update')->name('update');
+        });
+
+        //Sms Routes
+        Route::controller(SmsCampaignController::class)->name('sms.')->prefix('sms')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/customer-count', 'getCustomerCount')->name('customerCount');
+            Route::post('/send', 'send')->name('send');
         });
 
 
@@ -185,4 +207,4 @@
         ]);
     });
 
-    require __DIR__ . '/auth.php';
+    require __DIR__ . '/frontend.php';

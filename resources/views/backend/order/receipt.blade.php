@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Receipt - #INV-2024-001</title>
+    <title>Receipt</title>
     <style>
         /* ১. পেজ সেটিংস এবং রিসেট */
         * {

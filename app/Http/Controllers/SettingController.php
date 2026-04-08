@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\AppSetting;
 use App\Models\BusinessSettingModel;
 use App\Models\DeliveryMethod;
+use App\Models\FraudCheck;
+use App\Models\SmsConfig;
 use App\Traits\ImageSaveTrait;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -272,5 +274,117 @@ class SettingController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Redx status Updated Successfully'], 200);
+    }
+
+    public function sms()
+    {
+        $smsConfig = SmsConfig::first();
+        return view('backend.settings.sms', compact('smsConfig'));
+    }
+    public function sms_update(Request $request)
+    {
+        $request->validate([
+            'api_key' => 'required',
+            'sender_id' => 'required',
+        ]);
+        $smsConfig = SmsConfig::first();
+
+        $data = [
+            'api_key' => $request->api_key,
+            'sender_id' => $request->sender_id,
+        ];
+
+        if ($smsConfig) {
+            $smsConfig->update($data);
+        } else {
+            SmsConfig::create($data);
+        }
+
+        return redirect()->back()->with('success', 'SMS Config Updated');
+    }
+
+    public function sms_config_update(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|string',
+            'value' => 'required|in:0,1',
+        ]);
+
+        $allowedFields = [
+            'account_create_sms',
+            'order_placed_sms',
+            'sent_to_delivery_sms',
+            'order_canceled_sms',
+            'delivery_success_sms',
+        ];
+
+        if (!in_array($request->type, $allowedFields)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid field'
+            ]);
+        }
+
+        // ✅ always ensure single row exists
+        $config = SmsConfig::firstOrCreate([]);
+
+        $config->update([
+            $request->type => $request->value
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Updated successfully',
+            'field' => $request->type,
+            'value' => $request->value
+        ]);
+    }
+
+    public function fraudCheck()
+    {
+        $fraudCheck = FraudCheck::all()->keyBy('name');
+
+        $methods = ['bdCourier', 'hoorin'];
+
+        foreach ($methods as $method) {
+            $fraudCheck[$method] = $fraudCheck[$method] ?? new \App\Models\FraudCheck([
+                'name' => $method,
+                'status' => 0,
+                'api_key' => ''
+            ]);
+        }
+
+        return view('backend.settings.fraudCheck', compact('fraudCheck'));
+    }
+    public function fraudCheck_update(Request $request)
+    {
+        $request->validate([
+            'api_key' => 'required'
+        ]);
+
+        FraudCheck::updateOrCreate(
+            ['name' => 'bdCourier'],
+            [
+                'api_key' => $request->api_key
+            ]
+        );
+
+        return redirect()->back()->with('success', 'BD Courier Fraud Checker Updated');
+    }
+
+    public function fraudCheck_status()
+    {
+        $status = FraudCheck::where('name', 'bdCourier')->first();
+        try {
+            // Update category status
+            $status->update([
+                'status' => $status->status == '1' ? '0' : '1',
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'BD Courier status Updated Successfully'], 200);
     }
 }

@@ -132,8 +132,9 @@
                         </div>
                     </div>
 
-                    <div class="block-content block-content-full overflow-x-auto">
-                        <form action="{{ route('admin.pos.order.store') }}" method="POST">
+                    <form action="{{ route('admin.pos.order.store') }}" method="POST">
+
+                        <div class="block-content block-content-full overflow-x-auto">
                             @csrf
 
                             <!-- Customer -->
@@ -226,83 +227,95 @@
                                         <div class="d-flex justify-content-between">
                                             <dt>Coupon Discount :</dt>
                                             <dd>
-                                                <input type="number" id="couponDiscountInput" name="coupon_discount"
-                                                    class="form-control form-control-sm w-50 float-end" value="0">
+                                                <div class="d-flex justify-content-end align-items-center">
+                                                    <span id="coupon_amount" class="me-2">৳0.00</span>
+
+                                                    <button type="button" id="applyCouponBtn"
+                                                        class="btn btn-alt-primary btn-sm">
+                                                        <i class="fa-solid fa-pen-clip"></i>
+                                                    </button>
+
+                                                    <button type="button" id="clearCouponBtn"
+                                                        class="btn btn-alt-danger btn-sm d-none">
+                                                        <i class="fa-solid fa-times"></i>
+                                                </div>
+
+                                                <input type="hidden" id="couponDiscountInput" name="coupon_discount"
+                                                    value="0">
+                                                <input type="hidden" id="couponCode" name="couponCode" value="">
                                             </dd>
                                         </div>
-
-                                        <!-- Shipping -->
-                                        <div class="d-flex justify-content-between">
-                                            <dt>Shipping Cost :</dt>
-                                            <dd>
-                                                <input type="number" id="shippingCostInput" name="shipping_cost"
-                                                    class="form-control form-control-sm w-50 float-end" value="70"
-                                                    required>
-                                            </dd>
-                                        </div>
-
-                                        <!-- TOTAL -->
-                                        <div class="d-flex border-top pt-2 justify-content-between">
-                                            <dt class="fw-bold">Total :</dt>
-                                            <dd class="fw-bold" id="grandTotal">৳0.00</dd>
-                                        </div>
-
-                                    </dl>
-
-                                    <!-- Hidden Total -->
-                                    <input type="hidden" name="amount" id="finalAmount">
-
-                                    <!-- Payment -->
-                                    <div class="pt-4 mb-4">
-                                        <div class="mb-2">Paid By:</div>
-
-                                        <ul class="list-unstyled option-buttons d-flex gap-2">
-
-
-                                            <li>
-                                                <input type="radio" id="cod" value="cod" name="type"
-                                                    hidden checked>
-                                                <label for="cod" class="pay-btn">COD</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="cash" value="cash" name="type"
-                                                    hidden>
-                                                <label for="cash" class="pay-btn">Cash</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="wallet" value="wallet" name="type"
-                                                    hidden>
-                                                <label for="wallet" class="pay-btn">Wallet</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <!-- Error Message -->
-                                    <div id="formError" class="text-danger text-center mb-2 d-none"></div>
-
                                 </div>
-                            </div>
 
-                            <!-- Buttons -->
-                            <div class="mb-3">
-                                <div class="d-flex gap-2 justify-content-between">
-
-                                    <button type="button" id="clearCart" class="btn btn-danger w-50">
-                                        Cancel Order
-                                    </button>
-
-                                    <button type="submit" class="btn btn-primary w-50">
-                                        Place Order
-                                    </button>
-
+                                <!-- Shipping -->
+                                <div class="d-flex justify-content-between">
+                                    <dt>Shipping Cost :</dt>
+                                    <dd>
+                                        <input type="number" id="shippingCostInput" name="shipping_cost"
+                                            class="form-control form-control-sm w-50 float-end" value="70" required>
+                                    </dd>
                                 </div>
-                            </div>
 
-                        </form>
-                    </div>
+                                <!-- TOTAL -->
+                                <div class="d-flex border-top pt-2 justify-content-between">
+                                    <dt class="fw-bold">Total :</dt>
+                                    <dd class="fw-bold" id="grandTotal">৳0.00</dd>
+                                </div>
+
+                                </dl>
+
+                                <!-- Hidden Total -->
+                                <input type="hidden" name="amount" id="finalAmount">
+
+                                <!-- Payment -->
+                                <div class="pt-4 mb-4">
+                                    <div class="mb-2">Paid By:</div>
+
+                                    <ul class="list-unstyled option-buttons d-flex gap-2">
+
+
+                                        <li>
+                                            <input type="radio" id="cod" value="cod" name="type" hidden
+                                                checked>
+                                            <label for="cod" class="pay-btn">COD</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="cash" value="cash" name="type" hidden>
+                                            <label for="cash" class="pay-btn">Cash</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="wallet" value="wallet" name="type" hidden>
+                                            <label for="wallet" class="pay-btn">Wallet</label>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- Error Message -->
+                                <div id="formError" class="text-danger text-center mb-2 d-none"></div>
+
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="mb-3">
+                            <div class="d-flex gap-2 justify-content-between">
+
+                                <button type="button" id="clearCart" class="btn btn-danger w-50">
+                                    Cancel Order
+                                </button>
+
+                                <button type="submit" class="btn btn-primary w-50">
+                                    Place Order
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="modal fade" id="addCustomerModal" tabindex="-1" data-bs-backdrop="static">
@@ -355,6 +368,28 @@
                         data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Coupon Modal -->
+    <div class="modal fade" id="couponModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Apply Coupon</h5>
+                </div>
+
+                <div class="modal-body">
+                    <input type="text" id="coupon_code_input" class="form-control" placeholder="Enter Coupon Code">
+                    <small class="text-danger d-none" id="couponError"></small>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="closeCouponModal">Cancel</button>
+                    <button class="btn btn-primary" id="submitCoupon">Apply</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -545,11 +580,11 @@
 
             // ================= CLEAR FULL CART (FIXED) =================
             $(document).off('click', '#clearCart').on('click', '#clearCart', function(e) {
-                e.preventDefault(); // ফর্ম সাবমিট হওয়া আটকাবে
+                e.preventDefault(); // ফর্ম সাবমিট হওয়া আটকাবে
 
                 Swal.fire({
                     title: 'Clear all cart?',
-                    text: "All products will be removed from your cart!",
+                    text: "All products and applied coupons will be removed!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#dc3545',
@@ -564,19 +599,43 @@
                         $.post("{{ route('admin.pos.clearCart') }}", {
                             _token: "{{ csrf_token() }}"
                         }, function(res) {
+                            // ১. কার্ট UI আপডেট
                             updateCartUI([]);
-                            calculateTotals();
+
+                            // ২. সব কুকি রিমুভ করা
                             setCookie('selected_customer', '', -1);
+                            setCookie('coupon_discount', '', -1);
+                            setCookie('applied_coupon_code', '', -1);
+                            setCookie('free_delivery_active', '', -1);
+
+                            // ৩. কুপন রিলেটেড UI রিসেট করা
+                            $('#couponCode').val(""); // হিডেন ফিল্ড খালি করা
+                            $('#couponDiscountInput').val(0); // ইনপুট ভ্যালু ০ করা
+                            $('#coupon_amount').text('৳0.00'); // টেক্সট রিসেট
+
+                            // কুপন বাটন UI আগের অবস্থায় আনা
+                            $('#applyCouponBtn').removeClass('d-none');
+                            $('#clearCouponBtn').addClass('d-none');
+
+                            // ৪. অন্যান্য UI এলিমেন্ট রিসেট
                             $('#customer_id').val(null).trigger('change');
+                            $('#shippingCostInput').val(70).prop('readonly',
+                            false); // ডিফল্ট শিপিং এবং এডিট অপশন চালু
+                            $('#extraDiscountInput').val(0);
+
+                            // ৫. ক্যালকুলেশন কল করা
+                            calculateTotals();
+
                             if (typeof showToast === "function") {
-                                showToast('Cart has been cleared', 'success');
+                                showToast('Cart and coupons have been cleared', 'success');
                             } else {
-                                Swal.fire('Cleared!', 'Your cart is empty.', 'success');
+                                Swal.fire('Cleared!', 'Your cart and coupons are cleared.',
+                                    'success');
                             }
                         }).fail(function() {
                             Swal.fire('Error!',
                                 'Something went wrong while clearing the cart.', 'error'
-                            );
+                                );
                         }).always(function() {
                             btn.prop('disabled', false);
                         });
@@ -584,7 +643,7 @@
                 });
             });
 
-            
+
             function calculateTotals() {
                 let subtotal = 0;
 
@@ -839,4 +898,196 @@
             document.cookie = "selected_customer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         </script>
     @endif
+
+    <script>
+        $(document).ready(function() {
+
+            // ================= ১. মোডাল ওপেন করার লজিক =================
+            $(document).on('click', '#applyCouponBtn', function() {
+                $('#coupon_code_input').val('');
+                $('#couponError').addClass('d-none');
+                $('#couponModal').modal('show');
+            });
+
+            // --- ২. পেজ লোড হলে কুকি চেক করা ---
+            function initCoupon() {
+                let savedDiscount = getCookie('coupon_discount');
+                let savedCode = getCookie('applied_coupon_code'); // কুপন কোড কুকি চেক
+                let freeDeliveryActive = getCookie('free_delivery_active');
+
+                let discountVal = parseFloat(savedDiscount) || 0;
+                let isFreeDelivery = (freeDeliveryActive === 'true');
+
+                // যদি ডিসকাউন্ট থাকে অথবা কুপন কোড থাকে
+                if (discountVal > 0 || isFreeDelivery || savedCode) {
+                    $('#couponCode').val(savedCode || ""); // হিডেন ইনপুটে কোড বসানো
+                    showAppliedCouponUI(discountVal, isFreeDelivery);
+                } else {
+                    showDefaultCouponUI();
+                }
+
+                setTimeout(calculateTotals, 500);
+            }
+
+            initCoupon();
+
+            // --- ৩. কুপন অ্যাপ্লাই UI ---
+            function showAppliedCouponUI(discount, isFreeDelivery) {
+                $('#applyCouponBtn').addClass('d-none');
+                $('#clearCouponBtn').removeClass('d-none');
+
+                $('#couponDiscountInput').val(discount);
+                $('#coupon_amount').text('৳' + discount.toFixed(2));
+
+                if (isFreeDelivery) {
+                    $('#shippingCostInput').val(0).prop('readonly', true);
+                }
+            }
+
+            // --- ৪. ডিফল্ট UI (রিসেট) ---
+            function showDefaultCouponUI() {
+                $('#applyCouponBtn').removeClass('d-none');
+                $('#clearCouponBtn').addClass('d-none');
+
+                $('#couponDiscountInput').val(0);
+                $('#couponCode').val(""); // কুপন কোড হিডেন ফিল্ড খালি করা
+                $('#coupon_amount').text('৳0.00');
+
+                $('#shippingCostInput').prop('readonly', false);
+            }
+
+            // --- ৫. কুপন ক্লিয়ার বাটন লজিক ---
+            $(document).on('click', '#clearCouponBtn', function() {
+                // সব কুকি রিমুভ করা
+                setCookie('coupon_discount', '', -1);
+                setCookie('applied_coupon_code', '', -1); // কোড কুকি রিমুভ
+                setCookie('free_delivery_active', '', -1);
+
+                showDefaultCouponUI();
+
+                $('#shippingCostInput').val(70);
+                showToast('Coupon has been removed.', 'success');
+                calculateTotals();
+            });
+
+            // --- ৬. কুপন অ্যাপ্লাই AJAX ---
+            $(document).on('click', '#submitCoupon', function(e) {
+                e.preventDefault();
+                let code = $('#coupon_code_input').val().trim();
+                let subtotal = parseFloat($('#subTotalInput').val()) || 0;
+
+                if (!code) {
+                    $('#couponError').removeClass('d-none').text('Please enter a coupon code.');
+                    return;
+                };
+
+                let btn = $(this);
+                btn.prop('disabled', true).text('Applying...');
+
+                $.ajax({
+                    url: "{{ route('admin.pos.applyCoupon') }}",
+                    method: 'POST',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        coupon_code: code,
+                        subtotal: subtotal
+                    },
+                    success: function(res) {
+                        btn.prop('disabled', false).text('Apply');
+                        if (res.success) {
+                            // কুকি সেট করা
+                            setCookie('coupon_discount', res.discount, 1);
+                            setCookie('applied_coupon_code', code, 1); // এখানে কোডটি সেভ হচ্ছে
+                            setCookie('free_delivery_active', res.free_delivery, 1);
+
+                            // হিডেন ইনপুটে কোড সেট করা (যাতে ফর্ম সাবমিটে ব্যাকএন্ডে যায়)
+                            $('#couponCode').val(code);
+
+                            showAppliedCouponUI(parseFloat(res.discount), res.free_delivery);
+                            $('#couponModal').modal('hide');
+                            showToast(res.message, 'success');
+                            calculateTotals();
+                        } else {
+                            showToast(res.error, 'error');
+                        }
+                    },
+                    error: function() {
+                        btn.prop('disabled', false).text('Apply');
+                        showToast('Server error. Please try again.', 'error');
+                    }
+                });
+            });
+
+            // --- হেল্পার ফাংশনসমূহ ---
+            function setCookie(name, value, days) {
+                let expires = "";
+                if (days) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+
+            function getCookie(name) {
+                let nameEQ = name + "=";
+                let ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            function calculateTotals() {
+                let subtotal = parseFloat($('#subTotalInput').val()) || 0;
+                let extraDiscount = parseFloat($('#extraDiscountInput').val()) || 0;
+                let couponDiscount = parseFloat($('#couponDiscountInput').val()) || 0;
+                let shippingCost = parseFloat($('#shippingCostInput').val()) || 0;
+
+                if (getCookie('free_delivery_active') === 'true') {
+                    shippingCost = 0;
+                    $('#shippingCostInput').val(0);
+                }
+
+                let total = (subtotal - extraDiscount - couponDiscount) + shippingCost;
+                $('#grandTotal').text('৳' + (total > 0 ? total : 0).toFixed(2));
+                $('#finalAmount').val(total > 0 ? total.toFixed(2) : 0);
+            }
+
+            $(document).on('input', '#extraDiscountInput, #shippingCostInput', function() {
+                calculateTotals();
+            });
+        });
+
+
+
+        $(document).ready(function() {
+            // আপনার আগের সব কোড এখানে থাকবে...
+
+            // ফর্ম সাবমিট হওয়ার সময় কুকি ডিলিট করা
+            $('form[action="{{ route('admin.pos.order.store') }}"]').on('submit', function() {
+                // কুপন সংক্রান্ত সকল কুকি ডিলিট
+                setCookie('coupon_discount', '', -1);
+                setCookie('applied_coupon_code', '', -1);
+                setCookie('free_delivery_active', '', -1);
+
+                // যদি অন্য কোনো কার্ট রিলেটেড কুকি থাকে তাও এখানে দিতে পারেন
+            });
+
+            // হেল্পার ফাংশন (আগে থেকেই আপনার কোডে থাকার কথা)
+            function setCookie(name, value, days) {
+                let expires = "";
+                if (days) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            }
+        });
+    </script>
+
+
 @endpush

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $customers = Customer::all();
         return view("backend.customer.index", compact("customers"));
     }
@@ -34,6 +37,21 @@ class CustomerController extends Controller
             'email'   => $request->email,
             'address' => $request->address,
         ]);
+
+
+        if (smsSetting()->account_create_sms == 1) {
+
+            $companyName = config('app.name');
+            $message = "Welcome to {$companyName}, {$request->name}! Your account has been created successfully. Happy shopping! \n" . config('app.url');
+            $smsService = new SmsService();
+            $data = [
+                'number' => $request->phone,
+                'message' => $message,
+            ];
+            $smsService->sendMessage($data);
+        }
+
+
 
         return response()->json([
             'success' => true,

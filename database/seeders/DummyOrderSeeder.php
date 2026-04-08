@@ -14,13 +14,13 @@ class DummyOrderSeeder extends Seeder
     public function run(): void
     {
         // 10000 dummy orders insert
-        $orders = Order::factory()->count(30000)->create();
+        $orders = Order::factory()->count(10000)->create();
 
         foreach ($orders as $order) {
             // prottek order e ekta fixed detail
             OrderDetails::create([
                 'order_id' => $order->id, // order ID
-                'product_id' => 11,
+                'product_id' => 2,
                 'variation_id' => 2,
                 'variant' => 'Size - XL',
                 'qty' => 1,

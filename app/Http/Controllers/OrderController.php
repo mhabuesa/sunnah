@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\DeliveryMethod;
+use App\Models\FraudCheck;
 use App\Models\Order;
 use App\Models\User;
+use App\Services\SmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -143,12 +145,12 @@ class OrderController extends Controller
     {
         $phone = $request->phone;
 
-        $apiKey = config('api.BDCOURIER_API');
+        $apiKey = FraudCheck::where('name', 'bdCourier')->first();
 
         try {
 
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
+                'Authorization' => 'Bearer ' . $apiKey->api_key,
                 'Content-Type' => 'application/json',
             ])->post('https://api.bdcourier.com/courier-check', [
                 'phone' => $phone
@@ -198,17 +200,76 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'order_status' => 'required',
+            'order_status'   => 'required',
             'payment_method' => 'required',
             'payment_status' => 'required',
         ]);
-        Order::findOrFail($id)->update([
+
+        $order = Order::with('customer')->findOrFail($id);
+        $smsSetting = smsSetting();
+
+        $companyName = config('app.name');
+        $name = $order->customer->name;
+        $phone = $order->customer->phone;
+
+        // ================= CONFIRMED =================
+        if ($request->order_status == 'confirmed' && $order->order_status != 'confirmed') {
+
+            if ($smsSetting && $smsSetting->order_placed_sms == 1) {
+
+                $message = "Dear {$name}, your order (ID: {$id}) has been confirmed at {$companyName}!\n" .
+                    "Thank you for shopping with us.\n" .
+                    "Track: " . config('app.url');
+
+                (new SmsService())->sendMessage([
+                    'number' => $phone,
+                    'message' => $message,
+                ]);
+            }
+        }
+
+        // ================= CANCELED =================
+        if ($request->order_status == 'canceled' && $order->order_status != 'canceled') {
+
+            if ($smsSetting && $smsSetting->order_canceled_sms == 1) {
+
+                $message = "Dear {$name}, your order (ID: {$id}) has been canceled.\n" .
+                    "For help, contact our support.\n" .
+                    "Visit: " . config('app.url');
+
+                (new SmsService())->sendMessage([
+                    'number' => $phone,
+                    'message' => $message,
+                ]);
+            }
+        }
+
+        // ================= DELIVERED =================
+        if ($request->order_status == 'delivered' && $order->order_status != 'delivered') {
+
+            if ($smsSetting && $smsSetting->delivery_success_sms == 1) {
+
+                $message = "Dear {$name}, your order (ID: {$id}) has been delivered!\n" .
+                    "Hope you like it 😊\n" .
+                    "Please leave a review.\n" .
+                    "Visit: " . config('app.url');
+
+                (new SmsService())->sendMessage([
+                    'number' => $phone,
+                    'message' => $message,
+                ]);
+            }
+        }
+
+        // ================= UPDATE ORDER =================
+        $order->update([
             'payment_method' => $request->payment_method,
             'payment_status' => $request->payment_status,
-            'order_status' => $request->order_status,
-            'scheduled_at' => $request->scheduled_at,
+            'order_status'   => $request->order_status,
+            'scheduled_at'   => $request->scheduled_at,
         ]);
-        return redirect()->back()->with('success', 'Order Update Successful');
+
+        return back()->with('success', 'Order Update Successful');
     }
 
     public function invoice($id)
@@ -249,8 +310,14 @@ class OrderController extends Controller
 
     public function bulkPrint(Request $request)
     {
+
         $ids = explode(',', $request->ids);
         $orders = Order::whereIn('id', $ids)->get();
-        return view('backend.order.bulk_print', compact('orders'));
+
+        if (setting()->invoice == 'invoice') {
+            return view('backend.order.bulk_print.invoice', compact('orders'));
+        } else {
+            return view('backend.order.bulk_print.receipt', compact('orders'));
+        }
     }
 }

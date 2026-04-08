@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderDetails;
@@ -142,7 +143,7 @@ class PosController extends Controller
     private function getCartData()
     {
         return Cart::with(['product', 'variation.attributeValue'])
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::user()->id)
             ->get()
             ->map(function ($cart) {
                 return [
@@ -257,7 +258,7 @@ class PosController extends Controller
             'order_type' => 'pos',
             'payment_method' =>  $request->type,
             'payment_status' => $request->type != 'cod' ? 'paid' : 'unpaid',
-            'coupon_code' => $request->coupon_code,
+            'coupon_code' => $request->couponCode,
             'discount_amount' => $request->coupon_discount,
             'extra_discount' => $request->extra_discount,
             'shipping_address' => $customer->address,
@@ -311,5 +312,44 @@ class PosController extends Controller
         }
 
         return 'INV-' . $today . '-' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
+    }
+
+    public function applyCoupon(Request $request)
+    {
+        $coupon = Coupon::where('coupon_code', $request->coupon_code)
+            ->where('status', 1)
+            ->first();
+
+        if (!$coupon) {
+            return response()->json(['success' => false, 'error' => 'Invalid coupon']);
+        }
+
+        if ($coupon->expire_date < now()) {
+            return response()->json(['success' => false, 'error' => 'Coupon expired']);
+        }
+
+        if ($request->subtotal < $coupon->minimum_purchase) {
+            return response()->json(['success' => false, 'error' => 'Minimum purchase not met. Min: ' . $coupon->minimum_purchase]);
+        }
+
+        $discount = 0;
+        $freeDelivery = false;
+
+        if ($coupon->coupon_type == 'free_delivery') {
+            $freeDelivery = true;
+        } else {
+            if ($coupon->discount_type == 'amount') {
+                $discount = $coupon->discount_amount;
+            } else {
+                $discount = ($request->subtotal * $coupon->discount_amount) / 100;
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'discount' => $discount,
+            'free_delivery' => $freeDelivery,
+            'message' => 'Coupon applied successfully!'
+        ]);
     }
 }

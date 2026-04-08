@@ -4,6 +4,7 @@ use App\Models\AppSetting;
 use App\Models\BusinessSettingModel;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\SmsConfig;
 
 if (!function_exists('productPrice')) {
     function productPrice($productId)
@@ -99,5 +100,19 @@ if (!function_exists('ordersCount')) {
         }
 
         return $orders;
+    }
+}
+
+if (!function_exists('smsSetting')) {
+    function smsSetting()
+    {
+        static $smsSetting;
+
+        if ($smsSetting === null) {
+            // Model e kono data na thakleo null return korbe, error dibe na
+            $smsSetting = \App\Models\SmsConfig::first();
+        }
+
+        return $smsSetting;
     }
 }

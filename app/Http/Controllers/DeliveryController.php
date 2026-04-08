@@ -6,6 +6,7 @@ use App\Models\DeliveryMethod;
 use App\Models\Order;
 use App\Services\PathaoService;
 use App\Services\RedxService;
+use App\Services\SmsService;
 use App\Services\SteadfastService;
 use Illuminate\Http\Request;
 
@@ -81,6 +82,21 @@ class DeliveryController extends Controller
             'delivery_method' => 'steadfast',
         ]);
 
+        if (smsSetting()->sent_to_delivery_sms == 1) {
+            $name = $order->customer->name;
+            $message = "🚚 Dear {$name}, your order (ID: {$order_id}) is ready for delivery!\n" .
+                "Delivery Method: Steadfast Courier \n" .
+                "Tracking ID: {$order->delivery_cons_id}\n" .
+                "Thank you for shopping with us. Track your order here: " . config('app.url');
+
+            $smsService = new SmsService();
+            $data = [
+                'number' => $order->customer->phone,
+                'message' => $message,
+            ];
+            $smsService->sendMessage($data);
+        }
+
         return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Steadfast successfully!');
     }
 
@@ -136,6 +152,22 @@ class DeliveryController extends Controller
             $order->order_status = 'out_for_delivery';
             $order->save();
 
+
+            if (smsSetting()->sent_to_delivery_sms == 1) {
+                $name = $order->customer->name;
+                $message = "🚚 Dear {$name}, your order (ID: {$id}) is ready for delivery!\n" .
+                    "Delivery Method: Pathao Courier \n" .
+                    "Tracking ID: {$order->delivery_cons_id}\n" .
+                    "Thank you for shopping with us. Track your order here: " . config('app.url');
+
+                $smsService = new SmsService();
+                $data = [
+                    'number' => $order->customer->phone,
+                    'message' => $message,
+                ];
+                $smsService->sendMessage($data);
+            }
+
             return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Pathao successfully!');
         } else {
 
@@ -189,6 +221,21 @@ class DeliveryController extends Controller
             $order->delivery_cons_id = $response['tracking_id'];
             $order->order_status = 'out_for_delivery';
             $order->save();
+
+            if (smsSetting()->sent_to_delivery_sms == 1) {
+                $name = $order->customer->name;
+                $message = "🚚 Dear {$name}, your order (ID: {$id}) is ready for delivery!\n" .
+                    "Delivery Method: Redx Courier \n" .
+                    "Tracking ID: {$order->delivery_cons_id}\n" .
+                    "Thank you for shopping with us. Track your order here: " . config('app.url');
+
+                $smsService = new SmsService();
+                $data = [
+                    'number' => $order->customer->phone,
+                    'message' => $message,
+                ];
+                $smsService->sendMessage($data);
+            }
 
             return redirect()->route('admin.orders.list', 'out_for_delivery')->with('success', 'Order sent to Redx successfully!');
         }

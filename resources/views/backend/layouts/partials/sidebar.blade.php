@@ -4,7 +4,6 @@
             <span class="smini-visible">
                 <i class="fa fa-circle-notch text-primary"></i>
             </span>
-            {{-- <span class="smini-hide fs-5 tracking-wider">{{ setting()->name }}</span> --}}
             <span class="smini-hide fs-5 tracking-wider">{{ config('app.name') }}</span>
         </a>
         <div class="d-flex align-items-center gap-1">
@@ -56,7 +55,8 @@
                     </a>
                 </li>
                 <li class="nav-main-heading">Order Management</li>
-                <li class="nav-main-item {{ request()->routeIs('admin.orders.*') ? 'open' : (request()->routeIs('admin.deliver.details') ? 'open' :'') }}">
+                <li
+                    class="nav-main-item {{ request()->routeIs('admin.orders.*') ? 'open' : (request()->routeIs('admin.deliver.details') ? 'open' : '') }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" href="#">
                         <i class="nav-main-link-icon fas fa-cart-arrow-down"></i>
                         <span class="nav-main-link-name">Orders</span>
@@ -71,9 +71,9 @@
                                 <span class="nav-main-link-name">
                                     <i
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'all' ? 'success' : 'muted' }} me-2"></i>
-                                    All 
+                                    All
                                 </span>
-                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('all')}}</span>
+                                <span class="badge badge-soft-info badge-pill ml-1">{{ ordersCount('all') }}</span>
                             </a>
                         </li>
 
@@ -86,7 +86,7 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'pending' ? 'success' : 'muted' }} me-2"></i>
                                     Pending
                                 </span>
-                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('pending')}}</span>
+                                <span class="badge badge-soft-info badge-pill ml-1">{{ ordersCount('pending') }}</span>
                             </a>
                         </li>
 
@@ -99,7 +99,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'on_review' ? 'success' : 'muted' }} me-2"></i>
                                     On Review
                                 </span>
-                                <span class="badge badge-soft-warning badge-pill ml-1">{{ordersCount('on_review')}}</span>
+                                <span
+                                    class="badge badge-soft-warning badge-pill ml-1">{{ ordersCount('on_review') }}</span>
                             </a>
                         </li>
 
@@ -112,7 +113,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'schedule' ? 'success' : 'muted' }} me-2"></i>
                                     Scheduled Delivery
                                 </span>
-                                <span class="badge badge-soft-warning badge-pill ml-1">{{ordersCount('schedule')}}</span>
+                                <span
+                                    class="badge badge-soft-warning badge-pill ml-1">{{ ordersCount('schedule') }}</span>
                             </a>
                         </li>
 
@@ -125,7 +127,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'confirmed' ? 'success' : 'muted' }} me-2"></i>
                                     Confirmed
                                 </span>
-                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('confirmed')}}</span>
+                                <span
+                                    class="badge badge-soft-info badge-pill ml-1">{{ ordersCount('confirmed') }}</span>
                             </a>
                         </li>
 
@@ -138,7 +141,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'out_for_delivery' ? 'success' : 'muted' }} me-2"></i>
                                     Out for Delivery
                                 </span>
-                                <span class="badge badge-soft-warning badge-pill ml-1">{{ordersCount('out_for_delivery')}}</span>
+                                <span
+                                    class="badge badge-soft-warning badge-pill ml-1">{{ ordersCount('out_for_delivery') }}</span>
                             </a>
                         </li>
 
@@ -151,7 +155,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'delivered' ? 'success' : 'muted' }} me-2"></i>
                                     Delivered
                                 </span>
-                                <span class="badge badge-soft-info badge-pill ml-1">{{ordersCount('delivered')}}</span>
+                                <span
+                                    class="badge badge-soft-info badge-pill ml-1">{{ ordersCount('delivered') }}</span>
                             </a>
                         </li>
 
@@ -164,7 +169,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'failed' ? 'success' : 'muted' }} me-2"></i>
                                     Failed to Delivered
                                 </span>
-                                 <span class="badge badge-soft-danger badge-pill ml-1">{{ordersCount('failed')}}</span>
+                                <span
+                                    class="badge badge-soft-danger badge-pill ml-1">{{ ordersCount('failed') }}</span>
                             </a>
                         </li>
 
@@ -177,7 +183,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'canceled' ? 'success' : 'muted' }} me-2"></i>
                                     Canceled
                                 </span>
-                                <span class="badge badge-soft-danger badge-pill ml-1">{{ordersCount('canceled')}}</span>
+                                <span
+                                    class="badge badge-soft-danger badge-pill ml-1">{{ ordersCount('canceled') }}</span>
                             </a>
                         </li>
 
@@ -190,7 +197,8 @@
                                         class="fas fa-circle fa-2xs text-{{ request()->routeIs('admin.orders.list') && request()->route('type') == 'returned' ? 'success' : 'muted' }} me-2"></i>
                                     Returned
                                 </span>
-                                <span class="badge badge-soft-danger badge-pill ml-1">{{ordersCount('returned')}}</span>
+                                <span
+                                    class="badge badge-soft-danger badge-pill ml-1">{{ ordersCount('returned') }}</span>
                             </a>
                         </li>
 
@@ -273,6 +281,44 @@
                     </ul>
                 </li>
                 <li class="nav-main-heading">
+                    </i> Promotion management
+                </li>
+                <li class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
+                        <span class="nav-main-link-name">Offers & Deals</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.coupon.index') ? 'active' : '' }}"
+                                href="{{ route('admin.coupon.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-file-invoice me-2"></i> Coupon
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.user.create') ? 'active' : '' }}"
+                                href="{{ route('admin.user.create') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-id-badge me-2"></i> Featured Product
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link {{ request()->routeIs('admin.sms.index') ? 'active' : '' }}"
+                        href="{{ route('admin.sms.index') }}">
+                        <span class="nav-main-link-name">
+                            <i class="fa-solid fa-comment-sms me-2"></i>
+                            SMS Campaign
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-main-heading">
                     </i> Users Management
                 </li>
                 <li class="nav-main-item {{ request()->routeIs('admin.customer.*') ? 'open' : '' }}">
@@ -340,21 +386,24 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.settings.business') ? 'active' : '' }}" href="{{route('admin.settings.business')}}">
+                            <a class="nav-main-link {{ request()->routeIs('admin.settings.business') ? 'active' : '' }}"
+                                href="{{ route('admin.settings.business') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-circle-plus me-2"></i> Business Settings
                                 </span>
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.settings.app.*') ? 'active' : '' }}" href="{{route('admin.settings.app.core')}}">
+                            <a class="nav-main-link {{ request()->routeIs('admin.settings.app.*') ? 'active' : '' }}"
+                                href="{{ route('admin.settings.app.core') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-circle-plus me-2"></i> App Settings
                                 </span>
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.settings.app.*') ? 'active' : '' }}" href="{{route('admin.settings.app.core')}}">
+                            <a class="nav-main-link"
+                                href="#">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-circle-plus me-2"></i> Meta Settings
                                 </span>

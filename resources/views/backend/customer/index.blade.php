@@ -25,20 +25,26 @@
                                     <tr>
                                         <th class="text-center">sl</th>
                                         <th>Name</th>
-                                        <th>Email</th>
+                                        <th>Email & Phone</th>
                                         <th>Active Status</th>
                                         <th>Created At</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($customers as $key => $customer )
+                                    @foreach ($customers as $key => $customer)
                                         <tr>
                                             <td class="text-center fs-sm">{{ $key + 1 }}</td>
-                                            <td class="fw-semibold fs-sm"> <img src="{{ asset($customer->image) }}"
-                                                    class="productNameImage" alt="">
-                                                {{ $customer->name }}</td>
-                                            <td class="fw-semibold fs-sm">{{ $customer->email }}</td>
+                                            <td class="fw-semibold fs-sm">
+                                                @if ($customer->image)
+                                                    <img src="{{ asset($customer->image) }}" class="productNameImage">
+                                                @endif
+                                                {{ $customer->name }}
+                                            </td>
+                                            <td class="fw-semibold fs-sm">
+                                                <span class="d-block">{{ $customer->email }}</span>
+                                                <span>{{ $customer->phone }}</span>
+                                            </td>
                                             <td class="fw-semibold fs-sm">
                                                 <div class="form-check form-switch text-center">
                                                     <input class="form-check-input" id="status" type="checkbox"
@@ -48,7 +54,7 @@
                                                 </div>
                                             </td>
                                             <td class="text-center">
-                                                {{$customer->created_at}}
+                                                {{ $customer->created_at }}
                                             </td>
                                         </tr>
                                     @endforeach

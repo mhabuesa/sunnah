@@ -2,52 +2,7 @@
     @section('title', 'Order List')
     @push('style')
         <style>
-            .delivery-menu {
-                --bs-dropdown-zindex: 1000;
-                --bs-dropdown-min-width: 11.25rem;
-                --bs-dropdown-padding-x: 0;
-                --bs-dropdown-padding-y: 0.5rem;
-                --bs-dropdown-spacer: 0.125rem;
-                --bs-dropdown-font-size: 1rem;
-                --bs-dropdown-color: var(--bs-body-color);
-                --bs-dropdown-bg: var(--bs-body-bg);
-                --bs-dropdown-border-color: #d2d9e2;
-                --bs-dropdown-border-radius: var(--bs-border-radius);
-                --bs-dropdown-border-width: var(--bs-border-width);
-                --bs-dropdown-inner-border-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
-                --bs-dropdown-divider-bg: #dfe3ea;
-                --bs-dropdown-divider-margin-y: 0.5rem;
-                --bs-dropdown-box-shadow: 0 0.25rem 2rem rgba(0, 0, 0, 0.08);
-                --bs-dropdown-link-color: #212529;
-                --bs-dropdown-link-hover-color: #212529;
-                --bs-dropdown-link-hover-bg: #ebeef2;
-                --bs-dropdown-link-active-color: #212529;
-                --bs-dropdown-link-active-bg: #dde2e9;
-                --bs-dropdown-link-disabled-color: var(--bs-tertiary-color);
-                --bs-dropdown-item-padding-x: 0.75rem;
-                --bs-dropdown-item-padding-y: 0.5rem;
-                --bs-dropdown-header-color: #6c757d;
-                --bs-dropdown-header-padding-x: 0.75rem;
-                --bs-dropdown-header-padding-y: 0.5rem;
-                position: absolute;
-                z-index: var(--bs-dropdown-zindex);
-                display: none;
-                min-width: var(--bs-dropdown-min-width);
-                padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
-                margin: 0;
-                font-size: var(--bs-dropdown-font-size);
-                color: var(--bs-dropdown-color);
-                text-align: left;
-                list-style: none;
-                background-color: var(--bs-dropdown-bg);
-                background-clip: padding-box;
-                border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
-                border-radius: var(--bs-dropdown-border-radius);
-            }
 
-            .delivery-menu.show {
-                display: block;
-            }
         </style>
     @endpush
     @section('content')
@@ -196,8 +151,11 @@
                             <table class="table table-vcenter">
                                 <thead>
                                     <tr>
-                                        <th><input id="select_all" type="checkbox" class="form-check-input me-2"> <label
-                                                for="select_all">Select All</label> </th>
+                                        @if ($type == 'out_for_delivery')
+                                            <th><input id="select_all" type="checkbox" class="form-check-input me-2">
+                                                <label for="select_all">Select All</label>
+                                            </th>
+                                        @endif
                                         <th>SL</th>
                                         <th>Order ID</th>
                                         <th>Order Date</th>
@@ -211,15 +169,17 @@
                                 <tbody id="orderContainer">
                                     {{-- AJAX load --}}
                                 </tbody>
-                                <tfoot>
-                                    <td colspan="9">
-                                        <button id="printSelected" class="btn btn-primary btn-sm">
-                                            <span class="spinner-border spinner-border-sm me-2 d-none" role="status"
-                                                aria-hidden="true"></span>
-                                            <span class="btn-text">Print Selected</span>
-                                        </button>
-                                    </td>
-                                </tfoot>
+                                @if ($type == 'confirmed')
+                                    <tfoot>
+                                        <td colspan="9">
+                                            <button id="printSelected" class="btn btn-primary btn-sm">
+                                                <span class="spinner-border spinner-border-sm me-2 d-none" role="status"
+                                                    aria-hidden="true"></span>
+                                                <span class="btn-text">Print Selected</span>
+                                            </button>
+                                        </td>
+                                    </tfoot>
+                                @endif
                             </table>
                         </div>
                         <div class="block-content block-content-full py-0">

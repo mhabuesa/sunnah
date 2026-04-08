@@ -1,6 +1,9 @@
         @forelse ($orders as $key => $order)
             <tr>
-                <td><input type="checkbox" class="form-check-input selectRow" value="{{$order->id}}" name="selectRowId[]"></td>
+                @if ($order->order_status == 'out_for_delivery')
+                    <td><input type="checkbox" class="form-check-input selectRow" value="{{ $order->id }}"
+                            name="selectRowId[]"></td>
+                @endif
                 <th class="text-center" scope="row">{{ $orders->firstItem() + $key }}</th>
                 <td>#{{ $order->id }}</td>
                 <td>{{ $order->created_at->format('d M Y') }}</td>
@@ -47,8 +50,7 @@
 
                             @if ($delivery->count() > 1)
                                 {{-- Dropdown --}}
-                                <button type="button" class="btn btn-dark dropdown-toggle"
-                                    data-bs-toggle="dropdown">
+                                <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown">
                                     <i class="fa-solid fa-truck-arrow-right"></i>
                                 </button>
 
