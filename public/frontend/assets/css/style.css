@@ -15051,8 +15051,9 @@ body.dark .product-white-box .product-content .name {
   color: rgba(var(--title-color), 1);
   font-weight: 400;
   opacity: 0.6;
-  width: 25px;
-  height: 25px;
+  /* width: 25px; */
+  height: 30px;
+  padding: 5px 8px;
   display: flex;
   align-items: center;
   justify-content: center;

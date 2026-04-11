@@ -1,7 +1,8 @@
     <?php
 
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+    use App\Http\Controllers\AdminAuthController;
+    use App\Http\Controllers\Auth\AuthenticatedSessionController;
+    use App\Http\Controllers\BannerController;
     use App\Http\Controllers\BrandController;
     use App\Http\Controllers\CategoryController;
     use App\Http\Controllers\CouponController;
@@ -16,11 +17,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
     use App\Http\Controllers\SmsCampaignController;
     use App\Http\Controllers\SmsController;
     use App\Http\Controllers\SubcategoryController;
+    use App\Http\Controllers\TodayDealController;
+    use App\Http\Controllers\TodaysDealController;
     use App\Http\Controllers\UserController;
     use App\Http\Controllers\VariationController;
     use App\Models\Customer;
     use Illuminate\Support\Facades\Route;
-    
+
     Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/login', 'create')->name('login');
         Route::post('/login', 'store');
@@ -108,7 +111,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
             Route::post('/updateInfo', 'updateInfo')->name('updateInfo');
         });
 
-        //Customer Routes
+        //Order Routes
         Route::controller(OrderController::class)->name('orders.')->prefix('orders')->group(function () {
             Route::get('/list/{type}', 'list')->name('list');
             Route::get('/getOrders', 'getOrders')->name('getOrders');
@@ -164,7 +167,17 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
-            Route::post('/status', 'status_update')->name('status.update');
+            Route::post('/status/{id}', 'status_update')->name('status.update');
+            Route::post('/update', 'update')->name('update');
+        });
+
+        //Coupon Routes
+        Route::controller(TodaysDealController::class)->name('todaysDeal.')->prefix('todaysDeal')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/searchProduct', 'searchProduct')->name('searchProduct');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::post('/status/{id}', 'status_update')->name('status.update');
             Route::post('/update', 'update')->name('update');
         });
 
@@ -173,6 +186,15 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
             Route::get('/', 'index')->name('index');
             Route::get('/customer-count', 'getCustomerCount')->name('customerCount');
             Route::post('/send', 'send')->name('send');
+        });
+
+        //Banner Routes
+        Route::controller(BannerController::class)->name('banner.')->prefix('banner')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update', 'update')->name('update');
+            Route::post('/status/update/{id}', 'status_update')->name('status.update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
 
 

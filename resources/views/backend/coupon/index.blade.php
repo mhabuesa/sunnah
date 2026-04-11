@@ -356,7 +356,7 @@
                 text: "Update coupon status?",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Yes"
+                confirmButtonText: "Yes Update"
             }).then((result) => {
 
                 if (result.isConfirmed) {

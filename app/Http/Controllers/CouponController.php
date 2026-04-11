@@ -70,6 +70,21 @@ class CouponController extends Controller
         ]);
     }
 
+    public function status_update($id)
+    {
+        $coupon = Coupon::find($id);
+        try {
+            // Update banner status
+            $coupon->update([
+                'status' => $coupon->status == '1' ? '0' : '1',
+            ]);
+        } catch (\Exception $e) {
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'Coupon status Updated Successfully'], 200);
+    }
+
     public function destroy($id)
     {
         Coupon::findOrFail($id)->delete();

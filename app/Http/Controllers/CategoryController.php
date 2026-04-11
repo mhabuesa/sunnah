@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-     use ImageSaveTrait;
+    use ImageSaveTrait;
 
     public function index()
     {
@@ -51,6 +51,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         try {
+            $this->deleteImage(public_path($category->logo));
             // Delete category
             $category->delete();
         } catch (\Exception $e) {
@@ -96,7 +97,7 @@ class CategoryController extends Controller
         // Update the category
         $category = Category::findOrFail($request->id);
 
-         if ($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             if (! empty($category->logo)) {
                 $this->deleteImage(public_path($category->logo));
             }
