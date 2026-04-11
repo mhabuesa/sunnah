@@ -84,6 +84,9 @@
                                 <input type="file" class="form-control" name="header_logo"
                                     onchange="if(this.files[0]) document.getElementById('header_logo_preview').src = window.URL.createObjectURL(this.files[0])">
                             </div>
+                            @error('header_logo')
+                                <strong class="text-danger">{{$message}}</strong>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -104,6 +107,9 @@
                                 <input type="file" class="form-control" name="footer_logo"
                                     onchange="if(this.files[0]) document.getElementById('footer_logo_preview').src = window.URL.createObjectURL(this.files[0])">
                             </div>
+                            @error('footer_logo')
+                                <strong class="text-danger">{{$message}}</strong>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -124,6 +130,9 @@
                                 <input type="file" class="form-control" name="favicon"
                                     onchange="if(this.files[0]) document.getElementById('favicon_preview').src = window.URL.createObjectURL(this.files[0])">
                             </div>
+                            @error('favicon')
+                                <strong class="text-danger">{{$message}}</strong>
+                            @enderror
                         </div>
                     </div>
                 </div>

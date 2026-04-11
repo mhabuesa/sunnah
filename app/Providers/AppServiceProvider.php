@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\AppSetting;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\TodaysDeal;
 use App\Observers\AppSettingObserver;
 use App\Observers\BannerObserver;
 use App\Observers\CategoryObserver;
+use App\Observers\LatestProductsObserver;
 use App\Observers\TodaysDealObserver;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(CategoryObserver::class);
         Banner::observe(BannerObserver::class);
         TodaysDeal::observe(TodaysDealObserver::class);
+        Product::observe(LatestProductsObserver::class);
 
         if (!Schema::hasTable('app_settings')) {
             return;

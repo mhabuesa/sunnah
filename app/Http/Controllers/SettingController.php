@@ -32,7 +32,7 @@ class SettingController extends Controller
             'address' => 'required',
             'header_logo' => 'nullable|image',
             'footer_logo' => 'nullable|image',
-            'favicon' => 'nullable|image',
+            'favicon' => 'nullable',
         ]);
 
         $setting = BusinessSettingModel::first();

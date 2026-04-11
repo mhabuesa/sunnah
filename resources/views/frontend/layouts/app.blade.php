@@ -8,13 +8,13 @@
     <meta name="description" content="Kartify">
     <meta name="keywords" content="Kartify">
     <meta name="author" content="Kartify">
-    <link rel="icon" href="{{ asset('frontend') }}/assets/images/favicon/4.svg" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{{ asset('frontend') }}/assets/images/favicon/4.svg">
+    <link rel="icon" href="{{ asset(setting()->favicon) }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset(setting()->favicon) }}">
     <meta name="title-color" content="#ff9900">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Kartify">
-    <meta name="msapplication-TileImage" content="{{ asset('frontend') }}/assets/images/favicon/4.svg">
+    <meta name="msapplication-TileImage" content="{{ asset(setting()->favicon) }}">
     <meta name="msapplication-TileColor" content="#FFFFFF">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title', 'App') | {{ config('app.name', 'Dev Hunter') }}</title>
@@ -68,21 +68,14 @@
                         <ul class="footer-content-list">
                             <li>
                                 <a href="tel:(603)555-0123" class="content-box">
-                                    <svg class="svg-theme-color">
-                                        <use xlink:href="{{ asset('frontend') }}/assets/svg/footer-icon.svg#contact">
-                                        </use>
-                                    </svg>
+                                  <i class="iconsax" data-icon-name="phone-calling"></i>
                                     <h4 class="theme-color3">(603) 555-0123</h4>
                                 </a>
                             </li>
                             <li>
                                 <a href="#!" class="content-box">
                                     <div class="footer-content-icon">
-                                        <svg>
-                                            <use
-                                                xlink:href="{{ asset('frontend') }}/assets/svg/footer-icon.svg#location">
-                                            </use>
-                                        </svg>
+                                        <i class="iconsax" data-icon-name="location"></i>
                                     </div>
                                     <h5>3228 Bicetown Road Huntington, NY 11743</h5>
                                 </a>
@@ -242,7 +235,7 @@
 
             <div class="sub-footer">
                 <a href="index.html" class="sub-footer-logo">
-                    <img src="{{ asset('frontend') }}/assets/images/logo/4.svg" class="img-fluid" alt="">
+                    <img class="lazy img-fluid" data-src="{{ asset(setting()->footer_logo) }}">
                 </a>
                 <ul class="payment-list">
                     <li>
@@ -970,6 +963,26 @@
 
     <!-- Template Setting Js -->
     <script src="{{ asset('frontend') }}/assets/js/theme-setting.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lazyImages = document.querySelectorAll("img.lazy");
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove("lazy");
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => observer.observe(img));
+        });
+    </script>
+    
     @stack('footer_script')
 </body>
 

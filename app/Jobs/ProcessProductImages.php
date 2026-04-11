@@ -36,7 +36,7 @@ class ProcessProductImages implements ShouldQueue
         // main image
         if ($this->mainImage) {
             $source = storage_path('app/public/'.$this->mainImage);
-            $finalPath = $this->processImageFromPath($source, 'product','600','600');
+            $finalPath = $this->processImageFromPath($source, 'product');
             $product->update(['image' => $finalPath]);
         }
 
@@ -44,7 +44,7 @@ class ProcessProductImages implements ShouldQueue
         if ($this->gallery) {
             foreach ($this->gallery as $img) {
                 $source = storage_path('app/public/'.$img);
-                $finalPath = $this->processImageFromPath($source, 'product/gallery','600','600');
+                $finalPath = $this->processImageFromPath($source, 'product/gallery');
                 $product->galleries()->create([
                     'image' => $finalPath,
                 ]);
@@ -55,7 +55,7 @@ class ProcessProductImages implements ShouldQueue
         if ($this->metaImage) {
             $metaData = ProductMeta::where('product_id', $this->productId)->first();
             $source = storage_path('app/public/'.$this->metaImage);
-            $finalPath = $this->processImageFromPath($source, 'product/meta','600','600');
+            $finalPath = $this->processImageFromPath($source, 'product/meta');
             $metaData->update(['meta_image' => $finalPath]);
         }
     }

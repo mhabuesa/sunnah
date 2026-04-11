@@ -20,19 +20,27 @@ class HomeController extends Controller
 
         // Group by type
         $mainBanners = $homeBanners->where('type', 'main')->take(3);
-        $middleBanners = $homeBanners->where('type', 'home_middle');
-        $bottomBanners = $homeBanners->where('type', 'home_bottom');
+        $middleBanners = $homeBanners->where('type', 'home_middle')->first();
+        $bottomBanners = $homeBanners->where('type', 'home_bottom')->first();
+        $todaysBanner = $homeBanners->where('type', 'todays_deal')->first();
 
         // Todays Deal
         $todaysDeals = Cache::remember('todaysDeals', 86400, function () {
             return TodaysDeal::where('status', 1)->take(20)->latest()->get();
+        });
+        
+        // Todays Deal
+        $latestProducts = Cache::remember('latestProducts', 86400, function () {
+            return Product::where('status', 'active')->take(21)->latest()->get();
         });
 
         return view('frontend.home.index', compact(
             'mainBanners',
             'middleBanners',
             'bottomBanners',
-            'todaysDeals'
+            'todaysBanner',
+            'todaysDeals',
+            'latestProducts',
         ));
     }
 
