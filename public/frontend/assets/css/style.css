@@ -21698,7 +21698,11 @@ body.dark .coming-soon-section .coming-soon-contain .form-group .form-control {
 }
 .product-section .right-box-contain .product-price,
 .product-right-box .right-box-contain .product-price {
-  display: none;
+  font-size: calc(21px + 5 * (100vw - 320px) / 672); */
+  margin-bottom: calc(10px + 4 * (100vw - 320px) / 672);
+  font-weight: 600;
+  color: rgba(var(--primary-color), 1);
+  display: block;
 }
 @media (max-width: 991.98px) {
   .product-section .right-box-contain .product-price,

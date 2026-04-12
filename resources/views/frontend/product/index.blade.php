@@ -64,9 +64,6 @@
                                         </ul>
                                     </div>
                                     <h4 class="name">{{ $product->name }}</h4>
-                                    <h5 class="product-price">
-                                        <small id="mobile_total_price">0</small>
-                                    </h5>
                                     <div class="price-rating">
                                         <ul class="rating-review-sold-box">
                                             <li>
@@ -82,6 +79,9 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    <h5 class="product-price mt-3">
+                                        <small id="mobile_total_price">0</small>
+                                    </h5>
 
                                     <div class="product-package product-spacing">
 
