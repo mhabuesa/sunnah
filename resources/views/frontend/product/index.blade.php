@@ -178,12 +178,17 @@
 
                                         <input type="hidden" name="selected_variations" id="selected_variations">
 
-                                        <div class="button-group d-flex">
-                                            <button onclick="location.href = 'checkout.html';"
-                                                class="btn buy-btn theme-bg-color text-white w-50">Buy now</button>
-                                            <button onclick="location.href = 'cart.html';"
-                                                class="btn buy-btn-2 theme-border fw-500 w-50">
-                                                <i class="ri-shopping-bag-line"></i> Add to bag</button>
+                                        <div class="d-flex flex-column flex-lg-row my-2">
+
+                                            <button
+                                                class="btn buy-btn theme-bg-color text-white w-100 flex-lg-fill mb-2 mb-lg-0 me-lg-2">
+                                                Buy now
+                                            </button>
+
+                                            <button class="btn buy-btn-2 theme-border fw-500 w-100 flex-lg-fill ms-lg-2">
+                                                <i class="ri-shopping-bag-line me-1"></i> Add to bag
+                                            </button>
+
                                         </div>
 
                                         <div class="seller-product">
