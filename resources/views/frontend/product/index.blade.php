@@ -301,56 +301,13 @@
 
                 <div class="tab-content custom-tab" id="myTabContent">
 
-                    <div class="tab-pane fade active show" id="description">
+                    <div class="tab-pane fade active show pt-0" id="description">
                         <div class="product-description">
                             <div class="nav-desh">
-                                <p>There is the Dynamic Island on the display instead of a notch, which launched
-                                    with the iPhone 14 Pro models. The pill-shaped cutout gives you better
-                                    visibility of ongoing activities and alerts and new multi-tasking abilities.
-                                    The standard iPhone 15 model inherits several features from last year's
-                                    iPhone 14 Pro series, including an improved Dynamic Island, the A16 Bionic
-                                    chip, and a 48MP main camera. There are additionally five colors to choose
-                                    from in a textured matte finish: pink, yellow, blue, green and black
-                                </p>
+                               {!! $product->description!!}
                             </div>
 
-                            <div class="nav-desh">
-                                <div class="desh-title">
-                                    <h5>Display :</h5>
-                                </div>
-                                <p>Apple iPhone 15 Pro models could have a 6.7-inch ProMotion display (with
-                                    Always-on mode) while the iPhone 15 and iPhone 15 Plus could have a 6.1-inch
-                                    display.</p>
-                            </div>
-
-                            <div class="nav-desh">
-                                <div class="desh-title">
-                                    <h5>Cameras :</h5>
-                                </div>
-                                <p>While the vanilla variants could have similar camera specs as before, the
-                                    Pro Max model could sport an almost 1-inch sensor and a periscope telephoto
-                                    lens (with 5x/6x zoom).</p>
-                            </div>
-
-                            <div class="nav-desh">
-                                <div class="desh-title">
-                                    <h5>Processor :</h5>
-                                </div>
-                                <p>iPhone 15 and iPhone 15 Plus could come powered by last-gen A16 Bionic chip
-                                    but the Pro models could have a newer 3nm A17 Bionic chipset along with 8GB
-                                    of RAM.</p>
-                            </div>
-
-                            <div class="nav-desh">
-                                <div class="desh-title">
-                                    <h5>Battery :</h5>
-                                </div>
-                                <p>All iPhones could have bigger batteries viz. a 3,877mAh battery on the iPhone
-                                    15, a 4,912mAh battery on the iPhone 15 Plus, a 3,650mAh battery on the
-                                    iPhone 15 Pro, and a 4,852mAh battery on the iPhone 15 Pro Max. At least the
-                                    Pro models are expected to feature 35W wired charging and Qi2 Magnate
-                                    charging support</p>
-                            </div>
+                            
                         </div>
                     </div>
 

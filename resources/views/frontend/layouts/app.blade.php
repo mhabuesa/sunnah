@@ -67,9 +67,9 @@
                         </div>
                         <ul class="footer-content-list">
                             <li>
-                                <a href="tel:(603)555-0123" class="content-box">
+                                <a href="tel:{{setting()->phone}}" class="content-box">
                                   <i class="iconsax" data-icon-name="phone-calling"></i>
-                                    <h4 class="theme-color3">(603) 555-0123</h4>
+                                    <h4 class="theme-color3">{{setting()->phone}}</h4>
                                 </a>
                             </li>
                             <li>
@@ -77,7 +77,7 @@
                                     <div class="footer-content-icon">
                                         <i class="iconsax" data-icon-name="location"></i>
                                     </div>
-                                    <h5>3228 Bicetown Road Huntington, NY 11743</h5>
+                                    <h5>{{setting()->address}}</h5>
                                 </a>
                             </li>
                             <li>
@@ -88,7 +88,7 @@
                                             </use>
                                         </svg>
                                     </div>
-                                    <h5>kartify@contact.com</h5>
+                                    <h5>{{setting()->email}}</h5>
                                 </a>
                             </li>
                         </ul>
@@ -844,7 +844,7 @@
     <!-- Tap To Top Button End -->
 
 
-    <!-- Exit Modal Start -->
+    {{-- <!-- Exit Modal Start -->
     <div class="modal fade exit-modal theme-modal" id="exitModal">
         <div class="modal-dialog modal-custom-size modal-dialog-centered">
             <div class="modal-content">
@@ -881,7 +881,7 @@
             </div>
         </div>
     </div>
-    <!-- Exit Modal End -->
+    <!-- Exit Modal End --> --}}
 
     <!-- Category Offcanvas Start -->
     <div class="category-fixed-box offcanvas offcanvas-start" id="categoryCanvas">
@@ -909,18 +909,6 @@
         </div>
     </div>
     <!-- Category Offcanvas End -->
-
-    <!-- Alert Box Start -->
-    <div id="alertBox" class="alert-box">
-        <div class="alert-message" id="alertMessage"></div>
-        <div class="alert-progressbar" id="progressBar"></div>
-        <div class="button-group">
-            <button class="remove-wishlist btn">remove wishlist</button>
-            <button class="add-cart-btn btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">Add to
-                cart</button>
-        </div>
-    </div>
-    <!-- Alert Box End -->
 
     <!-- Bg Overlay Start -->
     <div id="overlay" class="bg-overlay"></div>

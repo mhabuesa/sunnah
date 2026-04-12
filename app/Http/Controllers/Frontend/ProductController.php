@@ -13,4 +13,9 @@ class ProductController extends Controller
         $product = Product::where('slug', $slug)->with('category', 'subcategory', 'brand', 'meta', 'galleries', 'variations')->first();
         return view('frontend.product.index', compact('product'));
     }
+
+    public function products()
+    {
+        return view('frontend.product.all_products');
+    }
 }

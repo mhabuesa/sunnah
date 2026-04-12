@@ -11,5 +11,5 @@ Route::controller(HomeController::class)->group(function () {
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product/{slug}', 'product')->name('product');
-    Route::get('/quickView/{id}', 'quickView')->name('quickView');
+    Route::get('/products', 'products')->name('products');
 });

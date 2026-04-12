@@ -223,7 +223,7 @@
     <section class="section-t-space">
         <div class="custom-container">
             <div class="title justify-content-between d-sm-flex d-block">
-                <h3 class="d-flex align-center">Latest Products<a href="shop-left-sidebar.html" class="ms-2 light-blue">See
+                <h3 class="d-flex align-center">Latest Products<a href="{{route('products')}}" class="ms-2 light-blue">See
                         All Products</a>
                 </h3>
             </div>

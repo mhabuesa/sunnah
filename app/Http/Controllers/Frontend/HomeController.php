@@ -26,12 +26,12 @@ class HomeController extends Controller
 
         // Todays Deal
         $todaysDeals = Cache::remember('todaysDeals', 86400, function () {
-            return TodaysDeal::where('status', 1)->take(20)->latest()->get();
+            return TodaysDeal::where('status', 1)->with('product')->take(20)->latest()->get();
         });
-        
+
         // Todays Deal
         $latestProducts = Cache::remember('latestProducts', 86400, function () {
-            return Product::where('status', 'active')->take(21)->latest()->get();
+            return Product::where('status', 'active')->select('id', 'name', 'image', 'price', 'slug', 'category_id')->take(21)->latest()->get();
         });
 
         return view('frontend.home.index', compact(
