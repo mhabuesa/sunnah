@@ -8,7 +8,7 @@
     <section class="product-section section-t-space">
         <div class="custom-container">
             <div class="row">
-                <div class="col-xxl-9 col-xl-8 col-lg-7">
+                <div class="col-xxl-10 col-xl-8 col-lg-7">
                     <div class="left-card">
                         <div class="row g-xxl-5 g-md-4 g-3">
                             <div class="col-xxl-6">
@@ -57,7 +57,8 @@
                                                 @endphp
                                                 <i class="ri-flashlight-line"></i>
                                                 <h3 class="lang">
-                                                    {{ $orderCount }} {{ Str::plural('Customer', $orderCount) }} Ordered
+                                                    {{ shortNumber($orderCount) }}
+                                                    {{ Str::plural('Customer', $orderCount) }} Ordered
                                                 </h3>
                                             </li>
                                         </ul>
@@ -113,6 +114,7 @@
                                     </div>
 
 
+
                                     @php
                                         if ($product->variations && $product->variations->count() > 0) {
                                             $stock = $product->variations->sum('stock');
@@ -138,179 +140,76 @@
                                         </div>
                                     </div>
 
-                                    <div class="text-md-start text-center">
-                                        <div class="qty-box h-100 qty-container quantity-box-2">
-                                            <button class="btn qty-btn m-minus">
-                                                <i class="ri-subtract-line"></i>
-                                            </button>
-                                            {{-- <input type="number" readonly name="qty"
-                                                class="qty-input form-control input-qty" value="1"> --}}
-
-                                            <input class="qty-input form-control" id="mobile_qty" value="1"
-                                                min="1">
-                                            <button class="btn qty-btn m-plus">
-                                                <i class="ri-add-line"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="button-group d-lg-none">
-                                        <button onclick="location.href = 'checkout.html';"
-                                            class="btn buy-btn theme-bg-color text-white">Buy now</button>
-                                        <button onclick="location.href = 'cart.html';"
-                                            class="btn buy-btn-2 theme-border fw-500">
-                                            <i class="ri-shopping-bag-line"></i> Add to bag</button>
-                                    </div>
-
-                                    <ul class="size-delivery-info">
-                                        <li>
-                                            <button type="button" class="btn" data-bs-toggle="modal"
-                                                data-bs-target="#deliveryModal">
-                                                <i class="ri-truck-line"></i>
-                                                <span>Delivery & Return</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn" data-bs-toggle="modal"
-                                                data-bs-target="#questionModal">
-                                                <i class="ri-questionnaire-line"></i>
-                                                <span>Ask a question</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-
                                     <div class="about-item-box product-spacing border-top-space">
                                         <div class="product-title">
                                             <h4>About Item :</h4>
                                         </div>
 
                                         <ul class="about-item-list">
-                                            <li>Brand : <span>Apple</span></li>
-                                            <li>Category : <span>Electronic</span></li>
-                                            <li>Condition : <span>Brand new</span></li>
-                                            <li>Color : <span>Deep purple</span></li>
-                                            <li>Material : <span>Model name</span></li>
-                                            <li>Operating system : <span>iOS</span></li>
+                                            <li>Brand : <span>{{ $product->brand->name }}</span></li>
+                                            <li>Category : <span>{{ $product->category->name }}</span></li>
                                         </ul>
                                     </div>
 
-                                    <div class="description-box product-spacing border-top-space">
-                                        <div class="product-title">
-                                            <h4>Description :</h4>
+
+                                </div>
+
+                                <div class="right-sidebar-box  d-lg-block">
+                                    <div class="side-product-detail">
+                                        <div class="qty-stock-box">
+                                            <div class="qty-box h-100 qty-container quantity-box-2">
+                                                <button class="btn qty-btn s-minus">
+                                                    <i class="ri-subtract-line"></i>
+                                                </button>
+                                                <input class="qty-input form-control" id="sidebar_qty" value="1"
+                                                    min="1">
+                                                <button class="btn qty-btn s-plus">
+                                                    <i class="ri-add-line"></i>
+                                                </button>
+                                            </div>
+                                            <div class="stock-box">
+                                                <h5>stock: <span id="stock_value">0</span></h5>
+                                            </div>
                                         </div>
 
-                                        <ul class="description-list">
-                                            <li>15.40 cm (6.1-inch) Super Retina XDR display</li>
-                                            <li>Advanced camera system for better photos in any light</li>
-                                            <li>Cinematic mode now in 4K Dolby Vision up to 30 fps</li>
-                                            <li>Action mode for smooth, steady, handheld videos</li>
-                                        </ul>
+                                        <div class="total-price-box">
+                                            <h4><span>Total Price:</span><small id="total_price">0</small></h4>
+                                        </div>
+
+                                        <input type="hidden" name="selected_variations" id="selected_variations">
+
+                                        <div class="button-group d-flex">
+                                            <button onclick="location.href = 'checkout.html';"
+                                                class="btn buy-btn theme-bg-color text-white w-50">Buy now</button>
+                                            <button onclick="location.href = 'cart.html';"
+                                                class="btn buy-btn-2 theme-border fw-500 w-50">
+                                                <i class="ri-shopping-bag-line"></i> Add to bag</button>
+                                        </div>
+
+                                        <div class="seller-product">
+                                            <h5>
+                                                <a href="#!"><i class="ri-message-2-fill"></i> Chat Seller</a>
+                                            </h5>
+                                            <h5>
+                                                <a href="#shareProductModal" data-bs-toggle="modal"><i
+                                                        class="ri-share-fill"></i>
+                                                    Share Product</a>
+                                            </h5>
+                                        </div>
                                     </div>
 
-                                    <div class="shipping-info-box product-spacing border-top-space">
-                                        <div class="product-title">
-                                            <h4>Shipping Information</h4>
-                                        </div>
-                                        <ul class="shipping-info-list">
-                                            <li>Delivery: <span>Shipping from jakarta, indonesia</span></li>
-                                            <li>Shipping: <span>Free international shipping</span></li>
-                                            <li>Arrive: <span>Estimated arrival on 25 - 27 Oct 2025</span></li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="delivery-info product-spacing border-top-space">
-                                        <div class="product-title">
-                                            <h4>Delivery Details</h4>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <i class="ri-truck-line"></i>
-                                                <span>Your order is likely to reach you within 5 to 10 days</span>
-                                            </li>
-                                            <li>
-                                                <i class="ri-arrow-left-right-line"></i>
-                                                <span>This product is non-returnable.</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="payment-option product-spacing border-top-space">
-                                        <div class="product-title">
-                                            <h4>Guaranteed Safe Checkout</h4>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="#!">
-                                                    <img src="{{ asset('frontend') }}/assets/images/payment/1.svg"
-                                                        alt="">
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#!">
-                                                    <img src="{{ asset('frontend') }}/assets/images/payment/2.svg"
-                                                        alt="">
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#!">
-                                                    <img src="{{ asset('frontend') }}/assets/images/payment/3.svg"
-                                                        alt="">
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#!">
-                                                    <img src="{{ asset('frontend') }}/assets/images/payment/4.svg"
-                                                        alt="">
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#!">
-                                                    <img src="{{ asset('frontend') }}/assets/images/payment/5.svg"
-                                                        alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="social-option  product-spacing border-top-space">
-                                        <div class="product-title">
-                                            <h4>Share it</h4>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="https://www.facebook.com/" target="_blank">
-                                                    <i class="ri-facebook-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://twitter.com/" target="_blank">
-                                                    <i class="ri-twitter-x-line"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.instagram.com/" target="_blank">
-                                                    <i class="ri-instagram-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://in.pinterest.com/" target="_blank">
-                                                    <i class="ri-pinterest-fill"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="https://web.whatsapp.com/" target="_blank">
-                                                    <i class="ri-whatsapp-fill"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    {{-- <a href="shop-left-sidebar.html" class="banner-box">
+                                        <img src="{{ asset('frontend') }}/assets/images/banner/44.jpg" class="img-fluid"
+                                            alt="">
+                                    </a> --}}
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block">
+                {{-- <div class="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block">
                     <div class="right-sidebar-box">
                         <div class="side-product-detail">
                             <div class="side-title">
@@ -332,9 +231,6 @@
                                     <button class="btn qty-btn s-minus">
                                         <i class="ri-subtract-line"></i>
                                     </button>
-                                    {{-- <input type="number" readonly="" name="qty"
-                                        class="qty-input form-control input-qty" value="1" min="1"> --}}
-
                                     <input class="qty-input form-control" id="sidebar_qty" value="1"
                                         min="1">
                                     <button class="btn qty-btn s-plus">
@@ -375,11 +271,416 @@
                                 alt="">
                         </a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
     <!-- Product Left Sidebar End -->
+
+
+    <!-- Nav Tab Section Start -->
+    <section class="section-t-space">
+        <div class="custom-container">
+            <div class="product-section-box m-0">
+                <ul class="nav nav-tabs custom-nav" id="myTab">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
+                            data-bs-target="#description" type="button">Description</button>
+                    </li>
+
+                    <li class="nav-item">
+                        <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review"
+                            type="button">Review</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content custom-tab" id="myTabContent">
+
+                    <div class="tab-pane fade active show" id="description">
+                        <div class="product-description">
+                            <div class="nav-desh">
+                                <p>There is the Dynamic Island on the display instead of a notch, which launched
+                                    with the iPhone 14 Pro models. The pill-shaped cutout gives you better
+                                    visibility of ongoing activities and alerts and new multi-tasking abilities.
+                                    The standard iPhone 15 model inherits several features from last year's
+                                    iPhone 14 Pro series, including an improved Dynamic Island, the A16 Bionic
+                                    chip, and a 48MP main camera. There are additionally five colors to choose
+                                    from in a textured matte finish: pink, yellow, blue, green and black
+                                </p>
+                            </div>
+
+                            <div class="nav-desh">
+                                <div class="desh-title">
+                                    <h5>Display :</h5>
+                                </div>
+                                <p>Apple iPhone 15 Pro models could have a 6.7-inch ProMotion display (with
+                                    Always-on mode) while the iPhone 15 and iPhone 15 Plus could have a 6.1-inch
+                                    display.</p>
+                            </div>
+
+                            <div class="nav-desh">
+                                <div class="desh-title">
+                                    <h5>Cameras :</h5>
+                                </div>
+                                <p>While the vanilla variants could have similar camera specs as before, the
+                                    Pro Max model could sport an almost 1-inch sensor and a periscope telephoto
+                                    lens (with 5x/6x zoom).</p>
+                            </div>
+
+                            <div class="nav-desh">
+                                <div class="desh-title">
+                                    <h5>Processor :</h5>
+                                </div>
+                                <p>iPhone 15 and iPhone 15 Plus could come powered by last-gen A16 Bionic chip
+                                    but the Pro models could have a newer 3nm A17 Bionic chipset along with 8GB
+                                    of RAM.</p>
+                            </div>
+
+                            <div class="nav-desh">
+                                <div class="desh-title">
+                                    <h5>Battery :</h5>
+                                </div>
+                                <p>All iPhones could have bigger batteries viz. a 3,877mAh battery on the iPhone
+                                    15, a 4,912mAh battery on the iPhone 15 Plus, a 3,650mAh battery on the
+                                    iPhone 15 Pro, and a 4,852mAh battery on the iPhone 15 Pro Max. At least the
+                                    Pro models are expected to feature 35W wired charging and Qi2 Magnate
+                                    charging support</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="review">
+                        <div class="review-box">
+                            <div class="row g-xl-5 g-md-4 g-3">
+                                <div class="col-xl-6 b-end">
+                                    <div class="review-title">
+                                        <h4>Customer reviews</h4>
+                                    </div>
+
+                                    <div class="customer-review-box">
+                                        <h5>4.2 <span>/5</span></h5>
+                                        <div class="product-rating">
+                                            <ul class="rating">
+                                                <li class="theme-color">
+                                                    <i class="ri-star-fill fill"></i>
+                                                </li>
+                                                <li class="theme-color">
+                                                    <i class="ri-star-fill fill"></i>
+                                                </li>
+                                                <li class="theme-color">
+                                                    <i class="ri-star-fill fill"></i>
+                                                </li>
+                                                <li class="theme-color">
+                                                    <i class="ri-star-fill fill"></i>
+                                                </li>
+                                                <li>
+                                                    <i class="ri-star-line"></i>
+                                                </li>
+                                            </ul>
+                                            <h6>35K ratings</h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="rating-box">
+                                        <ul>
+                                            <li>
+                                                <div class="rating-list">
+                                                    <h5>5 Star</h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 68%">68%</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="rating-list">
+                                                    <h5>4 Star</h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 67%">67%</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="rating-list">
+                                                    <h5>3 Star</h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 42%">42%</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="rating-list">
+                                                    <h5>2 Star</h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 30%">30%</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="rating-list">
+                                                    <h5>1 Star</h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 24%">24%</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    <div class="review-title">
+                                        <h4 class="fw-500">Add a review</h4>
+                                    </div>
+
+                                    <div class="row g-sm-4 g-3">
+                                        <div class="col-md-6">
+                                            <div class="review-form-box theme-form">
+                                                <label for="name" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="name"
+                                                    placeholder="Enter your name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="review-form-box theme-form">
+                                                <label for="email" class="form-label">Email Address</label>
+                                                <input type="email" class="form-control" id="email"
+                                                    placeholder="Email Address">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="review-form-box theme-form">
+                                                <label class="form-label" for="floatingTextarea2">Write Your
+                                                    Comment</label>
+                                                <textarea class="form-control" id="floatingTextarea2" placeholder="Leave a comment here" style="height: 150px"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <button type="submit" class="btn theme-bg-color text-light">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="product-review-box">
+                                <div class="review-title">
+                                    <h4 class="fw-500">Customer Reviews</h4>
+                                    <div class="sort-message">
+                                        <span>Sort By :</span>
+                                        <select class="form-select">
+                                            <option selected="">Newest</option>
+                                            <option value="1">Oldest</option>
+                                            <option value="2">Top</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="review-people">
+                                    <ul class="review-list">
+                                        <li>
+                                            <div class="people-box">
+                                                <div>
+                                                    <div class="people-image">
+                                                        <img src="{{ asset('frontend') }}/assets/images/review/1.jpg"
+                                                            class="img-fluid" alt="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="people-comment">
+                                                    <div class="name">
+                                                        <a href="#!">Tracey</a>
+                                                        <div class="product-rating">
+                                                            <ul class="rating">
+                                                                <li>
+                                                                    <i class="ri-star-fill fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-fill fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="date-time">
+                                                        <h5 class="text-content h6">1 week ago</h5>
+                                                    </div>
+
+                                                    <div class="reply">
+                                                        <p>Icing cookie carrot cake chocolate cake sugar
+                                                            plum jelly-o danish. Dragée dragée shortbread
+                                                            tootsie roll croissant muffin cake I love gummy
+                                                            bears. Candy canes ice cream caramels tiramisu
+                                                            marshmallow cake shortbread candy canes cookie.
+                                                        </p>
+                                                    </div>
+
+                                                    <ul class="share-box">
+                                                        <li>
+                                                            <a href="#!">
+                                                                <i class="ri-heart-3-line"></i>
+                                                                <span>Like</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#!">
+                                                                <i class="ri-share-line"></i>
+                                                                <span>Reply</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="people-box">
+                                                <div>
+                                                    <div class="people-image">
+                                                        <img src="{{ asset('frontend') }}/assets/images/review/5.jpg"
+                                                            class="img-fluid" alt="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="people-comment">
+                                                    <div class="name">
+                                                        <a href="#!">Kianna Gulgowski</a>
+                                                        <div class="product-rating">
+                                                            <ul class="rating">
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="date-time">
+                                                        <h6 class="text-content">1 week ago</h6>
+                                                    </div>
+
+                                                    <div class="reply">
+                                                        <p>Icing cookie carrot cake chocolate cake sugar
+                                                            plum jelly-o danish. Dragée dragée shortbread
+                                                            tootsie roll croissant muffin cake I love gummy
+                                                            bears. Candy canes ice cream caramels tiramisu
+                                                            marshmallow cake shortbread candy canes cookie.
+                                                        </p>
+                                                    </div>
+
+                                                    <ul class="share-box">
+                                                        <li>
+                                                            <a href="#!">
+                                                                <i class="ri-heart-3-line"></i>
+                                                                <span>Like</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#!">
+                                                                <i class="ri-share-line"></i>
+                                                                <span>Reply</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="people-box">
+                                                <div>
+                                                    <div class="people-image">
+                                                        <img src="{{ asset('frontend') }}/assets/images/review/6.jpg"
+                                                            class="img-fluid" alt="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="people-comment">
+                                                    <div class="name">
+                                                        <a href="#!">Ariane Fritsch</a>
+                                                        <div class="product-rating">
+                                                            <ul class="rating">
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li class="theme-color">
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="ri-star-line"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="date-time">
+                                                        <h6 class="text-content">1 week ago</h6>
+                                                    </div>
+
+                                                    <div class="reply">
+                                                        <p>Icing cookie carrot cake chocolate cake sugar
+                                                            plum jelly-o danish. Dragée dragée shortbread
+                                                            tootsie roll croissant muffin cake I love gummy
+                                                            bears. Candy canes ice cream caramels tiramisu
+                                                            marshmallow cake shortbread candy canes cookie.
+                                                        </p>
+                                                    </div>
+
+                                                    <ul class="share-box">
+                                                        <li>
+                                                            <a href="#!">
+                                                                <i class="ri-heart-3-line"></i>
+                                                                <span>Like</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#!">
+                                                                <i class="ri-share-line"></i>
+                                                                <span>Reply</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Nav Tab Section End -->
 
 
 
