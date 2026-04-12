@@ -78,7 +78,7 @@
                                             </li>
                                             <li></li>
                                             <li>
-                                                <h3>{{ $product->orderDetails->sum('qty') }} Sold</h3>
+                                                <h3>{{ shortNumber($product->orderDetails->sum('qty')) }} Sold</h3>
                                             </li>
                                         </ul>
                                     </div>
