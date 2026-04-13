@@ -333,6 +333,9 @@
                             </div>
                         @endforeach
                     </div>
+                    <div class="text-center">
+                        <a href="{{route('products')}}" class="btn btn-sm btn-load-more">See All Products</a>
+                    </div>
                 </div>
             </div>
         </div>
