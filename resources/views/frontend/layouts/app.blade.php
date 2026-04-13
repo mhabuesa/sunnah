@@ -929,7 +929,7 @@
     <script src="{{ asset('frontend') }}/assets/js/custom-swiper.js"></script>
 
     <!-- Lazyload Js -->
-    <script src="{{ asset('frontend') }}/assets/js/lazyload.js"></script>
+    {{-- <script src="{{ asset('frontend') }}/assets/js/lazyload.js"></script> --}}
 
     <!-- Iconsax js -->
     <script src="{{ asset('frontend') }}/assets/js/iconsax.js"></script>
