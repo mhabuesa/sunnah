@@ -110,7 +110,7 @@ if (!function_exists('smsSetting')) {
 
         if ($smsSetting === null) {
             // Model e kono data na thakleo null return korbe, error dibe na
-            $smsSetting = \App\Models\SmsConfig::first();
+            $smsSetting = SmsConfig::first();
         }
 
         return $smsSetting;

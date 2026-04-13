@@ -39,8 +39,8 @@ class CustomerController extends Controller
         ]);
 
 
-        if (smsSetting()->account_create_sms == 1) {
-
+        $smsConfig = smsSetting();
+        if ($smsConfig && $smsConfig->account_create_sms == 1) {
             $companyName = config('app.name');
             $message = "Welcome to {$companyName}, {$request->name}! Your account has been created successfully. Happy shopping! \n" . config('app.url');
             $smsService = new SmsService();
