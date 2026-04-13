@@ -1,6 +1,15 @@
 @extends('frontend.layouts.app')
 @section('title', 'Product Page')
 @push('header_script')
+    <style>
+        .product_price {
+            font-size: calc(21px + 5 * (100vw - 320px) / 672);
+            margin-bottom: calc(10px + 4 * (100vw - 320px) / 672);
+            font-weight: 600;
+            color: rgba(var(--primary-color), 1);
+            display: block !important;
+        }
+    </style>
 @endpush
 @section('content')
 
@@ -79,7 +88,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <h5 class="product-price mt-3">
+                                    <h5 class="product_price mt-3">
                                         <small id="mobile_total_price">0</small>
                                     </h5>
 
@@ -304,10 +313,10 @@
                     <div class="tab-pane fade active show pt-0" id="description">
                         <div class="product-description">
                             <div class="nav-desh">
-                               {!! $product->description!!}
+                                {!! $product->description !!}
                             </div>
 
-                            
+
                         </div>
                     </div>
 
