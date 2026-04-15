@@ -22,7 +22,7 @@
 @section('content')
 
     <!-- Shop Section Start -->
-    <section class="section-t-space shop-section">
+    <section class="section-t-space shop-section pt-4">
         <div class="custom-container">
             <div class="row">
                 <div class="col-custom-3">
@@ -241,12 +241,7 @@
                 </div>
 
                 <div class="col-custom-9">
-                    <a href="shop-left-sidebar.html" class="banner-main-box">
-                        <div class="banner-image">
-                            <img src="{{ asset('frontend') }}/assets/images/shop/1.jpg" class="img-fluid" alt="">
-                        </div>
-                    </a>
-                    <div class="show-button show-button-2 show-button-2-box">
+                    <div class="show-button show-button-2 mb-0">
                         <div class="top-filter-menu">
                             <div class="category-dropdown">
                                 <div class="filter-button d-inline-block d-lg-none">
@@ -277,10 +272,12 @@
                                                     Rating</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" id="aToz" href="#!">A - Z Order</a>
+                                                <a class="dropdown-item" id="aToz" href="#!">A - Z
+                                                    Order</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" id="zToa" href="#!">Z - A Order</a>
+                                                <a class="dropdown-item" id="zToa" href="#!">Z - A
+                                                    Order</a>
                                             </li>
                                             </li>
                                         </ul>
@@ -330,6 +327,18 @@
         </div>
     </section>
     <!-- Shop Section End -->
+
+    @if ($banner)
+        <!-- Banner Section Start -->
+        <section class="section-t-space pt-2">
+            <div class="custom-container">
+                <a href="{{ $banner->url }}" class="banner-box">
+                    <img class="lazy img-fluid" data-src="{{ asset($banner->image) }}">
+                </a>
+            </div>
+        </section>
+        <!-- Banner Section End -->
+    @endif
 
 @endsection
 

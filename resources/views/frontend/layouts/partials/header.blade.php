@@ -199,11 +199,11 @@
                         <div class="offcanvas-body">
                             <ul class="navbar-nav navbar-nav-dark">
                                 <li class="nav-item dropdown mega-dropdown">
-                                    <a class="nav-link" href="#!">Home</a>
+                                    <a class="nav-link" href="{{route('index')}}">Home</a>
                                 </li>
 
                                 <li class="nav-item dropdown mega-dropdown">
-                                    <a class="nav-link" href="#!">Shop</a>
+                                    <a class="nav-link" href="{{route('all.brands')}}">Brands</a>
                                 </li>
 
                                 <li class="nav-item dropdown mega-dropdown">

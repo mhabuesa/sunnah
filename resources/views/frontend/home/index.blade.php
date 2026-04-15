@@ -77,13 +77,13 @@
     </section>
     <!-- Home Section End -->
 
-    <!-- Product Section Start -->
+    <!-- Todays Deal Product Section Start -->
     <section section class="section-t-space">
         <div class="custom-container">
             <div class="title slider-button">
                 <div class="title-flex">
                     <h3>Today Deal</h3>
-                    <a href="shop-left-sidebar.html" class="light-blue">See all deals</a>
+                    <a href="{{ route('todays.deal') }}" class="light-blue">See all Deals</a>
                 </div>
                 <div class="title-slider-button">
                     <button class="product-five-slider-prev swiper-btn-prev">
@@ -160,7 +160,7 @@
                                             </div>
                                             <div class="productMain product-box-4 rounded-0">
                                                 <div class="product-image">
-                                                    <a href="{{route('product', $deal->product->slug)}}">
+                                                    <a href="{{ route('product', $deal->product->slug) }}">
                                                         <img class="lazy img-fluid productImage"
                                                             data-src="{{ asset($deal->product->image) }}">
                                                     </a>
@@ -168,7 +168,7 @@
                                                 <div class="product-content">
                                                     <h5 class="sub-name productName">{{ $deal->product->category->name }}
                                                     </h5>
-                                                    <a href="{{route('product', $deal->product->slug)}}" class="name">
+                                                    <a href="{{ route('product', $deal->product->slug) }}" class="name">
                                                         <h5>{{ Str::limit($deal->product->name, 20, '...') }}</h5>
                                                     </a>
                                                     <ul class="rating">
@@ -211,6 +211,9 @@
                                 </div>
                             @endforeach
                         </div>
+                        <div class="text-center">
+                            <a href="{{ route('todays.deal') }}" class="btn btn-sm btn-load-more mt-0">See all Deals</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -223,7 +226,8 @@
     <section class="section-t-space">
         <div class="custom-container">
             <div class="title justify-content-between d-sm-flex d-block">
-                <h3 class="d-flex align-center">Latest Products<a href="{{route('products')}}" class="ms-2 light-blue">See
+                <h3 class="d-flex align-center">Latest Products<a href="{{ route('products') }}"
+                        class="ms-2 light-blue">See
                         All Products</a>
                 </h3>
             </div>
@@ -284,14 +288,14 @@
                                     </div>
                                     <div class="productMain product-box-4 rounded-0">
                                         <div class="product-image">
-                                            <a href="{{route('product', $latestProduct->slug)}}">
+                                            <a href="{{ route('product', $latestProduct->slug) }}">
                                                 <img class="lazy img-fluid productImage"
                                                     data-src="{{ asset($latestProduct->image) }}">
                                             </a>
                                         </div>
                                         <div class="product-content">
                                             <h5 class="sub-name productName">{{ $latestProduct->category->name }}</h5>
-                                            <a href="{{route('product', $latestProduct->slug)}}" class="name">
+                                            <a href="{{ route('product', $latestProduct->slug) }}" class="name">
                                                 <h5>{{ Str::limit($latestProduct->name, '20', '...') }}</h5>
                                             </a>
                                             <ul class="rating">
@@ -334,7 +338,7 @@
                         @endforeach
                     </div>
                     <div class="text-center">
-                        <a href="{{route('products')}}" class="btn btn-sm btn-load-more">See All Products</a>
+                        <a href="{{ route('products') }}" class="btn btn-sm btn-load-more">See All Products</a>
                     </div>
                 </div>
             </div>
@@ -346,7 +350,7 @@
         <!-- Banner Section Start -->
         <section class="section-t-space">
             <div class="custom-container">
-                <a href="{{$middleBanners->url}}" class="banner-box">
+                <a href="{{ $middleBanners->url }}" class="banner-box">
                     <img class="lazy img-fluid" data-src="{{ asset($middleBanners->image) }}">
                 </a>
             </div>
@@ -451,7 +455,7 @@
         <!-- Banner Section Start -->
         <section class="section-t-space">
             <div class="custom-container">
-                <a href="{{$bottomBanners->url}}" class="banner-box">
+                <a href="{{ $bottomBanners->url }}" class="banner-box">
                     <img class="lazy img-fluid" data-src="{{ asset($bottomBanners->image) }}">
                 </a>
             </div>
@@ -463,7 +467,6 @@
 @endsection
 
 @push('footer_script')
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 

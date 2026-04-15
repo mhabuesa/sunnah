@@ -12,6 +12,7 @@ use App\Observers\BannerObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\LatestProductsObserver;
 use App\Observers\TodaysDealObserver;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -34,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Paginator::useBootstrapFive();
         AppSetting::observe(AppSettingObserver::class);
         Category::observe(CategoryObserver::class);
         Banner::observe(BannerObserver::class);

@@ -49,6 +49,7 @@
                                     <div class="mb-4">
                                         <label class="form-label" for="banner_type">Banner type</label>
                                         <select name="banner_type" id="banner_type" class="form-control" required>
+                                            <option value="">Select Banner Type</option>
                                             <option value="main"
                                                 {{ $banners->where('type', 'main')->count() >= 3 ? 'disabled' : '' }}
                                                 data-ratio="1996x920">Main
@@ -62,6 +63,9 @@
                                             <option value="todays_deal"
                                                 {{ $banners->where('type', 'todays_deal')->count() >= 1 ? 'disabled' : '' }}
                                                 data-ratio="1600x2788">Todays Deal Banner</option>
+                                            <option value="product_page"
+                                                {{ $banners->where('type', 'product_page')->count() >= 1 ? 'disabled' : '' }}
+                                                data-ratio="6400x660">Product Page Banner</option>
                                         </select>
                                         @error('banner_type')
                                             <span class="text-danger">{{ $message }}</span>
@@ -552,4 +556,13 @@
             }, 100);
         });
     </script>
+
+    @if ($errors->any())
+        <script>
+            $(document).ready(function() {
+                $('#addBannerField').show();
+                $('#addBanner').hide();
+            });
+        </script>
+    @endif
 @endpush

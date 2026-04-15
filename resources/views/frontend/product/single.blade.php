@@ -9,6 +9,21 @@
             color: rgba(var(--primary-color), 1);
             display: block !important;
         }
+
+        .qty-btn {
+            border: 1px solid #ddd;
+            padding: 0px 5px;
+        }
+
+        .qty-btn:hover {
+            color: rgba(var(--white), 1);
+            background-color: rgba(var(--primary-color), 1);
+        }
+
+        .qty-input {
+            height: 30px;
+            width: 45px
+        }
     </style>
 @endpush
 @section('content')
@@ -653,6 +668,122 @@
     </section>
     <!-- Nav Tab Section End -->
 
+    <!-- Related Product Section Start -->
+    <section class="product-list-section section-block-space ">
+        <div class="custom-container">
+            <div class="related-title">
+                <h2>Related Products</h2>
+            </div>
+
+            <div class="swiper related-products product-option-box slider-pagination-lg">
+                <div class="swiper-wrapper">
+                    @foreach ($relatedProduct as $relProduct)
+                        <div class="swiper-slide">
+                            <div class="product-box-4-main">
+                                <div class="select-option-box">
+                                    <div class="select-box">
+                                        <div>
+                                            @if ($relProduct->variations && $relProduct->variations->count() > 0)
+                                                @foreach ($relProduct->variations->groupBy('attribute_id') as $variations)
+                                                    <div class="size-box">
+                                                        <h4 class="h5">
+                                                            {{ $variations->first()->attribute?->name }}
+                                                        </h4>
+
+                                                        <ul class="size-list">
+                                                            @foreach ($variations as $variation)
+                                                                <li>
+                                                                    <a href="#!" class="variation-option"
+                                                                        data-id="{{ $variation->id }}">
+                                                                        {{ $variation->attributeValue?->value }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+
+                                            {{-- Quantity Box --}}
+                                            <div class="qty-box mt-3 d-flex align-items-center gap-2 mb-2   ">
+
+                                                <button class="btn qty-btn qty-minus">
+                                                    <i class="ri-subtract-line"></i>
+                                                </button>
+
+                                                <input type="number" class="form-control qty-input text-center"
+                                                    value="1" min="1">
+
+                                                <button class="btn qty-btn qty-plus">
+                                                    <i class="ri-add-line"></i>
+                                                </button>
+
+                                            </div>
+
+                                            <button class="btn add-cart-btn">add to cart</button>
+                                            <button class="close-btn btn" onclick="closeSidebar()">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="productMain product-box-4 pro-bg-white">
+                                    <div class="product-image">
+                                        <a href="{{ route('product', $relProduct->slug) }}">
+                                            <img class="lazy img-fluid productImage"
+                                                data-src="{{ asset($relProduct->image) }}">
+                                        </a>
+                                    </div>
+                                    <div class="product-content">
+                                        <h4 class="sub-name productName h6">{{ $relProduct->category->name }}</h4>
+                                        <a href="{{ route('product', $relProduct->slug) }}" class="name">
+                                            <h5>{{ Str::limit($relProduct->name, '20', '...') }}</h5>
+                                        </a>
+                                        <ul class="rating">
+                                            <li>
+                                                <i class="ri-star-fill fill"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ri-star-fill fill"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ri-star-fill fill"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ri-star-fill fill"></i>
+                                            </li>
+                                            <li>
+                                                <i class="ri-star-fill fill"></i>
+                                            </li>
+                                        </ul>
+                                        <h5 class="price">৳{{ $relProduct->price }}</h5>
+                                        <div class="option-box">
+                                            <button class="btn select-btn">Select Options</button>
+                                            <ul class="option-list">
+                                                <li>
+                                                    <a href="#!" class="wishlistProduct">
+                                                        <i class="ri-heart-3-line"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#!">
+                                                        <i class="ri-repeat-2-line"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    <!-- Related Product Section End -->
+
 
 
 @endsection
@@ -785,6 +916,35 @@
             }
 
             init();
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            document.querySelectorAll('.qty-box').forEach(box => {
+
+                let input = box.querySelector('.qty-input');
+                let plusBtn = box.querySelector('.qty-plus');
+                let minusBtn = box.querySelector('.qty-minus');
+
+                if (plusBtn) {
+                    plusBtn.addEventListener('click', () => {
+                        input.value = parseInt(input.value || 1) + 1;
+                    });
+                }
+
+                if (minusBtn) {
+                    minusBtn.addEventListener('click', () => {
+                        let current = parseInt(input.value || 1);
+                        if (current > 1) {
+                            input.value = current - 1;
+                        }
+                    });
+                }
+
+            });
 
         });
     </script>

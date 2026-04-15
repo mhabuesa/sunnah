@@ -4,7 +4,7 @@
             <div class="product-box-4 productMain pro-bg-white">
                 <div class="product-image">
                     <a href="{{ route('product', $product->slug) }}">
-                        <img class="lazy img-fluid productImage loaded" src="{{ asset($product->image) }}">
+                        <img class="lazy img-fluid productImage loaded" data-src="{{ asset($product->image) }}">
                     </a>
                 </div>
                 <div class="product-content">
@@ -37,7 +37,7 @@
 @empty
     <div class="col-12 w-100 text-center py-5">
         <div class="no-product-found mx-auto" style="max-width: 400px;">
-            <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
+            <img src="{{ asset('frontend/assets/images/no-product.png') }}" alt="No Product Found"
                 class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
             <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
             <p class="text-muted">Sorry, we couldn't find any products matching your current filters. Try adjusting your

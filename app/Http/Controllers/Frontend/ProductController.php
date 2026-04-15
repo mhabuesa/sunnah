@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\TodaysDeal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -13,7 +16,8 @@ class ProductController extends Controller
     public function product($slug)
     {
         $product = Product::where('slug', $slug)->with('category', 'subcategory', 'brand', 'meta', 'galleries', 'variations')->first();
-        return view('frontend.product.single', compact('product'));
+        $relatedProduct = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
+        return view('frontend.product.single', compact('product', 'relatedProduct'));
     }
 
     public function products()
@@ -23,7 +27,8 @@ class ProductController extends Controller
                 $query->where('status', 'active');
             }])
             ->get(['id', 'name']);
-        return view('frontend.product.all_products', compact('categories'));
+        $banner = Banner::where('type', 'product_page')->first();
+        return view('frontend.product.all_products', compact('categories', 'banner'));
     }
 
     public function ajaxProducts(Request $request)
@@ -81,5 +86,46 @@ class ProductController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function category_products($slug)
+    {
+        $category = Category::where('slug', $slug)->first();
+        $category_id = $category->id;
+        $banner = Banner::where('type', 'product_page')->first();
+        $products = Product::where('category_id', $category_id)
+            ->paginate(21);
+        return view('frontend.category.category_product', compact('category', 'banner', 'products'));
+    }
+
+
+    public function all_brands()
+    {
+        $brands = Brand::where('status', '1')
+            ->paginate(18);
+        return view('frontend.brand.brand_list', compact('brands'));
+    }
+
+    public function brand_product($slug)
+    {
+        $brand = Brand::where('slug', $slug)->first();
+        $brand_id = $brand->id;
+        $banner = Banner::where('type', 'product_page')->first();
+        $products = Product::where('category_id', $brand_id)
+            ->paginate(21);
+        return view('frontend.brand.brand_product', compact('brand', 'banner', 'products'));
+    }
+
+    public function todaysDeal()
+    {
+        $productIds = TodaysDeal::where('status', 1)
+            ->latest()
+            ->pluck('product_id');
+
+        $products = Product::whereIn('id', $productIds)
+            ->latest()
+            ->paginate(21);
+        $banner = Banner::where('type', 'product_page')->first();
+        return view('frontend.todaysDeal.todaysDeal_product', compact('banner', 'products'));
     }
 }

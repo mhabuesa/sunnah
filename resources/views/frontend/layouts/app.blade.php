@@ -895,7 +895,7 @@
             <ul class="top-menu-list">
                 @forelse ($categories as $category)
                     <li>
-                        <a href="shop-left-sidebar.html" class="sub-category-box">
+                        <a href="{{route('category', $category->slug)}}" class="sub-category-box">
                             <img src="{{ asset($category->logo) }}" width="25" alt="">
                             <h5>{{ $category->name }}</h5>
                         </a>
