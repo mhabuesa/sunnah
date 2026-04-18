@@ -39,6 +39,9 @@
     <!-- Style Link -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/css/style.css">
 
+    <!-- Custom Style Link -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/custom/style.css">
+
     @stack('header_script')
 </head>
 
@@ -67,9 +70,9 @@
                         </div>
                         <ul class="footer-content-list">
                             <li>
-                                <a href="tel:{{setting()->phone}}" class="content-box">
-                                  <i class="iconsax" data-icon-name="phone-calling"></i>
-                                    <h4 class="theme-color3">{{setting()->phone}}</h4>
+                                <a href="tel:{{ setting()->phone }}" class="content-box">
+                                    <i class="iconsax" data-icon-name="phone-calling"></i>
+                                    <h4 class="theme-color3">{{ setting()->phone }}</h4>
                                 </a>
                             </li>
                             <li>
@@ -77,7 +80,7 @@
                                     <div class="footer-content-icon">
                                         <i class="iconsax" data-icon-name="location"></i>
                                     </div>
-                                    <h5>{{setting()->address}}</h5>
+                                    <h5>{{ setting()->address }}</h5>
                                 </a>
                             </li>
                             <li>
@@ -88,7 +91,7 @@
                                             </use>
                                         </svg>
                                     </div>
-                                    <h5>{{setting()->email}}</h5>
+                                    <h5>{{ setting()->email }}</h5>
                                 </a>
                             </li>
                         </ul>
@@ -895,7 +898,7 @@
             <ul class="top-menu-list">
                 @forelse ($categories as $category)
                     <li>
-                        <a href="{{route('category', $category->slug)}}" class="sub-category-box">
+                        <a href="{{ route('category', $category->slug) }}" class="sub-category-box">
                             <img src="{{ asset($category->logo) }}" width="25" alt="">
                             <h5>{{ $category->name }}</h5>
                         </a>
@@ -970,7 +973,92 @@
             lazyImages.forEach(img => observer.observe(img));
         });
     </script>
-    
+
+    <script>
+        let debounceTimer;
+
+        function handleSearchUI(query) {
+
+            // কিছু না লিখলে
+            if (query.length === 0) {
+                $('#searchResult').html('');
+                $('#searchLoading').hide();
+                $('#searchMessage').show().html('🔍 Please type something to search...');
+                return false;
+            }
+
+            // 3 letter এর কম হলে
+            if (query.length < 3) {
+                $('#searchResult').html('');
+                $('#searchLoading').hide();
+                $('#searchMessage').show().html('⌨️ Type at least 3 characters...');
+                return false;
+            }
+
+            return true;
+        }
+
+        // 👉 keyup event
+        $('#searchInputBox').on('keyup', function() {
+            let query = $(this).val();
+            const baseUrl = "{{ asset('') }}";
+
+            clearTimeout(debounceTimer);
+
+            debounceTimer = setTimeout(function() {
+
+                if (!handleSearchUI(query)) return;
+
+                $('#searchLoading').show();
+                $('#searchMessage').hide();
+                $('#searchResult').html('');
+
+                $.ajax({
+                    url: "{{ route('search.product.ajax') }}",
+                    type: "GET",
+                    data: {
+                        search: query
+                    },
+                    success: function(data) {
+
+                        $('#searchLoading').hide();
+
+                        let html = '';
+
+                        if (data.length > 0) {
+                            data.forEach(function(product) {
+                                html += `
+                                    <li>
+                                        <img src="${baseUrl}${product.image}" width="50">
+                                        <a href="/product/${product.slug}">${product.name}</a>
+                                    </li>
+                                `;
+                            });
+
+                            $('#searchResult').html(html);
+                            $('#searchMessage').hide();
+
+                        } else {
+                            $('#searchResult').html('');
+                            $('#searchMessage').show().html('❌ No product found');
+                        }
+                    },
+                    error: function() {
+                        $('#searchLoading').hide();
+                        $('#searchMessage').show().html('⚠️ Something went wrong');
+                    }
+                });
+
+            }, 400);
+        });
+
+        // 👉 focus event (NEW)
+        $('#searchInputBox').on('focus', function() {
+            let query = $(this).val();
+            handleSearchUI(query);
+        });
+    </script>
+
     @stack('footer_script')
 </body>
 

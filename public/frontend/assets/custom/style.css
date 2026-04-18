@@ -1,0 +1,27 @@
+.search_product li img {
+    width: 30px;
+    margin-right: 5px;
+    padding: 2px;
+}
+
+.search_product li a {
+    color: rgba(var(--title-color), 1);
+    font-size: calc(16px + 3     * (100vw - 320px) / 1600);
+    text-transform: capitalize;
+    font-weight: 500;
+    transition: color 0.15s ease-in-out;
+}
+
+.search_product li a:hover {
+    color: #ff9900;
+}
+
+.search_product li {
+    padding: 0;
+}
+.search_product {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(5px + 4 * (100vw - 320px) / 1600);
+}

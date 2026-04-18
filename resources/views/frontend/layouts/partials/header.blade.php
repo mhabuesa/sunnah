@@ -27,37 +27,18 @@
                         </button>
                     </div>
                     <div class="result-box" id="resultBox">
-                        <div class="search-result-box search-border-box">
-                            <div class="result-title mb-sm-3 mb-2">
-                                <h4>Popular Product</h4>
+
+                        <div class="last-search-box search-border-box">
+
+                            <ul class="search_product" id="searchResult"></ul>
+
+                            <div id="searchMessage" class="text-center py-3 text-muted" style="display:none;"></div>
+
+                            <div id="searchLoading" class="text-center py-3" style="display:none;">
+                                <div class="spinner-border text-primary" role="status"></div>
                             </div>
-                            <ul class="result-list-box">
-                                <li>
-                                    <a href="product-color.html">iPhone 14</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">kitchen utensils</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">Realme 10 PRO</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">Sport & Outdoor</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">Samsung Gal. M14</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">Office Wear Perfume</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">Handmade table</a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">mini projector</a>
-                                </li>
-                            </ul>
                         </div>
+
                         <div class="last-search-box search-border-box">
                             <div class="result-title mb-sm-3 mb-2">
                                 <h4>Last Search</h4>
@@ -75,49 +56,6 @@
                                 </li>
                                 <li>
                                     <a href="shop-left-sidebar.html">Samsung Galaxy M14</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="last-seen-search-box search-border-box">
-                            <div class="result-title mb-sm-3 mb-2">
-                                <h4>Recently Viewed</h4>
-                            </div>
-                            <ul class="search-list-box">
-                                <li>
-                                    <a href="product-color.html">
-                                        <img src="{{ asset('frontend') }}/assets/images/product/104.png"
-                                            class="img-fluid" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">
-                                        <img src="{{ asset('frontend') }}/assets/images/product/58.png"
-                                            class="img-fluid" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">
-                                        <img src="{{ asset('frontend') }}/assets/images/product/69.png"
-                                            class="img-fluid" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">
-                                        <img src="{{ asset('frontend') }}/assets/images/product/42.jpg"
-                                            class="img-fluid" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">
-                                        <img src="{{ asset('frontend') }}/assets/images/product/50.jpg"
-                                            class="img-fluid" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="product-color.html">
-                                        <img src="{{ asset('frontend') }}/assets/images/product/5.png" class="img-fluid"
-                                            alt="">
-                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -172,7 +110,7 @@
                     </li>
                     <li>
                         <div id="darkBtn" class="btn-sm btn px-2">
-                             <i class="ri-moon-fill fs-5"></i>
+                            <i class="ri-moon-fill fs-5"></i>
                         </div>
                     </li>
                 </ul>
@@ -199,11 +137,11 @@
                         <div class="offcanvas-body">
                             <ul class="navbar-nav navbar-nav-dark">
                                 <li class="nav-item dropdown mega-dropdown">
-                                    <a class="nav-link" href="{{route('index')}}">Home</a>
+                                    <a class="nav-link" href="{{ route('index') }}">Home</a>
                                 </li>
 
                                 <li class="nav-item dropdown mega-dropdown">
-                                    <a class="nav-link" href="{{route('all.brands')}}">Brands</a>
+                                    <a class="nav-link" href="{{ route('all.brands') }}">Brands</a>
                                 </li>
 
                                 <li class="nav-item dropdown mega-dropdown">

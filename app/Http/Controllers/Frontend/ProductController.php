@@ -128,4 +128,16 @@ class ProductController extends Controller
         $banner = Banner::where('type', 'product_page')->first();
         return view('frontend.todaysDeal.todaysDeal_product', compact('banner', 'products'));
     }
+
+    public function search_product_ajax(Request $request)
+    {
+        $query = $request->search;
+
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return response()->json($products);
+    }
 }

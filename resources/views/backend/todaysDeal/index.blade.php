@@ -57,7 +57,7 @@
                                             style="width: 100%;" required>
                                         </select>
                                         @error('product_id')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger">The Product has already been taken.</span>
                                         @enderror
                                     </div>
                                 </div>

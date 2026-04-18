@@ -17,4 +17,5 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/allBrands', 'all_brands')->name('all.brands');
     Route::get('/brand/{slug}', 'brand_product')->name('brand');
     Route::get('/todays/deal', 'todaysDeal')->name('todays.deal');
+    Route::get('/searchProduct/ajax', 'search_product_ajax')->name('search.product.ajax');
 });
