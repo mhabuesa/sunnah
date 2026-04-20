@@ -15,14 +15,14 @@
             </div>
             <div class="middle-header searchInput" id="searchOffcanvas">
                 <div class="search-overlay" id="searchOverlay"></div>
-                <form class="search-form">
+                <form class="search-form" action="{{route('search.product')}}" method="GET">
                     <div class="input-group">
                         <div class="close-icon">
                             <i class="ri-close-fill" id="close-btn"></i>
                         </div>
                         <input id="searchInputBox" type="search" class="form-control border"
-                            placeholder="I'm searching for...">
-                        <button class="search-button btn search-light-color theme-bg-color text-light">
+                            placeholder="I'm searching for..." name="q" required>
+                        <button type="submit" class="search-button btn search-light-color theme-bg-color text-light">
                             <i class="ri-search-line"></i>
                         </button>
                     </div>
@@ -104,7 +104,7 @@
                         <a data-bs-toggle="offcanvas" href="#cartOffcanvas">
                             <i class="iconsax" data-icon-name="basket-2"></i>
                             <span class="label">
-                                <span>5</span>
+                                <span>{{$cartCount}}</span>
                             </span>
                         </a>
                     </li>

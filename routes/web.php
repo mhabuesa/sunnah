@@ -21,7 +21,6 @@
     use App\Http\Controllers\TodaysDealController;
     use App\Http\Controllers\UserController;
     use App\Http\Controllers\VariationController;
-    use App\Models\Customer;
     use Illuminate\Support\Facades\Route;
 
     Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
@@ -32,6 +31,7 @@
 
     Route::controller(HomeController::class)->group(function () {
         Route::get('/fraudCheck', 'fraudCheck')->name('froudCheck');
+        Route::get('/awajDigital/CheckBalance', 'CheckBalance');
     });
 
     Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {

@@ -32,211 +32,216 @@
     <section class="product-section section-t-space">
         <div class="custom-container">
             <div class="row">
-                <div class="col-xxl-10 col-xl-8 col-lg-7">
-                    <div class="left-card">
-                        <div class="row g-xxl-5 g-md-4 g-3">
-                            <div class="col-xxl-6">
-                                <div class="product-left-box">
-                                    <div class="row g-sm-4 g-2">
-                                        <div class="col-12">
-                                            <div class="swiper product-original-slider product-original-box">
-                                                <div class="swiper-wrapper">
-                                                    @foreach ($product->galleries as $image)
-                                                        <div class="swiper-slide">
-                                                            <div class="slider-image">
-                                                                <img src="{{ asset($image->image) }}" class="img-fluid"
-                                                                    alt="">
+                <form action="{{ route('addToCart') }}" method="POST">
+                    @csrf
+                    <div class="col-xxl-10 col-xl-8 col-lg-7">
+                        <div class="left-card">
+                            <div class="row g-xxl-5 g-md-4 g-3">
+                                <div class="col-xxl-6">
+                                    <div class="product-left-box">
+                                        <div class="row g-sm-4 g-2">
+                                            <div class="col-12">
+                                                <div class="swiper product-original-slider product-original-box">
+                                                    <div class="swiper-wrapper">
+                                                        @foreach ($product->galleries as $image)
+                                                            <div class="swiper-slide">
+                                                                <div class="slider-image">
+                                                                    <img src="{{ asset($image->image) }}" class="img-fluid"
+                                                                        alt="">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    @endforeach
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12">
-                                            <div class="swiper thumbnail-product-slider product-thumbnail-box">
-                                                <div class="swiper-wrapper">
-                                                    @foreach ($product->galleries as $image)
-                                                        <div class="swiper-slide">
-                                                            <div class="sidebar-image">
-                                                                <img src="{{ asset($image->image) }}" class="img-fluid"
-                                                                    alt="">
+                                            <div class="col-12">
+                                                <div class="swiper thumbnail-product-slider product-thumbnail-box">
+                                                    <div class="swiper-wrapper">
+                                                        @foreach ($product->galleries as $image)
+                                                            <div class="swiper-slide">
+                                                                <div class="sidebar-image">
+                                                                    <img src="{{ asset($image->image) }}" class="img-fluid"
+                                                                        alt="">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    @endforeach
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-xxl-6 border-left-cls">
-                                <div class="right-box-contain">
-                                    <div class="product-count">
-                                        <ul>
-                                            <li>
-                                                @php
-                                                    $orderCount = $product->orderDetails()->count();
-                                                @endphp
-                                                <i class="ri-flashlight-line"></i>
-                                                <h3 class="lang">
-                                                    {{ shortNumber($orderCount) }}
-                                                    {{ Str::plural('Customer', $orderCount) }} Ordered
-                                                </h3>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <h4 class="name">{{ $product->name }}</h4>
-                                    <div class="price-rating">
-                                        <ul class="rating-review-sold-box">
-                                            <li>
-                                                <h3><i class="ri-star-fill"></i> 4.9 Ratings</h3>
-                                            </li>
-                                            <li></li>
-                                            <li>
-                                                <h3>2.3k+ Reviews</h3>
-                                            </li>
-                                            <li></li>
-                                            <li>
-                                                <h3>{{ shortNumber($product->orderDetails->sum('qty')) }} Sold</h3>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <h5 class="product_price mt-3">
-                                        <small id="mobile_total_price">0</small>
-                                    </h5>
-
-                                    <div class="product-package product-spacing">
-
-                                        @foreach ($product->variations->groupBy('attribute_id') as $variations)
-                                            <h4 class="mb-1">
-                                                Choose : {{ $variations->first()?->attribute?->name }}
-                                            </h4>
-
-                                            <form class="select-package">
-
-                                                @foreach ($variations as $key => $variation)
-                                                    <div class="form-check">
-                                                        <input class="form-check-input variation-radio" type="radio"
-                                                            name="variation_{{ $variation->attribute_id }}"
-                                                            {{ $key == 0 ? 'checked' : '' }} value="{{ $variation->id }}"
-                                                            data-name="{{ $variation->attributeValue?->value }}"
-                                                            data-price="{{ $variation->price }}"
-                                                            data-stock="{{ $variation->stock }}"
-                                                            id="var{{ $variation->id }}">
-
-                                                        <label class="form-check-label" for="var{{ $variation->id }}">
-                                                            {{ $variation->attributeValue?->value }}
-                                                        </label>
-                                                    </div>
-                                                @endforeach
-
-                                            </form>
-                                        @endforeach
-
-                                    </div>
-
-
-
-                                    @php
-                                        if ($product->variations && $product->variations->count() > 0) {
-                                            $stock = $product->variations->sum('stock');
-                                        } else {
-                                            $stock = $product->stock;
-                                        }
-                                        $maxStock = 100;
-                                        $percentage = $maxStock > 0 ? ($stock / $maxStock) * 100 : 0;
-                                        $percentage = min($percentage, 100);
-                                    @endphp
-
-                                    <div class="hurry-up-box">
-                                        <h5>
-                                            There are just
-                                            <span class="theme-color">{{ $stock }}</span>
-                                            left in stock, so please act immediately.
+                                <div class="col-xxl-6 border-left-cls">
+                                    <div class="right-box-contain">
+                                        <div class="product-count">
+                                            <ul>
+                                                <li>
+                                                    @php
+                                                        $orderCount = $product->orderDetails()->count();
+                                                    @endphp
+                                                    <i class="ri-flashlight-line"></i>
+                                                    <h3 class="lang">
+                                                        {{ shortNumber($orderCount) }}
+                                                        {{ Str::plural('Customer', $orderCount) }} Ordered
+                                                    </h3>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <h4 class="name">{{ $product->name }} - {{$cartCount}}</h4>
+                                        <div class="price-rating">
+                                            <ul class="rating-review-sold-box">
+                                                <li>
+                                                    <h3><i class="ri-star-fill"></i> 4.9 Ratings</h3>
+                                                </li>
+                                                <li></li>
+                                                <li>
+                                                    <h3>2.3k+ Reviews</h3>
+                                                </li>
+                                                <li></li>
+                                                <li>
+                                                    <h3>{{ shortNumber($product->orderDetails->sum('qty')) }} Sold</h3>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <h5 class="product_price mt-3">
+                                            <small id="mobile_total_price">0</small>
                                         </h5>
 
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                                style="width: {{ $percentage }}%">
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <div class="product-package product-spacing">
 
-                                    <div class="about-item-box product-spacing border-top-space">
-                                        <div class="product-title">
-                                            <h4>About Item :</h4>
-                                        </div>
+                                            @foreach ($product->variations->groupBy('attribute_id') as $variations)
+                                                <h4 class="mb-1">
+                                                    Choose : {{ $variations->first()?->attribute?->name }}
+                                                </h4>
 
-                                        <ul class="about-item-list">
-                                            <li>Brand : <span>{{ $product->brand->name }}</span></li>
-                                            <li>Category : <span>{{ $product->category->name }}</span></li>
-                                        </ul>
-                                    </div>
+                                                <div class="select-package">
 
+                                                    @foreach ($variations as $key => $variation)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input variation-radio" type="radio"
+                                                                name="variation" {{ $key == 0 ? 'checked' : '' }}
+                                                                value="{{ $variation->id }}"
+                                                                data-name="{{ $variation->attributeValue?->value }}"
+                                                                data-price="{{ $variation->price }}"
+                                                                data-stock="{{ $variation->stock }}"
+                                                                id="var{{ $variation->id }}">
 
-                                </div>
+                                                            <label class="form-check-label" for="var{{ $variation->id }}">
+                                                                {{ $variation->attributeValue?->value }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
 
-                                <div class="right-sidebar-box  d-lg-block">
-                                    <div class="side-product-detail">
-                                        <div class="qty-stock-box">
-                                            <div class="qty-box h-100 qty-container quantity-box-2">
-                                                <button class="btn qty-btn s-minus">
-                                                    <i class="ri-subtract-line"></i>
-                                                </button>
-                                                <input class="qty-input form-control" id="sidebar_qty" value="1"
-                                                    min="1">
-                                                <button class="btn qty-btn s-plus">
-                                                    <i class="ri-add-line"></i>
-                                                </button>
-                                            </div>
-                                            <div class="stock-box">
-                                                <h5>stock: <span id="stock_value">0</span></h5>
-                                            </div>
-                                        </div>
-
-                                        <div class="total-price-box">
-                                            <h4><span>Total Price:</span><small id="total_price">0</small></h4>
-                                        </div>
-
-                                        <input type="hidden" name="selected_variations" id="selected_variations">
-
-                                        <div class="d-flex flex-column flex-lg-row my-2">
-
-                                            <button
-                                                class="btn buy-btn theme-bg-color text-white w-100 flex-lg-fill mb-2 mb-lg-0 me-lg-2">
-                                                Buy now
-                                            </button>
-
-                                            <button class="btn buy-btn-2 theme-border fw-500 w-100 flex-lg-fill ms-lg-2">
-                                                <i class="ri-shopping-bag-line me-1"></i> Add to bag
-                                            </button>
+                                                </div>
+                                            @endforeach
 
                                         </div>
 
-                                        <div class="seller-product">
+
+
+                                        @php
+                                            if ($product->variations && $product->variations->count() > 0) {
+                                                $stock = $product->variations->sum('stock');
+                                            } else {
+                                                $stock = $product->stock;
+                                            }
+                                            $maxStock = 100;
+                                            $percentage = $maxStock > 0 ? ($stock / $maxStock) * 100 : 0;
+                                            $percentage = min($percentage, 100);
+                                        @endphp
+
+                                        <div class="hurry-up-box">
                                             <h5>
-                                                <a href="#!"><i class="ri-message-2-fill"></i> Chat Seller</a>
+                                                There are just
+                                                <span class="theme-color">{{ $stock }}</span>
+                                                left in stock, so please act immediately.
                                             </h5>
-                                            <h5>
-                                                <a href="#shareProductModal" data-bs-toggle="modal"><i
-                                                        class="ri-share-fill"></i>
-                                                    Share Product</a>
-                                            </h5>
+
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                    style="width: {{ $percentage }}%">
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <div class="about-item-box product-spacing border-top-space">
+                                            <div class="product-title">
+                                                <h4>About Item :</h4>
+                                            </div>
+
+                                            <ul class="about-item-list">
+                                                <li>Brand : <span>{{ $product->brand->name }}</span></li>
+                                                <li>Category : <span>{{ $product->category->name }}</span></li>
+                                            </ul>
+                                        </div>
+
+
                                     </div>
 
-                                    {{-- <a href="shop-left-sidebar.html" class="banner-box">
+                                    <div class="right-sidebar-box  d-lg-block">
+                                        <div class="side-product-detail">
+                                            <div class="qty-stock-box">
+                                                <div class="qty-box h-100 qty-container quantity-box-2">
+                                                    <button type="button" class="btn qty-btn s-minus">
+                                                        <i class="ri-subtract-line"></i>
+                                                    </button>
+                                                    <input class="qty-input form-control" id="sidebar_qty" value="1"
+                                                        min="1" name="quantity">
+                                                    <button type="button" class="btn qty-btn s-plus">
+                                                        <i class="ri-add-line"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="stock-box">
+                                                    <h5>stock: <span id="stock_value">0</span></h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="total-price-box">
+                                                <h4><span>Total Price:</span><small id="total_price">0</small></h4>
+                                            </div>
+
+                                            {{-- <input type="hidden" name="selected_variations" id="selected_variations"> --}}
+                                            <input type="hidden" name="product_id" id="product_id" value="{{$product->id}}">
+
+                                            <div class="d-flex flex-column flex-lg-row my-2">
+
+                                                <a href="#"
+                                                    class="btn buy-btn theme-bg-color text-white w-100 flex-lg-fill mb-2 mb-lg-0 me-lg-2">
+                                                    Buy now
+                                                </a>
+
+                                                <button type="submit"
+                                                    class="btn buy-btn-2 theme-border fw-500 w-100 flex-lg-fill ms-lg-2">
+                                                    <i class="ri-shopping-bag-line me-1"></i> Add to Cart
+                                                </button>
+
+                                            </div>
+
+                                            <div class="seller-product">
+                                                <h5>
+                                                    <a href="#!"><i class="ri-message-2-fill"></i> Chat Seller</a>
+                                                </h5>
+                                                <h5>
+                                                    <a href="#shareProductModal" data-bs-toggle="modal"><i
+                                                            class="ri-share-fill"></i>
+                                                        Share Product</a>
+                                                </h5>
+                                            </div>
+                                        </div>
+
+                                        {{-- <a href="shop-left-sidebar.html" class="banner-box">
                                         <img src="{{ asset('frontend') }}/assets/images/banner/44.jpg" class="img-fluid"
                                             alt="">
                                     </a> --}}
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 {{-- <div class="col-xxl-3 col-xl-4 col-lg-5 d-none d-lg-block">
                     <div class="right-sidebar-box">

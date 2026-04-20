@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\TodaysDeal;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +18,8 @@ class ProductController extends Controller
     {
         $product = Product::where('slug', $slug)->with('category', 'subcategory', 'brand', 'meta', 'galleries', 'variations')->first();
         $relatedProduct = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
-        return view('frontend.product.single', compact('product', 'relatedProduct'));
+        $cartCount = CartService::count();
+        return view('frontend.product.single', compact('product', 'relatedProduct','cartCount'));
     }
 
     public function products()
@@ -139,5 +141,15 @@ class ProductController extends Controller
             ->get();
 
         return response()->json($products);
+    }
+
+    public function search_product(Request $request)
+    {
+        $query = $request->q;
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->latest()
+            ->paginate(21);
+        $banner = Banner::where('type', 'product_page')->first();
+        return view('frontend.search.search_page', compact('products', 'banner'));
     }
 }

@@ -5024,6 +5024,8 @@ body.dark .offcanvas.category-fixed-box .category-header .btn-close {
   background-color: #f2f3f7;
   padding: calc(13px + 3 * (100vw - 320px) / 1600);
   border-top: 1px solid rgba(var(--content-color), 0.2);
+  bottom: 0;
+  position: absolute;
 }
 body.dark .offcanvas.cart-offcanvas .offcanvas-body .cart-product-box .total-price-box {
   background-color: #131921;

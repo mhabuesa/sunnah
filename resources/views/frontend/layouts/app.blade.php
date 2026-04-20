@@ -288,235 +288,62 @@
         <div class="offcanvas-body">
             <div class="cart-product-box">
                 <ul class="product-box-list">
-                    <li class="vertical-product-box">
-                        <a href="product-color.html" class="product-image">
-                            <img src="{{ asset('frontend') }}/assets/images/product/1.png" class="img-fluid"
-                                alt="">
-                        </a>
-                        <div class="product-content">
-                            <a href="product-color.html">
-                                <h5 class="name title-color">Smart Watch Series X3</h5>
-                            </a>
-                            <ul class="rating">
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                            </ul>
-                            <h5 class="price">$202.34 <del>$250.00</del></h5>
-                            <div class="quantity-box qty-container">
-                                <button class="btn qty-btn-minus">
-                                    <i class=" ri-subtract-line"></i>
-                                </button>
-                                <button class="btn btn-trash">
-                                    <i class=" ri-delete-bin-line"></i>
-                                </button>
-                                <input type="number" name="qty" disabled=""
-                                    class="quantity form-control input-qty" value="1">
-                                <button class="btn qty-btn-plus">
-                                    <i class="ri-add-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button class="btn close-button">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </li>
+                    @foreach ($cartItems as $item)
+                        @php
+                            $product = $cartProducts[$item['product_id']] ?? null;
+                            $variation = $cartVariations[$item['variation_id']] ?? null;
 
-                    <li class="vertical-product-box">
-                        <a href="product-color.html" class="product-image">
-                            <img src="{{ asset('frontend') }}/assets/images/product/2.png" class="img-fluid"
-                                alt="">
-                        </a>
-                        <div class="product-content">
-                            <a href="product-color.html">
-                                <h5 class="name title-color">Slim 3 Intel Core i5</h5>
+                            $price = $variation->price ?? $product->price;
+                        @endphp
+                        <li class="vertical-product-box">
+                            <a href="product-color.html" class="product-image">
+                                <img src="{{ asset($product->image) }}" class="img-fluid" alt="">
                             </a>
-                            <ul class="rating">
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill"></i>
-                                </li>
-                            </ul>
-                            <h5 class="price">$700.00 <del>$720.00</del></h5>
-                            <div class="quantity-box qty-container">
-                                <button class="btn qty-btn-minus">
-                                    <i class="ri-subtract-line"></i>
-                                </button>
-                                <button class="btn btn-trash">
-                                    <i class=" ri-delete-bin-line"></i>
-                                </button>
-                                <input type="number" name="qty" disabled=""
-                                    class="quantity form-control input-qty" value="1">
-                                <button class="btn qty-btn-plus">
-                                    <i class="ri-add-line"></i>
-                                </button>
+                            <div class="product-content">
+                                <a href="product-color.html">
+                                    <h5 class="name title-color">{{ $product->name }}</h5>
+                                </a>
+                                <ul class="rating">
+                                    <li>
+                                        <i class="ri-star-fill fill"></i>
+                                    </li>
+                                    <li>
+                                        <i class="ri-star-fill fill"></i>
+                                    </li>
+                                    <li>
+                                        <i class="ri-star-fill fill"></i>
+                                    </li>
+                                    <li>
+                                        <i class="ri-star-fill fill"></i>
+                                    </li>
+                                    <li>
+                                        <i class="ri-star-fill fill"></i>
+                                    </li>
+                                </ul>
+                                <h5 class="price">{{ $price }}</h5>
+                                <div class="quantity-box qty-container">
+                                    <button class="btn qty-btn-minus"
+                                        style="display: {{ $item['qty'] == '1' ? 'none' : 'inline-block' }}">
+                                        <i class=" ri-subtract-line"></i>
+                                    </button>
+                                    <button class="btn btn-trash"
+                                        style="display: {{ $item['qty'] == '1' ? 'inline-block' : 'none' }};">
+                                        <i class=" ri-delete-bin-line"></i>
+                                    </button>
+                                    <input type="number" name="qty" disabled=""
+                                        class="quantity form-control input-qty" value="{{ $item['qty'] }}">
+                                    <button class="btn qty-btn-plus">
+                                        <i class="ri-add-line"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <button class="btn close-button">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </li>
+                            <button class="btn close-button"
+                                style="display: {{ $item['qty'] == '1' ? 'none' : 'inline-block' }}">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </li>
+                    @endforeach
 
-                    <li class="vertical-product-box">
-                        <a href="product-color.html" class="product-image">
-                            <img src="{{ asset('frontend') }}/assets/images/product/3.png" class="img-fluid"
-                                alt="">
-                        </a>
-                        <div class="product-content">
-                            <a href="product-color.html">
-                                <h5 class="name title-color">Portable Laptop Table</h5>
-                            </a>
-                            <ul class="rating">
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill"></i>
-                                </li>
-                            </ul>
-                            <h5 class="price">$398.00 <del>$450.00</del></h5>
-                            <div class="quantity-box qty-container">
-                                <button class="btn qty-btn-minus">
-                                    <i class="ri-subtract-line"></i>
-                                </button>
-                                <button class="btn btn-trash">
-                                    <i class=" ri-delete-bin-line"></i>
-                                </button>
-                                <input type="number" name="qty" disabled=""
-                                    class="quantity form-control input-qty" value="1">
-                                <button class="btn qty-btn-plus">
-                                    <i class="ri-add-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button class="btn close-button">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </li>
-
-                    <li class="vertical-product-box">
-                        <a href="product-color.html" class="product-image">
-                            <img src="{{ asset('frontend') }}/assets/images/product/5.png" class="img-fluid"
-                                alt="">
-                        </a>
-                        <div class="product-content">
-                            <a href="product-color.html">
-                                <h5 class="name title-color">Kitchen Accessories</h5>
-                            </a>
-                            <ul class="rating">
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill"></i>
-                                </li>
-                            </ul>
-                            <h5 class="price">$300.00 <del>$312.56</del></h5>
-                            <div class="quantity-box qty-container">
-                                <button class="btn qty-btn-minus">
-                                    <i class="ri-subtract-line"></i>
-                                </button>
-                                <button class="btn btn-trash">
-                                    <i class=" ri-delete-bin-line"></i>
-                                </button>
-                                <input type="number" name="qty" disabled=""
-                                    class="quantity form-control input-qty" value="1">
-                                <button class="btn qty-btn-plus">
-                                    <i class="ri-add-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button class="btn close-button">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </li>
-
-                    <li class="vertical-product-box">
-                        <a href="product-color.html" class="product-image">
-                            <img src="{{ asset('frontend') }}/assets/images/product/6.png" class="img-fluid"
-                                alt="">
-                        </a>
-                        <div class="product-content">
-                            <a href="product-color.html">
-                                <h5 class="name title-color">Rockerz Bluetooth Headphone</h5>
-                            </a>
-                            <ul class="rating">
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                                <li>
-                                    <i class="ri-star-fill fill"></i>
-                                </li>
-                            </ul>
-                            <h5 class="price">$100.00 <del>$180.00</del></h5>
-                            <div class="quantity-box qty-container">
-                                <button class="btn qty-btn-minus">
-                                    <i class="ri-subtract-line"></i>
-                                </button>
-                                <button class="btn btn-trash">
-                                    <i class=" ri-delete-bin-line"></i>
-                                </button>
-                                <input type="number" name="qty" disabled=""
-                                    class="quantity form-control input-qty" value="1">
-                                <button class="btn qty-btn-plus">
-                                    <i class="ri-add-line"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button class="btn close-button">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </li>
                     <li class="empty-cart">
                         <svg>
                             <use
@@ -528,14 +355,7 @@
                 </ul>
 
                 <div class="total-price-box">
-                    <p class="free">Almost there, add $32.50 more to get <b>FREE SHIPPING!</b></p>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%">
-                            <i class="iconsax" data-icon-name="truck"></i>
-                        </div>
-                    </div>
-                    <h4 class="sub-total">Subtotal <span id="total-price">$1700.00 USD</span></h4>
-                    <p class="tax-text">Tax included <span>shipping</span>calculator at checkout.</p>
+                    <h4 class="sub-total">Subtotal <span id="total-price"></span></h4>
                     <div class="cart-btn-group">
                         <a href="checkout.html" class="btn check-out-button">Check Out</a>
                         <a href="cart.html" class="btn cart-button">View Cart</a>
@@ -987,14 +807,6 @@
                 return false;
             }
 
-            // 3 letter এর কম হলে
-            if (query.length < 3) {
-                $('#searchResult').html('');
-                $('#searchLoading').hide();
-                $('#searchMessage').show().html('⌨️ Type at least 3 characters...');
-                return false;
-            }
-
             return true;
         }
 
@@ -1040,7 +852,7 @@
 
                         } else {
                             $('#searchResult').html('');
-                            $('#searchMessage').show().html('❌ No product found');
+                            // $('#searchMessage').show().html('❌ No product found');
                         }
                     },
                     error: function() {

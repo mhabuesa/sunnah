@@ -6,12 +6,14 @@ use App\Models\AppSetting;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use App\Models\TodaysDeal;
 use App\Observers\AppSettingObserver;
 use App\Observers\BannerObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\LatestProductsObserver;
 use App\Observers\TodaysDealObserver;
+use App\Services\CartService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
@@ -63,10 +65,43 @@ class AppServiceProvider extends ServiceProvider
         View::composer('frontend.layouts.app', function ($view) {
 
             $categories = Cache::remember('categories', 86400, function () {
-                return Category::where('status', 1)->select('id', 'name', 'logo', 'slug')->get();
+                return Category::where('status', 1)
+                    ->select('id', 'name', 'logo', 'slug')
+                    ->get();
             });
 
-            $view->with('categories', $categories);
+            $cart = CartService::get();
+
+            $products = collect();
+            $variations = collect();
+
+            if (!empty($cart)) {
+
+                $productIds = collect($cart)->pluck('product_id')->unique();
+                $variationIds = collect($cart)->pluck('variation_id')->filter()->unique();
+
+                // products
+                $products = Product::whereIn('id', $productIds)
+                    ->select('id', 'name', 'image', 'slug', 'price')
+                    ->get()
+                    ->keyBy('id');
+
+                // variations (important)
+                if ($variationIds->isNotEmpty()) {
+                    $variations = ProductVariation::whereIn('id', $variationIds)
+                        ->select('id', 'price')
+                        ->get()
+                        ->keyBy('id');
+                }
+            }
+
+            $view->with([
+                'categories' => $categories,
+                'cartItems' => $cart,
+                'cartProducts' => $products,
+                'cartVariations' => $variations,
+                'cartCount' => count($cart),
+            ]);
         });
     }
 }

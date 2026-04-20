@@ -5,6 +5,7 @@ use App\Models\BusinessSettingModel;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\SmsConfig;
+use App\Services\CartService;
 
 if (!function_exists('productPrice')) {
     function productPrice($productId)
@@ -126,5 +127,13 @@ if (!function_exists('shortNumber')) {
             return round($num / 1000, 1) . 'K';
         }
         return $num;
+    }
+}
+
+if (!function_exists('cartCount')) {
+    function cartCount()
+    {
+        $cart = CartService::count();
+        return $cart;
     }
 }

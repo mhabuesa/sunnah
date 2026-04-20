@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    totalPriceElement.textContent = `$${(Math.round(total * 100) / 100).toFixed(2)}`;
+    totalPriceElement.textContent = `৳${(Math.round(total * 100) / 100).toFixed(2)}`;
 
     const progressValue = Math.min(itemCount * 10, 100);
     if (progressBar) {
