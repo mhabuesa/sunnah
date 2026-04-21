@@ -43,9 +43,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/custom/style.css">
 
     @stack('header_script')
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+
 </head>
 
-<body class="demo-4">
+<body class="base-bg-color">
     <!-- Header Start -->
     @include('frontend.layouts.partials.header')
     <!-- Header End -->
@@ -293,33 +297,20 @@
                             $product = $cartProducts[$item['product_id']] ?? null;
                             $variation = $cartVariations[$item['variation_id']] ?? null;
 
-                            $price = $variation->price ?? $product->price;
+                            $price = $variation?->price ?? $product?->price;
                         @endphp
-                        <li class="vertical-product-box">
+                        <li class="vertical-product-box cart-item" data-product="{{ $item['product_id'] }}"
+                            data-variation="{{ $item['variation_id'] }}">
                             <a href="product-color.html" class="product-image">
-                                <img src="{{ asset($product->image) }}" class="img-fluid" alt="">
+                                <img src="{{ asset($product?->image) }}" class="img-fluid" alt="">
                             </a>
                             <div class="product-content">
                                 <a href="product-color.html">
-                                    <h5 class="name title-color">{{ $product->name }}</h5>
+                                    <h5 class="name title-color">{{ $product?->name }}</h5>
                                 </a>
-                                <ul class="rating">
-                                    <li>
-                                        <i class="ri-star-fill fill"></i>
-                                    </li>
-                                    <li>
-                                        <i class="ri-star-fill fill"></i>
-                                    </li>
-                                    <li>
-                                        <i class="ri-star-fill fill"></i>
-                                    </li>
-                                    <li>
-                                        <i class="ri-star-fill fill"></i>
-                                    </li>
-                                    <li>
-                                        <i class="ri-star-fill fill"></i>
-                                    </li>
-                                </ul>
+                                @if ($variation)
+                                    <h5 class="name text-success">{{ $variation->attributeValue->value ?? '' }}</h5>
+                                @endif
                                 <h5 class="price">{{ $price }}</h5>
                                 <div class="quantity-box qty-container">
                                     <button class="btn qty-btn-minus"
@@ -328,10 +319,10 @@
                                     </button>
                                     <button class="btn btn-trash"
                                         style="display: {{ $item['qty'] == '1' ? 'inline-block' : 'none' }};">
-                                        <i class=" ri-delete-bin-line"></i>
+                                        <i class="ri-delete-bin-line"></i>
                                     </button>
-                                    <input type="number" name="qty" disabled=""
-                                        class="quantity form-control input-qty" value="{{ $item['qty'] }}">
+                                    <input type="number" name="qty" class="quantity form-control input-qty"
+                                        value="{{ $item['qty'] }}">
                                     <button class="btn qty-btn-plus">
                                         <i class="ri-add-line"></i>
                                     </button>
@@ -355,10 +346,10 @@
                 </ul>
 
                 <div class="total-price-box">
-                    <h4 class="sub-total">Subtotal <span id="total-price"></span></h4>
+                    <h4 class="sub-total mb-3">Subtotal <span id="total-price"></span></h4>
                     <div class="cart-btn-group">
                         <a href="checkout.html" class="btn check-out-button">Check Out</a>
-                        <a href="cart.html" class="btn cart-button">View Cart</a>
+                        <a href="{{route('cart')}}" class="btn cart-button">View Cart</a>
                     </div>
                 </div>
             </div>
@@ -775,6 +766,9 @@
     <!-- Template Setting Js -->
     <script src="{{ asset('frontend') }}/assets/js/theme-setting.js"></script>
 
+    {{-- Notyf --}}
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const lazyImages = document.querySelectorAll("img.lazy");
@@ -870,6 +864,207 @@
             handleSearchUI(query);
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+
+            // 🔄 qty change
+            $(document).on('change', '.input-qty', function() {
+
+                let parent = $(this).closest('.cart-item');
+
+                let productId = parent.data('product');
+                let variationId = parent.data('variation');
+
+                let qty = parseInt($(this).val());
+
+                if (qty < 1) return;
+
+                updateCart(productId, variationId, qty, parent);
+            });
+
+            // ➕➖ trigger change (VERY IMPORTANT)
+            $(document).on('click', '.qty-btn-plus, .qty-btn-minus', function() {
+
+                let parent = $(this).closest('.cart-item');
+                let input = parent.find('.input-qty');
+
+                setTimeout(function() {
+                    input.trigger('change');
+                }, 100);
+            });
+
+            // 🗑️ remove
+            $(document).on('click', '.btn-trash, .close-button', function() {
+
+                let parent = $(this).closest('.cart-item');
+
+                let productId = parent.data('product');
+                let variationId = parent.data('variation');
+
+                $.ajax({
+                    url: "{{ route('cart.remove') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        product_id: productId,
+                        variation_id: variationId
+                    },
+                    success: function(res) {
+
+                        if (res.status) {
+                            parent.fadeOut(300, function() {
+                                $(this).remove();
+                            });
+
+                            $('.cart-count').text(res.cart_count);
+                            $('#cartCount_header').text(res.cart_count);
+                        }
+                    }
+                });
+            });
+
+            function updateCart(productId, variationId, qty, parent) {
+
+                $.ajax({
+                    url: "{{ route('cart.update') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        product_id: productId,
+                        variation_id: variationId,
+                        qty: qty
+                    },
+                    success: function(res) {
+
+                        if (res.status) {
+                            $('.cart-count').text(res.cart_count);
+                            $('#cartCount_header').text(res.cart_count);
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.add-cart-btn', function(e) {
+            e.preventDefault();
+
+            let parent = $(this).closest('.select-option-box');
+
+            let productId = parent.data('product');
+            let variationId = parent.find('.variation-option.active').data('id') ?? '';
+            let qty = parent.find('.qty-input').val();
+
+            // validation
+            if (parent.find('.variation-option').length > 0 && !variationId) {
+                showToast('Please select variation', 'error');
+                return;
+            }
+
+            // 🔥 create form dynamically
+            let form = $('<form>', {
+                method: 'POST',
+                action: "{{ route('addToCart') }}"
+            });
+
+            // CSRF
+            form.append($('<input>', {
+                type: 'hidden',
+                name: '_token',
+                value: "{{ csrf_token() }}"
+            }));
+
+            // product_id
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'product_id',
+                value: productId
+            }));
+
+            // variation
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'variation',
+                value: variationId
+            }));
+
+            // quantity
+            form.append($('<input>', {
+                type: 'hidden',
+                name: 'quantity',
+                value: qty
+            }));
+
+            // append & submit
+            $('body').append(form);
+            form.submit();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            document.querySelectorAll('.qty-box').forEach(box => {
+
+                let input = box.querySelector('.qty-input');
+
+                box.querySelector('.qty-plus').addEventListener('click', () => {
+                    input.value = parseInt(input.value) + 1;
+                });
+
+                box.querySelector('.qty-minus').addEventListener('click', () => {
+                    if (input.value > 1) {
+                        input.value = parseInt(input.value) - 1;
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+    <script>
+        // Ajax setup
+        const csrf = $('meta[name="csrf-token"]').attr('content');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrf
+            }
+        });
+
+        // Notyf instance (global)
+        const notyf = new Notyf({
+            duration: 3000,
+            position: {
+                x: 'right',
+                y: 'bottom',
+            }
+        });
+
+        // Toast function
+        function showToast(text, type = 'success') {
+
+            if (type === 'error') {
+                notyf.error(text);
+            } else {
+                notyf.success(text);
+            }
+        }
+    </script>
+
+    @if (session('success'))
+        <script>
+            showToast("{{ session('success') }}", 'success');
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            showToast("{{ session('error') }}", 'error');
+        </script>
+    @endif
 
     @stack('footer_script')
 </body>

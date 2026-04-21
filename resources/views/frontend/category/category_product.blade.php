@@ -81,6 +81,54 @@
                         @forelse ($products as $product)
                             <div class="col">
                                 <div class="product-box-4-main">
+                                    <div class="select-option-box" data-product="{{ $product->id }}">
+                                        <div class="select-box">
+                                            <div>
+
+                                                @if ($product->variations && $product->variations->count() > 0)
+                                                    @foreach ($product->variations->groupBy('attribute_id') as $variations)
+                                                        <div class="size-box">
+                                                            <h4 class="h5">
+                                                                {{ $variations->first()->attribute?->name }}
+                                                            </h4>
+
+                                                            <ul class="size-list">
+                                                                @foreach ($variations as $variation)
+                                                                    <li>
+                                                                        <a href="#!" class="variation-option"
+                                                                            data-id="{{ $variation->id }}">
+                                                                            {{ $variation->attributeValue?->value }}
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+
+                                                {{-- Quantity Box --}}
+                                                <div class="qty-box mt-3 d-flex align-items-center gap-2 mb-2   ">
+
+                                                    <button class="btn qty-btn qty-minus">
+                                                        <i class="ri-subtract-line"></i>
+                                                    </button>
+
+                                                    <input type="number" class="form-control qty-input text-center"
+                                                        value="1" min="1">
+
+                                                    <button class="btn qty-btn qty-plus">
+                                                        <i class="ri-add-line"></i>
+                                                    </button>
+
+                                                </div>
+
+                                                <button class="btn add-cart-btn">add to cart</button>
+                                                <button class="close-btn btn" onclick="closeSidebar()">
+                                                    <i class="ri-close-line"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="product-box-4 productMain pro-bg-white">
                                         <div class="product-image">
                                             <a href="{{ route('product', $product->slug) }}">
@@ -110,7 +158,22 @@
                                                     <i class="ri-star-fill fill"></i>
                                                 </li>
                                             </ul>
-                                            <h5 class="price">৳{{ $product->price }}</h5>
+                                            <h5 class="price">৳{{ productPrice($product->id) }}</h5>
+                                            <div class="option-box">
+                                                <button class="btn select-btn">Select Options</button>
+                                                <ul class="option-list">
+                                                    <li>
+                                                        <a href="#!" class="wishlistProduct">
+                                                            <i class="ri-heart-3-line"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#!">
+                                                            <i class="ri-repeat-2-line"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -154,5 +217,4 @@
 @endsection
 
 @push('footer_script')
-    
 @endpush

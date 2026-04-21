@@ -82,7 +82,8 @@ Author URI: https://themeforest.net/user/pixelstrap
   );
   /* Demo 1 */
   --base-gray: 242, 243, 248;
-  --primary-color: 255, 153, 0;
+  /* --primary-color: 255, 153, 0; */
+  --primary-color: 70, 147, 71;
   --primary-color2: 251, 57, 57;
   --theme-green: 70, 147, 71;
   --title-color: 32, 35, 38;

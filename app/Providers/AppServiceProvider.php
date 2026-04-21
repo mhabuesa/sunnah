@@ -89,7 +89,6 @@ class AppServiceProvider extends ServiceProvider
                 // variations (important)
                 if ($variationIds->isNotEmpty()) {
                     $variations = ProductVariation::whereIn('id', $variationIds)
-                        ->select('id', 'price')
                         ->get()
                         ->keyBy('id');
                 }

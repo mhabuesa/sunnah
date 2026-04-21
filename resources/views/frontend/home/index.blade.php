@@ -1,22 +1,7 @@
 @extends('frontend.layouts.app')
 @section('title', 'Home Page')
 @push('header_script')
-    <style>
-        .qty-btn {
-            border: 1px solid #ddd;
-            padding: 0px 5px;
-        }
 
-        .qty-btn:hover {
-            color: rgba(var(--white), 1);
-            background-color: rgba(var(--primary-color), 1);
-        }
-
-        .qty-input {
-            height: 30px;
-            width: 45px
-        }
-    </style>
 @endpush
 @section('content')
 
@@ -113,7 +98,7 @@
                                     <div class="swiper-slide">
                                         @foreach ($chunk as $deal)
                                             <div class="product-box-4-main">
-                                                <div class="select-option-box">
+                                                <div class="select-option-box" data-product="{{ $deal->product->id }}">
                                                     <div class="select-box">
                                                         <div>
 
@@ -157,7 +142,7 @@
 
                                                             </div>
 
-                                                            <button class="btn add-cart-btn">add to cart</button>
+                                                            <button class="btn add-cart-btn">Add to cart</button>
                                                             <button class="close-btn btn" onclick="closeSidebar()">
                                                                 <i class="ri-close-line"></i>
                                                             </button>
@@ -196,7 +181,7 @@
                                                                 <i class="ri-star-fill fill"></i>
                                                             </li>
                                                         </ul>
-                                                        <h5 class="price">৳{{ $deal->product->price }} </h5>
+                                                        <h5 class="price">৳{{ productPrice($deal->product->id) }} </h5>
                                                         <div class="option-box">
                                                             <button class="btn select-btn">Select Options</button>
                                                             <ul class="option-list">
@@ -248,7 +233,7 @@
                         @foreach ($latestProducts as $latestProduct)
                             <div class="col-xxl-7-1 col-lg-3 col-md-4 col-6">
                                 <div class="product-box-4-main">
-                                    <div class="select-option-box">
+                                    <div class="select-option-box" data-product="{{ $latestProduct->id }}">
                                         <div class="select-box">
                                             <div>
 
@@ -325,7 +310,7 @@
                                                     <i class="ri-star-fill fill"></i>
                                                 </li>
                                             </ul>
-                                            <h5 class="price">৳{{ $latestProduct->price }}</h5>
+                                            <h5 class="price">৳{{ productPrice($latestProduct->id) }}</h5>
                                             <div class="option-box">
                                                 <button class="btn select-btn">Select Options</button>
                                                 <ul class="option-list">
@@ -477,25 +462,7 @@
 @endsection
 
 @push('footer_script')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
 
-            document.querySelectorAll('.qty-box').forEach(box => {
 
-                let input = box.querySelector('.qty-input');
-
-                box.querySelector('.qty-plus').addEventListener('click', () => {
-                    input.value = parseInt(input.value) + 1;
-                });
-
-                box.querySelector('.qty-minus').addEventListener('click', () => {
-                    if (input.value > 1) {
-                        input.value = parseInt(input.value) - 1;
-                    }
-                });
-
-            });
-
-        });
-    </script>
+   
 @endpush

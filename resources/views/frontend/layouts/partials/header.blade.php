@@ -1,7 +1,5 @@
     <header class="header-style-1">
-
-
-        <div class="main-dark-header border-b-color custom-container">
+        <div class="main-dark-header border-b-color custom-container bg-white">
             <div class="left-header">
                 <button class="navbar-toggler d-xl-none d-inline navbar-menu-button" type="button"
                     data-bs-toggle="offcanvas" data-bs-target="#primaryMenu">
@@ -103,7 +101,7 @@
                     <li>
                         <a data-bs-toggle="offcanvas" href="#cartOffcanvas">
                             <i class="iconsax" data-icon-name="basket-2"></i>
-                            <span class="label">
+                            <span class="label" id="cartCount_header">
                                 <span>{{$cartCount}}</span>
                             </span>
                         </a>

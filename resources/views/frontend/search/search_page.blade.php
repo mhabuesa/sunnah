@@ -109,7 +109,7 @@
                                                     <i class="ri-star-fill fill"></i>
                                                 </li>
                                             </ul>
-                                            <h5 class="price">৳{{ $product->price }}</h5>
+                                             <h5 class="price">৳{{ productPrice($product->id) }}</h5>
                                         </div>
                                     </div>
                                 </div>

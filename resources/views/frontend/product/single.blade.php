@@ -89,7 +89,7 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <h4 class="name">{{ $product->name }} - {{$cartCount}}</h4>
+                                        <h4 class="name">{{ $product->name }}</h4>
                                         <div class="price-rating">
                                             <ul class="rating-review-sold-box">
                                                 <li>
@@ -685,7 +685,7 @@
                     @foreach ($relatedProduct as $relProduct)
                         <div class="swiper-slide">
                             <div class="product-box-4-main">
-                                <div class="select-option-box">
+                                 <div class="select-option-box" data-product="{{ $relProduct->id }}">
                                     <div class="select-box">
                                         <div>
                                             @if ($relProduct->variations && $relProduct->variations->count() > 0)

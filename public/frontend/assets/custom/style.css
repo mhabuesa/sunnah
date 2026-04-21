@@ -6,7 +6,7 @@
 
 .search_product li a {
     color: rgba(var(--title-color), 1);
-    font-size: calc(16px + 3     * (100vw - 320px) / 1600);
+    font-size: calc(16px + 3 * (100vw - 320px) / 1600);
     text-transform: capitalize;
     font-weight: 500;
     transition: color 0.15s ease-in-out;
@@ -24,4 +24,19 @@
     display: flex;
     flex-wrap: wrap;
     gap: calc(5px + 4 * (100vw - 320px) / 1600);
+}
+
+.qty-btn {
+    border: 1px solid #ddd;
+    padding: 0px 5px;
+}
+
+.qty-btn:hover {
+    color: rgba(var(--white), 1);
+    background-color: rgba(var(--primary-color), 1);
+}
+
+.qty-input {
+    height: 30px;
+    width: 45px;
 }
