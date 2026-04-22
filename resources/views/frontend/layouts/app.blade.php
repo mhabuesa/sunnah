@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <title>@yield('title', 'App') | {{ config('app.name', 'Dev Hunter') }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -11,16 +12,14 @@
     <link rel="icon" href="{{ asset(setting()->favicon) }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset(setting()->favicon) }}">
     <meta name="title-color" content="#ff9900">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Kartify">
     <meta name="msapplication-TileImage" content="{{ asset(setting()->favicon) }}">
     <meta name="msapplication-TileColor" content="#FFFFFF">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title', 'App') | {{ config('app.name', 'Dev Hunter') }}</title>
 
-    <!-- Google Font Link -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/assets/fonts/br-hendrix/stylesheet.css">
+    {{-- Manifest Link --}}
+    <link rel="manifest" href="{{ url('/manifest.json') }}">
 
     <!-- Bootstrap Link -->
     <link rel="stylesheet" id="rtl-link" type="text/css"
@@ -90,10 +89,7 @@
                             <li>
                                 <a href="mailto:pixelstrap@contact.com" class="content-box">
                                     <div class="footer-content-icon">
-                                        <svg>
-                                            <use xlink:href="{{ asset('frontend') }}/assets/svg/footer-icon.svg#mail">
-                                            </use>
-                                        </svg>
+                                        <i class="iconsax" data-icon-name="mail"></i>
                                     </div>
                                     <h5>{{ setting()->email }}</h5>
                                 </a>
@@ -336,11 +332,8 @@
                     @endforeach
 
                     <li class="empty-cart">
-                        <svg>
-                            <use
-                                xlink:href="{{ asset('frontend') }}/assets/images/inner-page/empty-cart.svg#emptyCart">
-                            </use>
-                        </svg>
+                        <img src="{{ asset('frontend') }}/assets/images/cartEmpty.png" alt="Empty Cart"
+                            class="img-fluid mb-4" style="opacity: 0.7; max-height: 200px;">
                         <h4>Your cart is empty.</h4>
                     </li>
                 </ul>
@@ -349,7 +342,7 @@
                     <h4 class="sub-total mb-3">Subtotal <span id="total-price"></span></h4>
                     <div class="cart-btn-group">
                         <a href="checkout.html" class="btn check-out-button">Check Out</a>
-                        <a href="{{route('cart')}}" class="btn cart-button">View Cart</a>
+                        <a href="{{ route('cart') }}" class="btn cart-button">View Cart</a>
                     </div>
                 </div>
             </div>
@@ -924,25 +917,30 @@
                 });
             });
 
+            let cartTimer;
+
             function updateCart(productId, variationId, qty, parent) {
 
-                $.ajax({
-                    url: "{{ route('cart.update') }}",
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        product_id: productId,
-                        variation_id: variationId,
-                        qty: qty
-                    },
-                    success: function(res) {
+                clearTimeout(cartTimer);
 
-                        if (res.status) {
-                            $('.cart-count').text(res.cart_count);
-                            $('#cartCount_header').text(res.cart_count);
+                cartTimer = setTimeout(() => {
+                    $.ajax({
+                        url: "{{ route('cart.update') }}",
+                        type: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            product_id: productId,
+                            variation_id: variationId,
+                            qty: qty
+                        },
+                        success: function(res) {
+                            if (res.status) {
+                                $('.cart-count').text(res.cart_count);
+                                $('#cartCount_header').text(res.cart_count);
+                            }
                         }
-                    }
-                });
+                    });
+                }, 300);
             }
 
         });

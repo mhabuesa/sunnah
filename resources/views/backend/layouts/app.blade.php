@@ -23,6 +23,9 @@
     <link rel="apple-touch-icon" sizes="180x180"
         href="{{ asset('assets') }}/media/favicons/apple-touch-icon-180x180.png">
 
+    {{-- Manifest Link --}}
+    <link rel="manifest" href="{{ url('/manifest.json') }}">
+
     <!-- Extra CSS Libraries -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 

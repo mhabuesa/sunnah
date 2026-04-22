@@ -120,6 +120,3 @@
     <!-- Shop Section End -->
 
 @endsection
-
-@push('footer_script')
-@endpush

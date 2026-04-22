@@ -2529,7 +2529,7 @@ body.dark .dropdown-box .review-dropdown .product-box-list::-webkit-scrollbar {
 
 input[type=search i]::-webkit-search-cancel-button {
   appearance: none;
-  background-image: url(../svg/close-line.svg);
+  /* background-image: url(../svg/close-line.svg); */
   height: 18px;
   width: 18px;
 }

@@ -215,14 +215,3 @@
     @endif
 
 @endsection
-
-@push('footer_script')
-    <!-- Range Slider js -->
-    <script src="{{ asset('frontend') }}/assets/js/range-slider.js"></script>
-
-    <!-- Filter Sidebar js -->
-    <script src="{{ asset('frontend') }}/assets/js/filter-sidebar.js"></script>
-
-    <!-- Change Grid js -->
-    <script src="{{ asset('frontend') }}/assets/js/change-grid.js"></script>
-@endpush

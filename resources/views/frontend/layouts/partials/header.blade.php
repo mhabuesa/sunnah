@@ -299,8 +299,7 @@
 
                             <div class="empty-message">
                                 <svg>
-                                    <use xlink:href="{{ asset('frontend') }}/assets/images/no-recent.svg#noRecent">
-                                    </use>
+                                    {{-- <use xlink:href="{{ asset('frontend') }}/assets/images/no-recent.svg#noRecent">  </use> --}}
                                 </svg>
                                 <h6>No products available</h6>
                             </div>

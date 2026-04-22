@@ -606,78 +606,78 @@ document.addEventListener("DOMContentLoaded", function () {
 /*=====================
     18. Page Load Newsletter Modal Js
 ==========================*/
-document.addEventListener("DOMContentLoaded", function () {
-    if (!localStorage.getItem("modalShown")) {
-        var myModal = new bootstrap.Modal(document.getElementById('newsletterModal'));
-        myModal.show();
-        localStorage.setItem("modalShown", "true");
-    }
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     if (!localStorage.getItem("modalShown")) {
+//         var myModal = new bootstrap.Modal(document.getElementById('newsletterModal'));
+//         myModal.show();
+//         localStorage.setItem("modalShown", "true");
+//     }
+// });
 
 /*====================
     19. Exit Modal Open js
 =======================*/
-document.addEventListener("DOMContentLoaded", function () {
-    const exitModalEl = document.getElementById("exitModal");
-    const exitModal = new bootstrap.Modal(exitModalEl);
+// document.addEventListener("DOMContentLoaded", function () {
+//     const exitModalEl = document.getElementById("exitModal");
+//     const exitModal = new bootstrap.Modal(exitModalEl);
 
-    if (!localStorage.getItem("exitModalShown")) {
-        document.addEventListener("mouseout", function (e) {
-            if (e.clientY <= 0) {
-                exitModal.show();
-                localStorage.setItem("exitModalShown", "true");
-            }
-        });
-    }
-});
+//     if (!localStorage.getItem("exitModalShown")) {
+//         document.addEventListener("mouseout", function (e) {
+//             if (e.clientY <= 0) {
+//                 exitModal.show();
+//                 localStorage.setItem("exitModalShown", "true");
+//             }
+//         });
+//     }
+// });
 
 /*====================
     20. Random Timer On Exit Modal Js
 =======================*/
-window.onload = function () {
-    let minMinutes = 10;
-    let maxMinutes = 30;
+// window.onload = function () {
+//     let minMinutes = 10;
+//     let maxMinutes = 30;
 
-    let randomMinutes = Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes;
+//     let randomMinutes = Math.floor(Math.random() * (maxMinutes - minMinutes + 1)) + minMinutes;
 
-    let remaining = randomMinutes * 60;
+//     let remaining = randomMinutes * 60;
 
-    let minutesEl = document.getElementById("minutes");
-    let secondsEl = document.getElementById("seconds");
+//     let minutesEl = document.getElementById("minutes");
+//     let secondsEl = document.getElementById("seconds");
 
-    updateDisplay(remaining);
-    let timer = setInterval(() => {
-        remaining--;
-        updateDisplay(remaining);
+//     updateDisplay(remaining);
+//     let timer = setInterval(() => {
+//         remaining--;
+//         updateDisplay(remaining);
 
-        if (remaining <= 0) {
-            clearInterval(timer);
-        }
-    }, 1000);
+//         if (remaining <= 0) {
+//             clearInterval(timer);
+//         }
+//     }, 1000);
 
-    function updateDisplay(seconds) {
-        let m = Math.floor(seconds / 60);
-        let s = seconds % 60;
+//     function updateDisplay(seconds) {
+//         let m = Math.floor(seconds / 60);
+//         let s = seconds % 60;
 
-        let minStr = (m < 10 ? "0" + m : "" + m);
-        let secStr = (s < 10 ? "0" + s : "" + s);
+//         let minStr = (m < 10 ? "0" + m : "" + m);
+//         let secStr = (s < 10 ? "0" + s : "" + s);
 
-        minutesEl.innerHTML = "";
-        secondsEl.innerHTML = "";
+//         minutesEl.innerHTML = "";
+//         secondsEl.innerHTML = "";
 
-        minStr.split("").forEach(digit => {
-            let span = document.createElement("span");
-            span.innerText = digit;
-            minutesEl.appendChild(span);
-        });
+//         minStr.split("").forEach(digit => {
+//             let span = document.createElement("span");
+//             span.innerText = digit;
+//             minutesEl.appendChild(span);
+//         });
 
-        secStr.split("").forEach(digit => {
-            let span = document.createElement("span");
-            span.innerText = digit;
-            secondsEl.appendChild(span);
-        });
-    }
-}
+//         secStr.split("").forEach(digit => {
+//             let span = document.createElement("span");
+//             span.innerText = digit;
+//             secondsEl.appendChild(span);
+//         });
+//     }
+// }
 
 /*====================
     21. Page Loader Js

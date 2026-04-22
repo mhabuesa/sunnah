@@ -40,7 +40,7 @@
                                 <div class="table-responsive">
                                     <table class="table cart-table-box">
                                         <tbody>
-                                            @forelse ($cartItems as $item)
+                                            @foreach ($cartItems as $item)
                                                 @php
                                                     $product = $cartProducts[$item['product_id']] ?? null;
                                                     $variation = $cartVariations[$item['variation_id']] ?? null;
@@ -49,7 +49,7 @@
                                                 @endphp
 
 
-                                                <tr class="table-row" data-product="{{ $item['product_id'] }}"
+                                                <tr class="table-row cart-item" data-product="{{ $item['product_id'] }}"
                                                     data-variation="{{ $item['variation_id'] }}">
                                                     <td>
                                                         <div class="cart-box">
@@ -66,7 +66,7 @@
                                                                     <h3>{{ $product->name }}</h3>
                                                                 </a>
                                                                 @if ($variation)
-                                                                    <span lass="text-success">
+                                                                    <span class="text-success">
                                                                         {{ $variation->attributeValue->value ?? '' }}</span>
                                                                 @endif
                                                             </div>
@@ -84,7 +84,7 @@
                                                             </button>
                                                             <input type="number" name="qty"
                                                                 class="quantity form-control input-qty"
-                                                                value="{{ $item['qty'] ?? 1 }}" min="1">
+                                                                value="{{ $item['qty'] }}" min="0">
                                                             <button class="btn qty-btn-plus">
                                                                 <i class="ri-add-line"></i>
                                                             </button>
@@ -99,32 +99,7 @@
                                                         <h4 class="h5 productPrice">৳000</h4>
                                                     </td>
                                                 </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="5" class="text-center py-5">
-                                                        <div class="no-product-found mx-auto" style="max-width: 400px;">
-
-                                                            <img src="{{ asset('frontend') }}/assets/images/cartEmpty.png"
-                                                                alt="Empty Cart" class="img-fluid mb-4"
-                                                                style="opacity: 0.7; max-height: 200px;">
-
-                                                            <h3 class="fw-bold mb-2">
-                                                                Your cart is currently empty
-                                                            </h3>
-
-                                                            <p class="mb-0">
-                                                                Sorry, we couldn't find any items in your cart.
-                                                            </p>
-
-                                                            <a href="{{ url('/') }}"
-                                                                class="btn btn-success text-white mt-3">
-                                                                Continue Shopping
-                                                            </a>
-
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            @endforelse
+                                            @endforeach
 
                                             <tr class="empty-card">
                                                 <td colspan="5" class="text-center py-5">
@@ -274,7 +249,7 @@
                                 <ul>
                                     <li>
                                         <h4>Subtotal</h4>
-                                        <h4 class="price">$125.65</h4>
+                                        <h4 class="price cart-subtotal">৳0</h4>
                                     </li>
 
                                     <li>
@@ -316,7 +291,7 @@
                             <ul class="summery-total">
                                 <li class="list-total border-top-0">
                                     <h3 class="h4">Total (USD)</h3>
-                                    <h4 class="price theme-color">$132.55</h4>
+                                    <h4 class="price theme-color cart-total">৳0</h4>
                                 </li>
                             </ul>
 
@@ -387,44 +362,66 @@
             row.find('.productPrice').text('৳' + total);
         }
 
+        function updateCartSummary() {
+
+            let subtotal = 0;
+
+            $('.table-row').each(function() {
+                let price = parseFloat($(this).find('.price').data('price')) || 0;
+                let qty = parseInt($(this).find('.input-qty').val()) || 1;
+
+                subtotal += price * qty;
+            });
+
+            $('.cart-subtotal').text('৳' + subtotal);
+            $('.cart-total').text('৳' + subtotal);
+        }
+
+        function checkEmptyCart() {
+            if ($('.table-row').length === 0) {
+                $('.empty-card').show();
+            } else {
+                $('.empty-card').hide();
+            }
+        }
+
         $(document).ready(function() {
 
-            // 🔹 page load e initial calculate
+            // ✅ initial load
             $('.table-row').each(function() {
                 updateRowPrice($(this));
             });
 
-            // 🔹 qty change (UI + trigger main AJAX)
-            $(document).on('input change', '.input-qty', function() {
+            updateCartSummary();
+            checkEmptyCart();
+
+            // ✅ qty change (UI + trigger main layout AJAX)
+            $(document).on('input', '.input-qty', function() {
 
                 let row = $(this).closest('.table-row');
 
-                // 👉 UI update
                 updateRowPrice(row);
+                updateCartSummary();
 
-                // 👉 IMPORTANT: main layout er jonno class change
-                let cartItem = row;
-                cartItem.addClass('cart-item'); // jate main layout detect korte pare
+                // 👉 main layout detect করার জন্য
+                row.addClass('cart-item');
 
-                // 👉 trigger change (main layout AJAX fire korbe)
-                setTimeout(() => {
-                    $(this).trigger('change');
-                }, 50);
+                // 👉 change trigger কর (main layout AJAX call করবে)
+                $(this).trigger('change');
             });
 
-            // 🔹 plus/minus click
+            // ✅ plus / minus click
             $(document).on('click', '.qty-btn-plus, .qty-btn-minus', function() {
 
                 let row = $(this).closest('.table-row');
                 let input = row.find('.input-qty');
 
                 setTimeout(() => {
-                    input.trigger('input'); // UI update
-                    input.trigger('change'); // AJAX call
+                    input.trigger('input');
                 }, 100);
             });
 
-            // 🔹 remove item
+            // ✅ remove item
             $(document).on('click', '.remove-row', function() {
 
                 let row = $(this).closest('.table-row');
@@ -443,8 +440,12 @@
                     success: function(res) {
 
                         if (res.status) {
+
                             row.fadeOut(300, function() {
                                 $(this).remove();
+
+                                updateCartSummary();
+                                checkEmptyCart();
                             });
 
                             $('.cart-count').text(res.cart_count);

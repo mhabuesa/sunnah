@@ -5,6 +5,11 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ProductController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/manifest.json', function () {
+    return response(view('manifest'))
+        ->header('Content-Type', 'application/manifest+json');
+});
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/quickView/{id}', 'quickView')->name('quickView');
@@ -25,6 +30,6 @@ Route::controller(ProductController::class)->group(function () {
 Route::controller(CartController::class)->group(function () {
     Route::get('/cart', 'cart')->name('cart');
     Route::post('/addToCart', 'add_to_cart')->name('addToCart');
-    Route::post('/cart/update','updateCart')->name('cart.update');
+    Route::post('/cart/update', 'updateCart')->name('cart.update');
     Route::post('/cart/remove', 'removeCart')->name('cart.remove');
 });
