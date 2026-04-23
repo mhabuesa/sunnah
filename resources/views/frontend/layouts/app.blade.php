@@ -74,7 +74,9 @@
                         <ul class="footer-content-list">
                             <li>
                                 <a href="tel:{{ setting()->phone }}" class="content-box">
-                                    <i class="iconsax" data-icon-name="phone-calling"></i>
+                                    <div class="footer-content-icon">
+                                        <i class="iconsax" data-icon-name="phone-calling"></i>
+                                    </div>
                                     <h4 class="theme-color3">{{ setting()->phone }}</h4>
                                 </a>
                             </li>
@@ -761,6 +763,8 @@
 
     {{-- Notyf --}}
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -32,4 +32,5 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/addToCart', 'add_to_cart')->name('addToCart');
     Route::post('/cart/update', 'updateCart')->name('cart.update');
     Route::post('/cart/remove', 'removeCart')->name('cart.remove');
+    Route::post('/applyCoupon', 'applyCoupon')->name('cart.applyCoupon');
 });
