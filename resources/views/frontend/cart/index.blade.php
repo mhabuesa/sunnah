@@ -206,7 +206,7 @@
                                             </div>
                                             <div class="col-xl-6 col-lg-12 col-sm-6">
                                                 <label for="phone" class="form-label">Phone Number <span>*</span></label>
-                                                <input type="number" class="form-control" id="phone"
+                                                <input type="number" class="form-control" id="phone" name="phone"
                                                     placeholder="Enter your number" oninput="limitLength(this)"
                                                     required="">
                                             </div>
@@ -219,11 +219,11 @@
                                             <div class="col-6">
                                                 <label for="destination" class="form-label">District
                                                     <span>*</span></label>
-                                                <select id="search-select" name="district_id"
+                                                <select id="search-select" name="district"
                                                     placeholder="Search District...">
                                                     <option value=""></option> {{-- Placeholder er jonno eta faka rakha lagbe --}}
                                                     @foreach ($districts as $district)
-                                                        <option value="{{ $district->id }}">{{ $district->name }}
+                                                        <option value="{{ $district->name }}">{{ $district->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -237,15 +237,6 @@
                                                     <option value="inside_dhaka">Inside Dhaka</option>
                                                     <option value="outside_dhaka">Outside Dhaka</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-12">
-                                                <ul class="checkout-list">
-                                                    <li class="form-check theme-checkbox">
-                                                        <input class="form-check-input" type="checkbox" id="list">
-                                                        <label class="form-check-label" for="list">Create an
-                                                            account?</label>
-                                                    </li>
-                                                </ul>
                                             </div>
                                             <div class="col-12">
                                                 <label for="note" class="form-label">Order Notes (Optional)

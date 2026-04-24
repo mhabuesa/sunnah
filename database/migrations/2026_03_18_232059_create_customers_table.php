@@ -15,8 +15,8 @@
                 $table->id();
 
                 $table->string('name')->nullable();
-                $table->string('phone')->unique();
-                $table->string('email')->nullable()->unique();
+                $table->string('phone')->unique()->unique();
+                $table->string('email')->nullable();
                 $table->string('address')->nullable();
                 $table->string('image')->nullable();
                 $table->boolean('status')->default(1);

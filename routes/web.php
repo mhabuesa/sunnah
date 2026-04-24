@@ -31,7 +31,7 @@
 
     Route::controller(HomeController::class)->group(function () {
         Route::get('/fraudCheck', 'fraudCheck')->name('froudCheck');
-        Route::get('/awajDigital/CheckBalance', 'CheckBalance');
+        Route::get('/awajDigital', 'CheckBalance');
     });
 
     Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
