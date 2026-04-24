@@ -75,7 +75,8 @@
     <!-- Cart Section Start -->
     <section class="section-t-space cart-section checkout-section-new">
         <div class="custom-container">
-            <form action="">
+            <form action="{{ route('placeOrder') }}" method="post">
+                @csrf
                 <div class="row g-sm-4 g-3 mb-3">
                     <div class="col-xxl-9 col-xl-8 col-lg-7">
                         <div class="row">
@@ -337,19 +338,21 @@
                                         <div class="accordion-header" data-bs-toggle="collapse"
                                             data-bs-target="#collapseTwo">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="flexRadioDefault" type="radio"
-                                                    id="pay1" checked>
-                                                <label class="form-check-label" for="pay1"><span
+                                                <input class="form-check-input" name="payment_method" type="radio"
+                                                    id="cod" checked value="cod">
+                                                <label class="form-check-label" for="cod"><span
                                                         class="circle"></span>
-                                                    Paypal
-                                                    Express Checkout</label>
+                                                    Cash On Delivery</label>
                                             </div>
                                         </div>
                                         <div id="collapseTwo" class="accordion-collapse collapse show"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <p><i class="ri-check-line"></i> Enjoy <span>Buyer production</span> with
-                                                    Klarna. See <span>Payment options</span></p>
+                                                <p class="text-muted small">
+                                                    <i class="ri-check-line text-success"></i>
+                                                    Pay with cash upon delivery. <span>Check your product before you
+                                                        pay.</span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -357,23 +360,34 @@
                                         <div class="accordion-header" data-bs-toggle="collapse"
                                             data-bs-target="#collapseThree">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="flexRadioDefault" type="radio"
-                                                    id="pay2">
-                                                <label class="form-check-label" for="pay2"><span
+                                                <input class="form-check-input" name="payment_method" type="radio"
+                                                    id="bkash" value="bkash">
+                                                <label class="form-check-label" for="bkash"><span
                                                         class="circle"></span>
-                                                    Amazon
+                                                    Bkash
                                                     Pay</label>
                                             </div>
                                         </div>
                                         <div id="collapseThree" class="accordion-collapse collapse"
                                             data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <p><i class="ri-check-line"></i> Enjoy <span>Buyer production</span> with
-                                                    Klarna. See <span>Payment options</span></p>
+                                                <p class="text-muted small">
+                                                    <i class="ri-check-line text-success"></i>
+                                                    Fast and secure payment via bKash. <span>Enjoy instant
+                                                        confirmation.</span>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <input type="hidden" name="subtotal" id="hidden_subtotal">
+                                <input type="hidden" name="coupon_code" id="hidden_coupon_code">
+                                <input type="hidden" name="coupon_discount" id="hidden_coupon_discount">
+                                <input type="hidden" name="shipping_charge" id="hidden_shipping_charge">
+                                <input type="hidden" name="grand_total" id="hidden_grand_total">
+
+                                <input type="hidden" name="shipping_destination" id="hidden_destination">
 
                                 <button type="submit" class="btn proceed-btn">Place
                                     Order</button>
@@ -530,6 +544,26 @@
                 setCookie('free_delivery_active', '', -1);
                 updateCouponUI(null, 0, false);
             });
+
+
+            $('form[action="{{ route('placeOrder') }}"]').on('submit', function(e) {
+                // Final sync before submission
+                updateCartSummary();
+
+                // Check if district is selected (basic validation)
+                if (!$('#search-select').val()) {
+                    e.preventDefault();
+                    alert('Please select a district first.');
+                    return false;
+                }
+
+                // Optional: Clear cookies only after the form is successfully submitted
+                // Note: It's better to clear them in the Controller's success response, 
+                // but you can do it here if you redirect immediately.
+                setCookie('applied_coupon_code', '', -1);
+                setCookie('coupon_discount', '', -1);
+                setCookie('free_delivery_active', '', -1);
+            });
         });
     </script>
 
@@ -564,15 +598,27 @@
 
             // --- Coupon Logic ---
             let couponDiscount = parseFloat($('#couponDiscountValue').val()) || 0;
+            let appliedCode = getCookie('applied_coupon_code') || '';
 
             // Calculation
             let total = (subtotal - couponDiscount) + shipping;
+            if (total < 0) total = 0;
 
-            // UI Updates
+            // --- UI Updates ---
             $('.cart-subtotal').text(subtotal.toFixed(2));
-            $('.coupon-discount-text').text('(-) ' + couponDiscount.toFixed(2)); // summary section e thaka dorkar
+            $('.coupon-discount-text').text('(-) ' + couponDiscount.toFixed(2));
             $('.shipping-charge').text(shipping.toFixed(2));
-            $('.cart-total').text(total < 0 ? 0 : total.toFixed(2));
+            $('.cart-total').text(total.toFixed(2));
+
+            // --- HIDDEN INPUT UPDATES (For Controller) ---
+            $('#hidden_subtotal').val(subtotal.toFixed(2));
+            $('#hidden_coupon_code').val(appliedCode);
+            $('#hidden_coupon_discount').val(couponDiscount.toFixed(2));
+            $('#hidden_shipping_charge').val(shipping.toFixed(2));
+            $('#hidden_grand_total').val(total.toFixed(2));
+
+            // Capture the destination since the select is disabled
+            $('#hidden_destination').val($('#destination').val());
         }
 
         function checkEmptyCart() {

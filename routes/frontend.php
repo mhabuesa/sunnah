@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,8 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/cart/update', 'updateCart')->name('cart.update');
     Route::post('/cart/remove', 'removeCart')->name('cart.remove');
     Route::post('/applyCoupon', 'applyCoupon')->name('cart.applyCoupon');
+});
+
+Route::controller(OrderController::class)->group(function () {
+    Route::post('/placeOrder', 'placeOrder')->name('placeOrder');
 });
