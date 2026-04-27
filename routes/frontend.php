@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Customer\AuthController;
+use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -38,4 +40,20 @@ Route::controller(CartController::class)->group(function () {
 
 Route::controller(OrderController::class)->group(function () {
     Route::post('/placeOrder', 'placeOrder')->name('placeOrder');
+});
+
+
+
+
+// Customer Route
+// Customer Guest Routes
+Route::controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login')->name('customer.login.submit');
+    Route::post('/register', 'register')->name('customer.register.submit');
+});
+
+Route::middleware('auth:customer')->controller(DashboardController::class)->group(function () {
+    // Protected Routes
+    Route::get('/dashboard', 'dashboard')->name('customer.dashboard');
+    Route::get('/logout', 'logout')->name('customer.logout');
 });

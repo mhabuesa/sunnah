@@ -20,7 +20,9 @@
                 $table->string('address')->nullable();
                 $table->string('image')->nullable();
                 $table->boolean('status')->default(1);
+                $table->boolean('is_active')->default(0);
                 $table->index('status');
+                $table->string('password')->nullable();
                 $table->timestamps();
                 $table->index('created_at');
             });

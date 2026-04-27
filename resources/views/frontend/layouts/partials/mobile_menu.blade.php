@@ -29,10 +29,17 @@
             </li>
 
             <li>
-                <a href="user-dashboard.html">
-                    <i class="ri-user-3-line"></i>
-                    <span>Account</span>
-                </a>
+                @if (auth()->guard('customer')->check())
+                    <a href="{{route('customer.dashboard')}}">
+                        <i class="ri-user-3-line"></i>
+                        <span>Account</span>
+                    </a>
+                @else
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#authenticationModal">
+                        <i class="ri-user-3-line"></i>
+                        <span>Account</span>
+                    </a>
+                @endif
             </li>
         </ul>
     </div>

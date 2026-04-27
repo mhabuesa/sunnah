@@ -45,6 +45,19 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
+    <style>
+        /* Prothome shob box hide thakbe */
+        .signup-box,
+        .forgot-password-box {
+            display: none;
+        }
+
+        /* Sudhu login box default-e show korbe */
+        .login-box {
+            display: block;
+        }
+    </style>
+
 
 </head>
 
@@ -352,185 +365,6 @@
     </div>
     <!-- Cart Offcanvas End -->
 
-    <!-- Wishlist Offcanvas Start -->
-    <div class="offcanvas offcanvas-end wishlist-offcanvas cart-offcanvas" id="wishlistOffcanvas">
-        <div class="offcanvas-header">
-            <div class="title-offcanvas">
-                <h4>Wishlist</h4>
-                <button class="btn close-btn" data-bs-dismiss="offcanvas">
-                    <i class="ri-close-fill"></i>
-                </button>
-            </div>
-        </div>
-        <div class="offcanvas-body">
-            <div class="cart-product-box">
-                <ul class="product-box-list">
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/1.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">Smart Watch Series X3</h5>
-                                </a>
-                                <h5 class="price">$239.00 <del>$250.00</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/2.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">Slim 3 Intel Core i5</h5>
-                                </a>
-                                <h5 class="price">$700.00 <del>$720.00</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/3.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">Portable Laptop Table</h5>
-                                </a>
-                                <h5 class="price">$199.00 <del>$200.00</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/4.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">Kitchen Accessories</h5>
-                                </a>
-                                <h5 class="price">$300.00 <del>$312.56</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/5.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">Rockerz 558 Bluetooth</h5>
-                                </a>
-                                <h5 class="price">$86.00 <del>$96.00</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/26.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">EvoFox Game Box 32 GB with Asphalt 8</h5>
-                                </a>
-                                <h5 class="price">$130.00 <del>$153.00</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="vertical-product-box">
-                            <a href="product-color.html" class="product-image">
-                                <img src="{{ asset('frontend') }}/assets/images/product/23.png" class="img-fluid"
-                                    alt="">
-                            </a>
-                            <div class="product-content">
-                                <a href="product-color.html">
-                                    <h5 class="name title-color">BlackBerry Keyone BBB100-7 64gb unlocked gSM</h5>
-                                </a>
-                                <h5 class="price">$1920.36 <del>$2000.95</del></h5>
-                                <button class="btn cart-btn" data-bs-target="#cartOffcanvas"
-                                    data-bs-toggle="offcanvas">
-                                    <span>Move to cart</span>
-                                </button>
-                            </div>
-                            <button class="btn wishlist-btn">
-                                <i class="ri-delete-bin-line"></i>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-
-                <div class="total-price-box">
-                    <p class="tax-text">Now that you have products in your wishlist, remember to put them in your cart
-                        later.</p>
-                    <div class="cart-btn-group">
-                        <button onclick="location.href = 'wishlist.html';" class="btn check-out-button">View
-                            Wishlist</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Wishlist Offcanvas End -->
-
     <!-- Authentication Modal Start -->
     <div class="modal authentication-modal fade" id="authenticationModal">
         <div class="modal-dialog modal-dialog-centered">
@@ -544,37 +378,27 @@
                             <h4>Log in</h4>
                             <p>Welcome! To access your account, please enter your username and password.</p>
                         </div>
-                        <form class="auth-form">
+                        <form class="auth-form" id="customerLoginForm">
+                            @csrf
+                            <div id="loginError" class="alert alert-danger d-none"></div>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Enter your email">
+                                <input type="text" class="form-control" placeholder="Enter your phone"
+                                    name="phone">
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Enter your password">
+                                <input type="password" class="form-control" placeholder="Enter your password"
+                                    name="password">
                             </div>
                             <div class="forgot-box">
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                                        name="remember">
                                     <label class="form-check-label" for="exampleCheck1">Remember for 30
                                         days</label>
                                 </div>
                                 <a href="#!" class="forgot-pass">Forgot Password</a>
                             </div>
-                            <a href="index.html" class="btn btn-bg-theme mt-3 w-100">Log In</a>
-                            <div class="divider">
-                                <span>OR</span>
-                            </div>
-                            <div class="social-link">
-                                <a href="https://www.google.com/" class="btn w-100" target="_blank">
-                                    <img src="{{ asset('frontend') }}/assets/images/inner-page/google.png"
-                                        class="img-fluid" alt="">
-                                    <span>Sign in with google</span>
-                                </a>
-                                <a href="https://www.facebook.com/" class="btn w-100" target="_blank">
-                                    <img src="{{ asset('frontend') }}/assets/images/inner-page/facebook.png"
-                                        class="img-fluid" alt="">
-                                    <span>Sign in with facebook</span>
-                                </a>
-                            </div>
+                            <button type="submit" class="btn btn-bg-theme mt-3 w-100">Log In</button>
                             <h5 class="sign-up-next">Don't have an account? <button class="next-button btn">Sign up
                                     now</button></h5>
                         </form>
@@ -585,15 +409,24 @@
                             <h4>Sign Up</h4>
                             <p>Welcome! To access your account, please enter your username and password.</p>
                         </div>
-                        <form class="auth-form">
+                        <form class="auth-form" id="customerSignupForm">
+                            @csrf
+                            <div id="signupError" class="alert alert-danger d-none"></div>
                             <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Enter full name">
+                                <input type="text" class="form-control" placeholder="Enter full name"
+                                    name="name">
                             </div>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Enter your email">
+                                <input type="text" class="form-control" placeholder="Enter your phone"
+                                    name="phone">
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Create your password">
+                                <input type="email" class="form-control" placeholder="Enter your email"
+                                    name="email">
+                            </div>
+                            <div class="mb-3"> <span>*</span>
+                                <input type="password" class="form-control" placeholder="Create your password"
+                                    name="password">
                             </div>
                             <div class="forgot-box">
                                 <div class="form-check">
@@ -602,36 +435,23 @@
                                         agreement.</label>
                                 </div>
                             </div>
-                            <a href="index.html" class="btn btn-bg-theme mt-3 w-100">Sing up</a>
-                            <div class="divider">
-                                <span>OR</span>
-                            </div>
-                            <div class="social-link">
-                                <a href="https://www.google.com/" class="btn w-100" target="_blank">
-                                    <img src="{{ asset('frontend') }}/assets/images/inner-page/google.png"
-                                        class="img-fluid" alt="">
-                                    <span>Sign up with google</span>
-                                </a>
-                                <a href="https://www.facebook.com/" class="btn w-100" target="_blank">
-                                    <img src="{{ asset('frontend') }}/assets/images/inner-page/facebook.png"
-                                        class="img-fluid" alt="">
-                                    <span>Sign up with facebook</span>
-                                </a>
-                            </div>
-                            <h5 class="sign-up-next">I am already member. <button class="btn next-button2">Sign
-                                    in</button>
-                            </h5>
+                            <button type="submit" class="btn btn-bg-theme mt-3 w-100">Sign Up</button>
+                        </form>
+                        <h5 class="sign-up-next">I am already member. <button class="btn next-button2">Sign
+                                in</button>
+                        </h5>
                         </form>
                     </div>
 
                     <div class="authentication-box forgot-password-box">
                         <div class="auth-title">
                             <h4>Reset Password</h4>
-                            <p>Have you forgotten your password? Kindly provide your email address. An email with a link
+                            <p>Have you forgotten your password? Kindly provide your Phone Number. An Phone with a link
                                 to establish a new password will be sent to you.</p>
                         </div>
                         <form class="auth-form">
-                            <input type="email" class="form-control" placeholder="Enter Your Email Address">
+                            <input type="phone" class="form-control" placeholder="Enter Your Phone"
+                                name="phone">
                             <div class="d-flex flex-wrap-nowrap mt-3 gap-3">
                                 <button class="btn btn-bg-theme w-100">Submit</button>
                                 <a href="#!" class="btn btn-bg-theme w-100 cancel-btn">Cancel</a>
@@ -643,6 +463,8 @@
         </div>
     </div>
     <!-- Authentication Modal End -->
+
+
 
     <!-- Tap To Top Button Start -->
     <div class="tap-top-button">
@@ -1041,7 +863,7 @@
             duration: 3000,
             position: {
                 x: 'right',
-                y: 'bottom',
+                y: 'top',
             }
         });
 
@@ -1054,6 +876,194 @@
                 notyf.success(text);
             }
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            // ১. Header-er Login button-e click korle sudhu login box dekhabe
+            $('.login-btn').on('click', function() {
+                $('.authentication-box').hide();
+                $('.login-box').show();
+            });
+
+            // ২. Header-er Start Here (Signup) button-e click korle sudhu signup box dekhabe
+            $('.signup-btn').on('click', function() {
+                $('.authentication-box').hide();
+                $('.signup-box').show();
+            });
+
+            // ৩. Login form-er bhitor theke "Sign up now" click korle
+            $('.next-button').on('click', function(e) {
+                e.preventDefault();
+                $('.login-box').fadeOut(200, function() {
+                    $('.signup-box').fadeIn(200);
+                });
+            });
+
+            // ৪. Signup form-er bhitor theke "Sign in" click korle
+            $('.next-button2').on('click', function(e) {
+                e.preventDefault();
+                $('.signup-box').fadeOut(200, function() {
+                    $('.login-box').fadeIn(200);
+                });
+            });
+
+            // ৫. "Forgot Password" click korle
+            $('.forgot-pass').on('click', function(e) {
+                e.preventDefault();
+                $('.login-box').fadeOut(200, function() {
+                    $('.forgot-password-box').fadeIn(200);
+                });
+            });
+
+            // ৬. Forgot Password theke "Cancel" click korle abar login-e firbe
+            $('.cancel-btn').on('click', function(e) {
+                e.preventDefault();
+                $('.forgot-password-box').fadeOut(200, function() {
+                    $('.login-box').fadeIn(200);
+                });
+            });
+
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // ✅ Signup Handling
+            $('#customerSignupForm').submit(function(e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let data = form.serialize();
+                let submitBtn = form.find('button[type="submit"]');
+                let errorDiv = $('#signupError');
+
+                // রিসেট এরর এবং বাটন ডিজেবল
+                errorDiv.addClass('d-none').html('');
+                submitBtn.prop('disabled', true).text('Creating Account...');
+
+                $.ajax({
+                    url: "{{ route('customer.register.submit') }}",
+                    type: "POST",
+                    data: data,
+                    success: function(res) {
+                        if (res.status) {
+                            // সাকসেস হলে রিডাইরেক্ট করবে, সেখানে সেশন মেসেজ শো করবে
+                            window.location.href = res.redirect;
+                        }
+                    },
+                    error: function(xhr) {
+                        submitBtn.prop('disabled', false).text('Sign Up');
+                        let errors = xhr.responseJSON;
+
+                        errorDiv.removeClass('d-none');
+
+                        if (errors && errors.errors) {
+                            let msg = '';
+                            $.each(errors.errors, function(key, value) {
+                                msg += value[0] + '<br>';
+                            });
+                            errorDiv.html(msg);
+                        } else {
+                            errorDiv.html('Something went wrong. Please try again.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // কুকি সেট করার হেল্পার ফাংশন
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // কুকি পড়ার হেল্পার ফাংশন
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        $(document).ready(function() {
+            // --- পেজ লোড হওয়ার সময় কুকি চেক করে ফিল্ড অটো-ফিল করা ---
+            let rememberedPhone = getCookie("remember_phone");
+            let rememberedPass = getCookie("remember_pass");
+
+            if (rememberedPhone && rememberedPass) {
+                $('input[name="phone"]').val(rememberedPhone);
+                $('input[name="password"]').val(rememberedPass);
+                $('input[name="remember"]').prop('checked', true);
+            }
+
+            // --- লগইন সাবমিট হ্যান্ডলিং ---
+            $('#customerLoginForm').submit(function(e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let data = form.serialize();
+                let submitBtn = form.find('button[type="submit"]');
+
+                // ফোন এবং পাসওয়ার্ড ভ্যালু সংগ্রহ (কুকি সেভ করার জন্য)
+                let phoneVal = form.find('input[name="phone"]').val();
+                let passVal = form.find('input[name="password"]').val();
+                let isRememberChecked = form.find('input[name="remember"]').is(':checked');
+
+                $('#loginError').addClass('d-none').html('');
+                submitBtn.prop('disabled', true).text('Processing...');
+
+                $.ajax({
+                    url: "{{ route('customer.login.submit') }}",
+                    type: "POST",
+                    data: data,
+                    success: function(res) {
+                        if (res.status) {
+                            // সাকসেস হলে কুকি ম্যানেজমেন্ট
+                            if (isRememberChecked) {
+                                setCookie("remember_phone", phoneVal, 30); // ৩০ দিন
+                                setCookie("remember_pass", passVal, 30);
+                            } else {
+                                // চেক না করা থাকলে পুরনো কুকি মুছে ফেলবে
+                                setCookie("remember_phone", "", -1);
+                                setCookie("remember_pass", "", -1);
+                            }
+
+                            window.location.href = res.redirect;
+                        }
+                    },
+                    error: function(xhr) {
+                        submitBtn.prop('disabled', false).text('Log In');
+                        let errors = xhr.responseJSON;
+
+                        $('#loginError').removeClass('d-none');
+
+                        if (errors && errors.errors) {
+                            let msg = '';
+                            $.each(errors.errors, function(key, value) {
+                                msg += value[0] + '<br>';
+                            });
+                            $('#loginError').html(msg);
+                        } else {
+                            $('#loginError').html(errors.message || 'Something went wrong');
+                        }
+                    }
+                });
+            });
+        });
     </script>
 
     @if (session('success'))

@@ -13,7 +13,7 @@
             </div>
             <div class="middle-header searchInput" id="searchOffcanvas">
                 <div class="search-overlay" id="searchOverlay"></div>
-                <form class="search-form" action="{{route('search.product')}}" method="GET">
+                <form class="search-form" action="{{ route('search.product') }}" method="GET">
                     <div class="input-group">
                         <div class="close-icon">
                             <i class="ri-close-fill" id="close-btn"></i>
@@ -77,32 +77,45 @@
                             </div>
                         </a>
                     </li>
-                    <li class="dropdown-box">
-                        <a href="#!">
-                            <i class="iconsax" data-icon-name="user-2"></i>
-                        </a>
-                        <ul class="dropdown-list user-dropdown">
-                            <li>
-                                <a href="#authenticationModal" class="btn login-btn" data-bs-toggle="modal">Log In</a>
-                            </li>
-                            <li>
-                                <span>New customer?</span>
-                                <button class="btn signup-btn" data-bs-toggle="modal"
-                                    data-bs-target="#authenticationModal">Start here.</button>btn signup-btn">Start
-                                here.
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a data-bs-toggle="offcanvas" href="#wishlistOffcanvas">
-                            <i class="iconsax" data-icon-name="heart"></i>
-                        </a>
-                    </li>
+                    @if (auth()->guard('customer')->check())
+                        <p>{{ auth()->guard('customer')->user()->name }}</p>
+                        <li class="dropdown-box">
+                            <a href="#!">
+                                <i class="iconsax" data-icon-name="user-2-circle"></i>
+                            </a>
+                            <ul class="dropdown-list user-dropdown">
+                                <li>
+                                    <a href="#" class="btn login-btn bg-success">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('customer.logout')}}" class="btn login-btn">Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <li class="dropdown-box">
+                            <a href="#!">
+                                <i class="iconsax" data-icon-name="user-2-add"></i>
+                            </a>
+                            <ul class="dropdown-list user-dropdown">
+                                <li>
+                                    <a href="#authenticationModal" class="btn login-btn" data-bs-toggle="modal">Log
+                                        In</a>
+                                </li>
+                                <li>
+                                    <span>New customer?</span>
+                                    <button class="btn signup-btn" data-bs-toggle="modal"
+                                        data-bs-target="#authenticationModal">Start here.</button>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+
                     <li>
                         <a data-bs-toggle="offcanvas" href="#cartOffcanvas">
                             <i class="iconsax" data-icon-name="basket-2"></i>
                             <span class="label" id="cartCount_header">
-                                <span>{{$cartCount}}</span>
+                                <span>{{ $cartCount }}</span>
                             </span>
                         </a>
                     </li>

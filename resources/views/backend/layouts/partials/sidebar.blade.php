@@ -325,6 +325,32 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-main-item {{ request()->routeIs('admin.landing.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fa-solid fa-rocket"></i>
+                        <span class="nav-main-link-name">Landing Page</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.landing.product') ? 'active' : '' }}"
+                                href="{{ route('admin.landing.product') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-cart-shopping me-2"></i> Product
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.landing.campaign') ? 'active' : '' }}"
+                                href="{{ route('admin.landing.campaign') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fa-solid fa-fire me-2"></i> Campaign Setup
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-main-item">
                     <a class="nav-main-link {{ request()->routeIs('admin.sms.index') ? 'active' : '' }}"
                         href="{{ route('admin.sms.index') }}">

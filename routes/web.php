@@ -9,7 +9,8 @@
     use App\Http\Controllers\CustomerController;
     use App\Http\Controllers\DeliveryController;
     use App\Http\Controllers\HomeController;
-    use App\Http\Controllers\OrderController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\OrderController;
     use App\Http\Controllers\PosController;
     use App\Http\Controllers\ProductController;
     use App\Http\Controllers\ProfileController;
@@ -195,6 +196,14 @@
             Route::post('/update', 'update')->name('update');
             Route::post('/status/update/{id}', 'status_update')->name('status.update');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+
+
+        //Coupon Routes
+        Route::controller(LandingController::class)->name('landing.')->prefix('landing')->group(function () {
+            Route::get('/product', 'product')->name('product');
+            Route::get('/campaign', 'campaign')->name('campaign');
+            Route::post('/store', 'store')->name('store');
         });
 
 

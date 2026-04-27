@@ -42,7 +42,6 @@ class OrderConfirmationJob implements ShouldQueue
 
         if ($response->failed()) {
             Log::error('AwajDigital API Failed: ' . $response);
-            // চাইলে এখানে জব রিলিজ বা ফেইল করানোর লজিক দিতে পারেন
         }
     }
 }
