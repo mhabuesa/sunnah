@@ -4,7 +4,8 @@
     use App\Http\Controllers\Auth\AuthenticatedSessionController;
     use App\Http\Controllers\BannerController;
     use App\Http\Controllers\BrandController;
-    use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\CategoryController;
     use App\Http\Controllers\CouponController;
     use App\Http\Controllers\CustomerController;
     use App\Http\Controllers\DeliveryController;
@@ -200,10 +201,12 @@ use App\Http\Controllers\OrderController;
 
 
         //Coupon Routes
-        Route::controller(LandingController::class)->name('landing.')->prefix('landing')->group(function () {
+        Route::controller(CampaignController::class)->name('campaign.')->prefix('campaign')->group(function () {
+            Route::get('/', 'index')->name('index');
             Route::get('/product', 'product')->name('product');
-            Route::get('/campaign', 'campaign')->name('campaign');
-            Route::post('/store', 'store')->name('store');
+            Route::get('/product/create', 'product_create')->name('product.create');
+            Route::post('/campaign/product/store', 'product_store')->name('product.store');
+            Route::delete('/campaign/product/destroy/{id}', 'product_destroy')->name('product.destroy');
         });
 
 

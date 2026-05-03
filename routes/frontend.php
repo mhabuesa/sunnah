@@ -52,7 +52,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('customer.register.submit');
 });
 
-Route::middleware('auth:customer')->controller(DashboardController::class)->group(function () {
+Route::middleware('auth:customer')->controller(AuthController::class)->group(function () {
     // Protected Routes
     Route::get('/dashboard', 'dashboard')->name('customer.dashboard');
     Route::get('/logout', 'logout')->name('customer.logout');
