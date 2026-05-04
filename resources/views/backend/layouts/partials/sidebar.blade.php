@@ -345,7 +345,7 @@
                             <a class="nav-main-link {{ request()->routeIs('admin.campaign.index') ? 'active' : '' }}"
                                 href="{{ route('admin.campaign.index') }}">
                                 <span class="nav-main-link-name">
-                                    <i class="fa-solid fa-fire me-2"></i> Campaign Setup
+                                    <i class="fa-solid fa-fire me-2"></i> Campaign
                                 </span>
                             </a>
                         </li>

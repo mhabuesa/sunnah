@@ -203,6 +203,13 @@ use App\Http\Controllers\OrderController;
         //Coupon Routes
         Route::controller(CampaignController::class)->name('campaign.')->prefix('campaign')->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/check-campaign-url', 'checkUrl')->name('checkUrl');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::post('/update/{id}', 'update')->name('update');
+            Route::get('/product/assign/{id}', 'product_assign')->name('product.assign');
+            Route::post('/product/assigned/{id}', 'product_assigned')->name('product.assigned');
             Route::get('/product', 'product')->name('product');
             Route::get('/product/create', 'product_create')->name('product.create');
             Route::post('/campaign/product/store', 'product_store')->name('product.store');

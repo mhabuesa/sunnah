@@ -10,63 +10,6 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12 m-auto" id="addCampaignField" style="display:none;">
-                <div class="block block-rounded">
-                    <div class="block-header block-header-default">
-                        <h3 class="block-title">
-                            Add New Campaign
-                        </h3>
-                        <button id="closeCategoryForm" class="btn btn-sm btn-danger">
-                            <i class="fas fa-x"></i>
-                        </button>
-                    </div>
-                    <div class="block-content block-content-full overflow-x-auto">
-                        <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label class="form-label" for="campaign_name">Campaign Name</label>
-                                        <input type="text" class="form-control" id="campaign_name" name="campaign_name"
-                                            placeholder="Enter Campaign name.." value="{{ old('campaign_name') }}" required>
-                                        @error('campaign_name')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label" for="slug">Slug</label>
-                                        <input type="text" class="form-control" id="slug" name="slug"
-                                            placeholder="Enter Slug.." value="{{ old('slug') }}" required>
-                                        @error('slug')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label class="form-label" for="slug">Product</label>
-                                        <div>
-                                            @foreach ($products as $product)
-                                                <span class="mx-2">
-                                                    <input id="product_{{$product->id}}" type="checkbox" class="form-check-input me-2" name="product_id[]" value="{{$product->id}}">
-                                                    <label for="product_{{$product->id}}">{{$product->name}}</label>
-                                                </span>
-                                            @endforeach
-                                        </div>
-                                        @error('slug')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="mb-0 text-end">
-                                <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-12 m-auto mt-2">
                 <div class="block block-rounded">
                     <div class="block-header block-header-default d-block">
@@ -76,8 +19,9 @@
                             </div>
                             <div class="col-lg-6 text-center text-lg-end">
                                 <div class="block-options space-x-1 md_mt-2 p-0">
-                                    <button id="addCampaign" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> New
-                                        Campaign</button>
+                                    <a href="{{ route('admin.campaign.create') }}" class="btn btn-sm btn-primary"><i
+                                            class="fas fa-plus"></i> New
+                                        Campaign</a>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +44,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($campaigns as $key => $campaign)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $campaign->campaign_name }}</td>
+                                            <td>{{ $campaign->campaign_url }}</td>
+                                            <td>{{ count($campaign->product ?? []) }}</td>
+                                            <td class="text-center">
 
+                                                <a href="{{route('landing', $campaign->campaign_url)}}" target="_blank" class="border-0 btn btn-sm" title="Product">
+                                                    <i class="fa-solid fa-globe text-success fa-xl"></i>
+                                                </a>
+                                                <a href="{{ route('admin.campaign.product.assign', $campaign->id) }}"
+                                                    class="border-0 btn btn-sm" title="Add Product">
+                                                    <i class="fa fa-cart-plus text-primary fa-xl"></i>
+                                                </a>
+                                                <a href="{{ route('admin.campaign.edit', $campaign->id) }}"
+                                                    class="border-0 btn btn-sm">
+                                                    <i class="fa fa-pencil text-info fa-xl"></i>
+                                                </a>
+                                                <button type="button" class="border-0 btn btn-sm"
+                                                    onclick="deleteCampaign(this)" data-id="{{ $campaign->id }}"><i
+                                                        class="fa fa-trash text-danger fa-xl"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -114,7 +82,7 @@
 @endsection
 @push('footer_scripts')
     <script>
-        function deleteProduct(button) {
+        function deleteCampaign(button) {
             const id = $(button).data('id');
             Swal.fire({
                 title: "Are you sure?",
@@ -153,26 +121,4 @@
             });
         }
     </script>
-
-    <script>
-        // Add button → show form and hide button
-        $('#addCampaign').click(function() {
-            $('#addCampaignField').slideDown(300);
-            $(this).hide();
-        });
-
-        // X button → hide form and show button
-        $('#closeCategoryForm').click(function() {
-            $('#addCampaignField').slideUp(300);
-            $('#addCampaign').show();
-        });
-    </script>
-    @if ($errors->any())
-        <script>
-            $(document).ready(function() {
-                $('#addCampaignField').show();
-                $('#addCampaign').hide();
-            });
-        </script>
-    @endif
 @endpush
