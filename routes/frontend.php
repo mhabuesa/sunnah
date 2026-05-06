@@ -46,6 +46,7 @@ Route::controller(OrderController::class)->group(function () {
 
 Route::controller(LandingController::class)->group(function () {
     Route::get('/{slug}', 'landing')->name('landing');
+    Route::post('/campaign/order', 'order')->name('campaign.order');
 });
 
 

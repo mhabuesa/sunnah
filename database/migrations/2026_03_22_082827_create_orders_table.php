@@ -24,7 +24,7 @@ return new class extends Migration
             $table->integer('discount_amount')->nullable();
             $table->integer('extra_discount')->nullable();
             $table->string('shipping_address');
-            $table->integer('shipping_cost');
+            $table->integer('shipping_cost')->nullable();
             $table->integer('subtotal')->nullable();
             $table->integer('total');
             $table->string('delivery_method')->nullable();

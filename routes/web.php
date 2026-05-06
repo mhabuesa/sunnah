@@ -19,7 +19,8 @@ use App\Http\Controllers\OrderController;
     use App\Http\Controllers\SmsCampaignController;
     use App\Http\Controllers\SmsController;
     use App\Http\Controllers\SubcategoryController;
-    use App\Http\Controllers\TodayDealController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\TodayDealController;
     use App\Http\Controllers\TodaysDealController;
     use App\Http\Controllers\UserController;
     use App\Http\Controllers\VariationController;
@@ -214,6 +215,12 @@ use App\Http\Controllers\OrderController;
             Route::get('/product/create', 'product_create')->name('product.create');
             Route::post('/campaign/product/store', 'product_store')->name('product.store');
             Route::delete('/campaign/product/destroy/{id}', 'product_destroy')->name('product.destroy');
+        });
+
+        
+        //test route
+        Route::controller(TestController::class)->name('test.')->prefix('test')->group(function () {
+            Route::get('/', 'index')->name('index');
         });
 
 

@@ -538,13 +538,13 @@
 
                                     <div class="col-lg-3">
                                         <label>Title</label>
-                                        <input name="processes[{{$i}}][title]" class="form-control"
+                                        <input name="processes[{{ $i }}][title]" class="form-control"
                                             value="{{ $process['title'] }}">
                                     </div>
 
                                     <div class="col-lg-4">
                                         <label>Description</label>
-                                        <input name="processes[{{$i}}][description]" class="form-control"
+                                        <input name="processes[{{ $i }}][description]" class="form-control"
                                             value="{{ $process['description'] }}">
                                     </div>
 
@@ -580,19 +580,19 @@
                             <div class="row testimonial-item mb-3 align-items-end">
                                 <div class="col-lg-2">
                                     <label>Rating</label>
-                                    <input name="testimonials[{{$i}}][rating]" class="form-control"
+                                    <input name="testimonials[{{ $i }}][rating]" class="form-control"
                                         value="{{ $testimonial['rating'] }}">
                                 </div>
 
                                 <div class="col-lg-3">
                                     <label>Name</label>
-                                    <input name="testimonials[{{$i}}][name]" class="form-control"
+                                    <input name="testimonials[{{ $i }}][name]" class="form-control"
                                         value="{{ $testimonial['name'] }}">
                                 </div>
 
                                 <div class="col-lg-6">
                                     <label>Text</label>
-                                    <input name="testimonials[{{$i}}][text]" class="form-control"
+                                    <input name="testimonials[{{ $i }}][text]" class="form-control"
                                         value="{{ $testimonial['text'] }}">
                                 </div>
 
@@ -627,13 +627,14 @@
 
                                 <div class="col-lg-5">
                                     <label>Question</label>
-                                    <input name="faqs[{{$i}}][question]" class="form-control"
+                                    <input name="faqs[{{ $i }}][question]" class="form-control"
                                         value="{{ $faq['question'] }}">
                                 </div>
 
                                 <div class="col-lg-6">
                                     <label>Answer</label>
-                                    <input name="faqs[{{$i}}][answer]" class="form-control" value="{{ $faq['answer'] }}">
+                                    <input name="faqs[{{ $i }}][answer]" class="form-control"
+                                        value="{{ $faq['answer'] }}">
                                 </div>
 
                                 <div class="col-lg-1 d-flex gap-2">
@@ -722,12 +723,14 @@
     <script src="{{ asset('assets') }}/js/plugins/select2/js/select2.full.min.js"></script>
 
     <script>
-        $('.form-select').select2();
+        let f = {{ count($campaign->content['features'] ?? []) }};
+        let p = {{ count($campaign->content['processes'] ?? []) }};
+        let t = {{ count($campaign->content['testimonials'] ?? []) }};
+        let q = {{ count($campaign->content['faqs'] ?? []) }};
+    </script>
 
-        let f = 1,
-            p = 1,
-            t = 1,
-            q = 1;
+    <script>
+        $('.form-select').select2();
 
         /* ================= FEATURES ================= */
         $(document).on('click', '.add-feature', function() {
@@ -736,7 +739,7 @@
             <div class="row feature-item mb-3 align-items-end">
             <div class="col-lg-3">
                 <label>Icon</label>
-                <select name="features[0][icon]" class="form-select">
+                <select name="features[${f}][icon]" class="form-select">
                     <option value="📦">📦 Product Box</option>
                     <option value="🛍️">🛍️ Shopping Bag</option>
                     <option value="🛒">🛒 Shopping Cart</option>
@@ -777,12 +780,12 @@
 
             <div class="col-lg-3">
                 <label>Title</label>
-                <input type="text" name="features[0][title]" class="form-control">
+                <input type="text" name="features[${f}][title]" class="form-control">
             </div>
 
             <div class="col-lg-4">
                 <label>Description</label>
-                <input type="text" name="features[0][description]" class="form-control">
+                <input type="text" name="features[${f}][description]" class="form-control">
             </div>
 
             <div class="col-lg-2 d-flex gap-2">

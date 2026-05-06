@@ -16,6 +16,10 @@ class OrderDetails extends Model
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
+    public function landingProduct(): BelongsTo
+    {
+        return $this->belongsTo(LandingProduct::class, 'landing_product_id', 'id');
+    }
 
     public function order(): BelongsTo
     {

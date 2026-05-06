@@ -157,6 +157,7 @@ class CampaignController extends Controller
 
         $request->validate([
             'name' => 'required',
+            'size' => 'required',
             'price' => 'required',
             'image' => 'required'
         ]);
@@ -165,7 +166,8 @@ class CampaignController extends Controller
 
         LandingProduct::create([
             'name' => $request->name,
-            'title' => $request->title,
+            'size' => $request->size,
+            'info' => $request->info,
             'old_price' => $request->old_price,
             'price' => $request->price,
             'image' => $image,

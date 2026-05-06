@@ -66,16 +66,26 @@
                                 </div>
                                 <div class="col-lg-6 m-auto">
                                     <div class="mb-3">
-                                        <label class="form-label" for="title">Title <small class="text-muted">(Optional)</small></label>
-                                        <input type="text" class="form-control" id="title" name="title"
-                                            placeholder="Enter Title.." value="{{ old('title') }}" required>
+                                        <label class="form-label" for="info">Info <small class="text-muted">(Optional)</small></label>
+                                        <input type="text" class="form-control" id="info" name="info"
+                                            placeholder="Enter Info.." value="{{ old('info') }}" required>
                                     </div>
-                                    @error('title')
+                                    @error('info')
+                                        <small class="text-danger mt-2 d-block">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-lg-4 m-auto">
+                                    <div class="mb-5">
+                                        <label class="form-label" for="size">Size</label>
+                                        <input type="text" class="form-control" id="size" name="size"
+                                            placeholder="Enter size.. Ex. 5kg, XL, L" value="{{ old('size') }}" required>
+                                    </div>
+                                    @error('size')
                                         <small class="text-danger mt-2 d-block">{{ $message }}</small>
                                     @enderror
                                 </div>
 
-                                <div class="col-lg-6 m-auto">
+                                <div class="col-lg-4 m-auto">
                                     <div class="mb-5">
                                         <label class="form-label" for="old_price">Old Price <small
                                                 class="text-muted">(Optional)</small>
@@ -91,7 +101,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-lg-6 m-auto">
+                                <div class="col-lg-4 m-auto">
                                     <div class="mb-5">
                                         <label class="form-label" for="current_price">Current Price
                                             <i class="fas fa-info-circle js-bs-tooltip-enabled" data-bs-toggle="tooltip"

@@ -163,34 +163,66 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($order->orderDetails as $key => $item)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="product_image">
-                                                    <img class="rounded" src="{{ asset($item->product->image) }}"
-                                                        alt="{{ $item->product->name }}">
-                                                </div>
-                                                <div class="product_item">
-                                                    <div class="td_product">
-                                                        {{ Str::limit($item->product->name, 100, '...') }}
+                                @if ($order->order_type == 'landing')
+                                    @foreach ($order->orderDetails as $key => $item)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="product_image">
+                                                        <img class="rounded" src="{{ asset($item->landingProduct->image) }}"
+                                                            alt="{{ $item->landingProduct->name }}">
                                                     </div>
-                                                    <div class="td_details">
-                                                        Qty : {{ $item->qty }}
-                                                    </div>
-                                                    @if ($item->variation)
-                                                        <div class="td_details">
-                                                            Variation: {{ $item->variation?->attributeValue->value }}
+                                                    <div class="product_item">
+                                                        <div class="td_product">
+                                                            {{ Str::limit($item->landingProduct->name, 100, '...') }}
                                                         </div>
-                                                    @endif
+                                                        <div class="td_details">
+                                                            Qty : {{ $item->qty }}
+                                                        </div>
+                                                        @if ($item->variation)
+                                                            <div class="td_details">
+                                                                Variation: {{ $item->variation?->attributeValue->value }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>৳{{ $item->price }}</td>
-                                        <td>৳{{ $item->price * $item->qty }}</td>
-                                    </tr>
-                                @endforeach
+                                            </td>
+                                            <td>৳{{ $item->price }}</td>
+                                            <td>৳{{ $item->price * $item->qty }}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    @foreach ($order->orderDetails as $key => $item)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="product_image">
+                                                        <img class="rounded" src="{{ asset($item->product->image) }}"
+                                                            alt="{{ $item->product->name }}">
+                                                    </div>
+                                                    <div class="product_item">
+                                                        <div class="td_product">
+                                                            {{ Str::limit($item->product->name, 100, '...') }}
+                                                        </div>
+                                                        <div class="td_details">
+                                                            Qty : {{ $item->qty }}
+                                                        </div>
+                                                        @if ($item->variation)
+                                                            <div class="td_details">
+                                                                Variation: {{ $item->variation?->attributeValue->value }}
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>৳{{ $item->price }}</td>
+                                            <td>৳{{ $item->price * $item->qty }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+
                             </tbody>
                         </table>
                         <div class="row justify-content-md-end mb-3">

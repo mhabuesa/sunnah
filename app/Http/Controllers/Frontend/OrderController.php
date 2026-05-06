@@ -36,7 +36,7 @@ class OrderController extends Controller
             ]);
         }
 
-        $invoiceNumber = $this->generateInvoiceNumber();
+        $invoiceNumber = Order::generateInvoiceNumber();
 
         // ৩. Order create logic
         $order = Order::create([
@@ -103,20 +103,20 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Order placed successfully!');
     }
 
-    private function generateInvoiceNumber()
-    {
-        $today = date('ymd');
-        $lastOrder = Order::where('invoice_no', 'like', 'INV-' . $today . '-%')
-            ->latest()
-            ->first();
+    // private function generateInvoiceNumber()
+    // {
+    //     $today = date('ymd');
+    //     $lastOrder = Order::where('invoice_no', 'like', 'INV-' . $today . '-%')
+    //         ->latest()
+    //         ->first();
 
-        if ($lastOrder) {
-            $lastNumber = (int) substr($lastOrder->invoice_no, strrpos($lastOrder->invoice_no, '-') + 1);
-            $newNumber = $lastNumber + 1;
-        } else {
-            $newNumber = 1;
-        }
+    //     if ($lastOrder) {
+    //         $lastNumber = (int) substr($lastOrder->invoice_no, strrpos($lastOrder->invoice_no, '-') + 1);
+    //         $newNumber = $lastNumber + 1;
+    //     } else {
+    //         $newNumber = 1;
+    //     }
 
-        return 'INV-' . $today . '-' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
-    }
+    //     return 'INV-' . $today . '-' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
+    // }
 }

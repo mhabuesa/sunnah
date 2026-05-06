@@ -40,8 +40,9 @@ class DeliveryController extends Controller
     //     return view('backend.delivery.redx', compact('order', 'method'));
     // }
 
-    public function details($method, $id)
+    public function details(string $method, $id)
     {
+        dd($method);
         $order = Order::with('customer')->where('id', $id)->first();
 
         if ($method == 'steadfast') {
