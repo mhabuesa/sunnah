@@ -85,6 +85,6 @@ class LandingController extends Controller
                 'total'        => $totalPrice,
             ]);
         }
-        return redirect()->back()->with('success', 'Order Placed');
+        return redirect()->back()->with('success', 'অর্ডার সম্পন্ন হয়েছে');
     }
 }

@@ -17,7 +17,13 @@
                 </td>
                 <td>
 
-                    <span class="badge bg-primary text-uppercase">{{ $order->user->name ?? 'Customer' }}</span>
+                    @if ($order->order_type == 'pos')
+                        <span class="badge bg-primary text-uppercase">{{ $order->user->name }}</span>
+                    @elseif ($order->order_type == 'landing')
+                        <span class="badge bg-info text-uppercase">Campaign</span>
+                    @else
+                        <span class="badge bg-success text-uppercase">Customer</span>
+                    @endif
                 </td>
                 <td class="text-center">
                     <div class="btn-group">

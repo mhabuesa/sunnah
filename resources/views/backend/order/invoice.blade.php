@@ -225,22 +225,41 @@
             </thead>
 
             <tbody>
-                @foreach ($order->orderDetails as $key => $item)
-                    <tr>
-                        <td>{{ $key + 1 }}</td>
+                @if ($order->order_type == 'landing')
+                    @foreach ($order->orderDetails as $key => $item)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
 
-                        <td>
-                            {{ $item->product->name }}
-                            @if ($item->variation)
-                                ({{ $item->variation?->attributeValue->value }})
-                            @endif
-                        </td>
+                            <td>
+                                {{ $item->landingProduct->name }}
+                                 @if ($item->landingProduct->size)
+                                    ({{ $item->landingProduct->size }})
+                                @endif
+                            </td>
 
-                        <td>৳ {{ $item->price }}</td>
-                        <td>{{ $item->qty }}</td>
-                        <td>৳ {{ $item->price * $item->qty }}</td>
-                    </tr>
-                @endforeach
+                            <td>৳ {{ $item->price }}</td>
+                            <td>{{ $item->qty }}</td>
+                            <td>৳ {{ $item->price * $item->qty }}</td>
+                        </tr>
+                    @endforeach
+                @else
+                    @foreach ($order->orderDetails as $key => $item)
+                        <tr>
+                            <td>{{ $key + 1 }}</td>
+
+                            <td>
+                                {{ $item->product->name }}
+                                @if ($item->variation)
+                                    ({{ $item->variation?->attributeValue->value }})
+                                @endif
+                            </td>
+
+                            <td>৳ {{ $item->price }}</td>
+                            <td>{{ $item->qty }}</td>
+                            <td>৳ {{ $item->price * $item->qty }}</td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
 

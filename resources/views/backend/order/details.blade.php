@@ -180,9 +180,9 @@
                                                         <div class="td_details">
                                                             Qty : {{ $item->qty }}
                                                         </div>
-                                                        @if ($item->variation)
+                                                        @if ($item->landingProduct->size)
                                                             <div class="td_details">
-                                                                Variation: {{ $item->variation?->attributeValue->value }}
+                                                                Variation: {{ $item->landingProduct->size }}
                                                             </div>
                                                         @endif
                                                     </div>

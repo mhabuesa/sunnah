@@ -152,15 +152,28 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($order->orderDetails as $item)
-                    <tr>
-                        <td>{{ Str::limit($item->product->name, 10, '...') }}
-                            {{ optional($item->variation?->attributeValue)->value ? '(' . $item->variation->attributeValue->value . ')' : '' }}
-                        </td>
-                        <td class="text-center">{{ $item->qty }}</td>
-                        <td class="text-right">{{ $item->total }}</td>
-                    </tr>
-                @endforeach
+                @if ($order->order_type == 'landing')
+                    @foreach ($order->orderDetails as $item)
+                        <tr>
+                            <td>{{ Str::limit($item->landingProduct->name, 10, '...') }}
+                                 {{ optional($item->landingProduct)->size ? '(' . $item->landingProduct->size . ')' : '' }}
+                            </td>
+                            <td class="text-center">{{ $item->qty }}</td>
+                            <td class="text-right">{{ $item->total }}</td>
+                        </tr>
+                    @endforeach
+                @else
+                    @foreach ($order->orderDetails as $item)
+                        <tr>
+                            <td>{{ Str::limit($item->product->name, 10, '...') }}
+                                {{ optional($item->variation?->attributeValue)->value ? '(' . $item->variation->attributeValue->value . ')' : '' }}
+                            </td>
+                            <td class="text-center">{{ $item->qty }}</td>
+                            <td class="text-right">{{ $item->total }}</td>
+                        </tr>
+                    @endforeach
+                @endif
+
             </tbody>
         </table>
 

@@ -28,6 +28,7 @@
                                             <option value="all">All</option>
                                             <option value="pos">POS</option>
                                             <option value="frontend">Frontend</option>
+                                            <option value="landing">Campaign</option>
                                         </select>
                                     </div>
                                 </div>
@@ -169,7 +170,7 @@
                                 <tbody id="orderContainer">
                                     {{-- AJAX load --}}
                                 </tbody>
-                                @if ($type == 'confirmed')
+                                @if ($type == 'out_for_delivery')
                                     <tfoot>
                                         <td colspan="9">
                                             <button id="printSelected" class="btn btn-primary btn-sm">

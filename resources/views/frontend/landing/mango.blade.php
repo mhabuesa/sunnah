@@ -145,7 +145,7 @@
                     <a href="#gallery">
                         <div class="rounded-[3rem] overflow-hidden shadow-2xl border-[10px] border-white/10">
                             <img src="{{ asset($singleProduct->image ?? '') }}" class="w-full h-full object-cover"
-                                alt="Premium Mango">
+                                alt="{{ $singleProduct->name }}">
                         </div>
                     </a>
 
@@ -879,6 +879,20 @@
             document.getElementById('cart_data').value = JSON.stringify(cart);
         });
     </script>
+
+    @if (session('success'))
+        <script>
+            toast("{{ session('success') }}", 'success');
+
+            // cart clear
+            document.cookie = "cart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            // memory থেকেও clear
+            cart = [];
+            renderCart();
+        </script>
+    @endif
+
 
 
 
