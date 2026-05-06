@@ -42,7 +42,6 @@ class DeliveryController extends Controller
 
     public function details(string $method, $id)
     {
-        dd($method);
         $order = Order::with('customer')->where('id', $id)->first();
 
         if ($method == 'steadfast') {
