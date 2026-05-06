@@ -58,7 +58,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="bg-gray-50 text-slate-800">
+
+<body class="pb-16 md:pb-0 bg-gray-50 text-slate-800">
     @php
         $words = explode(' ', $campaign->site_name);
         $initials = '';
@@ -424,7 +425,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 bg-orange-50/50 p-6 md:p-10">
+                <div class="lg:col-span-5 bg-orange-50/50 p-6 md:p-10" id="form">
 
                     <div class="mb-10">
                         <div class="flex items-center justify-between mb-4">
@@ -481,6 +482,7 @@
                             </div>
 
                             <input type="hidden" name="cart_data" id="cart_data">
+                            <input type="hidden" name="site_name" value="{{ $campaign->site_name }}">
 
                             <div class="pt-4">
                                 <button type="submit"
@@ -492,15 +494,15 @@
 
                         <div
                             class="mt-6 flex items-center justify-center gap-4 text-[10px] font-bold text-gray-400 uppercase">
-                            <span class="flex items-center gap-1">🚚 ক্যাশ অন ডেলিভারি</span>
+                            <span class="flex items-center gap-1">🚚 দ্রুত হোম ডেলিভারি</span>
                             <span class="flex items-center gap-1">🔒 ১০০% নিরাপদ</span>
                         </div>
 
                         <div
-                            class="mt-8 pt-6 border-t border-orange-100 flex flex-wrap justify-between items-center gap-4">
+                            class="mt-8 pt-6 border-t border-orange-100 flex flex-wrap justify-center items-center gap-4">
 
                             <!-- WhatsApp -->
-                            <a href="https://wa.me/8801700000000" target="_blank"
+                            <a href="https://wa.me/{{ $campaign->whatsapp }}" target="_blank"
                                 class="flex items-center gap-2 hover:opacity-80 transition">
                                 <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                                     📞
@@ -508,15 +510,9 @@
                                 <div>
                                     <p class="text-[10px] text-gray-400 font-bold uppercase leading-none">WhatsApp করুন
                                     </p>
-                                    <p class="text-sm font-bold text-gray-700">+৮৮০ ১৭০০-০০০০০০</p>
+                                    <p class="text-sm font-bold text-gray-700">{{ $campaign->whatsapp }}</p>
                                 </div>
                             </a>
-
-                            <!-- Address -->
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">📍</div>
-                                <p class="text-xs font-bold text-gray-500">রংপুর, বাংলাদেশ</p>
-                            </div>
 
                         </div>
                     </div>
@@ -530,24 +526,56 @@
         <div class="container mx-auto px-6">
             <h2 class="text-white text-2xl font-bold mb-4">আমার আম ঘর</h2>
             <div class="flex justify-center gap-6 mb-8 text-white">
-                <a href="#"
+                <a href="{{ $campaign->facebook }}"
                     class="hover:text-orange-500 transition-colors underline decoration-orange-500">Facebook</a>
-                <a href="#"
-                    class="hover:text-orange-500 transition-colors underline decoration-orange-500">WhatsApp</a>
+                <a href="{{ $campaign->whatsapp }}"
+                    class="hover:text-orange-500 transition-colors underline decoration-orange-500">Contact</a>
             </div>
-            <p class="text-sm">© 2026 Amar Am Ghor. All Rights Reserved. <br> Developed with ❤️ by Abu Esa.</p>
+            <p class="text-sm">© 2026 {{ $campaign->site_name }}. All Rights Reserved. <br> Developed with ❤️ by Abu
+                Esa.</p>
         </div>
     </footer>
 
     <!-- Floating Order Badge Button -->
     <button id="orderBadge" onclick="scrollToCheckout()"
-        class="fixed bottom-6 right-6 z-50 bg-green-600 text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 animate-bounce">
+        class="hidden md:flex fixed bottom-6 right-6 z-50 bg-green-600 text-white px-5 py-3 rounded-full shadow-2xl items-center gap-2 animate-bounce">
         <span class="font-bold">অর্ডার করুন</span>
 
         <span class="ml-2 bg-white text-orange-600 text-xs font-bold px-2 py-1 rounded-full animate-pulse">
             Checkout
         </span>
     </button>
+
+    <!-- Mobile Floating Pill Navbar -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden">
+        <div class="bg-green-600 text-white px-6 py-2 rounded-full shadow-2xl flex items-center gap-8">
+
+            <!-- Home -->
+            <a href="#" class="flex flex-col items-center text-xs">
+                <i class="fa-solid fa-house text-[16px]"></i>
+                <span>Home</span>
+            </a>
+
+            <!-- Cart -->
+            <a href="#checkout" class="flex flex-col items-center relative text-xs">
+                <i class="fa-solid fa-cart-shopping text-[16px]"></i>
+                <span>Cart</span>
+
+                <!-- Badge -->
+                <span id="mobile-cart-count"
+                    class="absolute -top-2 -right-3 bg-red-500 text-white text-[10px] px-1.5 rounded-full">
+                    0
+                </span>
+            </a>
+
+            <!-- Order Form -->
+            <a href="#form" class="flex flex-col items-center text-xs">
+                <i class="fa-solid fa-clipboard-list text-[16px]"></i>
+                <span>Order</span>
+            </a>
+
+        </div>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -704,6 +732,7 @@
         function renderCart() {
             const box = document.getElementById('cart-items-list');
             const badge = document.getElementById('cart-count-badge');
+            const mobileBadge = document.getElementById('mobile-cart-count');
 
             if (!box || !badge) return;
 
@@ -715,6 +744,7 @@
             </div>
         `;
                 badge.innerText = '০';
+                mobileBadge.innerText = '০';
                 return;
             }
 
@@ -753,6 +783,7 @@
     `;
 
             badge.innerText = toBanglaNumber(cart.length);
+            mobileBadge.innerText = toBanglaNumber(cart.length);
         }
 
         // ==============================
@@ -892,6 +923,13 @@
             renderCart();
         </script>
     @endif
+
+    <script>
+        const mobileBadge = document.getElementById('mobile-cart-count');
+        if (mobileBadge) {
+            mobileBadge.innerText = toBanglaNumber(cart.length);
+        }
+    </script>
 
 
 

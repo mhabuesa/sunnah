@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\LandingProduct;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -85,6 +86,18 @@ class LandingController extends Controller
                 'total'        => $totalPrice,
             ]);
         }
+
+
+        $phone = $request->phone;
+
+        $message = "প্রিয় গ্রাহক, " . $request->site_name . " থেকে আপনার অর্ডারটি সফলভাবে গ্রহণ করা হয়েছে। \nখুব শীঘ্রই আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে। ধন্যবাদ।";
+
+        (new SmsService())->sendMessage([
+            'number' => $phone,
+            'message' => $message,
+        ]);
+
+
         return redirect()->back()->with('success', 'অর্ডার সম্পন্ন হয়েছে');
     }
 }
