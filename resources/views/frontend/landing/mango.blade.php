@@ -11,8 +11,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.3.0/css/glightbox.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <style>
+        @font-face {
+            font-family: 'SolaimanLipi';
+            src: url('{{ asset('assets/fonts/bangla/SolaimanLipi.ttf') }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'SolaimanLipi', sans-serif;
             scroll-behavior: smooth;
         }
 
