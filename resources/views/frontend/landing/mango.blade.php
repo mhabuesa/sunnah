@@ -648,7 +648,7 @@
         // });
     </script>
 
-    <script>
+    {{-- <script>
         // ==============================
         // NOTYF SETUP
         // ==============================
@@ -724,6 +724,18 @@
             saveCart();
             renderCart();
             toast("কার্টে যোগ হয়েছে");
+
+            // Facebook Tracking for AddToCart
+            window.dataLayer.push({
+                'event': 'add_to_cart',
+                'event_id': uniqueEventId,
+                'content_name': name,
+                'content_ids': [id],
+                'value': price,
+                'currency': 'BDT'
+            });
+
+            console.log('FB Event: AddToCart Fired for ' + name);
         }
 
         // ==============================
@@ -844,7 +856,192 @@
 
         // Page load এ run
         document.addEventListener("DOMContentLoaded", applyBanglaNumbers);
-    </script>
+    </script> --}}
+
+    <script>
+    // ==========================================
+    // ১. GLOBAL TRACKING SETUP
+    // ==========================================
+    const uniqueEventId = 'id_' + Date.now() + Math.floor(Math.random() * 1000);
+    window.dataLayer = window.dataLayer || [];
+
+    // Page View fire kora
+    window.dataLayer.push({
+        'event': 'view_page',
+        'event_id': uniqueEventId
+    });
+
+    // Hidden input-e ID set kora
+    document.addEventListener("DOMContentLoaded", function() {
+        const eventInput = document.getElementById('event_id_input');
+        if (eventInput) eventInput.value = uniqueEventId;
+    });
+
+    // ==========================================
+    // ২. NOTYF & CART LOGIC
+    // ==========================================
+    const notyf = new Notyf({
+        duration: 2000,
+        position: { x: 'right', y: 'top' }
+    });
+
+    function toast(msg, type = 'success') {
+        type === 'error' ? notyf.error(msg) : notyf.success(msg);
+    }
+
+    function saveCart() {
+        const d = new Date();
+        d.setTime(d.getTime() + (7 * 24 * 60 * 60 * 1000));
+        document.cookie = "cart=" + encodeURIComponent(JSON.stringify(cart)) + "; expires=" + d.toUTCString() + "; path=/";
+    }
+
+    function getCart() {
+        const name = "cart=";
+        const decoded = decodeURIComponent(document.cookie);
+        const arr = decoded.split(';');
+        for (let c of arr) {
+            c = c.trim();
+            if (c.indexOf(name) === 0) {
+                try { return JSON.parse(c.substring(name.length)); } catch { return []; }
+            }
+        }
+        return [];
+    }
+
+    let cart = getCart();
+    renderCart();
+
+    // ==========================================
+    // ৩. ADD TO CART (FIXED & TRACKING ADDED)
+    // ==========================================
+    function addToCart(id, name, price) {
+        // --- আসল লজিক (Cart update) ---
+        let item = cart.find(p => p.id === id);
+        if (item) {
+            item.qty += 1;
+        } else {
+            cart.push({ id, name, price, qty: 1 });
+        }
+
+        saveCart();
+        renderCart();
+        toast("কার্টে যোগ হয়েছে");
+
+        // --- ট্র্যাকিং লজিক (Conflict Fixed) ---
+        window.dataLayer.push({
+            'event': 'add_to_cart',
+            'event_id': uniqueEventId,
+            'content_name': name,
+            'content_ids': [id],
+            'value': price,
+            'currency': 'BDT'
+        });
+        console.log('FB Event: AddToCart Fired');
+    }
+
+    // ==========================================
+    // ৪. OTHER UTILITIES (Qty, Remove, Render)
+    // ==========================================
+    function changeQty(id, type) {
+        let item = cart.find(p => p.id === id);
+        if (!item) return;
+
+        if (type === 'inc') {
+            item.qty++;
+            toast("আপডেট হয়েছে");
+        } else if (type === 'dec') {
+            item.qty--;
+            if (item.qty <= 0) {
+                cart = cart.filter(p => p.id !== id);
+                toast("আইটেম রিমুভ করা হয়েছে", "error");
+            } else {
+                toast("আপডেট হয়েছে");
+            }
+        }
+        saveCart();
+        renderCart();
+    }
+
+    function removeItem(id) {
+        cart = cart.filter(p => p.id !== id);
+        saveCart();
+        renderCart();
+        toast("আইটেম রিমুভ করা হয়েছে", "error");
+    }
+
+    function renderCart() {
+        const box = document.getElementById('cart-items-list');
+        const badge = document.getElementById('cart-count-badge');
+        const mobileBadge = document.getElementById('mobile-cart-count');
+
+        if (!box || !badge) return;
+
+        if (cart.length === 0) {
+            box.innerHTML = `<div class="text-center py-4"><p class="text-gray-400 text-xs">কার্ট খালি</p></div>`;
+            badge.innerText = '০';
+            if(mobileBadge) mobileBadge.innerText = '০';
+            return;
+        }
+
+        let totalPrice = 0;
+        box.innerHTML = cart.map(item => {
+            totalPrice += item.qty * item.price;
+            return `
+                <div class="flex justify-between items-center bg-orange-50 p-2 rounded-xl border mb-2">
+                    <div>
+                        <p class="text-xs font-bold">${item.name}</p>
+                        <p class="text-[10px] text-gray-500">৳${toBanglaNumber(item.price)} × ${toBanglaNumber(item.qty)}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeQty(${item.id}, 'dec')" class="px-2 bg-gray-200 rounded">-</button>
+                        <span class="text-sm font-bold">${toBanglaNumber(item.qty)}</span>
+                        <button onclick="changeQty(${item.id}, 'inc')" class="px-2 bg-gray-200 rounded">+</button>
+                        <button onclick="removeItem(${item.id})" class="text-red-500 ml-2">×</button>
+                    </div>
+                </div>`;
+        }).join('');
+
+        box.innerHTML += `<div class="border-t pt-2 flex justify-between font-bold"><span>মোট</span><span>৳${toBanglaNumber(totalPrice)}</span></div>`;
+        badge.innerText = toBanglaNumber(cart.length);
+        if(mobileBadge) mobileBadge.innerText = toBanglaNumber(cart.length);
+    }
+
+    function toBanglaNumber(num) {
+        const en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return num.toString().split('').map(d => en.includes(d) ? bn[en.indexOf(d)] : d).join('');
+    }
+
+    // ==========================================
+    // ৫. INITIATE CHECKOUT TRACKING
+    // ==========================================
+    let checkoutInitiated = false;
+    document.addEventListener('focusin', function(e) {
+        if (e.target.closest('#checkout form') && !checkoutInitiated) {
+            // Cart total calculation
+            let cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            window.dataLayer.push({
+                'event': 'initiate_checkout',
+                'event_id': uniqueEventId,
+                'value': cartTotal,
+                'currency': 'BDT'
+            });
+            checkoutInitiated = true;
+            console.log('FB Event: InitiateCheckout Fired');
+        }
+    });
+
+    // Form submit check
+    document.querySelector('form').addEventListener('submit', function(event) {
+        if (cart.length === 0) {
+            toast("কার্টে প্রোডাক্ট যোগ করুন", "error");
+            event.preventDefault();
+            return;
+        }
+        document.getElementById('cart_data').value = JSON.stringify(cart);
+    });
+</script>
 
     <script>
         function toggleFaq(button) {
@@ -969,7 +1166,7 @@
         }
     </script>
 
-
+    {{-- 
     <script>
         /**
          * ১. Global Setup
@@ -1040,7 +1237,7 @@
                 console.log('FB Event: InitiateCheckout Fired');
             }
         });
-    </script>
+    </script> --}}
 
 
 
