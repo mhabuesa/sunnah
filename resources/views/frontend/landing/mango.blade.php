@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $campaign->campaign_name }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+
+    @vite('resources/css/landing.css')
 
     <!-- Google Tag Manager -->
     <script>
@@ -515,6 +517,8 @@
                                     required>{{ old('address') }}</textarea>
                             </div>
 
+                            <!-- Form-er bhetore (Submit button-er upore ba niche) -->
+                            <input type="hidden" name="event_id" id="event_id_input">
                             <input type="hidden" name="cart_data" id="cart_data">
                             <input type="hidden" name="site_name" value="{{ $campaign->site_name }}">
 
@@ -963,6 +967,79 @@
         if (mobileBadge) {
             mobileBadge.innerText = toBanglaNumber(cart.length);
         }
+    </script>
+
+
+    <script>
+        /**
+         * ১. Global Setup
+         * Protibar page load-e ekta unique ID hobe jeta PageView theke Purchase porjonto carry hobe.
+         */
+        const uniqueEventId = 'id_' + Date.now() + Math.floor(Math.random() * 1000);
+
+        // Hidden Input-e ID set kora (Tomar order form-er jonno)
+        const eventInput = document.getElementById('event_id_input');
+        if (eventInput) eventInput.value = uniqueEventId;
+
+        window.dataLayer = window.dataLayer || [];
+
+        /**
+         * ২. PageView Event
+         * Page load hoyar sathe sathei fire hobe.
+         */
+        window.dataLayer.push({
+            'event': 'view_page',
+            'event_id': uniqueEventId
+        });
+
+        /**
+         * ৩. AddToCart Event
+         * Tomar "কার্ট যোগ করুন" button-e onclick="addToCart(...)" deya ache. 
+         * Tai oi function-er bhetore tracking code-ta thakbe.
+         */
+        function addToCart(id, name, price) {
+            // ... tomar puronoe cart adding logic ekhane thakbe ...
+
+            // Facebook Tracking for AddToCart
+            window.dataLayer.push({
+                'event': 'add_to_cart',
+                'event_id': uniqueEventId,
+                'content_name': name,
+                'content_ids': [id],
+                'value': price,
+                'currency': 'BDT'
+            });
+
+            console.log('FB Event: AddToCart Fired for ' + name);
+
+            // (Optional: Jodi tumi scroll kore direct form-e niye jete chao)
+            // document.getElementById('checkout').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /**
+         * ৪. InitiateCheckout Event
+         * User jakhon-i form fill-up shuru korbe (Focus korbe), tokhon-i fire hobe.
+         */
+        let checkoutInitiated = false;
+
+        // Form inputs focus listener
+        document.addEventListener('focusin', function(e) {
+            if (e.target.closest('#checkout form') && !checkoutInitiated) {
+
+                // Cart total value calculate korar jonyo logic (jodi thake)
+                let currentTotal = typeof cartTotal !== 'undefined' ? cartTotal : 0;
+
+                window.dataLayer.push({
+                    'event': 'initiate_checkout',
+                    'event_id': uniqueEventId,
+                    'value': currentTotal,
+                    'currency': 'BDT'
+                });
+
+                checkoutInitiated = true;
+                console.log('FB Event: InitiateCheckout Fired');
+            }
+        });
     </script>
 
 
