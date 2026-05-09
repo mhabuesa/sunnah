@@ -1,0 +1,11 @@
+{
+  "resources/css/landing.css": {
+    "file": "assets/landing-B5uOwXm2.css",
+    "src": "resources/css/landing.css",
+    "isEntry": true,
+    "name": "landing",
+    "names": [
+      "landing.css"
+    ]
+  }
+}
