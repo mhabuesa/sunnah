@@ -22,6 +22,8 @@ class LandingController extends Controller
 
     public function order(Request $request)
     {
+        $cookie = $request->all();
+        dd($cookie);
         $request->validate([
             'name' => 'required',
             'phone' => 'required',
