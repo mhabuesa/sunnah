@@ -987,17 +987,19 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main">
         <!-- Banner Section -->
+        @if ($mainBanners->count() > 0)
         <div class="container">
             <div class="mb-4">
                 <div class="banner-section">
-                    <a href="#">
-                        <img src="{{ asset('frontend') }}/temp/img/1920X422/bg.png" alt="Banner"
+                    <a href="{{ $mainBanners->first()->url }}">
+                        <img src="{{ asset($mainBanners->first()->image) }}" alt="Banner"
                             class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
                             decoding="async">
                     </a>
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="container category-wrapper d-none d-xl-block mb-4">
             <div class="category-box">
@@ -1090,14 +1092,16 @@
 
         <div class="container">
             <!-- Full banner -->
+            @if ($middleBanners)
             <div class="mb-4">
-                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/shop.html"
+                <a href="{{ $middleBanners->url }}"
                     class="d-block text-gray-90">
-                     <img src="{{ asset('frontend') }}/temp/img/custom/dan.png" alt="Banner"
+                     <img src="{{ asset($middleBanners->image) }}" alt="Banner"
                             class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
                             decoding="async">
                 </a>
             </div>
+            @endif
             <!-- End Full banner -->
 
             <!-- End Banner -->
@@ -1166,16 +1170,6 @@
                                                     class="btn-add-cart btn-primary transition-3d-hover"><i
                                                         class="ec ec-add-to-cart"></i></a>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-item__footer">
-                                        <div class="border-top pt-2 flex-center-between flex-wrap">
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                class="text-gray-6 font-size-13"><i
-                                                    class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                            <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                class="text-gray-6 font-size-13"><i
-                                                    class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                                         </div>
                                     </div>
                                 </div>
@@ -1576,343 +1570,40 @@
                 <div class="tab-content">
                     <div class="pt-0">
                         <ul class="row list-unstyled products-group no-gutters">
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Wireless Audio System Multiroom
-                                                    360 degree Full base audio</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img1.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">$685,00</div>
+                             @foreach ($latestProducts as $latestProduct)
+                                <li class="col-6 col-md-3 col-lg-2 product-item ">
+                                    <div class="product-item__outer h-100">
+                                        <div class="product-item__inner px-xl-4 p-3 ">
+                                            <div class="product-item__body pb-xl-2">
+                                                <div class="mb-2"><a
+                                                        href="{{ route('product', $latestProduct->slug) }}"
+                                                        class="font-size-12 text-gray-5">{{ $latestProduct->category->name }}</a></div>
+                                                <h5 class="mb-1 product-item__title"><a
+                                                        href="{{ route('product', $latestProduct->slug) }}"
+                                                        class="text-blue font-weight-bold">{{ Str::limit($latestProduct->name, '20', '...') }}</a></h5>
+                                                <div class="mb-2">
+                                                    <a href="{{ route('product', $latestProduct->slug) }}"
+                                                        class="d-block text-center"><img class="img-fluid"
+                                                            src="{{ asset($latestProduct->image) }}"
+                                                            alt="Image Description"></a>
                                                 </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
+                                                <div class="flex-center-between mb-1">
+                                                    <div class="prodcut-price">
+                                                        <div class="text-gray-100">৳{{ productPrice($latestProduct->id) }}</div>
+                                                    </div>
+
+                                                    <div class="d-none d-xl-block prodcut-add-cart">
+                                                        <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
+                                                            class="btn-add-cart btn-primary transition-3d-hover"><i
+                                                                class="ec ec-add-to-cart"></i></a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Tablet White EliteBook Revolve
-                                                    810 G2</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img2.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div
-                                                    class="prodcut-price d-flex align-items-center position-relative">
-                                                    <ins
-                                                        class="font-size-20 text-red text-decoration-none">$1999,00</ins>
-                                                    <del class="font-size-12 tex-gray-6 position-absolute bottom-100">$2
-                                                        299,00</del>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Purple Solo 2 Wireless</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img3.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">$685,00</div>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Smartphone 6S 32GB LTE</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img4.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">$685,00</div>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Widescreen NX Mini F1 SMART
-                                                    NX</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img5.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">$685,00</div>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Purple Solo 2 Wireless</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img3.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">$685,00</div>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Tablet White EliteBook Revolve
-                                                    810 G2</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img2.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div
-                                                    class="prodcut-price d-flex align-items-center position-relative">
-                                                    <ins
-                                                        class="font-size-20 text-red text-decoration-none">$1999,00</ins>
-                                                    <del class="font-size-12 tex-gray-6 position-absolute bottom-100">$2
-                                                        299,00</del>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="col-6 col-md-3 col-lg-2 product-item">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-7-column-full-width.html"
-                                                    class="font-size-12 text-gray-5">Speakers</a></div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="text-blue font-weight-bold">Tablet White EliteBook Revolve
-                                                    810 G2</a></h5>
-                                            <div class="mb-2">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset('frontend') }}/temp/img/212X200/img2.jpg"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div
-                                                    class="prodcut-price d-flex align-items-center position-relative">
-                                                    <ins
-                                                        class="font-size-20 text-red text-decoration-none">$1999,00</ins>
-                                                    <del class="font-size-12 tex-gray-6 position-absolute bottom-100">$2
-                                                        299,00</del>
-                                                </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-item__footer">
-                                            <div class="border-top pt-2 flex-center-between flex-wrap">
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/compare.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                                <a href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
-                                                    class="text-gray-6 font-size-13"><i
-                                                        class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endforeach
+                            
                         </ul>
                     </div>
                 </div>

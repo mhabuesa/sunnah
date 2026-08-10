@@ -36495,7 +36495,7 @@ blockquote:not(.blockquote) p {
 
 @media (min-width: 1200px) {
     .product-item:hover .product-item__inner:not(.remove-prodcut-hover) {
-        position: absolute;
+        /* position: absolute; */
         width: 100%;
         height: auto;
         min-height: 100%;
@@ -36503,9 +36503,9 @@ blockquote:not(.blockquote) p {
         background-color: #fff;
         z-index: 1;
     }
-    .product-item:hover .product-item__footer {
+    /* .product-item:hover .product-item__footer {
         display: block;
-    }
+    } */
 }
 
 .product-item__title {
@@ -40163,4 +40163,14 @@ blockquote:not(.blockquote) p {
     font-weight: bold;
     width: 45px;
     height: 45px;
+}
+
+.cart-btn {
+    color: white !important;
+    opacity: 1 !important;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #0d3123;
+    border-color: #0d3123;
 }
