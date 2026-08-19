@@ -16,6 +16,18 @@ class OrderController extends Controller
 {
     public function placeOrder(Request $request)
     {
+
+        // Get cart data first
+        $cartData = CartService::get();
+
+        // Prevent order if cart is empty
+        if (empty($cartData)) {
+            return redirect()
+                ->back()
+                ->with('error', 'Your cart is empty. Please add a product before placing an order.');
+        }
+
+        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'email' => 'nullable|email',
@@ -32,7 +44,7 @@ class OrderController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'address' => $request->address,
-                'phone' => $request->phone, // Phone number add kora baki chilo
+                'phone' => $request->phone,
             ]);
         }
 
@@ -53,7 +65,6 @@ class OrderController extends Controller
             'total' => $request->grand_total,
         ]);
 
-        $cartData = CartService::get();
 
         foreach ($cartData as $item) {
             $productId = $item['product_id'];
@@ -91,16 +102,16 @@ class OrderController extends Controller
         }
 
         // 4. Clear the cart session after successful order
-        // CartService::clear();
+        CartService::clear();
 
         $data = [
             'order_id' => $order->id,
             'phone' => $customer->phone,
         ];
-        
+
         OrderConfirmationJob::dispatch($data)->delay(5);
 
-        return redirect()->back()->with('success', 'Order placed successfully!');
+        return redirect()->route('index')->with('success', 'Order placed successfully!');
     }
 
     // private function generateInvoiceNumber()

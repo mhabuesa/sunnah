@@ -16,8 +16,6 @@ class CartController extends Controller
 
     public function cart()
     {
-
-
         $districts = District::all();
 
         $cart = CartService::get();
@@ -52,8 +50,15 @@ class CartController extends Controller
             'districts' => $districts
         ]);
     }
+
     public function add_to_cart(Request $request)
     {
+        request()->validate([
+            'product_id' => 'required',
+            'variation' => 'nullable',
+            'quantity' => 'nullable'
+        ]);
+
         CartService::add(
             $request->product_id,
             $request->variation,
@@ -89,13 +94,33 @@ class CartController extends Controller
         ]);
     }
 
+    public function updateQuantity(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required',
+            'variation_id' => 'nullable',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        CartService::update(
+            $request->product_id,
+            $request->variation_id,
+            $request->quantity
+        );
+
+        return response()->json([
+            'success' => true,
+            'quantity' => $request->quantity,
+        ]);
+    }
+
     public function applyCoupon(Request $request)
     {
         $coupon = Coupon::where('coupon_code', $request->coupon_code)
             ->where('status', 1)
             ->first();
 
-            Log::info($coupon);
+        Log::info($coupon);
 
         if (!$coupon) {
             return response()->json(['success' => false, 'error' => 'Invalid coupon']);
@@ -122,7 +147,7 @@ class CartController extends Controller
             }
         }
 
-        
+
 
         return response()->json([
             'success' => true,

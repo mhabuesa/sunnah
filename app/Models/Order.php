@@ -12,6 +12,7 @@ class Order extends Model
 
     protected $casts = [
         'scheduled_at' => 'datetime',
+        'created_at' => 'datetime',
     ];
 
     public function customer()
@@ -26,7 +27,7 @@ class Order extends Model
 
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetails::class);
+        return $this->hasMany(OrderDetails::class, 'order_id');
     }
 
     public static function generateInvoiceNumber()

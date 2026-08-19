@@ -45,350 +45,362 @@
         }
     </style>
 
+    <style>
+        /* Common & Desktop Styles */
+        .cart-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .cart-table thead th {
+            border-bottom: 2px solid #edf2f7;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 12px 10px;
+            text-align: left;
+        }
+
+        .cart-table tbody td {
+            padding: 16px 10px;
+            border-bottom: 1px solid #edf2f7;
+            vertical-align: middle;
+        }
+
+        /* Column Widths & Alignments for Desktop */
+        .cart-table .col-remove {
+            width: 5%;
+            text-align: center;
+        }
+
+        .cart-table .col-product {
+            width: 45%;
+        }
+
+        .cart-table .col-price {
+            width: 15%;
+            text-align: left;
+        }
+
+        .cart-table .col-quantity {
+            width: 20%;
+            text-align: center;
+        }
+
+        .cart-table .col-total {
+            width: 15%;
+            text-align: right;
+        }
+
+        /* Quantity Box Alignment */
+        .cart-qty-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            padding: 4px 10px;
+            width: 110px;
+            background: #fff;
+        }
+
+        .cart-qty-wrapper input {
+            width: 35px;
+            text-align: center;
+            font-weight: 600;
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+
+        .qty-btn {
+            width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #718096;
+            transition: all 0.2s ease;
+            text-decoration: none !important;
+        }
+
+        .qty-btn:hover {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+
+        .remove-btn {
+            color: #a0aec0;
+            font-size: 20px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            color: #e53e3e;
+        }
+
+        /* Mobile Responsive Card Layout (< 768px) */
+        @media (max-width: 767px) {
+            .cart-table thead {
+                display: none;
+            }
+
+            .cart-table,
+            .cart-table tbody,
+            .cart-table tr,
+            .cart-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .cart-table tr.table-row {
+                position: relative;
+                background: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 12px;
+                padding: 15px;
+                margin-bottom: 15px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            }
+
+            .cart-table td {
+                padding: 4px 0 !important;
+                border: none !important;
+                text-align: left !important;
+            }
+
+            .cart-table td.col-remove {
+                position: absolute;
+                top: 8px;
+                right: 12px;
+                width: auto;
+            }
+
+            .cart-table td.col-product {
+                padding-right: 35px !important;
+            }
+
+            /* Mobile Bottom Row for Price, Quantity & Total */
+            .cart-mobile-footer {
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 12px;
+                padding-top: 10px !important;
+                border-top: 1px dashed #edf2f7 !important;
+            }
+        }
+    </style>
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css">
 @endpush
 @section('content')
 
     <!-- Breadcrumb Section Start -->
-    <section class="breadcrumb-section">
-        <div class="custom-container">
-            <div class="breadcrumb-contain">
-                <h2>Shopping Cart</h2>
-                <nav>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">
-                                <i class="ri-home-3-fill"></i>
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active">Cart</li>
+    <div class="bg-gray-13 bg-md-transparent">
+        <div class="container">
+            <div class="my-md-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="../home/index.html">Home</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Cart</li>
                     </ol>
                 </nav>
             </div>
         </div>
-    </section>
+    </div>
     <!-- Breadcrumb Section End -->
 
 
 
     <!-- Cart Section Start -->
-    <section class="section-t-space cart-section checkout-section-new">
-        <div class="custom-container">
-            <form action="{{ route('placeOrder') }}" method="post">
-                @csrf
-                <div class="row g-sm-4 g-3 mb-3">
-                    <div class="col-xxl-9 col-xl-8 col-lg-7">
-                        <div class="row">
-                            {{-- Cart Section --}}
-                            <div class="col-12 mb-3">
-                                <div class="cart-table2">
-                                    <div class="table-title">
-                                        <h2>Cart <span>({{ $cartCount }})</span></h2>
+    <div class="container">
+
+        <form action="{{ route('placeOrder') }}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-xxl-9 col-xl-9 col-lg-8">
+                    <div class="row">
+                        {{-- Cart Section --}}
+                        <div class="col-12 mb-3">
+                            <div class="mb-10">
+                                <div class="card border shadow-sm rounded-2">
+                                    <div class="card-header border-0">
+                                        <strong class="font-size-18 mb-0">Your Cart</strong>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table class="table cart-table-box">
-                                            <tbody>
-                                                @foreach ($cartItems as $item)
-                                                    @php
-                                                        $product = $cartProducts[$item['product_id']] ?? null;
-                                                        $variation = $cartVariations[$item['variation_id']] ?? null;
+                                    <div class="card-body mb-4 pt-0">
+                                        <!-- Cart Markup -->
+                                        <div class="table-responsive-md">
+                                            <table class="table cart-table" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-remove">&nbsp;</th>
+                                                        <th class="col-product">Product</th>
+                                                        <th class="col-price">Price</th>
+                                                        <th class="col-quantity text-center">Quantity</th>
+                                                        <th class="col-total text-right">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($cartItems as $item)
+                                                        @php
+                                                            $product = $cartProducts[$item['product_id']] ?? null;
+                                                            $variation = $cartVariations[$item['variation_id']] ?? null;
+                                                            $price = $variation?->price ?? $product?->price;
+                                                        @endphp
+                                                        <tr class="table-row cart-item"
+                                                            data-product="{{ $item['product_id'] }}"
+                                                            data-variation="{{ $item['variation_id'] }}">
 
-                                                        $price = $variation?->price ?? $product?->price;
-                                                    @endphp
+                                                            <!-- Delete Icon -->
+                                                            <td class="col-remove">
+                                                                <a href="javascript:;" class="remove-row remove-btn">×</a>
+                                                            </td>
 
-
-                                                    <tr class="table-row cart-item" data-product="{{ $item['product_id'] }}"
-                                                        data-variation="{{ $item['variation_id'] }}">
-                                                        <td>
-                                                            <div class="cart-box">
-                                                                <div class="cart-image">
-                                                                    <a href="product-color.html">
-                                                                        <img src="{{ asset($product?->image) }}"
-                                                                            class="img-fluid" alt="">
-                                                                    </a>
-                                                                    <i class="ri-heart-3-line"></i>
-                                                                    <i class="ri-heart-3-fill"></i>
+                                                            <!-- Product Image & Meta -->
+                                                            <td class="col-product">
+                                                                <div class="d-flex align-items-center">
+                                                                    <img class="rounded border p-1 flex-shrink-0"
+                                                                        width="60" height="60"
+                                                                        src="{{ asset($product?->image) }}"
+                                                                        alt="{{ $product?->name }}"
+                                                                        style="object-fit: cover;">
+                                                                    <div class="ml-3">
+                                                                        <a href="{{ route('product', $product->slug) }}"
+                                                                            class="font-weight-bold text-dark d-block mb-1 text-decoration-none">
+                                                                            {{ $product?->name }}
+                                                                        </a>
+                                                                        @if ($variation)
+                                                                            <span class="text-success font-size-13 d-block">
+                                                                                {{ $variation->attribute->name ?? '' }}:
+                                                                                {{ $variation->attributeValue->value ?? '' }}
+                                                                            </span>
+                                                                        @endif
+                                                                    </div>
                                                                 </div>
-                                                                <div class="cart-contain">
-                                                                    <a href="product-color.html">
-                                                                        <h3>{{ $product->name }}</h3>
-                                                                    </a>
-                                                                    @if ($variation)
-                                                                        <span class="text-success">
-                                                                            {{ $variation->attributeValue->value ?? '' }}</span>
-                                                                    @endif
+                                                            </td>
+
+                                                            <!-- Unit Price (Desktop View) -->
+                                                            <td class="col-price d-none d-md-table-cell">
+                                                                <span class="price taka font-weight-500"
+                                                                    data-price="{{ $price }}">{{ $price }}</span>
+                                                            </td>
+
+                                                            <!-- Desktop Quantity Column -->
+                                                            <td class="col-quantity d-none d-md-table-cell">
+                                                                <div class="cart-qty-wrapper mx-auto">
+                                                                    <input class="js-result quantity" type="text"
+                                                                        value="{{ $item['qty'] }}"
+                                                                        data-product-id="{{ $item['product_id'] }}"
+                                                                        data-variation-id="{{ $item['variation_id'] ?? '' }}"
+                                                                        readonly>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <a class="js-minus qty-btn qty-btn-minus"
+                                                                            href="javascript:;">
+                                                                            <i class="fas fa-minus font-size-10"></i>
+                                                                        </a>
+                                                                        <a class="js-plus qty-btn qty-btn-plus ml-1"
+                                                                            href="javascript:;">
+                                                                            <i class="fas fa-plus font-size-10"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
+                                                            </td>
+
+                                                            <!-- Desktop Total Price Column -->
+                                                            <td class="col-total d-none d-md-table-cell">
+                                                                <span
+                                                                    class="productPrice font-weight-bold text-dark font-size-16">{{ $item['qty'] * $price }}</span>
+                                                            </td>
+
+                                                            <!-- Mobile View Footer Container (Only visible on mobile) -->
+                                                            <td class="cart-mobile-footer d-md-none">
+                                                                <div>
+                                                                    <span
+                                                                        class="text-muted font-size-12 d-block">Price</span>
+                                                                    <span class="price taka font-weight-500"
+                                                                        data-price="{{ $price }}">{{ $price }}</span>
+                                                                </div>
+
+                                                                <!-- Quantity Selector -->
+                                                                <div class="cart-qty-wrapper">
+                                                                    <input class="js-result quantity" type="text"
+                                                                        value="{{ $item['qty'] }}"
+                                                                        data-product-id="{{ $item['product_id'] }}"
+                                                                        data-variation-id="{{ $item['variation_id'] ?? '' }}"
+                                                                        readonly>
+                                                                    <div class="d-flex align-items-center">
+                                                                        <a class="js-minus qty-btn qty-btn-minus"
+                                                                            href="javascript:;">
+                                                                            <i class="fas fa-minus font-size-10"></i>
+                                                                        </a>
+                                                                        <a class="js-plus qty-btn qty-btn-plus ml-1"
+                                                                            href="javascript:;">
+                                                                            <i class="fas fa-plus font-size-10"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <!-- Total Price -->
+                                                                <div class="text-right">
+                                                                    <span
+                                                                        class="text-muted font-size-12 d-block">Total</span>
+                                                                    <span
+                                                                        class="productPrice font-weight-bold text-dark font-size-15">{{ $item['qty'] * $price }}</span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+
+                                                    <!-- Empty Cart Row -->
+                                                    <tr class="empty-card" style="display: none;">
+                                                        <td colspan="5" class="text-center py-5">
+                                                            <div class="no-product-found mx-auto text-center" style="max-width: 400px;">
+                                                                <img src="{{ asset('frontend') }}/assets/images/cartEmpty.png"
+                                                                    alt="Empty Cart" class="img-fluid mb-4"
+                                                                    style="opacity: 0.7; max-height: 180px;">
+                                                                <h4 class="font-weight-bold mb-2">Your cart is currently
+                                                                    empty</h4>
+                                                                <p class="text-muted mb-0">
+                                                                    Sorry, we couldn't find any items in your cart.
+                                                                </p>
+                                                                <a href="{{ url('/') }}"
+                                                                    class="btn btn-success text-white mt-3 rounded-pill px-4">
+                                                                    Continue Shopping
+                                                                </a>
                                                             </div>
-                                                        </td>
-                                                        <td>
-                                                            <h3 class="price taka d-inline"
-                                                                data-price="{{ $price }}">
-                                                                {{ $price }} </h3>
-                                                        </td>
-                                                        <td>
-                                                            <div class="quantity-box qty-container quantity-box-2">
-                                                                <button class="btn qty-btn-minus" type="button">
-                                                                    <i class="ri-subtract-line"></i>
-                                                                </button>
-                                                                <input type="number" name="qty"
-                                                                    class="quantity form-control input-qty"
-                                                                    value="{{ $item['qty'] }}" min="0">
-                                                                <button class="btn qty-btn-plus" type="button">
-                                                                    <i class="ri-add-line"></i>
-                                                                </button>
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <button class="remove-row btn">
-                                                                <i class="ri-delete-bin-7-line"></i>
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="h5 productPrice taka">000</h4>
                                                         </td>
                                                     </tr>
-                                                @endforeach
-
-                                                <tr class="empty-card">
-                                                    <td colspan="5" class="text-center py-5">
-                                                        <div class="no-product-found mx-auto" style="max-width: 400px;">
-
-                                                            <img src="{{ asset('frontend') }}/assets/images/cartEmpty.png"
-                                                                alt="Empty Cart" class="img-fluid mb-4"
-                                                                style="opacity: 0.7; max-height: 200px;">
-
-                                                            <h3 class="fw-bold mb-2">
-                                                                Your cart is currently empty
-                                                            </h3>
-
-                                                            <p class="mb-0">
-                                                                Sorry, we couldn't find any items in your cart.
-                                                            </p>
-
-                                                            <a href="{{ url('/') }}"
-                                                                class="btn btn-success text-white mt-3">
-                                                                Continue Shopping
-                                                            </a>
-
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{-- Billing Section --}}
-                            <div class="col-12">
-                                <div class="checkout-left-box">
-                                    <div class="billing-box checkbox-bg-color">
-                                        <div class="checkout-title">
-                                            <h4>Billing details</h4>
-                                        </div>
-
-                                        <div class="row g-sm-4 g-3 needs-validation theme-form" novalidate="">
-                                            <div class="col-xl-12 col-lg-12 col-sm-12">
-                                                <label for="name" class="form-label">Full Name<span>*</span></label>
-                                                <input type="text" placeholder="Enter your Full Name"
-                                                    class="form-control" id="name" name="name" required>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-12 col-sm-6">
-                                                <label for="email" class="form-label">Email Address <small
-                                                        class="text-muted fs-small">(Optional)</small></label>
-                                                <input type="email" class="form-control" id="email"
-                                                    placeholder="Enter your Email address" name="email">
-                                            </div>
-                                            <div class="col-xl-6 col-lg-12 col-sm-6">
-                                                <label for="phone" class="form-label">Phone Number <span>*</span></label>
-                                                <input type="number" class="form-control" id="phone" name="phone"
-                                                    placeholder="Enter your number" oninput="limitLength(this)"
-                                                    required="">
-                                            </div>
-                                            <div class="col-xl-12 col-lg-12 col-sm-12">
-                                                <label for="address" class="form-label">Full Address
-                                                    <span>*</span></label>
-                                                <input type="text" class="form-control" id="address"
-                                                    placeholder="Enter your Full Address" name="address" required>
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="destination" class="form-label">District
-                                                    <span>*</span></label>
-                                                <select id="search-select" name="district"
-                                                    placeholder="Search District...">
-                                                    <option value=""></option> {{-- Placeholder er jonno eta faka rakha lagbe --}}
-                                                    @foreach ($districts as $district)
-                                                        <option value="{{ $district->name }}">{{ $district->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-
-
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="destination" class="form-label">Shipping Destination
-                                                    <span>*</span></label>
-                                                <select class="form-select" id="destination" name="destination" disabled>
-                                                    <option value="inside_dhaka">Inside Dhaka</option>
-                                                    <option value="outside_dhaka">Outside Dhaka</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="note" class="form-label">Order Notes (Optional)
-                                                    <span>*</span></label>
-                                                <textarea class="form-control" id="note" rows="4" placeholder="Any special instructions for the order"
-                                                    name="order_note"></textarea>
-                                            </div>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-xxl-3 col-xl-4 col-lg-5">
-                        <div class="right-summery-box">
-                            <div class="summery-box">
-                                <div class="summery-header">
-                                    <h3>Cart Total</h3>
-                                </div>
-
-                                <div class="summery-contain">
-                                    <ul>
-                                        <li>
-                                            <h4>Subtotal</h4>
-                                            <h4 class="price cart-subtotal taka">0</h4>
-                                        </li>
-
-                                        <li>
-                                            <h4>Coupon Discount</h4>
-                                            <h4 class="price taka coupon-discount-text">(-) 0.00</h4>
-                                        </li>
-
-                                        <li>
-                                            <h4>Shipping</h4>
-                                            <h4 class="price text-end taka shipping-charge" data-shipping="0">0</h4>
-                                        </li>
-                                        <li>
-                                            <div class="accordion promo-code-accordion" id="accordionExample">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne">Add
-                                                            promo code</button>
-                                                    </h2>
-                                                    <div id="collapseOne" class="accordion-collapse collapse show"
-                                                        data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">
-                                                            {{-- Coupon Input Area --}}
-                                                            <div id="coupon-input-group" class="input-group">
-                                                                <input type="text" id="coupon_code_input"
-                                                                    class="form-control" placeholder="Apply code">
-                                                                <button class="input-group-text bg-success text-white"
-                                                                    type="button" id="submitCoupon">Apply</button>
-                                                            </div>
-
-                                                            {{-- Coupon Applied Area (Default Hide) --}}
-                                                            <div id="coupon-applied-group" class="d-none">
-                                                                <div
-                                                                    class="alert alert-success d-flex justify-content-between align-items-center p-2 mb-0">
-                                                                    <span>Applied: <strong
-                                                                            id="applied_code_text"></strong></span>
-                                                                    <a href="javascript:void(0)" id="clearCouponBtn"
-                                                                        class="text-danger fw-bold">Remove</a>
-                                                                </div>
-                                                            </div>
-                                                            <small id="coupon_msg" class="text-danger d-none"></small>
-                                                        </div>
-
-                                                        {{-- Hidden Fields for calculations --}}
-                                                        <input type="hidden" id="couponDiscountValue" value="0">
-                                                        <input type="hidden" id="isFreeDelivery" value="false">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <ul class="summery-total">
-                                    <li class="list-total border-top-0">
-                                        <h3 class="h4">Total (USD)</h3>
-                                        <h4 class="price theme-color cart-total taka">0</h4>
-                                    </li>
-                                </ul>
 
 
-                                <div class="accordion checkout-payment-accordion section-t-space-2" id="accordionExample">
-                                    <div class="accordion-item">
-                                        <div class="accordion-header" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseTwo">
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="payment_method" type="radio"
-                                                    id="cod" checked value="cod">
-                                                <label class="form-check-label" for="cod"><span
-                                                        class="circle"></span>
-                                                    Cash On Delivery</label>
-                                            </div>
-                                        </div>
-                                        <div id="collapseTwo" class="accordion-collapse collapse show"
-                                            data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <p class="text-muted small">
-                                                    <i class="ri-check-line text-success"></i>
-                                                    Pay with cash upon delivery. <span>Check your product before you
-                                                        pay.</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <div class="accordion-header" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseThree">
-                                            <div class="form-check">
-                                                <input class="form-check-input" name="payment_method" type="radio"
-                                                    id="bkash" value="bkash">
-                                                <label class="form-check-label" for="bkash"><span
-                                                        class="circle"></span>
-                                                    Bkash
-                                                    Pay</label>
-                                            </div>
-                                        </div>
-                                        <div id="collapseThree" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <p class="text-muted small">
-                                                    <i class="ri-check-line text-success"></i>
-                                                    Fast and secure payment via bKash. <span>Enjoy instant
-                                                        confirmation.</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" name="subtotal" id="hidden_subtotal">
-                                <input type="hidden" name="coupon_code" id="hidden_coupon_code">
-                                <input type="hidden" name="coupon_discount" id="hidden_coupon_discount">
-                                <input type="hidden" name="shipping_charge" id="hidden_shipping_charge">
-                                <input type="hidden" name="grand_total" id="hidden_grand_total">
-
-                                <input type="hidden" name="shipping_destination" id="hidden_destination">
-
-                                <button type="submit" class="btn proceed-btn">Place
-                                    Order</button>
-                            </div>
+                        {{-- Billing Section --}}
+                        <div class="billing-section " style="display: none;">
+                            @include('frontend.cart.partials.billing')
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-    </section>
+
+                {{-- Cart Total Section --}}
+                <div class="cart-total-section col-xxl-3 col-xl-3 col-lg-4" style="display: none;">
+                    @include('frontend.cart.partials.cart_total')
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
 
     <!-- Cart Section End -->
 
@@ -397,8 +409,71 @@
 @endsection
 
 @push('footer_script')
-    <!-- Selectize JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const toggle = document.getElementById('promoToggle');
+            const promoBox = document.getElementById('promoBox');
+            const icon = document.getElementById('promoIcon');
+
+            let isOpen = false;
+
+            toggle.addEventListener('click', function() {
+
+                if (!isOpen) {
+
+                    // Show
+                    promoBox.style.display = 'block';
+
+                    const height = promoBox.scrollHeight;
+
+                    promoBox.style.height = '0px';
+                    promoBox.style.opacity = '0';
+
+                    requestAnimationFrame(() => {
+                        promoBox.style.transition =
+                            'height 0.35s ease, opacity 0.25s ease';
+
+                        promoBox.style.height = height + 'px';
+                        promoBox.style.opacity = '1';
+                    });
+
+                    // Arrow Down -> Up
+                    icon.style.transition = 'transform 0.3s ease';
+                    icon.style.transform = 'rotate(180deg)';
+
+                    isOpen = true;
+
+                } else {
+
+                    // Hide
+                    promoBox.style.height = promoBox.scrollHeight + 'px';
+                    promoBox.style.opacity = '1';
+
+                    requestAnimationFrame(() => {
+                        promoBox.style.transition =
+                            'height 0.35s ease, opacity 0.25s ease';
+
+                        promoBox.style.height = '0px';
+                        promoBox.style.opacity = '0';
+                    });
+
+                    // Arrow Up -> Down
+                    icon.style.transition = 'transform 0.3s ease';
+                    icon.style.transform = 'rotate(0deg)';
+
+                    setTimeout(() => {
+                        promoBox.style.display = 'none';
+                    }, 350);
+
+                    isOpen = false;
+                }
+
+            });
+
+        });
+    </script>
+
 
     <script>
         // --- Helper Functions (Block er baire thaka bhalo) ---
@@ -453,33 +528,46 @@
 
         $(document).ready(function() {
             // --- Selectize Initialization ---
-            if ($('#search-select').length) {
-                $('#search-select').selectize({
-                    sortField: 'text',
-                    placeholder: 'Select District',
-                    onChange: function(id) {
-                        if (!id) return;
-                        var selectize = $('#search-select')[0].selectize;
-                        var districtName = selectize.options[id].text;
+            $(document).ready(function() {
 
-                        let shippingCharge = 0;
-                        let destination = "outside_dhaka";
+                function updateShippingByDistrict() {
 
-                        if (districtName.trim().toLowerCase() === "dhaka") {
-                            destination = "inside_dhaka";
-                            shippingCharge = 70;
-                        } else {
-                            destination = "outside_dhaka";
-                            shippingCharge = 120;
-                        }
+                    let districtName = $('#district-select').val();
 
-                        $('#destination').val(destination);
-                        $('.shipping-charge').text(shippingCharge).attr('data-shipping',
-                            shippingCharge);
-                        updateCartSummary();
+                    let destination = 'outside_dhaka';
+                    let shippingCharge = 120;
+
+                    if (
+                        districtName &&
+                        districtName.trim().toLowerCase() === 'dhaka'
+                    ) {
+                        destination = 'inside_dhaka';
+                        shippingCharge = 70;
                     }
+
+                    // Shipping Destination update
+                    $('#destination').val(destination);
+
+                    // Shipping Charge update
+                    $('.shipping-charge')
+                        .attr('data-shipping', shippingCharge)
+                        .text(shippingCharge.toFixed(2));
+
+                    // Cart total update
+                    updateCartSummary();
+                }
+
+
+                // District change হলে
+                $('#district-select').on('change', function() {
+                    updateShippingByDistrict();
                 });
-            }
+
+
+                // Page load হওয়ার সময় selected district অনুযায়ী
+                updateShippingByDistrict();
+
+            });
 
             // --- Coupon Initialization ---
             initCoupon();
@@ -538,19 +626,25 @@
 
 
             $('form[action="{{ route('placeOrder') }}"]').on('submit', function(e) {
-                // Final sync before submission
-                updateCartSummary();
 
-                // Check if district is selected (basic validation)
-                if (!$('#search-select').val()) {
+                // Check cart items
+                let cartItems = $('.table-row').length;
+
+                // Prevent order if cart is empty
+                if (cartItems === 0) {
                     e.preventDefault();
-                    alert('Please select a district first.');
+
+                    showToast('Your cart is empty. Please add a product first.', 'error');
+
+                    checkEmptyCart();
+
                     return false;
                 }
 
-                // Optional: Clear cookies only after the form is successfully submitted
-                // Note: It's better to clear them in the Controller's success response, 
-                // but you can do it here if you redirect immediately.
+                // Final sync before submission
+                updateCartSummary();
+
+                // Clear coupon cookies only when cart has products
                 setCookie('applied_coupon_code', '', -1);
                 setCookie('coupon_discount', '', -1);
                 setCookie('free_delivery_active', '', -1);
@@ -558,71 +652,166 @@
         });
     </script>
 
-
-
     <script>
+        let qtyUpdateTimeout = null;
+
         function updateRowPrice(row) {
             let price = parseFloat(row.find('.price').data('price')) || 0;
-            let qty = parseInt(row.find('.input-qty').val()) || 1;
+            let qty = parseInt(row.find('.quantity').val()) || 1;
 
             let total = price * qty;
 
-            row.find('.productPrice').text(total);
+            row.find('.productPrice').text(total.toFixed(2));
         }
+
 
         function updateCartSummary() {
             let subtotal = 0;
 
             $('.table-row').each(function() {
                 let price = parseFloat($(this).find('.price').data('price')) || 0;
-                let qty = parseInt($(this).find('.input-qty').val()) || 1;
+                let qty = parseInt($(this).find('.quantity').val()) || 1;
+
                 subtotal += price * qty;
             });
 
-            // --- Shipping Logic ---
             let shipping = parseFloat($('.shipping-charge').attr('data-shipping')) || 0;
-            let isFreeDelivery = $('#isFreeDelivery').val() === 'true' || getCookie('free_delivery_active') === 'true';
+
+            let isFreeDelivery =
+                $('#isFreeDelivery').val() === 'true' ||
+                getCookie('free_delivery_active') === 'true';
 
             if (isFreeDelivery) {
                 shipping = 0;
             }
 
-            // --- Coupon Logic ---
-            let couponDiscount = parseFloat($('#couponDiscountValue').val()) || 0;
-            let appliedCode = getCookie('applied_coupon_code') || '';
+            let couponDiscount =
+                parseFloat($('#couponDiscountValue').val()) || 0;
 
-            // Calculation
+            let appliedCode =
+                getCookie('applied_coupon_code') || '';
+
             let total = (subtotal - couponDiscount) + shipping;
-            if (total < 0) total = 0;
 
-            // --- UI Updates ---
+            if (total < 0) {
+                total = 0;
+            }
+
             $('.cart-subtotal').text(subtotal.toFixed(2));
-            $('.coupon-discount-text').text('(-) ' + couponDiscount.toFixed(2));
+            $('.coupon-discount-text').text(
+                '(-) ' + couponDiscount.toFixed(2)
+            );
             $('.shipping-charge').text(shipping.toFixed(2));
             $('.cart-total').text(total.toFixed(2));
 
-            // --- HIDDEN INPUT UPDATES (For Controller) ---
             $('#hidden_subtotal').val(subtotal.toFixed(2));
             $('#hidden_coupon_code').val(appliedCode);
-            $('#hidden_coupon_discount').val(couponDiscount.toFixed(2));
-            $('#hidden_shipping_charge').val(shipping.toFixed(2));
-            $('#hidden_grand_total').val(total.toFixed(2));
+            $('#hidden_coupon_discount').val(
+                couponDiscount.toFixed(2)
+            );
+            $('#hidden_shipping_charge').val(
+                shipping.toFixed(2)
+            );
+            $('#hidden_grand_total').val(
+                total.toFixed(2)
+            );
 
-            // Capture the destination since the select is disabled
-            $('#hidden_destination').val($('#destination').val());
+            $('#hidden_destination').val(
+                $('#destination').val()
+            );
         }
 
+
         function checkEmptyCart() {
-            if ($('.table-row').length === 0) {
+
+            let cartItems = $('.table-row').length;
+
+            if (cartItems === 0) {
+
+                // Show empty cart message
                 $('.empty-card').show();
+
+                // Hide Billing Details
+                $('.billing-section').hide();
+
+                // Hide Cart Total
+                $('.cart-total-section').hide();
+
             } else {
+
+                // Hide empty cart message
                 $('.empty-card').hide();
+
+                // Show Billing Details
+                $('.billing-section').show();
+
+                // Show Cart Total
+                $('.cart-total-section').show();
             }
         }
 
+
+        // ============================
+        // Update Quantity in Database
+        // ============================
+        function updateCartQuantity(row) {
+
+            let productId = row.attr('data-product');
+            let variationId = row.attr('data-variation') || '';
+
+            let quantity =
+                parseInt(row.find('.quantity').val()) || 1;
+
+
+            clearTimeout(qtyUpdateTimeout);
+
+
+            qtyUpdateTimeout = setTimeout(function() {
+
+                $.ajax({
+                    url: "{{ route('cart.updateQuantity') }}",
+                    type: "POST",
+
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        product_id: productId,
+                        variation_id: variationId,
+                        quantity: quantity
+                    },
+
+                    success: function(res) {
+
+                        if (res.status) {
+
+                            if (res.cart_count !== undefined) {
+                                $('.cart-count').text(res.cart_count);
+                                $('#cartCount_header').text(res.cart_count);
+                            }
+
+                        }
+
+                    },
+
+                    error: function(xhr) {
+                        console.error(
+                            'Cart quantity update error:',
+                            xhr.responseText
+                        );
+                    }
+                });
+
+            }, 300);
+        }
+
+
+
         $(document).ready(function() {
 
-            // ✅ initial load
+
+            // ============================
+            // Initial Load
+            // ============================
+
             $('.table-row').each(function() {
                 updateRowPrice($(this));
             });
@@ -630,65 +819,151 @@
             updateCartSummary();
             checkEmptyCart();
 
-            // ✅ qty change (UI + trigger main layout AJAX)
-            $(document).on('input', '.input-qty', function() {
 
-                let row = $(this).closest('.table-row');
 
-                updateRowPrice(row);
-                updateCartSummary();
+            // ============================
+            // PLUS BUTTON
+            // ============================
 
-                // 👉 main layout detect করার জন্য
-                row.addClass('cart-item');
+            $(document).on(
+                'click',
+                '.qty-btn-plus',
+                function(e) {
 
-                // 👉 change trigger কর (main layout AJAX call করবে)
-                $(this).trigger('change');
-            });
+                    e.preventDefault();
 
-            // ✅ plus / minus click
-            $(document).on('click', '.qty-btn-plus, .qty-btn-minus', function() {
+                    let row = $(this).closest('.table-row');
 
-                let row = $(this).closest('.table-row');
-                let input = row.find('.input-qty');
+                    let input = row.find('.quantity');
 
-                setTimeout(() => {
-                    input.trigger('input');
-                }, 100);
-            });
+                    let quantity =
+                        parseInt(input.val()) || 1;
 
-            // ✅ remove item
-            $(document).on('click', '.remove-row', function() {
+                    quantity++;
 
-                let row = $(this).closest('.table-row');
+                    input.val(quantity);
 
-                let productId = row.data('product');
-                let variationId = row.data('variation');
+                    updateRowPrice(row);
+                    updateCartSummary();
+                    updateCartQuantity(row);
+                }
+            );
 
-                $.ajax({
-                    url: "{{ route('cart.remove') }}",
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        product_id: productId,
-                        variation_id: variationId
-                    },
-                    success: function(res) {
 
-                        if (res.status) {
 
-                            row.fadeOut(300, function() {
-                                $(this).remove();
+            // ============================
+            // MINUS BUTTON
+            // ============================
 
-                                updateCartSummary();
-                                checkEmptyCart();
-                            });
+            $(document).on(
+                'click',
+                '.qty-btn-minus',
+                function(e) {
 
-                            $('.cart-count').text(res.cart_count);
-                            $('#cartCount_header').text(res.cart_count);
-                        }
+                    e.preventDefault();
+
+                    let row = $(this).closest('.table-row');
+
+                    let input = row.find('.quantity');
+
+                    let quantity =
+                        parseInt(input.val()) || 1;
+
+
+                    // Minimum quantity = 1
+                    if (quantity > 1) {
+
+                        quantity--;
+
+                        input.val(quantity);
+
+                        updateRowPrice(row);
+                        updateCartSummary();
+                        updateCartQuantity(row);
                     }
-                });
-            });
+
+                }
+            );
+
+
+
+            // ============================
+            // REMOVE ITEM
+            // ============================
+
+            $(document).on(
+                'click',
+                '.remove-row',
+                function(e) {
+
+                    e.preventDefault();
+
+                    let row =
+                        $(this).closest('.table-row');
+
+                    let productId =
+                        row.attr('data-product');
+
+                    let variationId =
+                        row.attr('data-variation') || '';
+
+
+                    $.ajax({
+
+                        url: "{{ route('cart.remove') }}",
+
+                        type: "POST",
+
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            product_id: productId,
+                            variation_id: variationId
+                        },
+
+                        success: function(res) {
+
+                            if (res.status) {
+
+                                row.fadeOut(
+                                    300,
+                                    function() {
+
+                                        $(this).remove();
+
+                                        updateCartSummary();
+                                        checkEmptyCart();
+
+                                    }
+                                );
+
+
+                                if (res.cart_count !== undefined) {
+
+                                    $('.cart-count')
+                                        .text(res.cart_count);
+
+                                    $('#cartCount_header')
+                                        .text(res.cart_count);
+
+                                }
+
+                            }
+
+                        },
+
+                        error: function(xhr) {
+
+                            console.error(
+                                'Cart remove error:',
+                                xhr.responseText
+                            );
+
+                        }
+
+                    });
+
+                }
+            );
 
         });
     </script>

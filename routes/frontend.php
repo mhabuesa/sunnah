@@ -35,6 +35,7 @@ Route::controller(CartController::class)->group(function () {
     Route::get('/cart', 'cart')->name('cart');
     Route::post('/addToCart', 'add_to_cart')->name('addToCart');
     Route::post('/cart/update', 'updateCart')->name('cart.update');
+    Route::post('/cart/update-quantity', 'updateQuantity')->name('cart.updateQuantity');
     Route::post('/cart/remove', 'removeCart')->name('cart.remove');
     Route::post('/applyCoupon', 'applyCoupon')->name('cart.applyCoupon');
 });
@@ -59,8 +60,23 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register')->name('customer.register.submit');
 });
 
-Route::middleware('auth:customer')->controller(AuthController::class)->group(function () {
+
+
+// Route::middleware('auth:customer')->controller(AuthController::class)->group(function () {
+//     // Protected Routes
+//     Route::get('/dashboard', 'dashboard')->name('customer.dashboard');
+//     Route::get('/logout', 'logout')->name('customer.logout');
+// });
+
+Route::middleware('auth:customer')->name('customer.')->prefix('customer')->group(function () {
+
     // Protected Routes
-    Route::get('/dashboard', 'dashboard')->name('customer.dashboard');
-    Route::get('/logout', 'logout')->name('customer.logout');
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('/logout', 'logout')->name('logout');
+    });
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('/orders', 'orders')->name('orders');
+        Route::get('/profile', 'profile')->name('profile');
+    });
 });

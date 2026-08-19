@@ -12,15 +12,15 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // ১. ভ্যালিডেশন
+        // Validation
         $request->validate([
             'name'     => 'required|string|max:255',
             'phone'    => 'required|unique:customers,phone',
             'email'    => 'required|email|unique:customers,email',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        // ২. কাস্টমার তৈরি
+        // Create Customer
         $customer = Customer::create([
             'name'     => $request->name,
             'phone'    => $request->phone,
@@ -28,17 +28,14 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        // ৩. অটোমেটিক লগইন করানো
         Auth::guard('customer')->login($customer);
 
-        // ৪. সেশনে সাকসেস মেসেজ রাখা
         session()->flash('success', 'Registration successful! Welcome to ' . config('app.name'));
 
-        // ৫. JSON রেসপন্স পাঠানো
         return response()->json([
             'status'   => true,
             'message'  => 'Registration successful',
-            'redirect' => url('/') // এখানে আপনার হোম বা ড্যাশবোর্ড রাউট দিন
+            'redirect' => url('/')
         ], 200);
     }
 
