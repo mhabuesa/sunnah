@@ -68,7 +68,7 @@ Route::controller(AuthController::class)->group(function () {
 //     Route::get('/logout', 'logout')->name('customer.logout');
 // });
 
-Route::middleware('auth:customer')->name('customer.')->prefix('customer')->group(function () {
+Route::middleware('customer')->name('customer.')->prefix('customer')->group(function () {
 
     // Protected Routes
     Route::controller(AuthController::class)->group(function () {
