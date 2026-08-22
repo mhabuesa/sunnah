@@ -88,11 +88,10 @@
             <div class="my-md-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="../home/index.html">Home</a></li>
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="shop.html">Accessories</a></li>
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="shop.html">Headphones</a></li>
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Ultra Wireless
-                            S50 Headphones S50 with Bluetooth</li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{route('index')}}">Home</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('category', $product->category->slug) }}">{{ $product->category->name }}</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('subcategory', $product->subcategory->slug) }}">{{ $product->subcategory->name }}</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">{{ $product->name }}</li>
                     </ol>
                 </nav>
             </div>
@@ -110,51 +109,22 @@
                         data-arrow-left-classes="fas fa-arrow-left u-slick__arrow-classic-inner u-slick__arrow-classic-inner--left ml-lg-2 ml-xl-4"
                         data-arrow-right-classes="fas fa-arrow-right u-slick__arrow-classic-inner u-slick__arrow-classic-inner--right mr-lg-2 mr-xl-4"
                         data-nav-for="#sliderSyncingThumb">
-                        <div class="js-slide">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img1.jpg"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img2.jpg"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img3.jpg"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img4.png"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img2.jpg"
-                                alt="Image Description">
-                        </div>
+                        @foreach ($product->galleries as $gallery)
+                            <div class="js-slide">
+                                <img class="img-fluid" src="{{ asset($gallery->image) }}" alt="Image Description">
+                            </div>
+                            
+                        @endforeach
                     </div>
 
                     <div id="sliderSyncingThumb"
                         class="js-slick-carousel u-slick u-slick--slider-syncing u-slick--slider-syncing-size u-slick--gutters-1 u-slick--transform-off"
                         data-infinite="true" data-slides-show="5" data-is-thumbs="true" data-nav-for="#sliderSyncingNav">
-                        <div class="js-slide" style="cursor: pointer;">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img1.jpg"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide" style="cursor: pointer;">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img2.jpg"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide" style="cursor: pointer;">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img3.jpg"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide" style="cursor: pointer;">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img4.png"
-                                alt="Image Description">
-                        </div>
-                        <div class="js-slide" style="cursor: pointer;">
-                            <img class="img-fluid" src="{{ asset('frontend/temp') }}/img/1024X1024/img2.jpg"
-                                alt="Image Description">
-                        </div>
+                        @foreach ($product->galleries as $gallery)
+                            <div class="js-slide" style="cursor: pointer;">
+                                <img class="img-fluid" src="{{ asset($gallery->image) }}" alt="Image Description">
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 col-xl-4 mb-md-6 mb-lg-0">
@@ -331,52 +301,7 @@
                 <div class="tab-content" id="Jpills-tabContent">
                     <div class="tab-pane fade active show" id="Jpills-two-example1" role="tabpanel"
                         aria-labelledby="Jpills-two-example1-tab">
-                        <h3 class="font-size-24 mb-3">Perfectly Done</h3>
-                        <p>Praesent ornare, ex a interdum consectetur, lectus diam sodales elit, vitae egestas est enim
-                            ornare nisl. Nullam in lectus nec sem semper viverra. In lobortis egestas massa. Nam nec massa
-                            nisi. Suspendisse potenti. Quisque suscipit vulputate dui quis volutpat. Ut id elit facilisis,
-                            feugiat est in, tempus lacus. Ut ultrices dictum metus, a ultricies ex vulputate ac. Ut id
-                            cursus tellus, non tempor quam. Morbi porta diam nisi, id finibus nunc tincidunt eu.</p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="pt-lg-8 pt-xl-10">
-                                    <h3 class="font-size-24 mb-3">Wireless</h3>
-                                    <p class="mb-6">Fusce vitae nibh mi. Integer posuere, libero et ullamcorper
-                                        facilisis, enim eros tincidunt orci, eget vestibulum sapien nisi ut leo. Cras
-                                        finibus vel est ut mollis. Donec luctus condimentum ante et euismod.</p>
-                                    <h3 class="font-size-24 mb-3">Fresh Design</h3>
-                                    <p class="mb-6">Integer bibendum aliquet ipsum, in ultrices enim sodales sed. Quisque
-                                        ut urna vitae lacus laoreet malesuada eu at massa. Pellentesque nibh augue,
-                                        pellentesque nec dictum vel, pretium a arcu. Duis eu urna suscipit, lobortis elit
-                                        quis, ullamcorper massa.</p>
-                                    <h3 class="font-size-24 mb-3">Fabolous Sound</h3>
-                                    <p class="mb-6">Cras rutrum, nibh a sodales accumsan, elit sapien ultrices sapien,
-                                        eget semper lectus ex congue elit. Nullam dui elit, fermentum a varius at, iaculis
-                                        non dolor. In hac habitasse platea dictumst.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <img class="img-fluid mr-n4 mr-lg-n10"
-                                    src="{{ asset('frontend/temp') }}/img/580X580/img1.jpg" alt="Image Description">
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <img class="img-fluid ml-n4 ml-lg-n10"
-                                    src="{{ asset('frontend/temp') }}/img/580X580/img2.jpg" alt="Image Description">
-                            </div>
-                            <div class="col-md-6 align-self-center">
-                                <div class="pt-lg-8 pt-xl-10 text-right">
-                                    <h3 class="font-size-24 mb-3">Inteligent Bass</h3>
-                                    <p class="mb-6">Fusce vitae nibh mi. Integer posuere, libero et ullamcorper
-                                        facilisis, enim eros tincidunt orci, eget vestibulum sapien nisi ut leo. Cras
-                                        finibus vel est ut mollis. Donec luctus condimentum ante et euismod.</p>
-                                    <h3 class="font-size-24 mb-3">Battery Life</h3>
-                                    <p class="mb-6">Integer bibendum aliquet ipsum, in ultrices enim sodales sed. Quisque
-                                        ut urna vitae lacus laoreet malesuada eu at massa. Pellentesque nibh augue,
-                                        pellentesque nec dictum vel, pretium a arcu. Duis eu urna suscipit, lobortis elit
-                                        quis, ullamcorper massa.</p>
-                                </div>
-                            </div>
-                        </div>
+                       <p>{!! $product->description !!}</p>
                     </div>
                     <div class="tab-pane fade" id="Jpills-four-example1" role="tabpanel"
                         aria-labelledby="Jpills-four-example1-tab">

@@ -19,7 +19,7 @@ class CategoryObserver
      */
     public function updated(Category $category): void
     {
-        cache()->forget('navbar_categories');
+        cache()->forget('categories');
     }
 
     /**
@@ -27,7 +27,7 @@ class CategoryObserver
      */
     public function deleted(Category $category): void
     {
-        cache()->forget('navbar_categories');
+        cache()->forget('categories');
     }
 
     /**

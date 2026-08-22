@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Subcategory;
 use App\Models\TodaysDeal;
 use App\Services\CartService;
 use Illuminate\Http\Request;
@@ -94,10 +95,20 @@ class ProductController extends Controller
     {
         $category = Category::where('slug', $slug)->first();
         $category_id = $category->id;
-        $banner = Banner::where('type', 'product_page')->first();
+        $banner = Banner::where('type', 'product_page')->where('status', 1)->first();
         $products = Product::where('category_id', $category_id)
             ->paginate(21);
         return view('frontend.category.category_product', compact('category', 'banner', 'products'));
+    }
+    
+    public function subcategory_products($slug)
+    {
+        $subcategory = Subcategory::where('slug', $slug)->first();
+        $subcategory_id = $subcategory->id;
+        $banner = Banner::where('type', 'product_page')->where('status', 1)->first();
+        $products = Product::where('subcategory_id', $subcategory_id)
+            ->paginate(21);
+        return view('frontend.subcategory.subcategory_product', compact('subcategory', 'banner', 'products'));
     }
 
 

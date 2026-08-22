@@ -11,7 +11,8 @@
                                 <!-- Logo -->
                                 <a class="order-1 order-xl-0 navbar-brand u-header__navbar-brand u-header__navbar-brand-center mx-auto"
                                     href="{{ route('index') }}" aria-label="Electro">
-                                    <img src="{{asset(setting()->header_logo)}}" alt="" style="height: 60px; width:160;">
+                                    <img src="{{ asset(setting()->header_logo) }}" alt=""
+                                        style="height: 60px; width:160;">
                                 </a>
                                 <!-- End Logo -->
 
@@ -80,8 +81,7 @@
                                             class="dropdown-menu dropdown-unfold dropdown-menu-right left-0 mx-2"
                                             aria-labelledby="searchClassicInvoker">
                                             <form class="js-focus-state input-group px-3">
-                                                <input class="form-control" type="search"
-                                                    placeholder="Search Product">
+                                                <input class="form-control" type="search" placeholder="Search Product">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-primary px-3" type="button"><i
                                                             class="font-size-18 ec ec-search"></i></button>
@@ -165,7 +165,7 @@
                                                 </span>
                                             </button>
                                         </div>
-                                        <div id="basicsCollapseOne" class="collapse vertical-menu v2"
+                                        {{-- <div id="basicsCollapseOne" class="collapse vertical-menu v2"
                                             aria-labelledby="basicsHeadingOne" data-parent="#basicsAccordion">
                                             <div class="card-body p-0">
                                                 <nav
@@ -177,11 +177,64 @@
                                                                 <li class="nav-item u-header__nav-item" data-event="hover"
                                                                     data-position="left">
                                                                     <a href="{{ route('category', $category->slug) }}"
-                                                                        class="nav-link u-header__nav-link text-black">{{ $category->name }}</a>
+                                                                        class="nav-link u-header__nav-link">{{ $category->name }}</a>
                                                                 </li>
                                                             @endforeach
                                                             
                                                             <!-- End Nav Item -->
+                                                        </ul>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div> --}}
+
+                                        <div id="basicsCollapseOne" class="collapse vertical-menu v1"
+                                            aria-labelledby="basicsHeadingOne" data-parent="#basicsAccordion">
+                                            <div class="card-body p-0">
+                                                <nav
+                                                    class="js-mega-menu navbar navbar-expand-xl u-header__navbar u-header__navbar--no-space hs-menu-initialized scrollbar">
+                                                    <div id="navBar"
+                                                        class="collapse navbar-collapse u-header__navbar-collapse">
+                                                        <ul
+                                                            class="navbar-nav u-header__navbar-nav border-primary border-top-0">
+
+                                                            @foreach ($categories as $category)
+                                                                @if ($category->subcategories->count() > 0)
+                                                                    <!-- Nav Item MegaMenu -->
+                                                                    <li class="nav-item hs-has-mega-menu u-header__nav-item"
+                                                                        data-event="hover"
+                                                                        data-animation-in="left"
+                                                                        data-animation-out="fadeOut"
+                                                                        data-position="left">
+                                                                        <a id="basicMegaMenu"
+                                                                            class="nav-link u-header__nav-link text-black u-header__nav-link-toggle font-weight-bold"
+                                                                            href="{{ route('category', $category->slug) }}" aria-haspopup="true"
+                                                                            aria-expanded="false">{{ $category->name }}</a>
+
+                                                                        <!-- Nav Item - Mega Menu -->
+                                                                        <div class="hs-mega-menu vmm-tfw u-header__sub-menu"
+                                                                            aria-labelledby="basicMegaMenu">
+                                                                            <div class="row u-header__mega-menu-wrapper p-0">
+                                                                               @foreach ($category->subcategories as $subcategory)
+                                                                                    <div class="col-6 u-header__sub-menu-nav-group mb-3 pl-4">
+                                                                                    <a class="nav-link u-header__sub-menu-nav-link font-weight-bold"
+                                                                                        href="#">{{ $subcategory->name }}</a>
+                                                                                </div>
+                                                                               @endforeach
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- End Nav Item - Mega Menu -->
+                                                                    </li>
+                                                                    <!-- End Nav Item MegaMenu-->
+                                                                @else
+                                                                <li class="nav-item u-header__nav-item"
+                                                                    data-event="hover" data-position="left">
+                                                                    <a href="#"
+                                                                        class="nav-link u-header__nav-link text-black font-weight-bold">{{ $category->name }}</a>
+                                                                </li>
+                                                                @endif
+                                                            @endforeach
+
                                                         </ul>
                                                     </div>
                                                 </nav>
@@ -203,72 +256,9 @@
                                 <div id="navBar" class="collapse navbar-collapse u-header__navbar-collapse">
                                     <ul class="navbar-nav u-header__navbar-nav">
                                         <!-- Pages -->
-                                        <li class="nav-item hs-has-mega-menu u-header__nav-item" data-event="click"
-                                            data-animation-in="slideInUp" data-animation-out="fadeOut"
-                                            data-position="left">
-                                            <a id="homeMegaMenu"
-                                                class="nav-link u-header__nav-link u-header__nav-link-toggle text-sale"
-                                                href="javascript:;" aria-haspopup="true" aria-expanded="false">Super
+                                        <li class="nav-item hs-has-mega-menu u-header__nav-item">
+                                            <a class="nav-link u-header__nav-link text-sale" href="#">Super
                                                 Deals</a>
-
-                                            <!-- Home - Mega Menu -->
-                                            <div class="hs-mega-menu w-50 u-header__sub-menu"
-                                                aria-labelledby="homeMegaMenu">
-                                                <div class="row u-header__mega-menu-wrapper">
-                                                    <div class="col-md-3">
-                                                        <span class="u-header__sub-menu-title">Home & Static
-                                                            Pages</span>
-                                                        <ul class="u-header__sub-menu-nav-group">
-                                                            <li><a href="index.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v1</a></li>
-                                                            <li><a href="home-v2.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v2</a></li>
-                                                            <li><a href="home-v3.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v3</a></li>
-                                                            <li><a href="home-v3-full-color-bg.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v3.1</a></li>
-                                                            <li><a href="home-v4.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v4</a></li>
-                                                            <li><a href="home-v5.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v5</a></li>
-                                                            <li><a href="home-v6.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v6</a></li>
-                                                            <li><a href="home-v7.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Home
-                                                                    v7</a></li>
-                                                            <li><a href="about.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">About</a>
-                                                            </li>
-                                                            <li><a href="contact-v1.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Contact
-                                                                    v1</a></li>
-                                                            <li><a href="contact-v2.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Contact
-                                                                    v2</a></li>
-                                                            <li><a href="faq.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">FAQ</a>
-                                                            </li>
-                                                            <li><a href="store-directory.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Store
-                                                                    Directory</a></li>
-                                                            <li><a href="terms-and-conditions.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">Terms
-                                                                    and Conditions</a></li>
-                                                            <li><a href="404.html"
-                                                                    class="nav-link u-header__sub-menu-nav-link">404</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- End Home - Mega Menu -->
                                         </li>
                                         <!-- End Pages -->
 
@@ -276,7 +266,7 @@
                                         <li class="nav-item u-header__nav-item">
                                             <a class="nav-link u-header__nav-link" href="#"
                                                 aria-haspopup="true" aria-expanded="false"
-                                                aria-labelledby="pagesSubMenu">Featured Brands</a>
+                                                aria-labelledby="pagesSubMenu">Brands</a>
                                         </li>
                                         <!-- End Featured Brands -->
 
@@ -297,8 +287,9 @@
 
                                         <!-- Button -->
                                         <li class="nav-item u-header__nav-last-item">
-                                            <a class="" href="#" target="_blank">
-                                                Free Shipping on Orders $50+
+                                            <a class="nav-link u-header__nav-link text-black text-uppercase bg-warning u-header__nav-item-border rounded text-primary font-weight-bold"
+                                                href="#" target="_blank">
+                                                Charity <i class="fas fa-donate ml-1"></i>
                                             </a>
                                         </li>
                                         <!-- End Button -->

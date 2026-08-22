@@ -57,6 +57,91 @@
 
     @stack('header_script')
 
+    <style>
+        .vertical-menu.v1 #basicsCollapseOne .card-body,
+        .vertical-menu.v1 .navbar-nav.u-header__navbar-nav {
+            max-height: 420px;
+            /* আপনার পছন্দমতো height */
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* সুন্দর দেখানোর জন্য কাস্টম scrollbar (optional) */
+        .vertical-menu.v1 .navbar-nav.u-header__navbar-nav::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .vertical-menu.v1 .navbar-nav.u-header__navbar-nav::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        /* মেগা-মেনু প্যানেলকে সুন্দর bounded card বানানো */
+        .vertical-menu .hs-mega-menu,
+        .vertical-menu .hs-sub-menu {
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            padding: 20px 24px;
+            max-height: 420px;
+            /* যতটুকু height চান */
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* কাস্টম স্লিম scrollbar (optional, সুন্দর দেখানোর জন্য) */
+        .vertical-menu .hs-mega-menu::-webkit-scrollbar,
+        .vertical-menu .hs-sub-menu::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .vertical-menu .hs-mega-menu::-webkit-scrollbar-thumb,
+        .vertical-menu .hs-sub-menu::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        /* মেগা-মেনুর ভেতরের ব্যাকগ্রাউন্ড ইমেজ (vmm-bg) যেন কলামের সাথে ওভারল্যাপ না করে */
+        .vertical-menu .vmm-tfw {
+            position: relative;
+        }
+
+        .vertical-menu .vmm-bg {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 35%;
+            z-index: 0;
+        }
+
+        .vertical-menu .u-header__mega-menu-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* মূল ভার্টিকাল মেনু লিস্ট নিজে scroll পাবে (আগের সমস্যা) */
+        #basicsCollapseOne .navbar-nav.u-header__navbar-nav {
+            max-height: 420px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .vertical-menu {
+            position: relative;
+        }
+
+        .vertical-menu .hs-mega-menu,
+        .vertical-menu .hs-sub-menu {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            /* ভার্টিকাল মেনুর ঠিক ডানপাশে বসবে */
+            min-width: 500px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -291,22 +376,6 @@
                             window.location.href = res.redirect;
                         }
                     },
-                    // error: function(xhr) {
-                    //     submitBtn.prop('disabled', false).text('Sign Up');
-                    //     let errors = xhr.responseJSON;
-
-                    //     errorDiv.removeClass('d-none');
-
-                    //     if (errors && errors.errors) {
-                    //         let msg = '';
-                    //         $.each(errors.errors, function(key, value) {
-                    //             msg += value[0] + '<br>';
-                    //         });
-                    //         errorDiv.html(msg);
-                    //     } else {
-                    //         errorDiv.html('Something went wrong. Please try again.');
-                    //     }
-                    // }
 
                     error: function(xhr) {
 
@@ -435,6 +504,32 @@
                             $('#loginError').html(errors.message || 'Something went wrong');
                         }
                     }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll(
+                '#basicsCollapseOne .hs-has-mega-menu, #basicsCollapseOne .hs-has-sub-menu');
+
+            items.forEach(function(item) {
+                const submenu = item.querySelector('.hs-mega-menu, .hs-sub-menu');
+                if (!submenu) return;
+
+                item.addEventListener('mouseenter', function() {
+                    const rect = item.getBoundingClientRect();
+                    submenu.style.position = 'fixed';
+                    submenu.style.top = 200. top + 'px';
+                    submenu.style.left = rect.right +
+                        'px'; // ডানদিকে খুলবে (data-position="left" হলে left বদলে দিন)
+                    submenu.style.display = 'block';
+                    submenu.style.zIndex = 9999;
+                });
+
+                item.addEventListener('mouseleave', function() {
+                    submenu.style.display = 'none';
                 });
             });
         });

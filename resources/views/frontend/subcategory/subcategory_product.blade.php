@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Category Product')
+@section('title', 'Subcategory Product')
 @push('header_script')
     <style>
         .select-option-box {
@@ -54,8 +54,10 @@
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
                         </li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('category', $subcategory->category->slug) }}">{{ $subcategory->category->name }}</a>
+                        </li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">
-                            {{ $category->name }}</li>
+                            {{ $subcategory->name }}</li>
                     </ol>
                 </nav>
             </div>
@@ -68,7 +70,7 @@
         <div class="mb-8">
             <!-- Shop-control-bar Title -->
             <div class="flex-center-between mb-3">
-                <h3 class="font-size-25 mb-0">{{ $category->name }}</h3>
+                <h3 class="font-size-25 mb-0">{{ $subcategory->name }}</h3>
             </div>
             <!-- End shop-control-bar Title -->
 
