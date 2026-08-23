@@ -35,10 +35,14 @@
                     <p class="text-gray-90 mb-4 font-size-12 text-center">Create new account today to reap the benefits of a
                         personalized shopping
                         experience.</p>
+
+                    <header class="text-center mb-7">
+                        <div id="signupError" class="alert alert-danger d-none"></div>
+                    </header>
                     <!-- End Title -->
                     <!-- Form Group -->
-                    <form id="signup" class="js-validate" novalidate="novalidate" data-target-group="idForm">
-                                    @csrf
+                    <form id="signup">
+                        @csrf
                         <div class="js-form-message form-group mb-3">
                             <label class="form-label" for="name">Name
                                 <span class="text-danger">*</span>

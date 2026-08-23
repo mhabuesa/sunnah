@@ -33,7 +33,7 @@
         <div class="my-4 my-xl-6">
             <div class="row">
                 <div class="col-md-4 mb-8 mb-md-0 m-auto">
-                    <form id="login" class="js-validate" data-target-group="idForm">
+                    <form id="login" >
                         @csrf
                         <!-- Form Group -->
                         <div class="js-form-message form-group">
@@ -61,7 +61,7 @@
                         <div class="js-form-message mb-3">
                             <div class="custom-control custom-checkbox d-flex align-items-center">
                                 <input type="checkbox" class="custom-control-input" id="rememberCheckbox" name="remember"
-                                    required="" data-error-class="u-has-error" data-success-class="u-has-success">
+                                    data-error-class="u-has-error" data-success-class="u-has-success">
                                 <label class="custom-control-label form-label" for="rememberCheckbox">
                                     Remember me
                                 </label>

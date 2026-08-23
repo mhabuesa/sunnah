@@ -7,18 +7,21 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
 
-    public function login() {
+    public function login()
+    {
         return view('frontend.auth.login');
     }
-    
-    public function register(Request $request) {
+
+    public function register(Request $request)
+    {
         return view('frontend.auth.register');
     }
-    
+
     public function register_store(Request $request)
     {
         // Validation
@@ -50,26 +53,53 @@ class AuthController extends Controller
 
     public function login_store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'phone' => 'required',
             'password' => 'required',
+        ], [
+            'phone.required' => 'Phone number is required.',
+            'password.required' => 'Password is required.',
         ]);
 
-        if (Auth::guard('customer')->attempt($request->only('phone', 'password'))) {
-            // সেশনে মেসেজ সেট করে দিন
-            session()->flash('success', 'Welcome Back');
-
+        if ($validator->fails()) {
             return response()->json([
-                'status' => true,
-                'message' => 'Login successful',
-                'redirect' => url('/') // কোথায় পাঠাতে চান
-            ], 200);
+                'status' => false,
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
+        // Check phone exists
+        $customer = Customer::where('phone', $request->phone)->first();
+
+        if (!$customer) {
+            return response()->json([
+                'status' => false,
+                'errors' => [
+                    'phone' => ['Phone number not found.']
+                ],
+            ], 422);
+        }
+
+        // Check password
+        if (!Hash::check($request->password, $customer->password)) {
+            return response()->json([
+                'status' => false,
+                'errors' => [
+                    'password' => ['Incorrect password.']
+                ],
+            ], 422);
+        }
+
+        // Login
+        Auth::guard('customer')->login($customer);
+
+        session()->flash('success', 'Welcome Back');
+
         return response()->json([
-            'status' => false,
-            'message' => 'Invalid phone or password'
-        ], 422);
+            'status' => true,
+            'message' => 'Login successful',
+            'redirect' => url('/'),
+        ], 200);
     }
 
     public function logout()
