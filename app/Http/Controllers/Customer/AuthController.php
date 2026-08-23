@@ -10,7 +10,16 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+
+    public function login() {
+        return view('frontend.auth.login');
+    }
+    
+    public function register(Request $request) {
+        return view('frontend.auth.register');
+    }
+    
+    public function register_store(Request $request)
     {
         // Validation
         $request->validate([
@@ -39,7 +48,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function login(Request $request)
+    public function login_store(Request $request)
     {
         $request->validate([
             'phone' => 'required',

@@ -4,11 +4,11 @@
                 <div class="js-scrollbar u-header-sidebar__footer-offset pb-3">
                     <!-- Toggle Button -->
                     <div class="d-flex align-items-center pt-4 px-7">
-                        <button type="button" class="close ml-auto" aria-controls="sidebarContent"
-                            aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                            data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent"
-                            data-unfold-type="css-animation" data-unfold-animation-in="fadeInRight"
-                            data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                        <button type="button" class="close ml-auto" aria-controls="sidebarContent" aria-haspopup="true"
+                            aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebarContent" data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
+                            data-unfold-duration="500">
                             <i class="ec ec-close-remove"></i>
                         </button>
                     </div>
@@ -29,7 +29,7 @@
                                     <!-- End Title -->
 
                                     <header class="text-center mb-7">
-                                         <div id="loginError" class="alert alert-danger d-none"></div>
+                                        <div id="loginError" class="alert alert-danger d-none"></div>
                                     </header>
 
                                     <!-- Form Group -->
@@ -42,10 +42,9 @@
                                                         <span class="fas fa-phone"></span>
                                                     </span>
                                                 </div>
-                                                <input type="phone" class="form-control" name="phone"
-                                                    id="phone" placeholder="Phone" aria-label="Phone"
-                                                    aria-describedby="phoneLabel" required
-                                                    data-msg="Please enter a valid phone number."
+                                                <input type="phone" class="form-control" name="phone" id="phone"
+                                                    placeholder="Phone" aria-label="Phone" aria-describedby="phoneLabel"
+                                                    required data-msg="Please enter a valid phone number."
                                                     data-error-class="u-has-error" data-success-class="u-has-success">
                                             </div>
                                         </div>
@@ -71,6 +70,17 @@
                                         </div>
                                     </div>
                                     <!-- End Form Group -->
+
+                                    <div class="js-form-message mb-3">
+                                        <div class="custom-control custom-checkbox d-flex align-items-center">
+                                            <input type="checkbox" class="custom-control-input" id="rememberCheckbox"
+                                                name="remember" required="" data-error-class="u-has-error"
+                                                data-success-class="u-has-success">
+                                            <label class="custom-control-label form-label" for="rememberCheckbox">
+                                                Remember me
+                                            </label>
+                                        </div>
+                                    </div>
 
                                     <div class="d-flex justify-content-end mb-4">
                                         <a class="js-animation-link small link-muted" href="javascript:;"
@@ -107,7 +117,7 @@
 
                                 <!-- Signup -->
                                 <form id="signup" style="display: none; opacity: 0;" data-target-group="idForm">
-                                     @csrf
+                                    @csrf
                                     <!-- Title -->
                                     <header class="text-center mb-7">
                                         <h2 class="h4 mb-0">Welcome to Electro.</h2>
@@ -115,7 +125,7 @@
                                     </header>
                                     <!-- End Title -->
                                     <header class="text-center mb-7">
-                                         <div id="signupError" class="alert alert-danger d-none"></div>
+                                        <div id="signupError" class="alert alert-danger d-none"></div>
                                     </header>
 
                                     <!-- Form Group -->
@@ -131,8 +141,8 @@
                                                 <input type="text" class="form-control" name="name"
                                                     id="signupName" placeholder="Name" aria-label="Name"
                                                     aria-describedby="signupNameLabel" required
-                                                    data-msg="Please enter your name."
-                                                    data-error-class="u-has-error" data-success-class="u-has-success">
+                                                    data-msg="Please enter your name." data-error-class="u-has-error"
+                                                    data-success-class="u-has-success">
                                             </div>
                                         </div>
                                     </div>
@@ -203,9 +213,9 @@
                                                         <span class="fas fa-key"></span>
                                                     </span>
                                                 </div>
-                                                <input type="password" class="form-control" name="password_confirmation"
-                                                    id="password_confirmation" placeholder="Confirm Password"
-                                                    aria-label="Confirm Password"
+                                                <input type="password" class="form-control"
+                                                    name="password_confirmation" id="password_confirmation"
+                                                    placeholder="Confirm Password" aria-label="Confirm Password"
                                                     aria-describedby="password_confirmation" required
                                                     data-msg="Password does not match the confirm password."
                                                     data-error-class="u-has-error" data-success-class="u-has-success">

@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Brand Products')
+@section('title', 'Category Product')
 @push('header_script')
     <style>
         .select-option-box {
@@ -45,173 +45,171 @@
 @endpush
 @section('content')
 
-    <!-- Breadcrumb Section Start -->
-    <section class="breadcrumb-section">
-        <div class="custom-container">
-            <div class="breadcrumb-contain">
-                <ul class="breadcrumb h4">
-                    <li><a href="{{ route('index') }}">Home / &nbsp;</a></li>
-                    <li><a href="{{ route('all.brands') }}">Brands /&nbsp;</a></li>
-                    <li class="text-muted">{{ $brand->name }}</li>
-                </ul>
-                <nav>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('index') }}">
-                                <i class="ri-home-3-fill"></i>
-                            </a>
+    <!-- breadcrumb -->
+    <div class="bg-gray-13 bg-md-transparent">
+        <div class="container">
+            <!-- breadcrumb -->
+            <div class="my-md-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ $brand->name }}</li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">
+                            {{ $brand->name }}</li>
                     </ol>
                 </nav>
             </div>
+            <!-- End breadcrumb -->
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    </div>
+    <!-- End breadcrumb -->
 
-    <!-- Shop Section Start -->
-    <section class="section-t-space shop-section pt-4">
-        <div class="custom-container">
-            <div class="row">
+    <div class="container">
+        <div class="mb-8">
+            <!-- Shop-control-bar Title -->
+            <div class="flex-center-between mb-3">
+                <h3 class="font-size-25 mb-0">{{ $brand->name }}</h3>
+            </div>
+            <!-- End shop-control-bar Title -->
 
-                <div class="col-custom-12">
-                    <div
-                        class="row g-sm-4 g-3 row-cols-xxl-6 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2
-                    product-list-section">
-                        @forelse ($products as $product)
-                            <div class="col">
-                                <div class="product-box-4-main">
-                                    <div class="select-option-box" data-product="{{ $product->id }}">
-                                        <div class="select-box">
-                                            <div>
-
-                                                @if ($product->variations && $product->variations->count() > 0)
-                                                    @foreach ($product->variations->groupBy('attribute_id') as $variations)
-                                                        <div class="size-box">
-                                                            <h4 class="h5">
-                                                                {{ $variations->first()->attribute?->name }}
-                                                            </h4>
-
-                                                            <ul class="size-list">
-                                                                @foreach ($variations as $variation)
-                                                                    <li>
-                                                                        <a href="#!" class="variation-option"
-                                                                            data-id="{{ $variation->id }}">
-                                                                            {{ $variation->attributeValue?->value }}
-                                                                        </a>
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-
-                                                {{-- Quantity Box --}}
-                                                <div class="qty-box mt-3 d-flex align-items-center gap-2 mb-2   ">
-
-                                                    <button class="btn qty-btn qty-minus">
-                                                        <i class="ri-subtract-line"></i>
-                                                    </button>
-
-                                                    <input type="number" class="form-control qty-input text-center"
-                                                        value="1" min="1">
-
-                                                    <button class="btn qty-btn qty-plus">
-                                                        <i class="ri-add-line"></i>
-                                                    </button>
-
-                                                </div>
-
-                                                <button class="btn add-cart-btn">add to cart</button>
-                                                <button class="close-btn btn" onclick="closeSidebar()">
-                                                    <i class="ri-close-line"></i>
-                                                </button>
+            <!-- Shop Body -->
+            <!-- Tab Content -->
+            <div class="">
+                <ul class="row list-unstyled products-group no-gutters">
+                    @forelse ($products as $product)
+                        <li class="col-6 col-md-3 col-xl-2 product-item">
+                            <div class="product-item__outer h-100">
+                                <div class="product-item__inner px-xl-4 p-3">
+                                    <div class="product-item__body pb-xl-2">
+                                        <h5 class="mb-1 product-item__title"><a
+                                                href="{{ route('product', $product->slug) }}"
+                                                class="text-blue font-weight-bold">{{ $product->name }}</a></h5>
+                                        <div class="mb-2">
+                                            <a href="{{ route('product', $product->slug) }}"
+                                                class="d-block text-center"><img class="img-fluid"
+                                                    src="{{ asset($product->image) }}" alt="Image Description"></a>
+                                        </div>
+                                        <div class="flex-center-between mb-1">
+                                            <div class="prodcut-price">
+                                                <div class="text-gray-100">৳ {{ $product->price }}</div>
+                                            </div>
+                                            <div class="d-none d-xl-block prodcut-add-cart">
+                                                <a href="{{ route('product', $product->slug) }}"
+                                                    class="btn-add-cart btn-primary transition-3d-hover"><i
+                                                        class="ec ec-add-to-cart"></i></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="product-box-4 productMain pro-bg-white">
-                                        <div class="product-image">
-                                            <a href="{{ route('product', $product->slug) }}">
-                                                <img class="lazy img-fluid productImage loaded"
-                                                    data-src="{{ asset($product->image) }}">
-                                            </a>
-                                        </div>
-                                        <div class="product-content">
-                                            <h5 class="sub-name productName">{{ $product->category->name }}</h5>
-                                            <a href="{{ route('product', $product->slug) }}" class="name">
-                                                <h5>{{ Str::limit($product->name, '20', '...') }}</h5>
-                                            </a>
-                                            <ul class="rating">
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                            </ul>
-                                            <h5 class="price">৳{{ productPrice($product->id) }}</h5>
-                                            <div class="option-box">
-                                                <button class="btn select-btn">Select Options</button>
-                                                <ul class="option-list">
-                                                    <li>
-                                                        <a href="#!" class="wishlistProduct">
-                                                            <i class="ri-heart-3-line"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#!">
-                                                            <i class="ri-repeat-2-line"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                    <div class="product-item__footer">
+                                        <div class="border-top pt-2 flex-center-between flex-wrap">
+                                            <a href="compare.html" class="text-gray-6 font-size-13"><i
+                                                    class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
+                                            <a href="wishlist.html" class="text-gray-6 font-size-13"><i
+                                                    class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="col-12 w-100 text-center py-5">
-                                <div class="no-product-found mx-auto" style="max-width: 400px;">
-                                    <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
-                                        class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
-                                    <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
-                                    <p class="text-muted">Sorry, we couldn't find any products matching your current
-                                        Brand.</p>
-                                </div>
-                            </div>
-                        @endforelse
-
-
+                        </li>
+                    @empty
+                        <div class="no-product-found mx-auto text-center" style="max-width: 400px;">
+                            <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
+                                class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
+                            <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
+                            <p class="text-muted">Sorry, we couldn't find any products matching your current
+                                Brand.</p>
+                        </div>
+                    @endforelse
+                </ul>
+            </div>
+            <!-- End Tab Content -->
+            <!-- End Shop Body -->
+            <!-- Shop Pagination -->
+            @if ($products->hasPages())
+                <nav class="custom-pagination">
+                    {{ $products->links() }}
+                </nav>
+            @endif
+            <!-- End Shop Pagination -->
+        </div>
+        <!-- Brand Carousel -->
+        <div class="mb-6">
+            <div class="py-2 border-top border-bottom">
+                <div class="js-slick-carousel u-slick my-1" data-slides-show="5" data-slides-scroll="1"
+                    data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-normal u-slick__arrow-centered--y"
+                    data-arrow-left-classes="fa fa-angle-left u-slick__arrow-classic-inner--left z-index-9"
+                    data-arrow-right-classes="fa fa-angle-right u-slick__arrow-classic-inner--right"
+                    data-responsive='[{
+                                "breakpoint": 992,
+                                "settings": {
+                                    "slidesToShow": 2
+                                }
+                            }, {
+                                "breakpoint": 768,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }, {
+                                "breakpoint": 554,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }]'>
+                    <div class="js-slide">
+                        <a href="#" class="link-hover__brand">
+                            <img class="img-fluid m-auto max-height-50"
+                                src="{{ asset('frontend/temp') }}/img/200X60/img1.png" alt="Image Description">
+                        </a>
                     </div>
-
-                    <nav class="custom-pagination">
-                        {{ $products->links() }}
-                    </nav>
+                    <div class="js-slide">
+                        <a href="#" class="link-hover__brand">
+                            <img class="img-fluid m-auto max-height-50"
+                                src="{{ asset('frontend/temp') }}/img/200X60/img2.png" alt="Image Description">
+                        </a>
+                    </div>
+                    <div class="js-slide">
+                        <a href="#" class="link-hover__brand">
+                            <img class="img-fluid m-auto max-height-50"
+                                src="{{ asset('frontend/temp') }}/img/200X60/img3.png" alt="Image Description">
+                        </a>
+                    </div>
+                    <div class="js-slide">
+                        <a href="#" class="link-hover__brand">
+                            <img class="img-fluid m-auto max-height-50"
+                                src="{{ asset('frontend/temp') }}/img/200X60/img4.png" alt="Image Description">
+                        </a>
+                    </div>
+                    <div class="js-slide">
+                        <a href="#" class="link-hover__brand">
+                            <img class="img-fluid m-auto max-height-50"
+                                src="{{ asset('frontend/temp') }}/img/200X60/img5.png" alt="Image Description">
+                        </a>
+                    </div>
+                    <div class="js-slide">
+                        <a href="#" class="link-hover__brand">
+                            <img class="img-fluid m-auto max-height-50"
+                                src="{{ asset('frontend/temp') }}/img/200X60/img6.png" alt="Image Description">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Shop Section End -->
+        <!-- End Brand Carousel -->
+    </div>
 
     @if ($banner)
-        <!-- Banner Section Start -->
-        <section class="section-t-space">
-            <div class="custom-container">
-                <a href="{{ $banner->url }}" class="banner-box">
-                    <img class="lazy img-fluid" data-src="{{ asset($banner->image) }}">
-                </a>
-            </div>
-        </section>
+        <!-- Banner Section Start --->
+
+        <div class="mb-4">
+            <a href="{{ $banner->url }}" class="d-block text-gray-90">
+                <img src="{{ asset($banner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
+                    loading="eager" fetchpriority="high" decoding="async">
+            </a>
+        </div>
         <!-- Banner Section End -->
     @endif
 
 @endsection
+
+@push('footer_script')
+@endpush

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\TodaysDeal;
 use Illuminate\Http\Request;
@@ -34,6 +35,12 @@ class HomeController extends Controller
             return Product::where('status', 'active')->select('id', 'name', 'image', 'price', 'slug', 'category_id')->take(21)->latest()->get();
         });
 
+        $categories = Cache::remember('categories', 86400, function () {
+            return Category::where('status', 1)
+                ->select('id', 'name', 'logo', 'slug')
+                ->get();
+        });
+
         return view('frontend.home.index', compact(
             'mainBanners',
             'middleBanners',
@@ -41,6 +48,7 @@ class HomeController extends Controller
             'todaysBanner',
             'todaysDeals',
             'latestProducts',
+            'categories',
         ));
     }
 

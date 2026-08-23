@@ -20,75 +20,17 @@
 
             <div class="row g-0">
 
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Food</span>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates2.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Honey</span>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Black Seed</span>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates2.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Quran</span>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Miswak</span>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates2.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Dates</span>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="#" class="category-item">
-                        <div class="category-icon">
-                            <img src="{{ asset('frontend') }}/temp/img/category/dates.png" alt="Food" loading="lazy"
-                                decoding="async" width="40" height="40">
-                        </div>
-                        <span>Attar</span>
-                    </a>
-                </div>
+                @foreach ($categories as $category)
+                    <div class="col">
+                        <a href="#" class="category-item">
+                            <div class="category-icon">
+                                <img src="{{ asset($category->logo) }}" alt="Food" loading="lazy"
+                                    decoding="async" width="40" height="40">
+                            </div>
+                            <span>{{$category->name}}</span>
+                        </a>
+                    </div>
+                @endforeach
 
                 <div class="col">
                     <a href="#" class="category-item category-view-all">

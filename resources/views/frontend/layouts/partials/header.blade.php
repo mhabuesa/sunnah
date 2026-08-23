@@ -99,10 +99,6 @@
                                             href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html"
                                             class="text-gray-90" data-toggle="tooltip" data-placement="top"
                                             title="Favorites"><i class="font-size-22 ec ec-favorites"></i></a></li>
-                                    <li class="col d-xl-none px-2 px-sm-3"><a
-                                            href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html"
-                                            class="text-gray-90" data-toggle="tooltip" data-placement="top"
-                                            title="My Account"><i class="font-size-22 ec ec-user"></i></a></li>
                                     <li class="col px-2 px-sm-3">
                                         <a href="{{ route('cart') }}" class="text-gray-90 position-relative d-flex "
                                             data-toggle="tooltip" data-placement="top" title="Cart">
@@ -111,6 +107,18 @@
                                                 class="width-22 height-22 bg-dark position-absolute d-flex align-items-center justify-content-center rounded-circle left-12 top-8 font-weight-bold font-size-12 text-white">{{ $cartCount }}</span>
                                         </a>
                                     </li>
+
+                                    @if (auth()->guard('customer')->check())
+                                        <li class="col d-xl-none pl-3 px-sm-3"><a
+                                                href="{{ route('customer.dashboard') }}" class="text-gray-90"
+                                                data-toggle="tooltip" data-placement="top" title="My Account"><i
+                                                    class="font-size-22 ec ec-user"></i></a></li>
+                                    @else
+                                        <li class="col d-xl-none pl-3 px-sm-3"><a href="{{ route('customer.login') }}"
+                                                class="text-gray-90" data-toggle="tooltip" data-placement="top"
+                                                title="Login"><i class="font-size-22 ec ec-user"></i></a></li>
+                                    @endif
+
 
                                     @if (auth()->guard('customer')->check())
                                         <li class="col d-none d-xl-block  px-2 px-sm-3">
@@ -165,28 +173,6 @@
                                                 </span>
                                             </button>
                                         </div>
-                                        {{-- <div id="basicsCollapseOne" class="collapse vertical-menu v2"
-                                            aria-labelledby="basicsHeadingOne" data-parent="#basicsAccordion">
-                                            <div class="card-body p-0">
-                                                <nav
-                                                    class="js-mega-menu navbar navbar-expand-xl u-header__navbar u-header__navbar--no-space hs-menu-initialized">
-                                                    <div id="navBar"
-                                                        class="collapse navbar-collapse u-header__navbar-collapse">
-                                                        <ul class="navbar-nav u-header__navbar-nav border-top-primary">
-                                                            @foreach ($categories as $category)
-                                                                <li class="nav-item u-header__nav-item" data-event="hover"
-                                                                    data-position="left">
-                                                                    <a href="{{ route('category', $category->slug) }}"
-                                                                        class="nav-link u-header__nav-link">{{ $category->name }}</a>
-                                                                </li>
-                                                            @endforeach
-                                                            
-                                                            <!-- End Nav Item -->
-                                                        </ul>
-                                                    </div>
-                                                </nav>
-                                            </div>
-                                        </div> --}}
 
                                         <div id="basicsCollapseOne" class="collapse vertical-menu v1"
                                             aria-labelledby="basicsHeadingOne" data-parent="#basicsAccordion">
@@ -202,36 +188,38 @@
                                                                 @if ($category->subcategories->count() > 0)
                                                                     <!-- Nav Item MegaMenu -->
                                                                     <li class="nav-item hs-has-mega-menu u-header__nav-item"
-                                                                        data-event="hover"
-                                                                        data-animation-in="left"
+                                                                        data-event="hover" data-animation-in="left"
                                                                         data-animation-out="fadeOut"
                                                                         data-position="left">
                                                                         <a id="basicMegaMenu"
                                                                             class="nav-link u-header__nav-link text-black u-header__nav-link-toggle font-weight-bold"
-                                                                            href="{{ route('category', $category->slug) }}" aria-haspopup="true"
+                                                                            href="{{ route('category', $category->slug) }}"
+                                                                            aria-haspopup="true"
                                                                             aria-expanded="false">{{ $category->name }}</a>
 
                                                                         <!-- Nav Item - Mega Menu -->
                                                                         <div class="hs-mega-menu vmm-tfw u-header__sub-menu"
                                                                             aria-labelledby="basicMegaMenu">
-                                                                            <div class="row u-header__mega-menu-wrapper p-0">
-                                                                               @foreach ($category->subcategories as $subcategory)
-                                                                                    <div class="col-6 u-header__sub-menu-nav-group mb-3 pl-4">
-                                                                                    <a class="nav-link u-header__sub-menu-nav-link font-weight-bold"
-                                                                                        href="#">{{ $subcategory->name }}</a>
-                                                                                </div>
-                                                                               @endforeach
+                                                                            <div
+                                                                                class="row u-header__mega-menu-wrapper p-0">
+                                                                                @foreach ($category->subcategories as $subcategory)
+                                                                                    <div
+                                                                                        class="col-6 u-header__sub-menu-nav-group mb-3 pl-4">
+                                                                                        <a class="nav-link u-header__sub-menu-nav-link font-weight-bold"
+                                                                                            href="{{route('subcategory', $subcategory->slug)}}">{{ $subcategory->name }}</a>
+                                                                                    </div>
+                                                                                @endforeach
                                                                             </div>
                                                                         </div>
                                                                         <!-- End Nav Item - Mega Menu -->
                                                                     </li>
                                                                     <!-- End Nav Item MegaMenu-->
                                                                 @else
-                                                                <li class="nav-item u-header__nav-item"
-                                                                    data-event="hover" data-position="left">
-                                                                    <a href="#"
-                                                                        class="nav-link u-header__nav-link text-black font-weight-bold">{{ $category->name }}</a>
-                                                                </li>
+                                                                    <li class="nav-item u-header__nav-item"
+                                                                        data-event="hover" data-position="left">
+                                                                        <a href="#"
+                                                                            class="nav-link u-header__nav-link text-black font-weight-bold">{{ $category->name }}</a>
+                                                                    </li>
                                                                 @endif
                                                             @endforeach
 
@@ -264,7 +252,7 @@
 
                                         <!-- Featured Brands -->
                                         <li class="nav-item u-header__nav-item">
-                                            <a class="nav-link u-header__nav-link" href="#"
+                                            <a class="nav-link u-header__nav-link" href="{{ route('brands') }}"
                                                 aria-haspopup="true" aria-expanded="false"
                                                 aria-labelledby="pagesSubMenu">Brands</a>
                                         </li>

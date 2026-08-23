@@ -20,7 +20,7 @@ class ProductController extends Controller
         $product = Product::where('slug', $slug)->with('category', 'subcategory', 'brand', 'meta', 'galleries', 'variations')->first();
         $relatedProduct = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
         $cartCount = CartService::count();
-        return view('frontend.product.single', compact('product', 'relatedProduct','cartCount'));
+        return view('frontend.product.single', compact('product', 'relatedProduct', 'cartCount'));
     }
 
     public function products()
@@ -100,7 +100,7 @@ class ProductController extends Controller
             ->paginate(21);
         return view('frontend.category.category_product', compact('category', 'banner', 'products'));
     }
-    
+
     public function subcategory_products($slug)
     {
         $subcategory = Subcategory::where('slug', $slug)->first();
@@ -112,10 +112,10 @@ class ProductController extends Controller
     }
 
 
-    public function all_brands()
+    public function brands()
     {
-        $brands = Brand::where('status', '1')
-            ->paginate(18);
+        $brands = Brand::where('status', '1')->orderBy('priority', 'asc')
+            ->paginate(14);
         return view('frontend.brand.brand_list', compact('brands'));
     }
 
@@ -124,7 +124,7 @@ class ProductController extends Controller
         $brand = Brand::where('slug', $slug)->first();
         $brand_id = $brand->id;
         $banner = Banner::where('type', 'product_page')->first();
-        $products = Product::where('category_id', $brand_id)
+        $products = Product::where('brand_id', $brand_id)
             ->paginate(21);
         return view('frontend.brand.brand_product', compact('brand', 'banner', 'products'));
     }

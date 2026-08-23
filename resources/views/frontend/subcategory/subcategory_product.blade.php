@@ -54,7 +54,8 @@
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
                         </li>
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('category', $subcategory->category->slug) }}">{{ $subcategory->category->name }}</a>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a
+                                href="{{ route('category', $subcategory->category->slug) }}">{{ $subcategory->category->name }}</a>
                         </li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">
                             {{ $subcategory->name }}</li>
@@ -83,13 +84,13 @@
                             <div class="product-item__outer h-100">
                                 <div class="product-item__inner px-xl-4 p-3">
                                     <div class="product-item__body pb-xl-2">
-                                        <h5 class="mb-1 product-item__title"><a href="{{ route('product', $product->slug) }}"
+                                        <h5 class="mb-1 product-item__title"><a
+                                                href="{{ route('product', $product->slug) }}"
                                                 class="text-blue font-weight-bold">{{ $product->name }}</a></h5>
                                         <div class="mb-2">
-                                            <a href="{{ route('product', $product->slug) }}" class="d-block text-center"><img
-                                                    class="img-fluid"
-                                                    src="{{ asset($product->image) }}"
-                                                    alt="Image Description"></a>
+                                            <a href="{{ route('product', $product->slug) }}"
+                                                class="d-block text-center"><img class="img-fluid"
+                                                    src="{{ asset($product->image) }}" alt="Image Description"></a>
                                         </div>
                                         <div class="flex-center-between mb-1">
                                             <div class="prodcut-price">
@@ -114,8 +115,12 @@
                             </div>
                         </li>
                     @empty
-                        <div class="col-12 text-center">
-                            <h3 class="text-danger">No Product Found</h3>
+                        <div class="no-product-found mx-auto text-center" style="max-width: 400px;">
+                            <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
+                                class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
+                            <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
+                            <p class="text-muted">Sorry, we couldn't find any products matching your current
+                                Brand.</p>
                         </div>
                     @endforelse
                 </ul>
@@ -200,11 +205,11 @@
         <!-- Banner Section Start --->
 
         <div class="mb-4">
-                <a href="{{ $banner->url }}" class="d-block text-gray-90">
-                    <img src="{{ asset($banner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
-                        loading="eager" fetchpriority="high" decoding="async">
-                </a>
-            </div>
+            <a href="{{ $banner->url }}" class="d-block text-gray-90">
+                <img src="{{ asset($banner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
+                    loading="eager" fetchpriority="high" decoding="async">
+            </a>
+        </div>
         <!-- Banner Section End -->
     @endif
 

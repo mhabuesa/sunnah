@@ -197,7 +197,7 @@
                                 </div>
                                 <h5 class="product_price mt-3">
                                     <span id="product_price">
-                                        ৳{{ number_format($product->price, 2) }}
+                                        ৳{{ number_format($product->price, 0) }}
                                     </span>
                                 </h5>
                                 <div class="mb-3">
@@ -575,6 +575,8 @@
             <!-- End Tab Content -->
         </div>
         <!-- End Single Product Tab -->
+
+        @if ($relatedProduct->count() > 0)
         <!-- Related products -->
         <div class="mb-6">
             <div
@@ -582,26 +584,24 @@
                 <h3 class="section-title mb-0 pb-2 font-size-22">Related products</h3>
             </div>
             <ul class="row list-unstyled products-group no-gutters">
+                @foreach ($relatedProduct as $relProduct)
                 <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item">
                     <div class="product-item__outer h-100">
                         <div class="product-item__inner px-xl-4 p-3">
                             <div class="product-item__body pb-xl-2">
-                                <div class="mb-2"><a href="product-categories-7-column-full-width.html"
-                                        class="font-size-12 text-gray-5">Speakers</a></div>
-                                <h5 class="mb-1 product-item__title"><a href="single-product-fullwidth.html"
-                                        class="text-blue font-weight-bold">Wireless Audio System Multiroom 360 degree Full
-                                        base audio</a></h5>
+                                <h5 class="mb-1 product-item__title"><a href="{{ route('product', $relProduct->slug) }}"
+                                        class="text-blue font-weight-bold">{{ $relProduct->name }}</a></h5>
                                 <div class="mb-2">
-                                    <a href="single-product-fullwidth.html" class="d-block text-center"><img
-                                            class="img-fluid" src="{{ asset('frontend/temp') }}/img/212X200/img1.jpg"
+                                    <a href="{{ route('product', $relProduct->slug) }}" class="d-block text-center"><img
+                                            class="img-fluid" src="{{ asset($relProduct->image) }}"
                                             alt="Image Description"></a>
                                 </div>
                                 <div class="flex-center-between mb-1">
                                     <div class="prodcut-price">
-                                        <div class="text-gray-100">$685,00</div>
+                                        <div class="text-gray-100">${{ number_format($relProduct->price, 2) }}</div>
                                     </div>
                                     <div class="d-none d-xl-block prodcut-add-cart">
-                                        <a href="single-product-fullwidth.html"
+                                        <a href="{{ route('product', $relProduct->slug) }}"
                                             class="btn-add-cart btn-primary transition-3d-hover"><i
                                                 class="ec ec-add-to-cart"></i></a>
                                     </div>
@@ -609,8 +609,6 @@
                             </div>
                             <div class="product-item__footer">
                                 <div class="border-top pt-2 flex-center-between flex-wrap">
-                                    <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
                                     <a href="wishlist.html" class="text-gray-6 font-size-13"><i
                                             class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                                 </div>
@@ -618,186 +616,11 @@
                         </div>
                     </div>
                 </li>
-                <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item">
-                    <div class="product-item__outer h-100">
-                        <div class="product-item__inner px-xl-4 p-3">
-                            <div class="product-item__body pb-xl-2">
-                                <div class="mb-2"><a href="product-categories-7-column-full-width.html"
-                                        class="font-size-12 text-gray-5">Speakers</a></div>
-                                <h5 class="mb-1 product-item__title"><a href="single-product-fullwidth.html"
-                                        class="text-blue font-weight-bold">Tablet White EliteBook Revolve 810 G2</a></h5>
-                                <div class="mb-2">
-                                    <a href="single-product-fullwidth.html" class="d-block text-center"><img
-                                            class="img-fluid" src="{{ asset('frontend/temp') }}/img/212X200/img2.jpg"
-                                            alt="Image Description"></a>
-                                </div>
-                                <div class="flex-center-between mb-1">
-                                    <div class="prodcut-price d-flex align-items-center position-relative">
-                                        <ins class="font-size-20 text-red text-decoration-none">$1999,00</ins>
-                                        <del class="font-size-12 tex-gray-6 position-absolute bottom-100">$2 299,00</del>
-                                    </div>
-                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                        <a href="single-product-fullwidth.html"
-                                            class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                class="ec ec-add-to-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item__footer">
-                                <div class="border-top pt-2 flex-center-between flex-wrap">
-                                    <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                    <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item">
-                    <div class="product-item__outer h-100">
-                        <div class="product-item__inner px-xl-4 p-3">
-                            <div class="product-item__body pb-xl-2">
-                                <div class="mb-2"><a href="product-categories-7-column-full-width.html"
-                                        class="font-size-12 text-gray-5">Speakers</a></div>
-                                <h5 class="mb-1 product-item__title"><a href="single-product-fullwidth.html"
-                                        class="text-blue font-weight-bold">Purple Solo 2 Wireless</a></h5>
-                                <div class="mb-2">
-                                    <a href="single-product-fullwidth.html" class="d-block text-center"><img
-                                            class="img-fluid" src="{{ asset('frontend/temp') }}/img/212X200/img3.jpg"
-                                            alt="Image Description"></a>
-                                </div>
-                                <div class="flex-center-between mb-1">
-                                    <div class="prodcut-price">
-                                        <div class="text-gray-100">$685,00</div>
-                                    </div>
-                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                        <a href="single-product-fullwidth.html"
-                                            class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                class="ec ec-add-to-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item__footer">
-                                <div class="border-top pt-2 flex-center-between flex-wrap">
-                                    <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                    <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item remove-divider-md-lg">
-                    <div class="product-item__outer h-100">
-                        <div class="product-item__inner px-xl-4 p-3">
-                            <div class="product-item__body pb-xl-2">
-                                <div class="mb-2"><a href="product-categories-7-column-full-width.html"
-                                        class="font-size-12 text-gray-5">Speakers</a></div>
-                                <h5 class="mb-1 product-item__title"><a href="single-product-fullwidth.html"
-                                        class="text-blue font-weight-bold">Smartphone 6S 32GB LTE</a></h5>
-                                <div class="mb-2">
-                                    <a href="single-product-fullwidth.html" class="d-block text-center"><img
-                                            class="img-fluid" src="{{ asset('frontend/temp') }}/img/212X200/img4.jpg"
-                                            alt="Image Description"></a>
-                                </div>
-                                <div class="flex-center-between mb-1">
-                                    <div class="prodcut-price">
-                                        <div class="text-gray-100">$685,00</div>
-                                    </div>
-                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                        <a href="single-product-fullwidth.html"
-                                            class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                class="ec ec-add-to-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item__footer">
-                                <div class="border-top pt-2 flex-center-between flex-wrap">
-                                    <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                    <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item remove-divider-xl">
-                    <div class="product-item__outer h-100">
-                        <div class="product-item__inner px-xl-4 p-3">
-                            <div class="product-item__body pb-xl-2">
-                                <div class="mb-2"><a href="product-categories-7-column-full-width.html"
-                                        class="font-size-12 text-gray-5">Speakers</a></div>
-                                <h5 class="mb-1 product-item__title"><a href="single-product-fullwidth.html"
-                                        class="text-blue font-weight-bold">Widescreen NX Mini F1 SMART NX</a></h5>
-                                <div class="mb-2">
-                                    <a href="single-product-fullwidth.html" class="d-block text-center"><img
-                                            class="img-fluid" src="{{ asset('frontend/temp') }}/img/212X200/img5.jpg"
-                                            alt="Image Description"></a>
-                                </div>
-                                <div class="flex-center-between mb-1">
-                                    <div class="prodcut-price">
-                                        <div class="text-gray-100">$685,00</div>
-                                    </div>
-                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                        <a href="single-product-fullwidth.html"
-                                            class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                class="ec ec-add-to-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item__footer">
-                                <div class="border-top pt-2 flex-center-between flex-wrap">
-                                    <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                    <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item remove-divider-wd d-xl-none d-wd-block">
-                    <div class="product-item__outer h-100">
-                        <div class="product-item__inner px-xl-4 p-3">
-                            <div class="product-item__body pb-xl-2">
-                                <div class="mb-2"><a href="product-categories-7-column-full-width.html"
-                                        class="font-size-12 text-gray-5">Speakers</a></div>
-                                <h5 class="mb-1 product-item__title"><a href="single-product-fullwidth.html"
-                                        class="text-blue font-weight-bold">Tablet White EliteBook Revolve 810 G2</a></h5>
-                                <div class="mb-2">
-                                    <a href="single-product-fullwidth.html" class="d-block text-center"><img
-                                            class="img-fluid" src="{{ asset('frontend/temp') }}/img/212X200/img2.jpg"
-                                            alt="Image Description"></a>
-                                </div>
-                                <div class="flex-center-between mb-1">
-                                    <div class="prodcut-price d-flex align-items-center position-relative">
-                                        <ins class="font-size-20 text-red text-decoration-none">$1999,00</ins>
-                                        <del class="font-size-12 tex-gray-6 position-absolute bottom-100">$2 299,00</del>
-                                    </div>
-                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                        <a href="single-product-fullwidth.html"
-                                            class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                class="ec ec-add-to-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-item__footer">
-                                <div class="border-top pt-2 flex-center-between flex-wrap">
-                                    <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                    <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                            class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                @endforeach
             </ul>
         </div>
         <!-- End Related products -->
+        @endif
         <!-- Brand Carousel -->
         <div class="mb-8">
             <div class="py-2 border-top border-bottom">
@@ -865,174 +688,6 @@
 @endsection
 
 @push('footer_script')
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            let selectedVariations = {};
-            let basePrice = {{ $product->price ?? 0 }};
-            let currentStock = {{ $product->stock ?? 0 }};
-
-            const mobileQty = document.getElementById('mobile_qty');
-            const sidebarQty = document.getElementById('sidebar_qty');
-
-            // =========================
-            // SAFE QTY
-            // =========================
-            function getQty(input) {
-                let qty = parseInt(input?.value || 1);
-                if (isNaN(qty) || qty < 1) qty = 1;
-                if (qty > currentStock) qty = currentStock;
-                return qty;
-            }
-
-            // =========================
-            // SET QTY
-            // =========================
-            function setQty(input, value) {
-                if (!input) return;
-
-                value = parseInt(value);
-                if (isNaN(value) || value < 1) value = 1;
-                if (value > currentStock) value = currentStock;
-
-                input.value = value;
-            }
-
-            // =========================
-            // UPDATE PRICE (IMPORTANT FIX HERE)
-            // =========================
-            function updatePrice() {
-
-                let mobileQtyVal = getQty(mobileQty);
-                let sidebarQtyVal = getQty(sidebarQty);
-
-                // 👉 BOTH update independently
-                let mobileTotal = (basePrice * mobileQtyVal).toFixed(2);
-                let sidebarTotal = (basePrice * sidebarQtyVal).toFixed(2);
-
-                document.getElementById('mobile_total_price').innerText = '৳' + mobileTotal;
-                document.getElementById('total_price').innerText = '৳' + sidebarTotal;
-
-                document.getElementById('stock_value').innerText = currentStock;
-
-                let names = Object.values(selectedVariations).map(v => v.name);
-                document.getElementById('selected_option_text').innerText =
-                    names.length ? names.join(', ') : "Default Product";
-
-                document.getElementById('selected_variations').value =
-                    JSON.stringify(selectedVariations);
-            }
-
-            // =========================
-            // VARIATION CHANGE
-            // =========================
-            document.querySelectorAll('.variation-radio').forEach(radio => {
-
-                radio.addEventListener('change', function() {
-
-                    selectedVariations[this.name] = {
-                        id: this.value,
-                        name: this.dataset.name,
-                        price: parseFloat(this.dataset.price),
-                        stock: parseInt(this.dataset.stock)
-                    };
-
-                    basePrice = parseFloat(this.dataset.price);
-                    currentStock = parseInt(this.dataset.stock);
-
-                    setQty(mobileQty, 1);
-                    setQty(sidebarQty, 1);
-
-                    updatePrice();
-                });
-            });
-
-            // =========================
-            // MOBILE BUTTONS
-            // =========================
-            document.querySelectorAll('.m-plus, .m-minus').forEach(btn => {
-
-                btn.addEventListener('click', function() {
-
-                    let qty = getQty(mobileQty);
-
-                    if (this.classList.contains('m-plus')) qty++;
-                    if (this.classList.contains('m-minus')) qty--;
-
-                    setQty(mobileQty, qty);
-                    updatePrice();
-                });
-            });
-
-            // =========================
-            // SIDEBAR BUTTONS
-            // =========================
-            document.querySelectorAll('.s-plus, .s-minus').forEach(btn => {
-
-                btn.addEventListener('click', function() {
-
-                    let qty = getQty(sidebarQty);
-
-                    if (this.classList.contains('s-plus')) qty++;
-                    if (this.classList.contains('s-minus')) qty--;
-
-                    setQty(sidebarQty, qty);
-                    updatePrice();
-                });
-            });
-
-            // =========================
-            // INIT
-            // =========================
-            function init() {
-                let first = document.querySelector('.variation-radio:checked');
-
-                if (first) first.dispatchEvent(new Event('change'));
-                else updatePrice();
-            }
-
-            init();
-
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            document.querySelectorAll('.qty-box').forEach(box => {
-
-                let input = box.querySelector('.qty-input');
-                let plusBtn = box.querySelector('.qty-plus');
-                let minusBtn = box.querySelector('.qty-minus');
-
-                if (plusBtn) {
-                    plusBtn.addEventListener('click', () => {
-                        input.value = parseInt(input.value || 1) + 1;
-                    });
-                }
-
-                if (minusBtn) {
-                    minusBtn.addEventListener('click', () => {
-                        let current = parseInt(input.value || 1);
-                        if (current > 1) {
-                            input.value = current - 1;
-                        }
-                    });
-                }
-
-            });
-
-        });
-    </script> --}}
-
-
-
-
-    <!-- JS Global Compulsory -->
-    {{-- <script src="{{asset('frontend/temp')}}/vendor/jquery/dist/jquery.min.js"></script>
-        <script src="{{asset('frontend/temp')}}/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
-        <script src="{{asset('frontend/temp')}}/vendor/popper.js/dist/umd/popper.min.js"></script>
-        <script src="{{asset('frontend/temp')}}/vendor/bootstrap/bootstrap.min.js"></script> --}}
 
     <!-- JS Implementing Plugins -->
     <script src="{{ asset('frontend/temp') }}/vendor/appear.js"></script>

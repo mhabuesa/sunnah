@@ -4,14 +4,14 @@
     use App\Http\Controllers\Auth\AuthenticatedSessionController;
     use App\Http\Controllers\BannerController;
     use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\CategoryController;
+    use App\Http\Controllers\CampaignController;
+    use App\Http\Controllers\CategoryController;
     use App\Http\Controllers\CouponController;
     use App\Http\Controllers\CustomerController;
     use App\Http\Controllers\DeliveryController;
     use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\OrderController;
+    use App\Http\Controllers\LandingController;
+    use App\Http\Controllers\OrderController;
     use App\Http\Controllers\PosController;
     use App\Http\Controllers\ProductController;
     use App\Http\Controllers\ProfileController;
@@ -19,8 +19,8 @@ use App\Http\Controllers\OrderController;
     use App\Http\Controllers\SmsCampaignController;
     use App\Http\Controllers\SmsController;
     use App\Http\Controllers\SubcategoryController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\TodayDealController;
+    use App\Http\Controllers\TestController;
+    use App\Http\Controllers\TodayDealController;
     use App\Http\Controllers\TodaysDealController;
     use App\Http\Controllers\UserController;
     use App\Http\Controllers\VariationController;
@@ -217,7 +217,7 @@ use App\Http\Controllers\TodayDealController;
             Route::delete('/campaign/product/destroy/{id}', 'product_destroy')->name('product.destroy');
         });
 
-        
+
         //test route
         Route::controller(TestController::class)->name('test.')->prefix('test')->group(function () {
             Route::get('/', 'index')->name('index');
