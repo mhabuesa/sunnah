@@ -74,9 +74,11 @@
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary-dark-w px-5 text-white">Login</button>
                             </div>
-                            {{-- <div class="mb-2">
-                                <a class="text-blue" href="#">Lost your password?</a>
-                            </div> --}}
+                        </div>
+                        <div class="text-center mb-4">
+                            <span class="small text-dark">Do not have an account?</span>
+                            <a class="small btn btn-sm px-1" href="{{route('customer.register')}}">Signup
+                            </a>
                         </div>
                         <!-- End Button -->
                     </form>
@@ -87,59 +89,3 @@
 
 
 @endsection
-
-@push('footer_script')
-    {{-- <script>
-        // কুকি সেট করার হেল্পার ফাংশন
-        function setCookie(name, value, days) {
-            var expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
-
-        // কুকি পড়ার হেল্পার ফাংশন
-        function getCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-
-        $(document).ready(function() {
-            // --- পেজ লোড হওয়ার সময় কুকি চেক করে ফিল্ড অটো-ফিল করা ---
-            let rememberedPhone = getCookie("remember_phone");
-            let rememberedPass = getCookie("remember_pass");
-
-            if (rememberedPhone && rememberedPass) {
-                $('input[name="phone"]').val(rememberedPhone);
-                $('input[name="password"]').val(rememberedPass);
-                $('input[name="remember"]').prop('checked', true);
-            }
-
-            // --- লগইন সাবমিট হ্যান্ডলিং ---
-            $('#login').submit(function(e) {
-                e.preventDefault();
-
-                let form = $(this);
-                let data = form.serialize();
-                let submitBtn = form.find('button[type="submit"]');
-
-                // ফোন এবং পাসওয়ার্ড ভ্যালু সংগ্রহ (কুকি সেভ করার জন্য)
-                let phoneVal = form.find('input[name="phone"]').val();
-                let passVal = form.find('input[name="password"]').val();
-                let isRememberChecked = form.find('input[name="remember"]').is(':checked');
-
-                $('#loginError').addClass('d-none').html('');
-                submitBtn.prop('disabled', true).text('Processing...');
-            });
-        });
-    </script> --}}
-@endpush

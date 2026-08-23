@@ -120,7 +120,7 @@
                                     @csrf
                                     <!-- Title -->
                                     <header class="text-center mb-7">
-                                        <h2 class="h4 mb-0">Welcome to Electro.</h2>
+                                        <h2 class="h4 mb-0">Welcome to {{setting()->name}}.</h2>
                                         <p>Fill out the form to get started.</p>
                                     </header>
                                     <!-- End Title -->
