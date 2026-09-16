@@ -39,9 +39,8 @@
                                     placeholder="Enter Product Name.." value="{{ old('name') ?? $product->name }}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="shortDescription">Short Description <span
-                                        class="text-danger">*</span></label>
-                                <textarea id="shortDescription" name="shortDescription" required>
+                                <label class="form-label" for="shortDescription">Short Description</label>
+                                <textarea id="shortDescription" class="form-control" rows="10" name="shortDescription">
                                     {{ old('shortDescription') ?? $product->shortDescription }}
                                 </textarea>
                                 @error('shortDescription')

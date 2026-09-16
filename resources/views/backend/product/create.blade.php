@@ -38,9 +38,8 @@
                                     placeholder="Enter Product Name.." value="{{ old('name') }}" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="shortDescription">Short Description <span
-                                        class="text-danger">*</span></label>
-                                <textarea id="shortDescription" name="shortDescription" required>
+                                <label class="form-label" for="shortDescription">Short Description</label>
+                                <textarea class="form-control" rows="10" id="shortDescription" name="shortDescription">
                                     {{ old('shortDescription') }}
                                 </textarea>
                                 @error('shortDescription')
