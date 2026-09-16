@@ -51,20 +51,21 @@
                                         <select name="banner_type" id="banner_type" class="form-control" required>
                                             <option value="">Select Banner Type</option>
                                             <option value="main"
-                                                {{ $banners->where('type', 'main')->count() >= 3 ? 'disabled' : '' }}
+                                                {{ $banners->where('type', 'main')->count() >= 1 ? 'disabled' : '' }}
                                                 data-ratio="1996x920">Main
-                                                Banner (Max 3)</option>
+                                                Banner</option>
+                                            <option value="home_top"
+                                                {{ $banners->where('type', 'home_top')->count() >= 1 ? 'disabled' : '' }}
+                                                data-ratio="6400x660">Home Top Banner</option>
                                             <option value="home_middle"
                                                 {{ $banners->where('type', 'home_middle')->count() >= 1 ? 'disabled' : '' }}
-                                                data-ratio="6400x660">Home Middle Banner</option>
+                                                data-ratio="1600x2788">Home Middle Banner</option>
                                             <option value="home_bottom"
                                                 {{ $banners->where('type', 'home_bottom')->count() >= 1 ? 'disabled' : '' }}
                                                 data-ratio="6400x660">Home Bottom Banner</option>
-                                            <option value="todays_deal"
-                                                {{ $banners->where('type', 'todays_deal')->count() >= 1 ? 'disabled' : '' }}
-                                                data-ratio="1600x2788">Todays Deal Banner</option>
-                                            <option value="product_page"
-                                                {{ $banners->where('type', 'product_page')->count() >= 1 ? 'disabled' : '' }}
+
+                                            <option value="product_banner"
+                                                {{ $banners->where('type', 'product_banner')->count() >= 1 ? 'disabled' : '' }}
                                                 data-ratio="6400x660">Product Page Banner</option>
                                         </select>
                                         @error('banner_type')

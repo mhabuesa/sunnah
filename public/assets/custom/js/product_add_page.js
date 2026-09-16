@@ -39,8 +39,53 @@ $('#category').on('change', function () {
 });
 
 
+$(document).ready(function () {
 
+    // ১. ভ্যালু লোড করার কমন ফাংশন
+    function loadAttributeValues(attributeId, targetDropdown, selectedValue = null) {
+        if (!attributeId) {
+            targetDropdown.html('<option value="">Select Attribute Value</option>');
+            return;
+        }
 
+        fetch('/admin/product/get-attributeValue/' + attributeId)
+            .then(response => response.json())
+            .then(data => {
+                let options = '<option value="">Select Attribute Value</option>';
+
+                // selectedValue কে স্ট্রিং বা নাম্বারে কনভার্ট করে নিশ্চিত হওয়া
+                let checkValue = selectedValue ? selectedValue.toString() : null;
+
+                data.forEach(function (item) {
+                    // এখানে চেক করা হচ্ছে ডাটার ID এবং আমাদের ডাটাবেসের ID এক কি না
+                    let isSelected = (checkValue && checkValue == item.id.toString()) ? 'selected' : '';
+                    options += `<option value="${item.id}" ${isSelected}>${item.value}</option>`;
+                });
+
+                targetDropdown.html(options);
+            })
+            .catch(error => console.error('Error fetching attribute values:', error));
+    }
+
+    // ২. পেজ লোড হওয়ার সময় Previous Variation গুলোর ভ্যালু লোড করা
+    $('.variationRow').each(function () {
+        let attributeId = $(this).find('.attribute').val();
+        let targetDropdown = $(this).find('.attributeValue');
+        let selectedValue = targetDropdown.data('selected'); // data-selected থেকে আইডি নিবে
+
+        if (attributeId) {
+            loadAttributeValues(attributeId, targetDropdown, selectedValue);
+        }
+    });
+
+    // ৩. অ্যাট্রিবিউট চেঞ্জ করলে নতুন ভ্যালু লোড করা
+    $(document).on('change', '.attribute', function () {
+        let attributeId = $(this).val();
+        let targetDropdown = $(this).closest('.variationRow').find('.attributeValue');
+        loadAttributeValues(attributeId, targetDropdown);
+    });
+
+});
 
 
 // Generate SKU

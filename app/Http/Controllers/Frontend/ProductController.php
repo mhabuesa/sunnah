@@ -11,6 +11,7 @@ use App\Models\Subcategory;
 use App\Models\TodaysDeal;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
@@ -20,7 +21,14 @@ class ProductController extends Controller
         $product = Product::where('slug', $slug)->with('category', 'subcategory', 'brand', 'meta', 'galleries', 'variations')->first();
         $relatedProduct = Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get();
         $cartCount = CartService::count();
-        return view('frontend.product.single', compact('product', 'relatedProduct', 'cartCount'));
+
+        $banner = Cache::remember('homeBanners', 86400, function () {
+            return Banner::where('status', 1)->get();
+        });
+        
+        $productBanner = $banner->where('type', 'product_banner')->first();
+
+        return view('frontend.product.single', compact('product', 'relatedProduct', 'cartCount', 'productBanner'));
     }
 
     public function products()
@@ -30,7 +38,7 @@ class ProductController extends Controller
                 $query->where('status', 'active');
             }])
             ->get(['id', 'name']);
-        $banner = Banner::where('type', 'product_page')->first();
+        $banner = Banner::where('type', 'product_banner')->first();
         return view('frontend.product.all_products', compact('categories', 'banner'));
     }
 
@@ -95,7 +103,7 @@ class ProductController extends Controller
     {
         $category = Category::where('slug', $slug)->first();
         $category_id = $category->id;
-        $banner = Banner::where('type', 'product_page')->where('status', 1)->first();
+        $banner = Banner::where('type', 'product_banner')->where('status', 1)->first();
         $products = Product::where('category_id', $category_id)
             ->paginate(21);
         return view('frontend.category.category_product', compact('category', 'banner', 'products'));
@@ -105,7 +113,7 @@ class ProductController extends Controller
     {
         $subcategory = Subcategory::where('slug', $slug)->first();
         $subcategory_id = $subcategory->id;
-        $banner = Banner::where('type', 'product_page')->where('status', 1)->first();
+        $banner = Banner::where('type', 'product_banner')->where('status', 1)->first();
         $products = Product::where('subcategory_id', $subcategory_id)
             ->paginate(21);
         return view('frontend.subcategory.subcategory_product', compact('subcategory', 'banner', 'products'));
@@ -123,7 +131,7 @@ class ProductController extends Controller
     {
         $brand = Brand::where('slug', $slug)->first();
         $brand_id = $brand->id;
-        $banner = Banner::where('type', 'product_page')->first();
+        $banner = Banner::where('type', 'product_banner')->first();
         $products = Product::where('brand_id', $brand_id)
             ->paginate(21);
         return view('frontend.brand.brand_product', compact('brand', 'banner', 'products'));
@@ -138,7 +146,7 @@ class ProductController extends Controller
         $products = Product::whereIn('id', $productIds)
             ->latest()
             ->paginate(21);
-        $banner = Banner::where('type', 'product_page')->first();
+        $banner = Banner::where('type', 'product_banner')->first();
         return view('frontend.todaysDeal.todaysDeal_product', compact('banner', 'products'));
     }
 
@@ -160,7 +168,7 @@ class ProductController extends Controller
         $products = Product::where('name', 'LIKE', "%{$query}%")
             ->latest()
             ->paginate(21);
-        $banner = Banner::where('type', 'product_page')->first();
+        $banner = Banner::where('type', 'product_banner')->first();
         return view('frontend.search.search_page', compact('products', 'banner'));
     }
 }

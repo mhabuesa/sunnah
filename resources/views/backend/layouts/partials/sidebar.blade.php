@@ -292,7 +292,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : '' }}">
+                <li class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.todaysDeal.*') ? 'open' : (request()->routeIs('admin.coupon.*') ? 'open' : '')) }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
                         <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>

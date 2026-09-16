@@ -20,10 +20,10 @@ class HomeController extends Controller
         });
 
         // Group by type
-        $mainBanners = $homeBanners->where('type', 'main')->take(3);
-        $middleBanners = $homeBanners->where('type', 'home_middle')->first();
-        $bottomBanners = $homeBanners->where('type', 'home_bottom')->first();
-        $todaysBanner = $homeBanners->where('type', 'todays_deal')->first();
+        $mainBanner = $homeBanners->where('type', 'main')->first();
+        $topBanner = $homeBanners->where('type', 'home_top')->first();
+        $middleBanner = $homeBanners->where('type', 'home_middle')->first();
+        $bottomBanner = $homeBanners->where('type', 'home_bottom')->first();
 
         // Todays Deal
         $todaysDeals = Cache::remember('todaysDeals', 86400, function () {
@@ -42,10 +42,10 @@ class HomeController extends Controller
         });
 
         return view('frontend.home.index', compact(
-            'mainBanners',
-            'middleBanners',
-            'bottomBanners',
-            'todaysBanner',
+            'mainBanner',
+            'topBanner',
+            'middleBanner',
+            'bottomBanner',
             'todaysDeals',
             'latestProducts',
             'categories',

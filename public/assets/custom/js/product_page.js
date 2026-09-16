@@ -46,6 +46,7 @@ $('#category').on('change', function () {
 $(document).ready(function () {
     $('#category').trigger('change');
 });
+
 $(document).ready(function () {
 
     // ১. ভ্যালু লোড করার কমন ফাংশন

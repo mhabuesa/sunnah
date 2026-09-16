@@ -378,9 +378,8 @@
 
         // Rich Text Editor
         var editor1 = new RichTextEditor("#description");
-
-        
     </script>
+
     <script src="{{ asset('assets') }}/js/plugins/select2/js/select2.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
         integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
