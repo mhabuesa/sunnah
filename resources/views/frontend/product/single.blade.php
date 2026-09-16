@@ -160,23 +160,7 @@
                         <div class="product-short-description">
                             <h5>Specification</h5>
                             <div id="productDescription" class="description-content">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vitae alias magnam hic, omnis
-                                fugit quisquam reiciendis libero consectetur unde perferendis porro impedit! Fugit rerum
-                                eveniet dignissimos quos porro dolorem quibusdam, possimus, odit, magni sit a ipsa eligendi.
-                                Illum hic, sequi incidunt id in dignissimos ipsum nam ratione temporibus pariatur, molestiae
-                                est consectetur iste nobis enim dicta rem! Ipsum, tempore repudiandae et optio inventore
-                                modi dolore fuga delectus saepe minima facere velit itaque quas adipisci, atque alias quae
-                                dolorem! Voluptates labore repellendus quos quia quasi vel dolor possimus reiciendis autem
-                                nisi quisquam, eius, hic similique dolorum tempora nihil aliquid, cum culpa est! Molestias,
-                                doloremque! Enim possimus eius dolore quae nihil fuga doloremque facilis delectus, tempora
-                                dolor quia nemo itaque porro libero eum! Consectetur harum voluptate dignissimos nobis
-                                suscipit. Maxime voluptatibus necessitatibus corrupti beatae animi possimus tempora
-                                repellendus consequatur alias expedita provident libero, accusantium quia fugiat mollitia
-                                nobis omnis labore! Pariatur, architecto? Repellat atque dolorum culpa reprehenderit itaque
-                                ullam velit reiciendis animi voluptatem commodi tempore libero asperiores nihil cumque esse
-                                exercitationem quam magnam cupiditate assumenda, iste saepe id explicabo. Quibusdam dolores,
-                                cupiditate in adipisci soluta tempora consectetur non consequuntur omnis voluptate ducimus
-                                commodi doloremque error a nulla, labore nesciunt dignissimos quo quas!
+                               {{ $product->shortDescription }}
                             </div>
 
                             <a href="javascript:;" id="descriptionToggle" class="description-toggle">

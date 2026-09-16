@@ -150,6 +150,7 @@ class ProductController extends Controller
 
         $product = Product::create([
             'name' => $request->name,
+            'shortDescription' => $request->shortDescription,
             'description' => $request->description,
             'category_id' => $request->category,
             'subcategory_id' => $request->subcategory,
@@ -293,6 +294,7 @@ class ProductController extends Controller
 
         $data->update([
             'name' => $request->name,
+            'shortDescription' => $request->shortDescription,
             'description' => $request->description,
             'category_id' => $request->category,
             'subcategory_id' => $request->subcategory,

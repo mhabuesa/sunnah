@@ -39,6 +39,17 @@
                                     placeholder="Enter Product Name.." value="{{ old('name') ?? $product->name }}" required>
                             </div>
                             <div class="mb-3">
+                                <label class="form-label" for="shortDescription">Short Description <span
+                                        class="text-danger">*</span></label>
+                                <textarea id="shortDescription" name="shortDescription" required>
+                                    {{ old('shortDescription') ?? $product->shortDescription }}
+                                </textarea>
+                                @error('shortDescription')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="description">Description <span
                                         class="text-danger">*</span></label>
                                 <textarea id="description" name="description" required>
