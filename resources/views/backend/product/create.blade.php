@@ -195,7 +195,7 @@
                                             <label class="form-label" for="attribute">Select Attribute<span
                                                     class="text-danger">*</span></label>
                                             <select class="form-select attribute" id="attribute" name="attribute[]"
-                                                style="width: 100%;" data-placeholder="Choose one.." required>
+                                                style="width: 100%;" data-placeholder="Choose one..">
                                                 <option value="">Select Attribute</option>
                                                 @foreach ($attributes as $attribute)
                                                     <option value="{{ $attribute->id }}">{{ $attribute->name }}
@@ -404,7 +404,7 @@
                 <label class="form-label" for="attribute">Select Attribute<span
                         class="text-danger">*</span></label>
                 <select class="form-select attribute" id="attribute" name="attribute[]"
-                    style="width: 100%;" data-placeholder="Choose one.." required>
+                    style="width: 100%;" data-placeholder="Choose one..">
                     <option value="">Select Attribute</option>
                     @foreach ($attributes as $attribute)
                         <option value="{{ $attribute->id }}">{{ $attribute->name }}
