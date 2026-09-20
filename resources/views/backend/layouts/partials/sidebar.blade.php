@@ -316,8 +316,8 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.user.create') ? 'active' : '' }}"
-                                href="{{ route('admin.user.create') }}">
+                            <a class="nav-main-link {{ request()->routeIs('admin.featuredProduct.index') ? 'active' : '' }}"
+                                href="{{ route('admin.featuredProduct.index') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-id-badge me-2"></i> Featured Product
                                 </span>

@@ -11,8 +11,7 @@ class CustomerMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->guard('customer')->check()) {
-            return redirect('/')
-                ->with('error', 'Please login first.');
+            return redirect()->route('customer.login');
         }
 
         return $next($request);

@@ -40,9 +40,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="shortDescription">Short Description</label>
-                                <textarea id="shortDescription" class="form-control" rows="10" name="shortDescription">
-                                    {{ old('shortDescription') ?? $product->shortDescription }}
-                                </textarea>
+                                <textarea id="shortDescription" class="form-control" rows="10" name="shortDescription">{{ old('shortDescription') ?? $product->shortDescription }}</textarea>
                                 @error('shortDescription')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\FeaturedProduct;
+use App\Models\NewsletterSubscriber;
 use App\Models\Product;
 use App\Models\TodaysDeal;
 use Illuminate\Http\Request;
@@ -30,7 +32,7 @@ class HomeController extends Controller
             return TodaysDeal::where('status', 1)->with('product')->take(20)->latest()->get();
         });
 
-        // Todays Deal
+        // Latest Products
         $latestProducts = Cache::remember('latestProducts', 86400, function () {
             return Product::where('status', 'active')->select('id', 'name', 'image', 'price', 'slug', 'category_id')->take(21)->latest()->get();
         });
@@ -41,6 +43,21 @@ class HomeController extends Controller
                 ->get();
         });
 
+
+
+        $recentlyViewed = request()->cookie('recently_viewed_products', []);
+
+        if (is_string($recentlyViewed)) {
+            $recentlyViewed = json_decode($recentlyViewed, true) ?? [];
+        }
+
+        $recentProducts = Product::whereIn('id', $recentlyViewed)
+            ->get()
+            ->sortBy(function ($product) use ($recentlyViewed) {
+                return array_search($product->id, $recentlyViewed);
+            })
+            ->values();
+
         return view('frontend.home.index', compact(
             'mainBanner',
             'topBanner',
@@ -49,14 +66,30 @@ class HomeController extends Controller
             'todaysDeals',
             'latestProducts',
             'categories',
+            'recentProducts'
         ));
     }
 
-    public function quickView($id)
+    public function newsletter_subscribe(Request $request)
     {
-        Log::info($id);
-        $product = Product::with(['category', 'galleries', 'variations'])->findOrFail($id);
+        $request->validate([
+            'email' => 'required|email',
+        ]);
 
-        return view('frontend.home.partials.quick_view_modal', compact('product'))->render();
+        if (NewsletterSubscriber::where('email', $request->email)->exists()) {
+            return redirect()->back()->with('error', 'You are already subscribed to the newsletter.');
+        }
+
+        try {
+            NewsletterSubscriber::create([
+                'email' => $request->email,
+            ]);
+
+            return redirect()->back()->with('success', 'Subscribed to newsletter successfully.');
+        } catch (\Exception $e) {
+            Log::error('Newsletter subscription error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while subscribing. Please try again later.');
+        }
+       
     }
 }

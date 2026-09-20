@@ -39,18 +39,18 @@
                         <!-- End Logo-offcanvas-menu -->
                         <!-- Search Bar -->
                         <div class="col d-none d-xl-block">
-                            <form class="js-focus-state">
+                            <form class="js-focus-state" action="{{ route('search.product') }}" method="GET">
                                 <label class="sr-only" for="searchproduct">Search</label>
                                 <div class="input-group">
-                                    <input type="email"
+                                    <input type="text"
                                         class="form-control py-2 pl-5 font-size-15 border-right-0 height-42 rounded-left-pill border-primary"
-                                        name="email" id="searchproduct-item" placeholder="Search for Products"
-                                        aria-label="Search for Products" aria-describedby="searchProduct1" required>
+                                        name="q" id="searchproduct-item" placeholder="Search for Products"
+                                        aria-label="Search for Products" aria-describedby="searchProduct1" required value="{{ request()->input('q') }}">
                                     <div class="input-group-append">
 
                                         <!-- End Select -->
                                         <button class="btn btn-dark height-42 py-2 px-3 rounded-right-pill"
-                                            type="button" id="searchProduct1">
+                                            type="submit" id="searchProduct1">
                                             <span class="ec ec-search font-size-20"></span>
                                         </button>
                                     </div>
@@ -245,7 +245,7 @@
                                     <ul class="navbar-nav u-header__navbar-nav">
                                         <!-- Pages -->
                                         <li class="nav-item hs-has-mega-menu u-header__nav-item">
-                                            <a class="nav-link u-header__nav-link text-sale" href="#">Super
+                                            <a class="nav-link u-header__nav-link text-sale" href="{{ route('supper.deals') }}">Super
                                                 Deals</a>
                                         </li>
                                         <!-- End Pages -->

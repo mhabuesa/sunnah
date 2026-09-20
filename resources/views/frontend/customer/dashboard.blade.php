@@ -500,7 +500,7 @@
                             <p>
                                 Welcome back,
                                 <strong>
-                                    {{ auth()->user()->name ?? 'Customer' }}
+                                    {{ auth('customer')->user()->name ?? 'Customer Name' }}
                                 </strong>
                             </p>
                         </div>

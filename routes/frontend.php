@@ -4,9 +4,12 @@ use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\InformationController;
 use App\Http\Controllers\Frontend\LandingController;
 use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\OrderTrackingController;
 use App\Http\Controllers\Frontend\ProductController;
+use App\Http\Controllers\Frontend\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/manifest.json', function () {
@@ -16,18 +19,19 @@ Route::get('/manifest.json', function () {
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::get('/quickView/{id}', 'quickView')->name('quickView');
+    Route::post('/newsletter/subscribe', 'newsletter_subscribe')->name('newsletter.subscribe');
 });
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product/{slug}', 'product')->name('product');
     Route::get('/products', 'products')->name('products');
-    Route::get('/products/ajax', 'ajaxProducts')->name('products.ajax');
+    Route::get('ajax-products', 'ajaxProducts')->name('ajax.products');
     Route::get('/category/{slug}', 'category_products')->name('category');
     Route::get('/subcategory/{slug}', 'subcategory_products')->name('subcategory');
     Route::get('/brands', 'brands')->name('brands');
     Route::get('/brand/{slug}', 'brand_product')->name('brand');
     Route::get('/todays/deal', 'todaysDeal')->name('todays.deal');
+    Route::get('/supperDeals', 'supperDeals')->name('supper.deals');
     Route::get('/searchProduct', 'search_product')->name('search.product');
     Route::get('/searchProduct/ajax', 'search_product_ajax')->name('search.product.ajax');
 });
@@ -49,6 +53,26 @@ Route::controller(OrderController::class)->group(function () {
     Route::post('/placeOrder', 'placeOrder')->name('placeOrder');
 });
 
+
+// Review Route
+Route::controller(ReviewController::class)->group(function () {
+    Route::post('/review/store', 'store')->name('review.store');
+    Route::get('/product/{productId}/reviews', 'productReviews')
+    ->name('product.reviews');
+});
+
+
+// Review Route
+Route::controller(InformationController::class)->group(function () {
+    Route::get('/about', 'about')->name('about');
+    Route::get('/contact', 'contact')->name('contact');
+    Route::get('/company-information', 'companyInformation')->name('company.information');
+});
+
+// Order Tracking Route
+Route::controller(OrderTrackingController::class)->group(function () {
+    Route::get('/order/tracking', 'tracking')->name('order.tracking');
+});
 
 Route::controller(LandingController::class)->group(function () {
     Route::get('/{slug}', 'landing')->name('landing');

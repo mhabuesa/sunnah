@@ -45,113 +45,108 @@
 @endpush
 @section('content')
 
-    <!-- Breadcrumb Section Start -->
-    <section class="breadcrumb-section">
-        <div class="custom-container">
-            <div class="breadcrumb-contain">
-                <ul class="breadcrumb h4">
-                    <li><a href="{{ route('index') }}">Home / &nbsp;</a></li>
-                    <li class="text-muted">Search Page</li>
-                </ul>
-                <nav>
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('index') }}">
-                                <i class="ri-home-3-fill"></i>
-                            </a>
+    <!-- breadcrumb -->
+    <div class="bg-gray-13 bg-md-transparent">
+        <div class="container">
+            <!-- breadcrumb -->
+            <div class="my-md-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
                         </li>
-                        <li class="breadcrumb-item active">Search Page</li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">
+                            Search Page</li>
                     </ol>
                 </nav>
             </div>
+            <!-- End breadcrumb -->
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    </div>
+    <!-- End breadcrumb -->
 
-    <!-- Shop Section Start -->
-    <section class="section-t-space shop-section pt-4">
-        <div class="custom-container">
-            <div class="row">
+    <div class="container">
+        <div class="mb-8">
+            <!-- Shop-control-bar Title -->
+            <div class="flex-center-between mb-3">
+                <h3 class="font-size-25 mb-0">Search Page</h3>
+            </div>
+            <!-- End shop-control-bar Title -->
 
-                <div class="col-custom-12">
-                    <div
-                        class="row g-sm-4 g-3 row-cols-xxl-6 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2
-                    product-list-section">
-                        @forelse ($products as $product)
-                            <div class="col">
-                                <div class="product-box-4-main">
-                                    <div class="product-box-4 productMain pro-bg-white">
-                                        <div class="product-image">
-                                            <a href="{{ route('product', $product->slug) }}">
-                                                <img class="lazy img-fluid productImage loaded"
-                                                    data-src="{{ asset($product->image) }}">
-                                            </a>
+            <!-- Shop Body -->
+            <!-- Tab Content -->
+            <div class="">
+                <ul class="row list-unstyled products-group no-gutters">
+                    @forelse ($products as $product)
+                        <li class="col-6 col-md-3 col-xl-2 product-item">
+                            <div class="product-item__outer h-100">
+                                <div class="product-item__inner px-xl-4 p-3">
+                                    <div class="product-item__body pb-xl-2">
+                                        <h5 class="mb-1 product-item__title"><a
+                                                href="{{ route('product', $product->slug) }}"
+                                                class="text-blue font-weight-bold">{{ $product->name }}</a></h5>
+                                        <div class="mb-2">
+                                            <a href="{{ route('product', $product->slug) }}"
+                                                class="d-block text-center"><img class="img-fluid"
+                                                    src="{{ asset($product->image) }}" alt="Image Description"></a>
                                         </div>
-                                        <div class="product-content">
-                                            <h5 class="sub-name productName">{{ $product->category->name }}</h5>
-                                            <a href="{{ route('product', $product->slug) }}" class="name">
-                                                <h5>{{ Str::limit($product->name, '20', '...') }}</h5>
-                                            </a>
-                                            <ul class="rating">
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                                <li>
-                                                    <i class="ri-star-fill fill"></i>
-                                                </li>
-                                            </ul>
-                                             <h5 class="price">৳{{ productPrice($product->id) }}</h5>
+                                        <div class="flex-center-between mb-1">
+                                            <div class="prodcut-price">
+                                                <div class="text-gray-100">৳ {{ $product->price }}</div>
+                                            </div>
+                                            <div class="d-none d-xl-block prodcut-add-cart">
+                                                <a href="{{ route('product', $product->slug) }}"
+                                                    class="btn-add-cart btn-primary transition-3d-hover"><i
+                                                        class="ec ec-add-to-cart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-item__footer">
+                                        <div class="border-top pt-2 flex-center-between flex-wrap">
+                                            <a href="compare.html" class="text-gray-6 font-size-13"><i
+                                                    class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
+                                            <a href="wishlist.html" class="text-gray-6 font-size-13"><i
+                                                    class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @empty
-                            <div class="col-12 w-100 text-center py-5">
-                                <div class="no-product-found mx-auto" style="max-width: 400px;">
-                                    <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
-                                        class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
-                                    <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
-                                    <p class="text-muted">Sorry, we couldn't find any products matching your current
-                                        Search Input.</p>
-                                </div>
+                        </li>
+                    @empty
+                        <div class="col-12 w-100 text-center py-5">
+                            <div class="no-product-found mx-auto" style="max-width: 400px;">
+                                <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
+                                    class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
+                                <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
+                                <p class="text-muted">Sorry, we couldn't find any products matching your current
+                                    Search Input.</p>
                             </div>
-                        @endforelse
-
-
-                    </div>
-
-                    <nav class="custom-pagination">
-                        {{ $products->links() }}
-                    </nav>
-                </div>
+                        </div>
+                    @endforelse
+                </ul>
             </div>
+            <!-- End Tab Content -->
+            <!-- End Shop Body -->
+            <!-- Shop Pagination -->
+            @if ($products->hasPages())
+                <nav class="d-md-flex justify-content-between align-items-center border-top pt-3"
+                    aria-label="Page navigation example">
+                    {{ $products->links() }}
+                </nav>
+            @endif
+            <!-- End Shop Pagination -->
         </div>
-    </section>
-    <!-- Shop Section End -->
-
     @if ($banner)
-        <!-- Banner Section Start -->
-        <section class="section-t-space">
-            <div class="custom-container">
-                <a href="{{ $banner->url }}" class="banner-box">
-                    <img class="lazy img-fluid" data-src="{{ asset($banner->image) }}">
-                </a>
-            </div>
-        </section>
+        <!-- Banner Section Start --->
+
+        <div class="mb-4">
+            <a href="{{ $banner->url }}" class="d-block text-gray-90">
+                <img src="{{ asset($banner->image) }}" alt="Banner" class="img-fluid w-100 banner-image" loading="eager"
+                    fetchpriority="high" decoding="async">
+            </a>
+        </div>
         <!-- Banner Section End -->
     @endif
+    </div>
+
 
 @endsection
-
-@push('footer_script')
-    
-@endpush

@@ -81,13 +81,13 @@
                             <div class="product-item__outer h-100">
                                 <div class="product-item__inner px-xl-4 p-3">
                                     <div class="product-item__body pb-xl-2">
-                                        <h5 class="mb-1 product-item__title"><a href="{{ route('product', $product->slug) }}"
+                                        <h5 class="mb-1 product-item__title"><a
+                                                href="{{ route('product', $product->slug) }}"
                                                 class="text-blue font-weight-bold">{{ $product->name }}</a></h5>
                                         <div class="mb-2">
-                                            <a href="{{ route('product', $product->slug) }}" class="d-block text-center"><img
-                                                    class="img-fluid"
-                                                    src="{{ asset($product->image) }}"
-                                                    alt="Image Description"></a>
+                                            <a href="{{ route('product', $product->slug) }}"
+                                                class="d-block text-center"><img class="img-fluid"
+                                                    src="{{ asset($product->image) }}" alt="Image Description"></a>
                                         </div>
                                         <div class="flex-center-between mb-1">
                                             <div class="prodcut-price">
@@ -112,8 +112,15 @@
                             </div>
                         </li>
                     @empty
-                        <div class="col-12 text-center">
-                            <h3 class="text-danger">No Product Found</h3>
+                        <div class="no-product-found mx-auto text-center" style="max-width: 400px;">
+                            <img src="{{ asset('frontend/assets/images/emptyBox.png') }}" alt="No Product Found"
+                                class="img-fluid mb-4" style="opacity: 0.6; max-height: 200px;">
+                            <h3 class="fw-bold text-dark">Oops! No Products Found</h3>
+                            <p class="">Sorry, we couldn't find any products matching your current
+                                Category.</p>
+                            <a href="{{ route('index') }}" class="btn btn-primary btn-sm mt-3 px-4 rounded-pill text-white">
+                                <i class="ri-refresh-line"></i> Home
+                            </a>
                         </div>
                     @endforelse
                 </ul>
@@ -122,87 +129,24 @@
             <!-- End Shop Body -->
             <!-- Shop Pagination -->
             @if ($products->hasPages())
-                <nav class="d-md-flex justify-content-between align-items-center border-top pt-3"
+                <nav class="d-md-flex justify-content-end align-items-center border-top pt-3"
                     aria-label="Page navigation example">
                     {{ $products->links() }}
                 </nav>
             @endif
             <!-- End Shop Pagination -->
         </div>
-        <!-- Brand Carousel -->
-        <div class="mb-6">
-            <div class="py-2 border-top border-bottom">
-                <div class="js-slick-carousel u-slick my-1" data-slides-show="5" data-slides-scroll="1"
-                    data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-normal u-slick__arrow-centered--y"
-                    data-arrow-left-classes="fa fa-angle-left u-slick__arrow-classic-inner--left z-index-9"
-                    data-arrow-right-classes="fa fa-angle-right u-slick__arrow-classic-inner--right"
-                    data-responsive='[{
-                                "breakpoint": 992,
-                                "settings": {
-                                    "slidesToShow": 2
-                                }
-                            }, {
-                                "breakpoint": 768,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }, {
-                                "breakpoint": 554,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }]'>
-                    <div class="js-slide">
-                        <a href="#" class="link-hover__brand">
-                            <img class="img-fluid m-auto max-height-50"
-                                src="{{ asset('frontend/temp') }}/img/200X60/img1.png" alt="Image Description">
-                        </a>
-                    </div>
-                    <div class="js-slide">
-                        <a href="#" class="link-hover__brand">
-                            <img class="img-fluid m-auto max-height-50"
-                                src="{{ asset('frontend/temp') }}/img/200X60/img2.png" alt="Image Description">
-                        </a>
-                    </div>
-                    <div class="js-slide">
-                        <a href="#" class="link-hover__brand">
-                            <img class="img-fluid m-auto max-height-50"
-                                src="{{ asset('frontend/temp') }}/img/200X60/img3.png" alt="Image Description">
-                        </a>
-                    </div>
-                    <div class="js-slide">
-                        <a href="#" class="link-hover__brand">
-                            <img class="img-fluid m-auto max-height-50"
-                                src="{{ asset('frontend/temp') }}/img/200X60/img4.png" alt="Image Description">
-                        </a>
-                    </div>
-                    <div class="js-slide">
-                        <a href="#" class="link-hover__brand">
-                            <img class="img-fluid m-auto max-height-50"
-                                src="{{ asset('frontend/temp') }}/img/200X60/img5.png" alt="Image Description">
-                        </a>
-                    </div>
-                    <div class="js-slide">
-                        <a href="#" class="link-hover__brand">
-                            <img class="img-fluid m-auto max-height-50"
-                                src="{{ asset('frontend/temp') }}/img/200X60/img6.png" alt="Image Description">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Brand Carousel -->
     </div>
 
     @if ($banner)
         <!-- Banner Section Start --->
 
         <div class="mb-4">
-                <a href="{{ $banner->url }}" class="d-block text-gray-90">
-                    <img src="{{ asset($banner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
-                        loading="eager" fetchpriority="high" decoding="async">
-                </a>
-            </div>
+            <a href="{{ $banner->url }}" class="d-block text-gray-90">
+                <img src="{{ asset($banner->image) }}" alt="Banner" class="img-fluid w-100 banner-image" loading="eager"
+                    fetchpriority="high" decoding="async">
+            </a>
+        </div>
         <!-- Banner Section End -->
     @endif
 

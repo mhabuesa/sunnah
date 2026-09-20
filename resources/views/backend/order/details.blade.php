@@ -93,7 +93,7 @@
                 <div class="block block-rounded">
                     <div class="block-header" style="align-items: normal">
                         <div class="text-start">
-                            <h3 class="block-title text-capitalize">Order ID #{{ $order->id }}</h3>
+                            <h3 class="block-title text-capitalize">Order ID #{{ $order->invoice_no }}</h3>
                             <h3 class="block-title text-capitalize">
                                 <i class="fa-regular fa-calendar-days"></i> {{ $order->created_at->format('d-m-Y') }}
                                 <i class="fa-regular fa-alarm-clock"></i> {{ $order->created_at->format('H:i') }}

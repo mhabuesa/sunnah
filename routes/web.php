@@ -1,30 +1,31 @@
     <?php
 
-    use App\Http\Controllers\AdminAuthController;
-    use App\Http\Controllers\Auth\AuthenticatedSessionController;
-    use App\Http\Controllers\BannerController;
-    use App\Http\Controllers\BrandController;
-    use App\Http\Controllers\CampaignController;
-    use App\Http\Controllers\CategoryController;
-    use App\Http\Controllers\CouponController;
-    use App\Http\Controllers\CustomerController;
-    use App\Http\Controllers\DeliveryController;
-    use App\Http\Controllers\HomeController;
-    use App\Http\Controllers\LandingController;
-    use App\Http\Controllers\OrderController;
-    use App\Http\Controllers\PosController;
-    use App\Http\Controllers\ProductController;
-    use App\Http\Controllers\ProfileController;
-    use App\Http\Controllers\SettingController;
-    use App\Http\Controllers\SmsCampaignController;
-    use App\Http\Controllers\SmsController;
-    use App\Http\Controllers\SubcategoryController;
-    use App\Http\Controllers\TestController;
-    use App\Http\Controllers\TodayDealController;
-    use App\Http\Controllers\TodaysDealController;
-    use App\Http\Controllers\UserController;
-    use App\Http\Controllers\VariationController;
-    use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\FeaturedProductController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SmsCampaignController;
+use App\Http\Controllers\SmsController;
+use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\TodayDealController;
+use App\Http\Controllers\TodaysDealController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VariationController;
+use Illuminate\Support\Facades\Route;
 
     Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/login', 'create')->name('login');
@@ -174,8 +175,18 @@
             Route::post('/update', 'update')->name('update');
         });
 
-        //Coupon Routes
+        //TodaysDeal Routes
         Route::controller(TodaysDealController::class)->name('todaysDeal.')->prefix('todaysDeal')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/searchProduct', 'searchProduct')->name('searchProduct');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::post('/status/{id}', 'status_update')->name('status.update');
+            Route::post('/update', 'update')->name('update');
+        });
+        
+        //FeaturedProduct Routes
+        Route::controller(FeaturedProductController::class)->name('featuredProduct.')->prefix('featuredProduct')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::get('/searchProduct', 'searchProduct')->name('searchProduct');

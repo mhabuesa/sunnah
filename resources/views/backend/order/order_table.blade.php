@@ -5,7 +5,7 @@
                             name="selectRowId[]"></td>
                 @endif
                 <th class="text-center" scope="row">{{ $orders->firstItem() + $key }}</th>
-                <td>#{{ $order->id }}</td>
+                <td>{{ $order->invoice_no }}</td>
                 <td>{{ $order->created_at->format('d M Y') }}</td>
                 <td class="fw-semibold fs-sm">
                     {{ $order->customer->name ?? 'N/A' }} <br>

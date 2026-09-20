@@ -169,10 +169,10 @@
                                             <tr data-id="{{ $cart->id }}">
                                                 <td>
                                                     <div class="cartItem d-flex gap-2">
-                                                        <img src="{{ asset($cart->product->image) }}" width="40">
+                                                        <img src="{{ asset($cart->product?->image) }}" width="40">
                                                         <div class="cartItem-body">
-                                                            <h6 class="mb-0">{{ $cart->product->name }}</h6>
-                                                            <small>{{ $cart->variation?->attributeValue->value }}</small>
+                                                            <h6 class="mb-0">{{ $cart->product?->name }}</h6>
+                                                            <small>{{ $cart->variation?->attributeValue?->value }}</small>
                                                         </div>
                                                     </div>
                                                 </td>

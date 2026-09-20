@@ -4,20 +4,18 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-7 mb-md-3 mb-lg-0">
-                    <div class="row align-items-center text-white">
+                    <div class="row align-items-center text-white justify-content-md-between justify-content-center">
                         <div class="col-auto flex-horizontal-center">
                             <i class="ec ec-newsletter font-size-40"></i>
                             <h2 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h2>
-                        </div>
-                        <div class="col my-4 my-md-0">
-                            <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$20 coupon for first
-                                    shopping.</strong></h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <!-- Subscribe Form -->
-                    <form class="js-validate js-form-message">
+                    <form class="js-validate js-form-message" action="{{ route('newsletter.subscribe') }}"
+                        method="POST">
+                        @csrf
                         <label class="sr-only" for="subscribeSrEmail">Email address</label>
                         <div class="input-group input-group-pill">
                             <input type="email" class="form-control border-0 height-40" name="email"
@@ -43,7 +41,8 @@
                 <div class="col-lg-5">
                     <div class="mb-6">
                         <a href="#" class="d-inline-block">
-                           <img src="{{asset(setting()->header_logo)}}" alt="" style="height: 60px; width:160;">
+                            <img src="{{ asset(setting()->header_logo) }}" alt=""
+                                style="height: 60px; width:160;">
                         </a>
                     </div>
                     <div class="mb-4">
@@ -53,7 +52,8 @@
                             </div>
                             <div class="col pl-3">
                                 <div class="font-size-13 font-weight-light">Got questions? Call us 24/7!</div>
-                                <a href="tel:{{ setting()->phone }}" class="font-size-20 text-gray-90">{{ setting()->phone }}
+                                <a href="tel:{{ setting()->phone }}"
+                                    class="font-size-20 text-gray-90">{{ setting()->phone }}
                                 </a>
                             </div>
                         </div>
@@ -95,8 +95,9 @@
                 </div>
                 <div class="col-lg-7">
                     <div class="row">
+
                         <div class="col-12 col-md mb-4 mb-md-0">
-                            <h6 class="mb-3 font-weight-bold">Find it Fast</h6>
+                            <h6 class="mb-3 font-weight-bold">Shop By</h6>
                             <!-- List Group -->
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
                                 <li><a class="list-group-item list-group-item-action"
@@ -125,24 +126,24 @@
                         </div>
 
                         <div class="col-12 col-md mb-4 mb-md-0">
+                            <h6 class="mb-3 font-weight-bold">Information</h6>
                             <!-- List Group -->
-                            <ul
-                                class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent mt-md-6">
+                            <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Printers
-                                        & Ink</a></li>
+                                        href="{{ route('about') }}">About
+                                        us</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Software</a>
-                                </li>
+                                        href="{{ route('contact') }}">Contact
+                                        us</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Office
-                                        Supplies</a></li>
+                                        href="{{ route('company.information') }}">Company
+                                        Information</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Computer
-                                        Components</a></li>
+                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Terms
+                                        & Conditions</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Accesories</a>
-                                </li>
+                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Privacy
+                                        Policy</a></li>
                             </ul>
                             <!-- End List Group -->
                         </div>
@@ -152,22 +153,19 @@
                             <!-- List Group -->
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/my-account.html">My
+                                        href="{{ route('customer.dashboard') }}">My
                                         Account</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/track-your-order.html">Order
+                                        href="{{ route('customer.orders') }}">My
+                                        Orders</a></li>
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="{{ route('order.tracking') }}">Order
                                         Tracking</a></li>
                                 <li><a class="list-group-item list-group-item-action"
                                         href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">Wish
                                         List</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="terms-and-conditions.html">Customer Service</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="terms-and-conditions.html">Returns / Exchange</a></li>
                                 <li><a class="list-group-item list-group-item-action" href="faq.html">FAQs</a>
                                 </li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="terms-and-conditions.html">Product Support</a></li>
                             </ul>
                             <!-- End List Group -->
                         </div>
@@ -181,7 +179,8 @@
     <div class="bg-gray-14 py-2">
         <div class="container">
             <div class="flex-center-between d-block d-md-flex">
-                <div class="mb-3 mb-md-0">© <a href="#" class="font-weight-bold text-gray-90">{{ setting()->name }}</a> -
+                <div class="mb-3 mb-md-0">© <a href="#"
+                        class="font-weight-bold text-gray-90">{{ setting()->name }}</a> -
                     All rights Reserved</div>
                 <div class="text-md-right">
                     <span class="d-inline-block bg-white border rounded p-1">

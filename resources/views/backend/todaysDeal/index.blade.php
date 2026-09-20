@@ -29,6 +29,9 @@
         .border-dashed {
             border-style: dashed !important;
         }
+        .select2-results__options li {
+            color: #ffff !important;
+        }
     </style>
 @endpush
 @section('content')

@@ -17,316 +17,263 @@
             opacity: 1;
             visibility: visible;
         }
+
+        .current {
+            color: #fff !important;
+        }
+
+        .irs-bar {
+            background: rgb(13, 49, 35) !important;
+        }
     </style>
+    <link rel="stylesheet" href="{{ asset('frontend') }}/temp2/vendor/ion-rangeslider/css/ion.rangeSlider.css">
 @endpush
 @section('content')
 
-    <!-- Shop Section Start -->
-    <section class="section-t-space shop-section pt-4">
-        <div class="custom-container">
-            <div class="row">
-                <div class="col-custom-3">
-                    <div class="left-box">
-                        <div class="shop-left-sidebar">
-                            <button class="back-button btn">
-                                <i class="ri-arrow-left-line"></i> Back
-                            </button>
+    <div class="bg-gray-13 bg-md-transparent">
+        <div class="container">
+            <!-- breadcrumb -->
+            <div class="my-md-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="../home/index.html">Home</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Shop</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- End breadcrumb -->
+        </div>
+    </div>
+    <!-- End breadcrumb -->
 
-                            <div class="accordion custom-accordion-2">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseTwo">
-                                            <span>Categories</span>
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
-                                        <div class="accordion-body">
-                                            <ul class="category-list custom-padding custom-height">
-                                                @foreach ($categories as $category)
-                                                    <li>
-                                                        <div class="form-check category-list-box">
-                                                            <input class="checkbox_animated" type="checkbox"
-                                                                value="{{ $category->id }}" id="cat{{ $category->id }}">
-                                                            <label class="form-check-label" for="cat{{ $category->id }}">
-                                                                <span class="name">{{ $category->name }}</span>
-                                                                <span
-                                                                    class="number">({{ $category->products_count }})</span>
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                @endforeach
+    <div class="container">
+        <div class="row mb-8">
+            <div class="d-none d-xl-block col-xl-3 col-wd-2gdot5">
+                <div class="mb-6">
+                    <div class="border-bottom border-color-1 mb-5">
+                        <h3 class="section-title section-title__sm mb-0 pb-2 font-size-18">Filters</h3>
+                    </div>
 
-                                            </ul>
+                    <div class="border-bottom pb-4 mb-4">
+                        <h4 class="font-size-14 mb-3 font-weight-bold">Categories</h4>
+
+                        @foreach ($categories->take(7) as $category)
+                            <div class="form-group d-flex align-items-center justify-content-between mb-2 pb-1">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input category-filter"
+                                        id="category{{ $category->id }}" value="{{ $category->id }}">
+
+                                    <label class="custom-control-label" for="category{{ $category->id }}">
+                                        {{ $category->name }}
+                                        <span class="text-gray-25 font-size-12 font-weight-normal">
+                                            ({{ $category->products_count }})
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- End First 5 Brands -->
+
+
+                        @if ($categories->count() > 7)
+
+                            <!-- Remaining Categories -->
+                            <div class="collapse" id="collapseCategory">
+
+                                @foreach ($categories->skip(7) as $category)
+                                    <div class="form-group d-flex align-items-center justify-content-between mb-2 pb-1">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input category-filter"
+                                                id="category{{ $category->id }}" value="{{ $category->id }}">
+
+                                            <label class="custom-control-label" for="category{{ $category->id }}">
+                                                {{ $category->name }}
+                                                <span class="text-gray-25 font-size-12 font-weight-normal">
+                                                    ({{ $category->products_count }})
+                                                </span>
+                                            </label>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseThree">
-                                            <span>Price</span>
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show">
-                                        <div class="accordion-body">
-                                            <div class="price-range-slider">
-                                                <div class="slider-container">
-                                                    <div class="range-slider">
-                                                        <div class="range-fill"></div>
-                                                        <input type="range" id="minRange" min="1" max="50000"
-                                                            value="1" step="100">
-                                                        <input type="range" id="maxRange" min="100" max="50000"
-                                                            value="20000" step="100">
-                                                    </div>
-                                                    <div class="price-values">
-                                                        <span id="min-price">0</span>
-                                                        <span class="dash">-</span>
-                                                        <span id="max-price">20000</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                            </div>
+                            <!-- End Remaining Categories -->
+
+
+                            <!-- Show More / Less -->
+                            <a class="link link-collapse small font-size-13 text-gray-27 d-inline-flex mt-2"
+                                data-toggle="collapse" href="#collapseCategory" role="button" aria-expanded="false"
+                                aria-controls="collapseCategory">
+
+                                <span class="link__icon text-gray-27 bg-white">
+                                    <span class="link__icon-inner">+</span>
+                                </span>
+
+                                <span class="link-collapse__default">Show more</span>
+                                <span class="link-collapse__active">Show less</span>
+                            </a>
+                            <!-- End Show More / Less -->
+
+                        @endif
+                    </div>
+
+                    <div class="border-bottom pb-4 mb-4">
+                        <h4 class="font-size-14 mb-3 font-weight-bold">Brands</h4>
+
+                        <!-- First 5 Brands -->
+                        @foreach ($brands->take(7) as $brand)
+                            <div class="form-group d-flex align-items-center justify-content-between mb-2 pb-1">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input brand-filter"
+                                        id="brand{{ $brand->id }}" value="{{ $brand->id }}">
+
+                                    <label class="custom-control-label" for="brand{{ $brand->id }}">
+                                        {{ $brand->name }}
+                                        <span class="text-gray-25 font-size-12 font-weight-normal">
+                                            ({{ $brand->products_count }})
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        @endforeach
+                        <!-- End First 5 Brands -->
+
+
+                        @if ($brands->count() > 7)
+
+                            <!-- Remaining Brands -->
+                            <div class="collapse" id="collapseBrand">
+
+                                @foreach ($brands->skip(7) as $brand)
+                                    <div class="form-group d-flex align-items-center justify-content-between mb-2 pb-1">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input brand-filter"
+                                                id="brand{{ $brand->id }}" value="{{ $brand->id }}">
+
+                                            <label class="custom-control-label" for="brand{{ $brand->id }}">
+                                                {{ $brand->name }}
+                                                <span class="text-gray-25 font-size-12 font-weight-normal">
+                                                    ({{ $brand->products_count }})
+                                                </span>
+                                            </label>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#panelsStayOpen-collapseFive">
-                                            <span>Customer Review</span>
-                                        </button>
-                                    </h2>
-                                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show">
-                                        <div class="accordion-body">
-                                            <ul class="category-list custom-padding">
-                                                <li>
-                                                    <div class="form-check category-list-box">
-                                                        <input class="checkbox_animated" type="checkbox">
-                                                        <div class="form-check-label category-rating-box">
-                                                            <ul class="rating">
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                            </ul>
-                                                            <span class="text-content">(31)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                            </div>
+                            <!-- End Remaining Brands -->
 
-                                                <li>
-                                                    <div class="form-check category-list-box">
-                                                        <input class="checkbox_animated" type="checkbox">
-                                                        <div class="form-check-label category-rating-box">
-                                                            <ul class="rating">
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                            </ul>
-                                                            <span class="text-content">(15)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
 
-                                                <li>
-                                                    <div class="form-check category-list-box">
-                                                        <input class="checkbox_animated" type="checkbox">
-                                                        <div class="form-check-label category-rating-box">
-                                                            <ul class="rating">
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                            </ul>
-                                                            <span class="text-content">(24)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                            <!-- Show More / Less -->
+                            <a class="link link-collapse small font-size-13 text-gray-27 d-inline-flex mt-2"
+                                data-toggle="collapse" href="#collapseBrand" role="button" aria-expanded="false"
+                                aria-controls="collapseBrand">
 
-                                                <li>
-                                                    <div class="form-check category-list-box">
-                                                        <input class="checkbox_animated" type="checkbox">
-                                                        <div class="form-check-label category-rating-box">
-                                                            <ul class="rating">
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                            </ul>
-                                                            <span class="text-content">(10)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                <span class="link__icon text-gray-27 bg-white">
+                                    <span class="link__icon-inner">+</span>
+                                </span>
 
-                                                <li>
-                                                    <div class="form-check category-list-box">
-                                                        <input class="checkbox_animated" type="checkbox">
-                                                        <div class="form-check-label category-rating-box">
-                                                            <ul class="rating">
-                                                                <li>
-                                                                    <i class="ri-star-fill fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="ri-star-fill"></i>
-                                                                </li>
-                                                            </ul>
-                                                            <span class="text-content">(08)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                <span class="link-collapse__default">Show more</span>
+                                <span class="link-collapse__active">Show less</span>
+                            </a>
+                            <!-- End Show More / Less -->
 
+                        @endif
+
+                    </div>
+
+                    <div class="range-slider">
+                        <h4 class="font-size-14 mb-3 font-weight-bold">Price</h4>
+                        <!-- Range Slider -->
+                        <input class="bg-color-red js-range-slider" type="range"
+                            data-extra-classes="u-range-slider u-range-slider-indicator u-range-slider-grid"
+                            data-type="double" data-grid="false" data-hide-from-to="true" data-prefix="৳" data-min="0"
+                            data-max="10000" data-from="0" data-to="10000" data-result-min="#rangeSliderExample3MinResult"
+                            data-result-max="#rangeSliderExample3MaxResult">
+                        <!-- End Range Slider -->
+                        <div class="mt-1 text-gray-111 d-flex mb-4 d-flex align-items-center justify-content-between">
+                            <div class="">
+                                <span>৳</span>
+                                <span id="rangeSliderExample3MinResult" class=""></span>
+                            </div>
+                            <div class="">
+                                <span>৳</span>
+                                <span id="rangeSliderExample3MaxResult" class=""></span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-custom-9">
-                    <div class="show-button show-button-2 mb-0">
-                        <div class="top-filter-menu">
-                            <div class="category-dropdown">
-                                <div class="filter-button d-inline-block d-lg-none">
-                                    <a href="#!"><i class="ri-equalizer-2-line"></i> Filter Menu</a>
-                                </div>
-                                <div class="d-flex align-items-center dropdown-box">
-                                    <h5 class="text-content">Sort By :</h5>
-                                    <div class="dropdown">
-                                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                            data-bs-toggle="dropdown">
-                                            <span>Most Popular</span>
-                                            <i class="ri-arrow-down-s-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" id="pop" href="#!">Popularity</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" id="low" href="#!">Low - High
-                                                    Price</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" id="high" href="#!">High - Low
-                                                    Price</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" id="rating" href="#!">Average
-                                                    Rating</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" id="aToz" href="#!">A - Z
-                                                    Order</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" id="zToa" href="#!">Z - A
-                                                    Order</a>
-                                            </li>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="row g-sm-4 g-3 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-2
-                    product-list-section">
-
-                    </div>
-
-                    <nav class="custom-pagination">
-                        {{-- <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#!">
-                                    <i class="ri-arrow-left-s-line"></i>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#!">
-                                    <span>1</span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#!">
-                                    <span>2</span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#!">
-                                    <span>3</span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#!">
-                                    <i class="ri-arrow-right-s-line"></i>
-                                </a>
-                            </li>
-                        </ul> --}}
-                    </nav>
                 </div>
             </div>
+            <div class="col-xl-9 col-wd-9gdot5">
+                <!-- Shop-control-bar Title -->
+                <div class="flex-center-between mb-3">
+                    <h3 class="font-size-25 mb-0">Shop</h3>
+                </div>
+                <!-- End shop-control-bar Title -->
+                <!-- Shop-control-bar -->
+                <div class="py-1 d-flex justify-content-end">
+                    <div class="d-flex">
+                        <form method="get">
+                            <!-- Select -->
+                            <select id="product-sort"
+                                class="js-select selectpicker dropdown-select max-width-200 max-width-160-sm right-dropdown-0 px-2 px-xl-0"
+                                data-style="btn-sm bg-white font-weight-normal py-2 border text-gray-20 bg-lg-down-transparent border-lg-down-0">
+                                <option value="">Sort By</option>
+
+                                <option value="low">
+                                    Price: Low to High
+                                </option>
+
+                                <option value="high">
+                                    Price: High to Low
+                                </option>
+
+                                <option value="aToz">
+                                    Name: A to Z
+                                </option>
+
+                                <option value="zToa">
+                                    Name: Z to A
+                                </option>
+
+                                <option value="pop">
+                                    Popular
+                                </option>
+                            </select>
+                            <!-- End Select -->
+                        </form>
+                    </div>
+                </div>
+                <!-- End Shop-control-bar -->
+                <!-- Shop Body -->
+                <!-- Tab Content -->
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade pt-2 show active" id="pills-one-example1" role="tabpanel"
+                        aria-labelledby="pills-one-example1-tab" data-target-group="groups">
+                        <div class="row">
+                            <ul id="product-list" class="row list-unstyled products-group no-gutters w-100">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Tab Content -->
+                <!-- End Shop Body -->
+                <!-- Shop Pagination -->
+                <nav class="d-md-flex justify-content-end align-items-center border-top pt-3"
+                    aria-label="Page navigation example">
+                    {{-- <ul class="pagination mb-0 pagination-shop justify-content-center justify-content-md-start">
+                        <li class="page-item"><a class="page-link current" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    </ul> --}}
+
+                    <div id="product-pagination">
+                    </div>
+                </nav>
+                <!-- End Shop Pagination -->
+            </div>
         </div>
-    </section>
-    <!-- Shop Section End -->
+    </div>
 
     @if ($banner)
         <!-- Banner Section Start -->
@@ -344,15 +291,9 @@
 
 @push('footer_script')
     <!-- Range Slider js -->
-    <script src="{{ asset('frontend') }}/assets/js/range-slider.js"></script>
+    <script src="{{ asset('frontend') }}/temp/vendor/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 
-    <!-- Filter Sidebar js -->
-    <script src="{{ asset('frontend') }}/assets/js/filter-sidebar.js"></script>
-
-    <!-- Change Grid js -->
-    <script src="{{ asset('frontend') }}/assets/js/change-grid.js"></script>
-
-    <script>
+    {{-- <script>
         let filters = {
             categories: [],
             min_price: 1,
@@ -454,6 +395,190 @@
             $(this).closest('.product-box-4-main')
                 .find('.select-option-box')
                 .removeClass('active');
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+
+            function loadProducts(page = 1) {
+
+                let categories = [];
+                let brands = [];
+
+
+                // Categories
+                $('.category-filter:checked').each(function() {
+                    categories.push($(this).val());
+                });
+
+
+                // Brands
+                $('.brand-filter:checked').each(function() {
+                    brands.push($(this).val());
+                });
+
+
+                // Price
+                let minPrice = '';
+                let maxPrice = '';
+
+                let priceSlider = $('.js-range-slider').data('ionRangeSlider');
+
+                if (priceSlider) {
+                    minPrice = priceSlider.result.from;
+                    maxPrice = priceSlider.result.to;
+                }
+
+
+                // Sort
+                let sort = $('#product-sort').val();
+
+
+                $.ajax({
+
+                    url: '{{ route('ajax.products') }}',
+
+                    type: 'GET',
+
+                    data: {
+                        categories: categories,
+                        brands: brands,
+                        min_price: minPrice,
+                        max_price: maxPrice,
+                        sort: sort,
+                        page: page
+                    },
+
+                    beforeSend: function() {
+
+                        $('#product-list').css('opacity', '0.5');
+
+                    },
+
+                    success: function(response) {
+
+                        $('#product-list').html(response.html);
+
+                        $('#product-pagination').html(response.pagination);
+
+                    },
+
+                    error: function(xhr) {
+
+                        console.log(xhr.responseText);
+
+                    },
+
+                    complete: function() {
+
+                        $('#product-list').css('opacity', '1');
+
+                    }
+
+                });
+            }
+
+
+            // ==========================================
+            // FIRST PAGE LOAD
+            // ==========================================
+
+            loadProducts(1);
+
+
+            // ==========================================
+            // CATEGORY FILTER
+            // ==========================================
+
+            $(document).on('change', '.category-filter', function() {
+
+                loadProducts(1);
+
+            });
+
+
+            // ==========================================
+            // BRAND FILTER
+            // ==========================================
+
+            $(document).on('change', '.brand-filter', function() {
+
+                loadProducts(1);
+
+            });
+
+
+            // ==========================================
+            // SORT
+            // ==========================================
+
+            $(document).on('change', '#product-sort', function() {
+
+                loadProducts(1);
+
+            });
+
+
+            // ==========================================
+            // PRICE RANGE
+            // ==========================================
+
+            $(document).on('change', '.js-range-slider', function() {
+
+                loadProducts(1);
+
+            });
+
+
+            // ==========================================
+            // PAGINATION
+            // ==========================================
+
+            $(document).on(
+                'click',
+                '#product-pagination .page-link',
+                function(e) {
+
+                    e.preventDefault();
+
+                    let url = $(this).attr('href');
+
+                    if (!url || url === '#') {
+                        return;
+                    }
+
+                    let urlObject = new URL(url);
+
+                    let page = urlObject.searchParams.get('page');
+
+                    if (page) {
+                        loadProducts(page);
+                    }
+
+                }
+            );
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('.js-range-slider').ionRangeSlider({
+
+                onStart: function(data) {
+                    $('#rangeSliderExample3MinResult').text(data.from);
+                    $('#rangeSliderExample3MaxResult').text(data.to);
+                },
+
+                onChange: function(data) {
+                    $('#rangeSliderExample3MinResult').text(data.from);
+                    $('#rangeSliderExample3MaxResult').text(data.to);
+                }
+
+            });
+
         });
     </script>
 @endpush

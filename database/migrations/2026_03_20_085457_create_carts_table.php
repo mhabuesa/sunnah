@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('product_id');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('variation_id')->nullable();
             $table->string('qty');
             $table->string('price');
