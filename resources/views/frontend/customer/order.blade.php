@@ -674,7 +674,7 @@
                                             <td>
                                                 @foreach ($order->orderDetails as $detail)
                                                     <div>
-                                                        {{ $detail->product->name }} - {{ $detail->variant }}
+                                                        {{ $detail?->product?->name }} - {{ $detail?->variant }}
                                                         <span class="">- ({{ $detail->qty }} x
                                                             {{ number_format($detail->price) }}) </span>
                                                     </div>

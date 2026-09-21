@@ -354,14 +354,14 @@
                                 <div class="summary-row">
                                     <span>Delivery Fee</span>
                                     <strong>
-                                        + {{ number_format($order->shipping_charge ?? 0, 2) }} BDT
+                                        + {{ number_format($order->shipping_cost ?? 0, 2) }} BDT
                                     </strong>
                                 </div>
 
                                 <div class="summary-row discount">
                                     <span>Discount</span>
                                     <strong>
-                                        - {{ number_format($order->discount ?? 0, 2) }} BDT
+                                        - {{ number_format($order->discount_amount ?? 0, 2) }} BDT
                                     </strong>
                                 </div>
 

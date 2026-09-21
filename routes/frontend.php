@@ -67,6 +67,7 @@ Route::controller(InformationController::class)->group(function () {
     Route::get('/about', 'about')->name('about');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/company-information', 'companyInformation')->name('company.information');
+    Route::get('/terms-and-conditions', 'termsAndConditions')->name('terms.and.conditions');
 });
 
 // Order Tracking Route

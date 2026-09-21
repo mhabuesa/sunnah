@@ -129,8 +129,7 @@
                             <h6 class="mb-3 font-weight-bold">Information</h6>
                             <!-- List Group -->
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('about') }}">About
+                                <li><a class="list-group-item list-group-item-action" href="{{ route('about') }}">About
                                         us</a></li>
                                 <li><a class="list-group-item list-group-item-action"
                                         href="{{ route('contact') }}">Contact
@@ -139,7 +138,7 @@
                                         href="{{ route('company.information') }}">Company
                                         Information</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Terms
+                                        href="{{ route('terms.and.conditions') }}">Terms
                                         & Conditions</a></li>
                                 <li><a class="list-group-item list-group-item-action"
                                         href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Privacy

@@ -21,4 +21,9 @@ class InformationController extends Controller
     {
         return view('frontend.information.company-information');
     }
+
+    public function termsAndConditions()
+    {
+        return view('frontend.information.terms');
+    }
 }
