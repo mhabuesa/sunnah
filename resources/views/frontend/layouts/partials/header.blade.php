@@ -45,7 +45,8 @@
                                     <input type="text"
                                         class="form-control py-2 pl-5 font-size-15 border-right-0 height-42 rounded-left-pill border-primary"
                                         name="q" id="searchproduct-item" placeholder="Search for Products"
-                                        aria-label="Search for Products" aria-describedby="searchProduct1" required value="{{ request()->input('q') }}">
+                                        aria-label="Search for Products" aria-describedby="searchProduct1" required
+                                        value="{{ request()->input('q') }}">
                                     <div class="input-group-append">
 
                                         <!-- End Select -->
@@ -206,7 +207,7 @@
                                                                                     <div
                                                                                         class="col-6 u-header__sub-menu-nav-group mb-3 pl-4">
                                                                                         <a class="nav-link u-header__sub-menu-nav-link font-weight-bold"
-                                                                                            href="{{route('subcategory', $subcategory->slug)}}">{{ $subcategory->name }}</a>
+                                                                                            href="{{ route('subcategory', $subcategory->slug) }}">{{ $subcategory->name }}</a>
                                                                                     </div>
                                                                                 @endforeach
                                                                             </div>
@@ -245,7 +246,8 @@
                                     <ul class="navbar-nav u-header__navbar-nav">
                                         <!-- Pages -->
                                         <li class="nav-item hs-has-mega-menu u-header__nav-item">
-                                            <a class="nav-link u-header__nav-link text-sale" href="{{ route('supper.deals') }}">Super
+                                            <a class="nav-link u-header__nav-link text-sale"
+                                                href="{{ route('supper.deals') }}">Super
                                                 Deals</a>
                                         </li>
                                         <!-- End Pages -->
@@ -258,20 +260,669 @@
                                         </li>
                                         <!-- End Featured Brands -->
 
-                                        <!-- Trending Styles -->
+                                        <!-- Blog Styles -->
                                         <li class="nav-item u-header__nav-item">
-                                            <a class="nav-link u-header__nav-link" href="#"
+                                            <a class="nav-link u-header__nav-link" href="{{ route('blog') }}"
                                                 aria-haspopup="true" aria-expanded="false"
-                                                aria-labelledby="blogSubMenu">Trending Styles</a>
+                                                aria-labelledby="blogSubMenu">Blogs</a>
                                         </li>
-                                        <!-- End Trending Styles -->
+                                        <!-- End Blog Styles -->
 
-                                        <!-- Gift Cards -->
-                                        <li class="nav-item u-header__nav-item">
-                                            <a class="nav-link u-header__nav-link" href="#"
-                                                aria-haspopup="true" aria-expanded="false">Gift Cards</a>
+                                        <li class="nav-item hs-has-mega-menu u-header__nav-item" data-event="hover"
+                                            data-animation-in="slideInUp" data-animation-out="fadeOut">
+
+                                            <a id="sunnahShoppingMegaMenu"
+                                                class="nav-link u-header__nav-link u-header__nav-link-toggle"
+                                                href="javascript:;" aria-haspopup="true" aria-expanded="false">
+                                                SUNNAH SHOPPING / সুন্নাহ শপিং
+                                            </a>
+
+                                            <div class="hs-mega-menu w-100 u-header__sub-menu animated fadeOut"
+                                                aria-labelledby="sunnahShoppingMegaMenu" style="display: none;">
+
+                                                <div class="row u-header__mega-menu-wrapper">
+
+                                                    <!-- COLUMN 1 -->
+                                                    <div class="col-md-3">
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Clothing & Bedding / পোশাক ও বিছানাপত্র
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Leather Zaynamaz / চামড়ার জায়নামাজ
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Palm Leaf Zaynamaz / খেজুর পাতার জায়নামাজ
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Jute Zaynamaz / পাটের জায়নামাজ
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Velvet Zaynamaz / ভেলভেট জায়নামাজ
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Fabric Zaynamaz / কাপড়ের জায়নামাজ
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Palm Leaf Mat / খেজুর পাতার চাটাই
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Woolen Shawl / গায়ের চাদর (শাল)
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Casual Shawl / গায়ের চাদর
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Jute Bed / পাটের বিছানা
+                                                                </a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">
+                                                                    Leather Bed / চামড়ার বিছানা
+                                                                </a>
+                                                            </li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Men's Wear / পুরুষদের পোশাক
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Jubba / সুন্নতী জুব্বা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Kurta / সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Lungi / সুন্নতী লুঙ্গি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Pagri / সুন্নতী পাগড়ি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Tupi / সুন্নতী টুপি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Rumal White / সুন্নতী রুমাল (সাদা)</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Kashmiri Shawl / শীতের কাশ্মীরি শাল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Sunnati Kurta / শীতের সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Chadar Local / স্থানীয় শীতের চাদর</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hand
+                                                                    Socks / হাত মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Towel
+                                                                    / তোয়ালে</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Gamsa
+                                                                    / গামছা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Foot
+                                                                    Towel / পা মোছার তোয়ালে</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hajj
+                                                                    Travel Bag / হজ্ব ট্রাভেল ব্যাগ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hajj
+                                                                    Package / হজ্ব প্যাকেজ 📦</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Men's Footwear / পুরুষদের পাদুকা
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Nalain/Cross Belt Sandal / সুন্নতী নালাইন / ক্রস
+                                                                    বেল্ট স্যান্ডেল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Leather Socks/Muja / সুন্নতী চামড়ার মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Cross
+                                                                    Belt Chappal / ক্রস বেল্ট চপ্পল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Room
+                                                                    Chappal / রুম চপ্পল</a></li>
+
+                                                        </ul>
+
+                                                    </div>
+
+
+                                                    <!-- COLUMN 2 -->
+                                                    <div class="col-md-3">
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Men's Bags / পুরুষদের ব্যাগ
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Wallet / চামড়ার ওয়ালেট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Travel Bag / চামড়ার ট্রাভেল ব্যাগ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hajj
+                                                                    Body Wallet / হজ্ব বডি ওয়ালেট</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Women's Wear / মহিলাদের পোশাক
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Kurta / সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Three Piece / সুন্নতী থ্রি পিস</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">White-Black
+                                                                    Three Piece / সাদা-কালো থ্রি পিস</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sharee
+                                                                    / শাড়ি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Burka
+                                                                    / বোরকা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Khimar
+                                                                    / খিমার</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hijab
+                                                                    / হিজাব</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Scarf
+                                                                    / স্কার্ফ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Orna /
+                                                                    ওড়না</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Head
+                                                                    Cover / মাথা ঢাকনী</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hand
+                                                                    Socks / হাত মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Soft
+                                                                    Leather Zaynamaz / নরম চামড়ার জায়নামাজ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Soft
+                                                                    Zaynamaz / নরম জায়নামাজ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Cotton
+                                                                    Zaynamaz / সুতি জায়নামাজ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Others
+                                                                    & Varieties / অন্যান্য ও বিবিধ</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Women's Footwear / মহিলাদের পাদুকা
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Nalain / Cross Belt Sandal / সুন্নতী নালাইন / ক্রস
+                                                                    বেল্ট স্যান্ডেল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Leather Socks / সুন্নতী চামড়ার মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Foot
+                                                                    Socks / পা মোজা</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Women's Bags & Others / মহিলাদের ব্যাগ ও অন্যান্য সামগ্রী
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Ladies
+                                                                    Hand Bag / মেয়েদের হাত ব্যাগ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Hand Bag / চামড়ার হাত ব্যাগ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Wallet / চামড়ার ওয়ালেট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Purse / চামড়ার পার্স</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Ornament
+                                                                    Box / গহনার বাক্স</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">First
+                                                                    Aid Kit Box / প্রাথমিক চিকিৎসা সামগ্রী বাক্স</a>
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </div>
+
+
+                                                    <!-- COLUMN 3 -->
+                                                    <div class="col-md-3">
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Boys Wear (6+ Years) / ছেলেদের পোশাক (৬+ বছর)
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Jubba / সুন্নতী জুব্বা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Kurta / সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Lungi / সুন্নতী লুঙ্গি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Salwar/Pajama
+                                                                    / সালোয়ার / পায়জামা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Pagri / সুন্নতী পাগড়ি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Tupi / সুন্নতী টুপি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Rumal White / সুন্নতী রুমাল (সাদা)</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Kashmiri Shawl / শীতের কাশ্মীরি শাল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Sunnati Kurta / শীতের সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Chadar Local / স্থানীয় শীতের চাদর</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hand
+                                                                    Socks / হাত মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Towel
+                                                                    / তোয়ালে</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Gamsa
+                                                                    / গামছা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Foot
+                                                                    Towel / পা মোছার তোয়ালে</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Girls Wear (6+ Years) / মেয়েদের পোশাক (৬+ বছর)
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Kurta / সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Three Piece / সুন্নতী থ্রি পিস</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">White-Black
+                                                                    Three Piece / সাদা-কালো থ্রি পিস</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Frock
+                                                                    / ফ্রক</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Lehenga
+                                                                    / লেহেঙ্গা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Burka
+                                                                    / বোরকা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Khimar
+                                                                    / খিমার</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hijab
+                                                                    / হিজাব</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Scarf
+                                                                    / স্কার্ফ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Orna /
+                                                                    ওড়না</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Head
+                                                                    Cover / মাথার ঢাকনী</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hand
+                                                                    Socks / হাত মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Soft
+                                                                    Leather Zaynamaz / নরম চামড়ার জায়নামাজ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Soft
+                                                                    Zaynamaz / নরম জায়নামাজ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Cotton
+                                                                    Zaynamaz / সুতি জায়নামাজ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Others
+                                                                    & Varieties / অন্যান্য ও বিবিধ</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Kids Collection (1-5 Years) / শিশু সংগ্রহ (১-৫ বছর)
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Sunnati Jubba / শিশুদের সুন্নতী জুব্বা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Sunnati Kurta / শিশুদের সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Salwar / ছোটদের সালোয়ার</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Sunnati Tupi & Pagri / শিশুদের সুন্নতী টুপি ও
+                                                                    পাগড়ি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Soft Winter Shawl / শিশুদের নরম শীতের শাল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Sweater and Warm Jubba / ছোটদের সোয়েটার ও গরম
+                                                                    জুব্বা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Soft Leather Sandals / শিশুদের নরম চামড়ার
+                                                                    স্যান্ডেল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Foot Socks / শিশুদের পা মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Leather Socks / ছোটদের চামড়ার মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Kids
+                                                                    Miswak & Natural Toothpaste / ছোটদের মিসওয়াক ও
+                                                                    প্রাকৃতিক টুথপেস্ট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Rumal White / সুন্নতী রুমাল (সাদা)</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Warm Jubba / শীতের গরম জুব্বা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Sunnati Kurta / শীতের সুন্নতী কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Winter
+                                                                    Ear Cap (Kan Tupi) / শীতের কান টুপি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Hand
+                                                                    Socks / হাত মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Towel
+                                                                    / তোয়ালে</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Gamsa
+                                                                    / গামছা</a></li>
+
+                                                        </ul>
+
+                                                    </div>
+
+
+                                                    <!-- COLUMN 4 -->
+                                                    <div class="col-md-3">
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            New Babies (0-1 Year) / নবজাতক সংগ্রহ (০-১ বছর)
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">New
+                                                                    Born Sunnati Soft Kurta / নবজাতকদের সুন্নতী নরম
+                                                                    কুর্তা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Pure
+                                                                    Cotton Baby Wrapper / সুতি বেবি র‌্যাপার বা
+                                                                    কম্বল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Organic
+                                                                    Cotton Baby Bed Sheet / অর্গানিক সুতি বেবি বেড
+                                                                    শিট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Baby
+                                                                    Soft Pillow / বেবি নরম বালিশ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">New
+                                                                    Born Cap & Mittens / নবজাতকের টুপি ও হাত-পায়ের
+                                                                    মোজা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Extra
+                                                                    Virgin Olive Oil for Baby / শিশুদের জন্য এক্সট্রা
+                                                                    ভার্জিন অলিভ অয়েল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Black
+                                                                    Cumin Baby Massage Oil / কালোজিরা বেবি ম্যাসাজ
+                                                                    অয়েল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Organic
+                                                                    Milk & Honey Baby Soap / অর্গানিক মধু ও দুধের বেবি
+                                                                    সাবান</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Natural
+                                                                    Sea Sponge / প্রাকৃতিক নরম স্পঞ্জ (গোসলের জন্য)</a>
+                                                            </li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Zamzam
+                                                                    Water Bottle / জমজমের পানির বোতল</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Bedding / বিছানাপত্র
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Bed
+                                                                    Sheet / বেড শিট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Bed
+                                                                    Cover / বেড কভার</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Bed Sheet / চামড়ার বেড শিট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Palm
+                                                                    Leaf Mat / খেজুর পাতার চাটাই</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Blanket
+                                                                    / কম্বল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Comforter
+                                                                    / কমফোর্টার</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Sunnati
+                                                                    Leather Pillow / সুন্নতী চামড়ার বালিশ</a></li>
+
+                                                        </ul>
+
+
+                                                        <span class="u-header__sub-menu-title">
+                                                            Sunnati Utensils / সুন্নতী তৈজসপত্র
+                                                        </span>
+
+                                                        <ul class="u-header__sub-menu-nav-group mb-3">
+
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Plate / সুন্নতী কাঠের পেয়ালা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Drinking Cup / সুন্নতী কাঠের পানপাত্র</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Bowl / কাঠের বোল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Curry Bowl / কাঠের তরকারির বাটি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Salt Cellar / কাঠের লবণদানি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Dinner Set / কাঠের ডিনার সেট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Water Skin (Mashak) / সুন্নতী চামড়ার পানির মশক</a>
+                                                            </li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Dastarkhana / সুন্নতী চামড়ার দস্তরখানা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Wooden
+                                                                    Spoon / কাঠের চামচ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Leather
+                                                                    Floor Mat (Faras) / সুন্নতী চামড়ার ফরাস (বসার
+                                                                    বিছানা)</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Water Pitcher / মাটির পানির কলস</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Plate / মাটির পেয়ালা</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Drinking Cup / মাটির পানপাত্র</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Curry Bowl / মাটির তরকারির বাটি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Pot / মাটির পাতিল</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Water Jug / মাটির পানির জগ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Dinner Set / মাটির ডিনার সেট</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Pitha Mold / মাটির পিঠার সাচ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Salt Cellar / মাটির লবণদানি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Tea Cup / মাটির চায়ের কাপ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Mug / মাটির মগ</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Flower Tub / মাটির ফুলের টব</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Vase / মাটির ফুলদানি</a></li>
+                                                            <li><a href="#"
+                                                                    class="nav-link u-header__sub-menu-nav-link">Earthen
+                                                                    Pumice Stone (Jhama) / মাটির ঝামা পাথর</a></li>
+
+                                                        </ul>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </li>
-                                        <!-- End Gift Cards -->
+
 
                                         <!-- Button -->
                                         <li class="nav-item u-header__nav-last-item">
@@ -281,6 +932,9 @@
                                             </a>
                                         </li>
                                         <!-- End Button -->
+
+
+
                                     </ul>
                                 </div>
                                 <!-- End Navigation -->

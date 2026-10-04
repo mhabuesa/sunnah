@@ -376,7 +376,7 @@ class ProductController extends Controller
         // dispatch job for heavy processing
         ProcessProductImages::dispatch($data->id, $mainImagePath, $galleryPaths, $metaImagePath);
 
-        return redirect()->route('admin.product.index')->with('success', 'Product created successfully.');
+        return redirect()->route('admin.product.index')->with('success', 'Product Updated successfully.');
     }
 
     /**

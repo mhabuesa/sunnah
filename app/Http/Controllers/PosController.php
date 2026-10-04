@@ -241,22 +241,22 @@ class PosController extends Controller
         ]);
     }
 
+
     public function orderStore(Request $request)
     {
         $request->validate([
             'customer_id' => 'required',
         ]);
 
-
         $customer = Customer::findOrFail($request->customer_id);
         $invoiceNumber = Order::generateInvoiceNumber();
 
         $order = Order::create([
             'invoice_no' => $invoiceNumber,
-            'customer_id' =>  $request->customer_id,
+            'customer_id' => $request->customer_id,
             'seller_id' => Auth::user()->id,
             'order_type' => 'pos',
-            'payment_method' =>  $request->type,
+            'payment_method' => $request->type,
             'payment_status' => $request->type != 'cod' ? 'paid' : 'unpaid',
             'coupon_code' => $request->couponCode,
             'discount_amount' => $request->coupon_discount,
@@ -268,16 +268,35 @@ class PosController extends Controller
         ]);
 
         $carts = Cart::where('user_id', Auth::user()->id)->get();
+
         foreach ($carts as $cart) {
+
             $variant = null;
+
             if ($cart->variation_id) {
+
                 $variation = ProductVariation::find($cart->variation_id);
 
                 if ($variation) {
-                    $variant = $variation->attribute->name . ' - ' . $variation->attributeValue->value;
+
+                    $variant = $variation->attribute->name . ' - ' .
+                        $variation->attributeValue->value;
+
+                    // Variation stock minus
+                    $variation->decrement('stock', $cart->qty);
+                }
+            } else {
+
+                // Normal product stock minus
+                $product = Product::find($cart->product_id);
+
+                if ($product) {
+                    $product->decrement('stock', $cart->qty);
                 }
             }
+
             $total = $cart->price * $cart->qty;
+
             OrderDetails::create([
                 'order_id' => $order->id,
                 'product_id' => $cart->product_id,
@@ -290,8 +309,13 @@ class PosController extends Controller
         }
 
         Cart::where('user_id', Auth::user()->id)->delete();
-        return redirect()->back()->with(['clear_customer' => true, 'success' => 'Order Created Successful']);
+
+        return redirect()->back()->with([
+            'clear_customer' => true,
+            'success' => 'Order Created Successful'
+        ]);
     }
+
 
     public function applyCoupon(Request $request)
     {

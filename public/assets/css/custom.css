@@ -267,6 +267,10 @@
     font-weight: 300;
 }
 
-.select2-results__options li {
-    color: #ffff !important;
+html.dark .select2-results li {
+    color: #fff !important;
+}
+
+html:not(.dark) .select2-results li {
+    color: #000 !important;
 }

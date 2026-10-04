@@ -16,7 +16,6 @@ class OrderController extends Controller
 {
     public function placeOrder(Request $request)
     {
-
         // Get cart data first
         $cartData = CartService::get();
 
@@ -27,7 +26,6 @@ class OrderController extends Controller
                 ->with('error', 'Your cart is empty. Please add a product before placing an order.');
         }
 
-        // dd($request->all());
         $request->validate([
             'name' => 'required',
             'email' => 'nullable|email',
@@ -35,10 +33,9 @@ class OrderController extends Controller
             'address' => 'required',
         ]);
 
-        // dd($request->all());
-
-        // ২. Customer login thakle sheta nawa, na thakle create kora phone diye
+        // Get existing customer or create new customer by phone
         $customer = Customer::where('phone', $request->phone)->first();
+
         if (!$customer) {
             $customer = Customer::create([
                 'name' => $request->name,
@@ -50,10 +47,10 @@ class OrderController extends Controller
 
         $invoiceNumber = Order::generateInvoiceNumber();
 
-        // ৩. Order create logic
+        // Create Order
         $order = Order::create([
             'invoice_no' => $invoiceNumber,
-            'customer_id' => $customer->id, // $request->customer_id er bodole $customer->id hobe
+            'customer_id' => $customer->id,
             'order_type' => 'web',
             'payment_method' => $request->payment_method,
             'payment_status' => 'unpaid',
@@ -65,31 +62,53 @@ class OrderController extends Controller
             'total' => $request->grand_total,
         ]);
 
-
         foreach ($cartData as $item) {
+
             $productId = $item['product_id'];
             $variationId = $item['variation_id'];
             $qty = $item['qty'];
 
-            // Fetch Product Info
+            // Fetch Product
             $product = Product::find($productId);
-            if (!$product) continue;
+
+            if (!$product) {
+                continue;
+            }
 
             $price = $product->price;
             $variantName = null;
 
-            // Fetch Variation Info if exists
+            // Fetch Variation if exists
             if ($variationId) {
-                $variation = ProductVariation::with(['attribute', 'attributeValue'])->find($variationId);
+
+                $variation = ProductVariation::with([
+                    'attribute',
+                    'attributeValue'
+                ])->find($variationId);
+
                 if ($variation) {
-                    $price = $variation->price; // Use variation price
-                    $variantName = $variation->attribute->name . ' - ' . $variation->attributeValue->value;
+
+                    $price = $variation->price;
+
+                    $variantName = $variation->attribute->name . ' - ' .
+                        $variation->attributeValue->value;
+
+                    // ==========================================
+                    // Minus variation stock according to order qty
+                    // ==========================================
+                    $variation->decrement('stock', $qty);
                 }
+            } else {
+
+                // ==========================================
+                // Minus product stock according to order qty
+                // ==========================================
+                $product->decrement('stock', $qty);
             }
 
             $totalPrice = $price * $qty;
 
-            // 3. Insert into OrderDetails
+            // Insert into OrderDetails
             OrderDetails::create([
                 'order_id'     => $order->id,
                 'product_id'   => $productId,
@@ -101,7 +120,7 @@ class OrderController extends Controller
             ]);
         }
 
-        // 4. Clear the cart session after successful order
+        // Clear cart after successful order
         CartService::clear();
 
         $data = [
@@ -111,7 +130,9 @@ class OrderController extends Controller
 
         OrderConfirmationJob::dispatch($data)->delay(5);
 
-        return redirect()->route('index')->with('success', 'Order placed successfully!');
+        return redirect()
+            ->route('index')
+            ->with('success', 'Order placed successfully!');
     }
 
     // private function generateInvoiceNumber()

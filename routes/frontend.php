@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\InformationController;
@@ -58,7 +59,7 @@ Route::controller(OrderController::class)->group(function () {
 Route::controller(ReviewController::class)->group(function () {
     Route::post('/review/store', 'store')->name('review.store');
     Route::get('/product/{productId}/reviews', 'productReviews')
-    ->name('product.reviews');
+        ->name('product.reviews');
 });
 
 
@@ -74,6 +75,15 @@ Route::controller(InformationController::class)->group(function () {
 Route::controller(OrderTrackingController::class)->group(function () {
     Route::get('/order/tracking', 'tracking')->name('order.tracking');
 });
+
+//Blog Controller
+Route::controller(BlogController::class)->group(function () {
+    Route::get('/blog', 'index')->name('blog');
+    Route::get('/single/blog/{slug}', 'detail')->name('blog.detail'); 
+    Route::get('/blog/category/{slug}', 'category_blogs')->name('blog.category');
+    Route::get('/blog/search', 'search')->name('blog.search');
+});
+
 
 Route::controller(LandingController::class)->group(function () {
     Route::get('/{slug}', 'landing')->name('landing');

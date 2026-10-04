@@ -280,6 +280,8 @@
                         </li>
                     </ul>
                 </li>
+
+
                 <li class="nav-main-heading">
                     </i> Promotion management
                 </li>
@@ -292,7 +294,8 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.todaysDeal.*') ? 'open' : (request()->routeIs('admin.coupon.*') ? 'open' : '')) }}">
+                <li
+                    class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.todaysDeal.*') ? 'open' : (request()->routeIs('admin.coupon.*') ? 'open' : '')) }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
                         <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
@@ -320,6 +323,71 @@
                                 href="{{ route('admin.featuredProduct.index') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-id-badge me-2"></i> Featured Product
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-main-item {{ request()->routeIs('admin.campaign.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fa-solid fa-rocket"></i>
+                        <span class="nav-main-link-name">Campaign Setup</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.campaign.product') ? 'active' : '' }}"
+                                href="{{ route('admin.campaign.product') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-cart-shopping me-2"></i> Product
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.campaign.index') ? 'active' : '' }}"
+                                href="{{ route('admin.campaign.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fa-solid fa-fire me-2"></i> Campaign
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link {{ request()->routeIs('admin.sms.index') ? 'active' : '' }}"
+                        href="{{ route('admin.sms.index') }}">
+                        <span class="nav-main-link-name">
+                            <i class="fa-solid fa-comment-sms me-2"></i>
+                            SMS Campaign
+                        </span>
+                    </a>
+                </li>
+
+
+                <li class="nav-main-heading">
+                    </i> Blog management
+                </li>
+                <li class="nav-main-item {{ request()->routeIs('admin.blog.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
+                        <span class="nav-main-link-name">Blog Management</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.blog.category') ? 'active' : '' }}"
+                                href="{{ route('admin.blog.category') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-layer-group me-2"></i> Blog Categories
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.blog.index') ? 'active' : '' }}"
+                                href="{{ route('admin.blog.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-blog me-2"></i> Blogs
                                 </span>
                             </a>
                         </li>
@@ -445,8 +513,7 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link"
-                                href="#">
+                            <a class="nav-main-link" href="#">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-circle-plus me-2"></i> Meta Settings
                                 </span>
