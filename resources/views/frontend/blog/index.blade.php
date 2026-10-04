@@ -28,7 +28,7 @@
             <div class="col-xl-9">
                 <div class="max-width-1100-wd">
                     <div class="row">
-                        @foreach ($blogs as $blog)
+                        @forelse ($blogs as $blog)
                             <div class="col-lg-4">
                                 <article class="card mb-13 border-0">
 
@@ -57,7 +57,12 @@
                                     </div>
                                 </article>
                             </div>
-                        @endforeach
+                        @empty  
+                            <div class="no-product-found mx-auto text-center" style="max-width: 400px;">
+                                <h3 class="fw-bold text-dark">Oops! No Blog Found</h3>
+                                <p class="text-muted">Sorry, we couldn't find any blogs</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
