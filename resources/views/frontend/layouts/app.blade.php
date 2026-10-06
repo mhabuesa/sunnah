@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Mirrored from transvelo.github.io/electro-html/2.0/html/home/home-v4.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Sep 2023 09:21:20 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-
 <head>
     <!-- Title -->
     <title>@yield('title', 'App') | {{ config('app.name', 'Dev Hunter') }}</title>
@@ -35,22 +30,22 @@
         rel="stylesheet">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/css/font-electro.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/font-electro.css">
 
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/vendor/animate.css/animate.min.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/vendor/hs-megamenu/src/hs.megamenu.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/animate.css/animate.min.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/hs-megamenu/src/hs.megamenu.css">
     <link rel="stylesheet"
-        href="{{ asset('frontend') }}/temp/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/vendor/fancybox/jquery.fancybox.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/vendor/slick-carousel/slick/slick.css">
+        href="{{ asset('frontend') }}/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/fancybox/jquery.fancybox.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/slick-carousel/slick/slick.css">
     <link rel="stylesheet"
-        href="{{ asset('frontend') }}/temp/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+        href="{{ asset('frontend') }}/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- CSS Electro Template -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/css/theme.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/theme.css">
 
     <!-- Notyf CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
@@ -174,37 +169,37 @@
     <!-- End Go to Top -->
 
     <!-- JS Global Compulsory -->
-    <script src="{{ asset('frontend') }}/temp/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/popper.js/dist/umd/popper.min.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/bootstrap/bootstrap.min.js"></script>
 
     <!-- JS Implementing Plugins -->
-    <script src="{{ asset('frontend') }}/temp/vendor/appear.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/jquery.countdown.min.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/hs-megamenu/src/hs.megamenu.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
+    <script src="{{ asset('frontend') }}/assets/vendor/appear.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/jquery.countdown.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
     </script>
-    <script src="{{ asset('frontend') }}/temp/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/fancybox/jquery.fancybox.min.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/slick-carousel/slick/slick.js"></script>
-    <script src="{{ asset('frontend') }}/temp/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/slick-carousel/slick/slick.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
     <!-- JS Electro -->
-    <script src="{{ asset('frontend') }}/temp/js/hs.core.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.countdown.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.header.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.hamburgers.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.unfold.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.focus-state.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.malihu-scrollbar.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.validation.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.fancybox.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.onscroll-animation.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.slick-carousel.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.show-animation.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.go-to.js"></script>
-    <script src="{{ asset('frontend') }}/temp/js/components/hs.selectpicker.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/hs.core.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.countdown.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.header.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.hamburgers.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.unfold.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.focus-state.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.malihu-scrollbar.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.validation.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.fancybox.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.onscroll-animation.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.slick-carousel.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.show-animation.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.go-to.js"></script>
+    <script src="{{ asset('frontend') }}/assets/js/components/hs.selectpicker.js"></script>
 
     {{-- Notyf --}}
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
@@ -327,18 +322,6 @@
                 },
                 afterClose: function() {
                     $('#headerSidebarList .collapse.show').collapse('hide');
-                }
-            });
-
-            $('#headerSidebarList [data-toggle="collapse"]').on('click', function(e) {
-                e.preventDefault();
-
-                var target = $(this).data('target');
-
-                if ($(this).attr('aria-expanded') === "true") {
-                    $(target).collapse('hide');
-                } else {
-                    $(target).collapse('show');
                 }
             });
 

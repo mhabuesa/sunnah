@@ -26,7 +26,7 @@
             background: rgb(13, 49, 35) !important;
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp2/vendor/ion-rangeslider/css/ion.rangeSlider.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/ion-rangeslider/css/ion.rangeSlider.css">
 @endpush
 @section('content')
 
@@ -291,7 +291,7 @@
 
 @push('footer_script')
     <!-- Range Slider js -->
-    <script src="{{ asset('frontend') }}/temp/vendor/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="{{ asset('frontend') }}/assets/vendor/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 
     {{-- <script>
         let filters = {

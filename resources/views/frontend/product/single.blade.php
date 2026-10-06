@@ -369,37 +369,37 @@
 
 @push('footer_script')
     <!-- JS Implementing Plugins -->
-    <script src="{{ asset('frontend/temp') }}/vendor/appear.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/jquery.countdown.min.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/hs-megamenu/src/hs.megamenu.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/svg-injector/dist/svg-injector.min.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
+    <script src="{{ asset('frontend/assets') }}/vendor/appear.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/jquery.countdown.min.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/svg-injector/dist/svg-injector.min.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
     </script>
-    <script src="{{ asset('frontend/temp') }}/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/fancybox/jquery.fancybox.min.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/typed.js/lib/typed.min.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/slick-carousel/slick/slick.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/appear.js"></script>
-    <script src="{{ asset('frontend/temp') }}/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/fancybox/jquery.fancybox.min.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/typed.js/lib/typed.min.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/slick-carousel/slick/slick.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/appear.js"></script>
+    <script src="{{ asset('frontend/assets') }}/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
 
     <!-- JS Electro -->
-    <script src="{{ asset('frontend/temp') }}/js/hs.core.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.countdown.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.header.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.hamburgers.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.unfold.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.focus-state.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.malihu-scrollbar.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.validation.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.fancybox.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.onscroll-animation.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.slick-carousel.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.quantity-counter.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.show-animation.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.svg-injector.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.scroll-nav.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.go-to.js"></script>
-    <script src="{{ asset('frontend/temp') }}/js/components/hs.selectpicker.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/hs.core.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.countdown.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.header.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.hamburgers.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.unfold.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.focus-state.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.malihu-scrollbar.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.validation.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.fancybox.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.onscroll-animation.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.slick-carousel.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.quantity-counter.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.show-animation.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.svg-injector.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.scroll-nav.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.go-to.js"></script>
+    <script src="{{ asset('frontend/assets') }}/js/components/hs.selectpicker.js"></script>
 
     <!-- JS Plugins Init. -->
     <script>

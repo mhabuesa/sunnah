@@ -183,23 +183,23 @@
                     All rights Reserved</div>
                 <div class="text-md-right">
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/temp/img/100X60/img1.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img1.jpg"
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/temp/img/100X60/img2.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img2.jpg"
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/temp/img/100X60/img3.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img3.jpg"
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/temp/img/100X60/img4.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img4.jpg"
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/temp/img/100X60/img5.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img5.jpg"
                             alt="Image Description">
                     </span>
                 </div>

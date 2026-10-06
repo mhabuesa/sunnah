@@ -3,7 +3,7 @@
 @section('title', 'Track Your Order')
 
 @push('header_script')
-    <link rel="stylesheet" href="{{ asset('frontend') }}/temp/custom/style.css">
+    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/custom/style.css">
 @endpush
 
 @section('content')
