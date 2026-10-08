@@ -80,12 +80,10 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
             padding: 20px 24px;
             max-height: 420px;
-            /* যতটুকু height চান */
             overflow-y: auto;
             overflow-x: hidden;
         }
 
-        /* কাস্টম স্লিম scrollbar (optional, সুন্দর দেখানোর জন্য) */
         .vertical-menu .hs-mega-menu::-webkit-scrollbar,
         .vertical-menu .hs-sub-menu::-webkit-scrollbar {
             width: 5px;
@@ -96,8 +94,6 @@
             background: #ccc;
             border-radius: 10px;
         }
-
-        /* মেগা-মেনুর ভেতরের ব্যাকগ্রাউন্ড ইমেজ (vmm-bg) যেন কলামের সাথে ওভারল্যাপ না করে */
         .vertical-menu .vmm-tfw {
             position: relative;
         }
@@ -116,7 +112,6 @@
             z-index: 1;
         }
 
-        /* মূল ভার্টিকাল মেনু লিস্ট নিজে scroll পাবে (আগের সমস্যা) */
         #basicsCollapseOne .navbar-nav.u-header__navbar-nav {
             max-height: 420px;
             overflow-y: auto;
@@ -344,8 +339,6 @@
                 let data = form.serialize();
                 let submitBtn = form.find('button[type="submit"]');
                 let errorDiv = $('#signupError');
-
-                // রিসেট এরর এবং বাটন ডিজেবল
                 errorDiv.addClass('d-none').html('');
                 submitBtn.prop('disabled', true).text('Creating Account...');
 
@@ -355,7 +348,6 @@
                     data: data,
                     success: function(res) {
                         if (res.status) {
-                            // সাকসেস হলে রিডাইরেক্ট করবে, সেখানে সেশন মেসেজ শো করবে
                             window.location.href = res.redirect;
                         }
                     },
@@ -402,7 +394,7 @@
     </script>
 
     <script>
-        // কুকি সেট করার হেল্পার ফাংশন
+
         function setCookie(name, value, days) {
             var expires = "";
             if (days) {
@@ -413,7 +405,7 @@
             document.cookie = name + "=" + (value || "") + expires + "; path=/";
         }
 
-        // কুকি পড়ার হেল্পার ফাংশন
+
         function getCookie(name) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
@@ -426,7 +418,6 @@
         }
 
         $(document).ready(function() {
-            // --- পেজ লোড হওয়ার সময় কুকি চেক করে ফিল্ড অটো-ফিল করা ---
             let rememberedPhone = getCookie("remember_phone");
             let rememberedPass = getCookie("remember_pass");
 
@@ -436,7 +427,6 @@
                 $('input[name="remember"]').prop('checked', true);
             }
 
-            // --- লগইন সাবমিট হ্যান্ডলিং ---
             $('#login').submit(function(e) {
                 e.preventDefault();
 
@@ -444,7 +434,6 @@
                 let data = form.serialize();
                 let submitBtn = form.find('button[type="submit"]');
 
-                // ফোন এবং পাসওয়ার্ড ভ্যালু সংগ্রহ (কুকি সেভ করার জন্য)
                 let phoneVal = form.find('input[name="phone"]').val();
                 let passVal = form.find('input[name="password"]').val();
                 let isRememberChecked = form.find('input[name="remember"]').is(':checked');
@@ -458,12 +447,10 @@
                     data: data,
                     success: function(res) {
                         if (res.status) {
-                            // সাকসেস হলে কুকি ম্যানেজমেন্ট
                             if (isRememberChecked) {
-                                setCookie("remember_phone", phoneVal, 30); // ৩০ দিন
+                                setCookie("remember_phone", phoneVal, 30); 
                                 setCookie("remember_pass", passVal, 30);
                             } else {
-                                // চেক না করা থাকলে পুরনো কুকি মুছে ফেলবে
                                 setCookie("remember_phone", "", -1);
                                 setCookie("remember_pass", "", -1);
                             }
@@ -506,7 +493,7 @@
                     submenu.style.position = 'fixed';
                     submenu.style.top = 200. top + 'px';
                     submenu.style.left = rect.right +
-                        'px'; // ডানদিকে খুলবে (data-position="left" হলে left বদলে দিন)
+                        'px';
                     submenu.style.display = 'block';
                     submenu.style.zIndex = 9999;
                 });

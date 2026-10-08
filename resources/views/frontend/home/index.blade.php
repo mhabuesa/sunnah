@@ -2,16 +2,146 @@
 @section('title', 'Home Page')
 @section('content')
     <!-- Banner Section -->
-    @if ($mainBanner)
+        @if ($mainBanner)
         <div class="container">
-            <div class="mb-4">
+            {{-- <div class="col-xl pr-xl-2 mb-4 mb-xl-0">
+                <div class="bg-img-hero mr-xl-1 height-410-xl  overflow-hidden"
+                    style="background-image: url({{asset('frontend')}}/assets/img/1920X422/img1.jpg);">
+                    <div class="js-slick-carousel u-slick" data-autoplay="true" data-speed="7000"
+                        data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--long justify-content-start ml-9 mb-3 mb-md-5">
+                        <div class="js-slide bg-img-hero-center">
+                            <div class="row height-410-xl py-7 py-md-0 mx-0">
+                                <div class="d-none d-wd-block offset-1"></div>
+                                <div class="col-xl col-6 col-md-6 mt-md-8">
+                                    <h1 class="font-size-64 text-lh-57 font-weight-light" data-scs-animation-in="fadeInUp">
+                                        THE NEW <span class="d-block font-size-55">STANDARD</span>
+                                    </h1>
+                                    <h6 class="font-size-15 font-weight-bold mb-3" data-scs-animation-in="fadeInUp"
+                                        data-scs-animation-delay="200">UNDER FAVORABLE SMARTWATCHES
+                                    </h6>
+                                    <div class="mb-4" data-scs-animation-in="fadeInUp" data-scs-animation-delay="300">
+                                        <span class="font-size-13">FROM</span>
+                                        <div class="font-size-50 font-weight-bold text-lh-45">
+                                            <sup class="">$</sup>749<sup class="">99</sup>
+                                        </div>
+                                    </div>
+                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
+                                        class="btn btn-primary transition-3d-hover rounded-lg font-weight-normal py-2 px-md-7 px-3 font-size-16"
+                                        data-scs-animation-in="fadeInUp" data-scs-animation-delay="400">
+                                        Start Buying
+                                    </a>
+                                </div>
+                                <div class="col-xl-7 col-6 d-flex align-items-center ml-auto ml-md-0"
+                                    data-scs-animation-in="zoomIn" data-scs-animation-delay="500">
+                                    <img class="img-fluid" src="{{asset('frontend')}}/assets/img/500X380/img1.png" alt="Image Description">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="js-slide bg-img-hero-center">
+                            <div class="row height-410-xl py-7 py-md-0 mx-0">
+                                <div class="d-none d-wd-block offset-1"></div>
+                                <div class="col-xl col-6 col-md-6 mt-md-8">
+                                    <h1 class="font-size-64 text-lh-57 font-weight-light"
+                                        data-scs-animation-in="slideInLeft">
+                                        THE NEW <span class="d-block font-size-55">STANDARD</span>
+                                    </h1>
+                                    <h6 class="font-size-15 font-weight-bold mb-3" data-scs-animation-in="slideInLeft"
+                                        data-scs-animation-delay="200">UNDER FAVORABLE SMARTWATCHES
+                                    </h6>
+                                    <div class="mb-4" data-scs-animation-in="slideInLeft" data-scs-animation-delay="400">
+                                        <span class="font-size-13">FROM</span>
+                                        <div class="font-size-50 font-weight-bold text-lh-45">
+                                            <sup class="">$</sup>749<sup class="">99</sup>
+                                        </div>
+                                    </div>
+                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
+                                        class="btn btn-primary transition-3d-hover rounded-lg font-weight-normal py-2 px-md-7 px-3 font-size-16"
+                                        data-scs-animation-in="fadeInUp" data-scs-animation-delay="400">
+                                        Start Buying
+                                    </a>
+                                </div>
+                                <div class="col-xl-7 col-6 d-flex align-items-center ml-auto ml-md-0"
+                                    data-scs-animation-in="slideInRight" data-scs-animation-delay="800">
+                                    <img class="img-fluid" src="{{asset('frontend')}}/assets/img/500X380/img2.png" alt="Image Description">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="js-slide bg-img-hero-center">
+                            <div class="row height-410-xl py-7 py-md-0 mx-0">
+                                <div class="d-none d-wd-block offset-1"></div>
+                                <div class="col-xl col-6 col-md-6 mt-md-8">
+                                    <h1 class="font-size-64 text-lh-57 font-weight-light" data-scs-animation-in="fadeInUp">
+                                        THE NEW <span class="d-block font-size-55">STANDARD</span>
+                                    </h1>
+                                    <h6 class="font-size-15 font-weight-bold mb-3" data-scs-animation-in="fadeInUp"
+                                        data-scs-animation-delay="200">UNDER FAVORABLE SMARTWATCHES
+                                    </h6>
+                                    <div class="mb-4" data-scs-animation-in="fadeInUp" data-scs-animation-delay="300">
+                                        <span class="font-size-13">FROM</span>
+                                        <div class="font-size-50 font-weight-bold text-lh-45">
+                                            <sup class="">$</sup>749<sup class="">99</sup>
+                                        </div>
+                                    </div>
+                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
+                                        class="btn btn-primary transition-3d-hover rounded-lg font-weight-normal py-2 px-md-7 px-3 font-size-16"
+                                        data-scs-animation-in="fadeInUp" data-scs-animation-delay="400">
+                                        Start Buying
+                                    </a>
+                                </div>
+                                <div class="col-xl-7 col-6 d-flex align-items-center ml-auto ml-md-0"
+                                    data-scs-animation-in="zoomIn" data-scs-animation-delay="500">
+                                    <img class="img-fluid" src="{{asset('frontend')}}/assets/img/500X380/img3.png" alt="Image Description">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+            {{-- <div class="mb-4">
                 <div class="banner-section">
                     <a href="{{ $mainBanner->url }}">
                         <img src="{{ asset($mainBanner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
                             loading="eager" fetchpriority="high" decoding="async">
                     </a>
                 </div>
+            </div> --}}
+
+            <div class="col-xl pr-xl-2 mb-4 mb-xl-0">
+                <div class="bg-img-hero mr-xl-1 height-410-xl overflow-hidden">
+
+                    <div class="js-slick-carousel u-slick" data-autoplay="true" data-speed="7000" data-arrows="true"
+                        data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--long justify-content-center mb-3">
+
+
+                        <div class="js-slide bg-img-hero-center">
+                            <a href="{{ $mainBanner->url ?? '#' }}">
+                                <img src="{{ asset($mainBanner->image) }}" alt="Banner"
+                                    class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
+                                    decoding="async">
+                            </a>
+                        </div>
+                        <div class="js-slide bg-img-hero-center">
+                            <a href="{{ $mainBanner->url ?? '#' }}">
+                                <img src="{{ asset($mainBanner->image) }}" alt="Banner"
+                                    class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
+                                    decoding="async">
+                            </a>
+                        </div>
+                        <div class="js-slide bg-img-hero-center">
+                            <a href="{{ $mainBanner->url ?? '#' }}">
+                                <img src="{{ asset($mainBanner->image) }}" alt="Banner"
+                                    class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
+                                    decoding="async">
+                            </a>
+                        </div>
+
+
+                    </div>
+
+                </div>
             </div>
+
+
         </div>
     @endif
 
