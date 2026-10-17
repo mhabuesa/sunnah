@@ -21,7 +21,6 @@ class BannerController extends Controller
     {
         $request->validate([
             'banner_type' => 'required',
-            'banner_url'  => 'required|url',
             'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

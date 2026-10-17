@@ -1,180 +1,426 @@
 @extends('frontend.layouts.app')
 @section('title', 'Home Page')
+@push('header_script')
+    <style>
+        .banner-image {
+            display: block;
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+        }
+        .banner-carousel-container {
+            position: relative;
+        }
+
+        .u-slick__arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .u-slick__arrow:hover {
+            background: #ffffff;
+            color: #000;
+        }
+
+        .u-slick__arrow-media-left {
+            left: 20px;
+        }
+
+        .u-slick__arrow-media-right {
+            right: 20px;
+        }
+
+        .u-slick__pagination {
+            z-index: 5;
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .u-slick__pagination li {
+            margin: 0 4px;
+        }
+
+        .u-slick__pagination li span {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            text-indent: -9999px;
+            cursor: pointer;
+        }
+
+        .u-slick__pagination li.slick-active span {
+            width: 35px;
+            border-radius: 5px;
+        }
+
+        /* New Promo Section Styles */
+        .home-promo-section {
+            padding-top: 20px;
+        }
+        .promo-card-main {
+            background-color: #fdfbf7;
+            border: 1px solid #efebe4;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .promo-card-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            background-color: #fffcf5;
+        }
+        .promo-card-main .promo-content h6 {
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+        .promo-card-main .promo-content p {
+            color: #7f8c8d;
+            line-height: 1.2;
+        }
+        .promo-card-mini {
+            background-color: #fdfbf7;
+            border: 1px solid #efebe4;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .promo-card-mini:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            background-color: #fffcf5;
+        }
+        .promo-card-mini .promo-content h6 {
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+        .promo-card-mini .promo-content p {
+            color: #7f8c8d;
+            line-height: 1.1;
+        }
+
+        /* Fixed Category Section Styles */
+        .home-category-slider {
+            background-color: #ffffff;
+            border: 1px solid #efebe4;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .home-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #fdfbf7;
+            padding-bottom: 10px;
+        }
+        .home-category-header h3 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 0;
+            position: relative;
+        }
+        .home-category-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #1a5d1a; /* Dark Green underline */
+            border-radius: 2px;
+        }
+        .category-carousel {
+            padding: 10px 0;
+        }
+        .category-item {
+            display: block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            color: inherit;
+            outline: none;
+        }
+        .category-img-wrapper {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+            background: #fdfbf7;
+            border: 1px solid #efebe4;
+        }
+        .category-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .category-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5568;
+            line-height: 1.2;
+            text-align: center;
+        }
+        .category-item:hover {
+            transform: translateY(-3px);
+        }
+        .category-item:hover .category-img-wrapper img {
+            transform: scale(1.1);
+        }
+        .category-item:hover .category-name {
+            color: #1a5d1a;
+        }
+
+        @media (max-width: 576px) {
+            .category-img-wrapper {
+                width: 40px;
+                height: 40px;
+            }
+            .category-name {
+                font-size: 11px;
+            }
+            .home-category-slider {
+                padding: 15px 10px;
+            }
+        }
+    </style>
+    </style>
+@endpush
 @section('content')
     <!-- Banner Section -->
-        @if ($mainBanner)
-        <div class="container">
-            {{-- <div class="col-xl pr-xl-2 mb-4 mb-xl-0">
-                <div class="bg-img-hero mr-xl-1 height-410-xl  overflow-hidden"
-                    style="background-image: url({{asset('frontend')}}/assets/img/1920X422/img1.jpg);">
-                    <div class="js-slick-carousel u-slick" data-autoplay="true" data-speed="7000"
-                        data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--long justify-content-start ml-9 mb-3 mb-md-5">
-                        <div class="js-slide bg-img-hero-center">
-                            <div class="row height-410-xl py-7 py-md-0 mx-0">
-                                <div class="d-none d-wd-block offset-1"></div>
-                                <div class="col-xl col-6 col-md-6 mt-md-8">
-                                    <h1 class="font-size-64 text-lh-57 font-weight-light" data-scs-animation-in="fadeInUp">
-                                        THE NEW <span class="d-block font-size-55">STANDARD</span>
-                                    </h1>
-                                    <h6 class="font-size-15 font-weight-bold mb-3" data-scs-animation-in="fadeInUp"
-                                        data-scs-animation-delay="200">UNDER FAVORABLE SMARTWATCHES
-                                    </h6>
-                                    <div class="mb-4" data-scs-animation-in="fadeInUp" data-scs-animation-delay="300">
-                                        <span class="font-size-13">FROM</span>
-                                        <div class="font-size-50 font-weight-bold text-lh-45">
-                                            <sup class="">$</sup>749<sup class="">99</sup>
-                                        </div>
-                                    </div>
-                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                        class="btn btn-primary transition-3d-hover rounded-lg font-weight-normal py-2 px-md-7 px-3 font-size-16"
-                                        data-scs-animation-in="fadeInUp" data-scs-animation-delay="400">
-                                        Start Buying
-                                    </a>
-                                </div>
-                                <div class="col-xl-7 col-6 d-flex align-items-center ml-auto ml-md-0"
-                                    data-scs-animation-in="zoomIn" data-scs-animation-delay="500">
-                                    <img class="img-fluid" src="{{asset('frontend')}}/assets/img/500X380/img1.png" alt="Image Description">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="js-slide bg-img-hero-center">
-                            <div class="row height-410-xl py-7 py-md-0 mx-0">
-                                <div class="d-none d-wd-block offset-1"></div>
-                                <div class="col-xl col-6 col-md-6 mt-md-8">
-                                    <h1 class="font-size-64 text-lh-57 font-weight-light"
-                                        data-scs-animation-in="slideInLeft">
-                                        THE NEW <span class="d-block font-size-55">STANDARD</span>
-                                    </h1>
-                                    <h6 class="font-size-15 font-weight-bold mb-3" data-scs-animation-in="slideInLeft"
-                                        data-scs-animation-delay="200">UNDER FAVORABLE SMARTWATCHES
-                                    </h6>
-                                    <div class="mb-4" data-scs-animation-in="slideInLeft" data-scs-animation-delay="400">
-                                        <span class="font-size-13">FROM</span>
-                                        <div class="font-size-50 font-weight-bold text-lh-45">
-                                            <sup class="">$</sup>749<sup class="">99</sup>
-                                        </div>
-                                    </div>
-                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                        class="btn btn-primary transition-3d-hover rounded-lg font-weight-normal py-2 px-md-7 px-3 font-size-16"
-                                        data-scs-animation-in="fadeInUp" data-scs-animation-delay="400">
-                                        Start Buying
-                                    </a>
-                                </div>
-                                <div class="col-xl-7 col-6 d-flex align-items-center ml-auto ml-md-0"
-                                    data-scs-animation-in="slideInRight" data-scs-animation-delay="800">
-                                    <img class="img-fluid" src="{{asset('frontend')}}/assets/img/500X380/img2.png" alt="Image Description">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="js-slide bg-img-hero-center">
-                            <div class="row height-410-xl py-7 py-md-0 mx-0">
-                                <div class="d-none d-wd-block offset-1"></div>
-                                <div class="col-xl col-6 col-md-6 mt-md-8">
-                                    <h1 class="font-size-64 text-lh-57 font-weight-light" data-scs-animation-in="fadeInUp">
-                                        THE NEW <span class="d-block font-size-55">STANDARD</span>
-                                    </h1>
-                                    <h6 class="font-size-15 font-weight-bold mb-3" data-scs-animation-in="fadeInUp"
-                                        data-scs-animation-delay="200">UNDER FAVORABLE SMARTWATCHES
-                                    </h6>
-                                    <div class="mb-4" data-scs-animation-in="fadeInUp" data-scs-animation-delay="300">
-                                        <span class="font-size-13">FROM</span>
-                                        <div class="font-size-50 font-weight-bold text-lh-45">
-                                            <sup class="">$</sup>749<sup class="">99</sup>
-                                        </div>
-                                    </div>
-                                    <a href="https://transvelo.github.io/electro-html/2.0/html/shop/single-product-fullwidth.html"
-                                        class="btn btn-primary transition-3d-hover rounded-lg font-weight-normal py-2 px-md-7 px-3 font-size-16"
-                                        data-scs-animation-in="fadeInUp" data-scs-animation-delay="400">
-                                        Start Buying
-                                    </a>
-                                </div>
-                                <div class="col-xl-7 col-6 d-flex align-items-center ml-auto ml-md-0"
-                                    data-scs-animation-in="zoomIn" data-scs-animation-delay="500">
-                                    <img class="img-fluid" src="{{asset('frontend')}}/assets/img/500X380/img3.png" alt="Image Description">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-            {{-- <div class="mb-4">
-                <div class="banner-section">
-                    <a href="{{ $mainBanner->url }}">
-                        <img src="{{ asset($mainBanner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
-                            loading="eager" fetchpriority="high" decoding="async">
-                    </a>
-                </div>
-            </div> --}}
-
-            <div class="col-xl pr-xl-2 mb-4 mb-xl-0">
-                <div class="bg-img-hero mr-xl-1 height-410-xl overflow-hidden">
+    @if (isset($mainBanners) && $mainBanners->count() > 0)
+        <div class="container mb-4">
+            <div class="col-xl-12 px-0">
+                <div class="banner-carousel-container overflow-hidden position-relative rounded">
 
                     <div class="js-slick-carousel u-slick" data-autoplay="true" data-speed="7000" data-arrows="true"
-                        data-pagi-classes="text-center position-absolute right-0 bottom-0 left-0 u-slick__pagination u-slick__pagination--long justify-content-center mb-3">
+                        data-dots="true"
+                        data-arrow-left-classes="ec ec-arrow-left u-slick__arrow u-slick__arrow-media-left font-size-20"
+                        data-arrow-right-classes="ec ec-arrow-right u-slick__arrow u-slick__arrow-media-right font-size-20"
+                        data-pagi-classes="text-center u-slick__pagination u-slick__pagination--long">
 
-
-                        <div class="js-slide bg-img-hero-center">
-                            <a href="{{ $mainBanner->url ?? '#' }}">
-                                <img src="{{ asset($mainBanner->image) }}" alt="Banner"
-                                    class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
-                                    decoding="async">
-                            </a>
-                        </div>
-                        <div class="js-slide bg-img-hero-center">
-                            <a href="{{ $mainBanner->url ?? '#' }}">
-                                <img src="{{ asset($mainBanner->image) }}" alt="Banner"
-                                    class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
-                                    decoding="async">
-                            </a>
-                        </div>
-                        <div class="js-slide bg-img-hero-center">
-                            <a href="{{ $mainBanner->url ?? '#' }}">
-                                <img src="{{ asset($mainBanner->image) }}" alt="Banner"
-                                    class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
-                                    decoding="async">
-                            </a>
-                        </div>
-
+                        @foreach ($mainBanners as $banner)
+                            <div class="js-slide">
+                                <a href="{{ $banner->url ?? '#' }}">
+                                    <img src="{{ asset($banner->image) }}" alt="Banner"
+                                        class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
+                                        decoding="async">
+                                </a>
+                            </div>
+                        @endforeach
 
                     </div>
 
                 </div>
             </div>
-
-
         </div>
     @endif
 
-    {{-- <div class="container category-wrapper d-none d-xl-block mb-4">
-        <div class="category-box">
-
-            <div class="row g-0">
-
-                @foreach ($categories as $category)
-                    <div class="col">
-                        <a href="#" class="category-item">
-                            <div class="category-icon">
-                                <img src="{{ asset($category->logo) }}" alt="Food" loading="lazy" decoding="async"
-                                    width="40" height="40">
+    <!-- Promotional Sections -->
+    <div class="home-promo-section container mb-5">
+        <!-- Main Offer Cards -->
+        <div class="home-main-offers row g-3 mb-4">
+            @if($promoMainBanners->count() > 0)
+                @foreach($promoMainBanners as $promo)
+                    <div class="col-xl-3 col-md-6">
+                        <a href="{{ $promo->url ?? '#' }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                            <div class="promo-icon-wrapper me-3">
+                                <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                             </div>
-                            <span>{{ $category->name }}</span>
+                            <div class="promo-content">
+                                <h6 class="mb-1 text-gray-90 font-weight-bold">{{ $promo->title ?? 'Special Offer' }}</h6>
+                                <p class="mb-0 text-gray-50 font-size-12">{{ $promo->subtitle ?? 'Discover our exclusive deals' }}</p>
+                            </div>
                         </a>
                     </div>
                 @endforeach
-
-                <div class="col">
-                    <a href="#" class="category-item category-view-all">
-                        <div class="category-icon view-all">
-                            →
+            @else
+                <!-- Placeholder Main Offers -->
+                <div class="col-xl-3 col-md-6">
+                    <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                        <div class="promo-icon-wrapper me-3">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Shopping" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                         </div>
-                        <span class="text-center">View All Categories</span>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold">Sunnah Shopping</h6>
+                            <p class="mb-0 text-gray-50 font-size-12">Everyday Essentials for a Sunnah-Inspired Life.</p>
+                        </div>
                     </a>
                 </div>
-
-            </div>
-
+                <div class="col-xl-3 col-md-6">
+                    <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                        <div class="promo-icon-wrapper me-3">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Gift" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold">Eid-e-Miladunnabi Gift Offers</h6>
+                            <p class="mb-0 text-gray-50 font-size-12">Thoughtful Gifts for Your Loved Ones.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                        <div class="promo-icon-wrapper me-3">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Lantern" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold">Ayyamullah Offers</h6>
+                            <p class="mb-0 text-gray-50 font-size-12">Special Rewards for Special Days.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                        <div class="promo-icon-wrapper me-3">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Premium" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold">Special Gifts & Exclusive Deals</h6>
+                            <p class="mb-0 text-gray-50 font-size-12">Handpicked. Limited. Premium.</p>
+                        </div>
+                    </a>
+                </div>
+            @endif
         </div>
-    </div> --}}
+
+        <!-- Mini Offer Cards -->
+        <div class="home-mini-offers row g-3 mb-5 justify-content-center">
+            @if($promoMiniBanners->count() > 0)
+                @foreach($promoMiniBanners as $promo)
+                    <div class="col-xl-2 col-md-4 col-6">
+                        <a href="{{ $promo->url ?? '#' }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
+                            <div class="mini-icon mb-2">
+                                <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                            </div>
+                            <div class="promo-content">
+                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">{{ $promo->title ?? 'Promo' }}</h6>
+                                <p class="mb-0 text-gray-50 font-size-11">{{ $promo->subtitle ?? 'Seasonal Offer' }}</p>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            @else
+                <!-- Placeholder Mini Offers -->
+                <div class="col-xl-2 col-md-4 col-6">
+                    <a href="{{ route('products') }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
+                        <div class="mini-icon mb-2">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Gift" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">Occasional Gift Card</h6>
+                            <p class="mb-0 text-gray-50 font-size-11">Perfect for Every Celebration.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-2 col-md-4 col-6">
+                    <a href="{{ route('products') }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
+                        <div class="mini-icon mb-2">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Rabiul" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">Rabiul Awwal</h6>
+                            <p class="mb-0 text-gray-50 font-size-11">Special Seasonal Offers.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-2 col-md-4 col-6">
+                    <a href="{{ route('products') }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
+                        <div class="mini-icon mb-2">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Monday" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">Great Monday Gift</h6>
+                            <p class="mb-0 text-gray-50 font-size-11">Special Offers Every Monday.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-2 col-md-4 col-6">
+                    <a href="{{ route('products') }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
+                        <div class="mini-icon mb-2">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Luxury" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">Premium & Luxury</h6>
+                            <p class="mb-0 text-gray-50 font-size-11">Finest Quality. Islamic Elegance.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-2 col-md-4 col-6">
+                    <a href="{{ route('products') }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
+                        <div class="mini-icon mb-2">
+                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Royal" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">Royal & Prestigious</h6>
+                            <p class="mb-0 text-gray-50 font-size-11">For a Life of Barakah & Dignity.</p>
+                        </div>
+                    </a>
+                </div>
+            @endif
+        </div>
+
+        <!-- Category Slider -->
+        <div class="home-category-slider">
+            <div class="home-category-header d-flex justify-content-between align-items-center mb-3">
+                <h3 class="section-title section-title__full mb-0 font-size-22">Shop by Category</h3>
+                <a href="{{ route('products') }}" class="d-block text-gray-16 font-weight-bold text-decoration-none">
+                    View All <i class="ec ec-arrow-right-categproes"></i>
+                </a>
+            </div>
+            <div class="js-slick-carousel u-slick category-carousel"
+                 data-slides-show="10"
+                 data-slides-scroll="1"
+                 data-arrows="true"
+                 data-dots="false"
+                 data-responsive='[
+                    {"breakpoint": 1400, "settings": {"slidesToShow": 8}},
+                    {"breakpoint": 1200, "settings": {"slidesToShow": 6}},
+                    {"breakpoint": 992, "settings": {"slidesToShow": 4}},
+                    {"breakpoint": 768, "settings": {"slidesToShow": 3}},
+                    {"breakpoint": 554, "settings": {"slidesToShow": 5}}
+                 ]'>
+                @foreach($categories as $category)
+                    <div class="js-slide text-center mt-3">
+                        <a href="{{ route('category', $category->slug) }}" class="category-item pt-3">
+                            <div class="category-img-wrapper">
+                                @if($category->logo)
+                                    <img src="{{ asset($category->logo) }}" alt="{{ $category->name }}" loading="lazy">
+                                @else
+                                    <img src="{{ asset('frontend/assets/img/placeholder-category.png') }}" alt="{{ $category->name }}" loading="lazy">
+                                @endif
+                            </div>
+                            <span class="category-name">{{ $category->name }}</span>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <!-- Full banner -->
@@ -195,8 +441,7 @@
                 <div
                     class=" d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
                     <h3 class="section-title section-title__full mb-0 pb-2 font-size-22">Todays Deal</h3>
-                    <a class="d-block text-gray-16"
-                        href="{{ route('todays.deal') }}">Go
+                    <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">Go
                         to Todays Deal
                         <i class="ec ec-arrow-right-categproes"></i></a>
                 </div>

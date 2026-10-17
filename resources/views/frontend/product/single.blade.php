@@ -920,9 +920,7 @@
 
         });
     </script>
-
-
-    Review Rating JS
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.review-stars .star');

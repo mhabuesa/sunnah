@@ -51,7 +51,7 @@
                                         <select name="banner_type" id="banner_type" class="form-control" required>
                                             <option value="">Select Banner Type</option>
                                             <option value="main"
-                                                {{ $banners->where('type', 'main')->count() >= 1 ? 'disabled' : '' }}
+                                                {{ $banners->where('type', 'main')->count() >= 5 ? 'disabled' : '' }}
                                                 data-ratio="1996x920">Main
                                                 Banner</option>
                                             <option value="home_top"
