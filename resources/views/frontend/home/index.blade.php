@@ -89,6 +89,25 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.05);
             background-color: #fffcf5;
         }
+
+        @media (max-width: 576px) {
+            .promo-card-main {
+                padding: 8px !important;
+            }
+            .promo-card-main .promo-icon-wrapper img {
+                width: 34px !important;
+                height: 34px !important;
+            }
+            .promo-card-main .promo-content h6 {
+                font-size: 12px;
+                margin-bottom: 1px;
+            }
+            .promo-card-main .promo-content p {
+                font-size: 10px;
+                line-height: 1.1;
+            }
+        }
+
         .promo-card-main .promo-content h6 {
             color: #2c3e50;
             margin-bottom: 2px;
@@ -242,12 +261,12 @@
     @endif
 
     <!-- Promotional Sections -->
-    <div class="home-promo-section container mb-5">
+    <div class="home-promo-section container mb-5 px-2 px-md-0">
         <!-- Main Offer Cards -->
-        <div class="home-main-offers row g-3 mb-4">
+        <div class="home-main-offers row g-2 g-md-3 mb-4">
             @if($promoMainBanners->count() > 0)
                 @foreach($promoMainBanners as $promo)
-                    <div class="col-xl-3 col-md-6">
+                    <div class="col-6 col-md-6 col-xl-3 pb-2">
                         <a href="{{ $promo->url ?? '#' }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
                             <div class="promo-icon-wrapper me-3">
                                 <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
@@ -261,10 +280,10 @@
                 @endforeach
             @else
                 <!-- Placeholder Main Offers -->
-                <div class="col-xl-3 col-md-6">
+                <div class="col-6 col-md-6 col-xl-3 pb-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                        <div class="promo-icon-wrapper me-3">
-                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Shopping" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="promo-icon-wrapper mr-3">
+                            <img src="{{ asset('frontend') }}/assets/images/bag.png" alt="Shopping" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                         </div>
                         <div class="promo-content">
                             <h6 class="mb-1 text-gray-90 font-weight-bold">Sunnah Shopping</h6>
@@ -272,10 +291,10 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-6 col-md-6 col-xl-3 pb-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                        <div class="promo-icon-wrapper me-3">
-                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Gift" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="promo-icon-wrapper mr-3">
+                            <img src="{{ asset('frontend') }}/assets/images/box.png" alt="Gift" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                         </div>
                         <div class="promo-content">
                             <h6 class="mb-1 text-gray-90 font-weight-bold">Eid-e-Miladunnabi Gift Offers</h6>
@@ -283,10 +302,10 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-6 col-md-6 col-xl-3 pb-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                        <div class="promo-icon-wrapper me-3">
-                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Lantern" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="promo-icon-wrapper mr-3">
+                            <img src="{{ asset('frontend') }}/assets/images/candle.png" alt="Lantern" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                         </div>
                         <div class="promo-content">
                             <h6 class="mb-1 text-gray-90 font-weight-bold">Ayyamullah Offers</h6>
@@ -294,10 +313,10 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-6 col-md-6 col-xl-3 pb-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                        <div class="promo-icon-wrapper me-3">
-                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Premium" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="promo-icon-wrapper mr-3">
+                            <img src="{{ asset('frontend') }}/assets/images/crown.png" alt="Premium" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                         </div>
                         <div class="promo-content">
                             <h6 class="mb-1 text-gray-90 font-weight-bold">Special Gifts & Exclusive Deals</h6>
@@ -329,7 +348,7 @@
                 <div class="col-xl-2 col-md-4 col-6">
                     <a href="{{ route('products') }}" class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
                         <div class="mini-icon mb-2">
-                            <img src="{{ asset('frontend/assets/img/placeholder-icon.png') }}" alt="Gift" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                            <img src="{{ asset('frontend') }}/assets/images/bag.png" alt="Gift" class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                         </div>
                         <div class="promo-content">
                             <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">Occasional Gift Card</h6>
@@ -405,7 +424,7 @@
                     {"breakpoint": 554, "settings": {"slidesToShow": 5}}
                  ]'>
                 @foreach($categories as $category)
-                    <div class="js-slide text-center mt-3">
+                    <div class="js-slide text-center">
                         <a href="{{ route('category', $category->slug) }}" class="category-item pt-3">
                             <div class="category-img-wrapper">
                                 @if($category->logo)
