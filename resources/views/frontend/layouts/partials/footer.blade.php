@@ -124,7 +124,6 @@
 
                         @if ($remainingCategories->isNotEmpty())
                             <div class="col-12 col-md mb-4 mb-md-0 mr-4">
-                                <h6 class="mb-3 font-weight-bold">&nbsp;</h6>
 
                                 <ul
                                     class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
