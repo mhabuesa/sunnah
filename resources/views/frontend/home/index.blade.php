@@ -612,7 +612,7 @@
         <!-- Category products -->
 
         @foreach ($categories as $category)
-            @if ($category->products->count() > 0)
+            @if ($category->activeProducts->isNotEmpty())
                 <div class="mb-6 home-category-slider">
                     <div
                         class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
@@ -645,54 +645,53 @@
                         "breakpoint": 554,
                         "settings": {"slidesToShow": 2}
                     }]'>
-                        @foreach ($category->products as $product)
-                                <div class="js-slide products-group">
-                                    <div class="product-item remove-divider">
-                                        <div class="product-item__outer h-100">
-                                            <div class="product-item__inner px-wd-4 p-2 p-md-3">
-                                                <div class="product-item__body pb-xl-2">
-                                                    <div class="mb-2">
-                                                        <a href="{{ route('product', $product->slug) }}"
-                                                            class="font-size-12 text-gray-5">
-                                                            {{ $product->category->name ?? '' }}
-                                                        </a>
+                        @foreach ($category->activeProducts as $product)
+                            <div class="js-slide products-group">
+                                <div class="product-item remove-divider">
+                                    <div class="product-item__outer h-100">
+                                        <div class="product-item__inner px-wd-4 p-2 p-md-3">
+                                            <div class="product-item__body pb-xl-2">
+                                                <div class="mb-2">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="font-size-12 text-gray-5">
+                                                        {{ $product->category->name ?? '' }}
+                                                    </a>
+                                                </div>
+
+                                                <h5 class="mb-1 product-item__title">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="text-blue font-weight-bold">
+                                                        {{ Str::limit($product->name, 20, '...') }}
+                                                    </a>
+                                                </h5>
+
+                                                <div class="mb-2">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="d-block text-center">
+                                                        <img class="img-fluid" src="{{ asset($product->image) }}"
+                                                            alt="{{ $product->name }}">
+                                                    </a>
+                                                </div>
+
+                                                <div class="flex-center-between mb-1">
+                                                    <div class="prodcut-price">
+                                                        <div class="text-gray-100">
+                                                            ৳{{ productPrice($product->id) }}
+                                                        </div>
                                                     </div>
 
-                                                    <h5 class="mb-1 product-item__title">
+                                                    <div class="d-none d-xl-block prodcut-add-cart">
                                                         <a href="{{ route('product', $product->slug) }}"
-                                                            class="text-blue font-weight-bold">
-                                                            {{ Str::limit($product->name, 20, '...') }}
+                                                            class="btn-add-cart btn-primary transition-3d-hover">
+                                                            <i class="ec ec-add-to-cart"></i>
                                                         </a>
-                                                    </h5>
-
-                                                    <div class="mb-2">
-                                                        <a href="{{ route('product', $product->slug) }}"
-                                                            class="d-block text-center">
-                                                            <img class="img-fluid"
-                                                                src="{{ asset($product->image) }}"
-                                                                alt="{{ $product->name }}">
-                                                        </a>
-                                                    </div>
-
-                                                    <div class="flex-center-between mb-1">
-                                                        <div class="prodcut-price">
-                                                            <div class="text-gray-100">
-                                                                ৳{{ productPrice($product->id) }}
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="d-none d-xl-block prodcut-add-cart">
-                                                            <a href="{{ route('product', $product->slug) }}"
-                                                                class="btn-add-cart btn-primary transition-3d-hover">
-                                                                <i class="ec ec-add-to-cart"></i>
-                                                            </a>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         @endforeach
 
                     </div>
@@ -702,63 +701,66 @@
 
         <!-- End Category products -->
     </div>
-
-    <div class="container">
-        <!-- Latest Prodcut Section -->
-        <div class="mb-6 home-category-slider">
-            <div
-                class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
-                <h3 class="section-title section-title__full mb-0 pb-2 font-size-22">নতুন পণ্যসমূহ</h3>
-                <a class="d-block text-gray-16" href="{{ route('products') }}">সব দেখুন
-                    <i class="ec ec-arrow-right-categproes"></i></a>
-            </div>
-            <!-- Latest Content -->
-            <div class="tab-content">
-                <div class="pt-0">
-                    <ul class="row list-unstyled products-group no-gutters">
-                        @foreach ($latestProducts as $latestProduct)
-                            <li class="col-6 col-md-3 col-lg-2 product-item remove-divider">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-xl-4 p-3 ">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a href="{{ route('product', $latestProduct->slug) }}"
-                                                    class="font-size-12 text-gray-5">{{ $latestProduct->category->name }}</a>
-                                            </div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="{{ route('product', $latestProduct->slug) }}"
-                                                    class="text-blue font-weight-bold">{{ Str::limit($latestProduct->name, '20', '...') }}</a>
-                                            </h5>
-                                            <div class="mb-2">
-                                                <a href="{{ route('product', $latestProduct->slug) }}"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset($latestProduct->image) }}"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">৳ {{ productPrice($latestProduct->id) }}
-                                                    </div>
+    @if ($latestProducts->count() > 0)
+        <div class="container">
+            <!-- Latest Prodcut Section -->
+            <div class="mb-6 home-category-slider">
+                <div
+                    class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
+                    <h3 class="section-title section-title__full mb-0 pb-2 font-size-22">নতুন পণ্যসমূহ</h3>
+                    <a class="d-block text-gray-16" href="{{ route('products') }}">সব দেখুন
+                        <i class="ec ec-arrow-right-categproes"></i></a>
+                </div>
+                <!-- Latest Content -->
+                <div class="tab-content">
+                    <div class="pt-0">
+                        <ul class="row list-unstyled products-group no-gutters">
+                            @foreach ($latestProducts as $latestProduct)
+                                <li class="col-6 col-md-3 col-lg-2 product-item remove-divider">
+                                    <div class="product-item__outer h-100">
+                                        <div class="product-item__inner px-xl-4 p-3 ">
+                                            <div class="product-item__body pb-xl-2">
+                                                <div class="mb-2"><a
+                                                        href="{{ route('product', $latestProduct->slug) }}"
+                                                        class="font-size-12 text-gray-5">{{ $latestProduct->category->name }}</a>
                                                 </div>
-
-                                                <div class="d-none d-xl-block prodcut-add-cart">
+                                                <h5 class="mb-1 product-item__title"><a
+                                                        href="{{ route('product', $latestProduct->slug) }}"
+                                                        class="text-blue font-weight-bold">{{ Str::limit($latestProduct->name, '20', '...') }}</a>
+                                                </h5>
+                                                <div class="mb-2">
                                                     <a href="{{ route('product', $latestProduct->slug) }}"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
+                                                        class="d-block text-center"><img class="img-fluid"
+                                                            src="{{ asset($latestProduct->image) }}"
+                                                            alt="Image Description"></a>
+                                                </div>
+                                                <div class="flex-center-between mb-1">
+                                                    <div class="prodcut-price">
+                                                        <div class="text-gray-100">৳
+                                                            {{ productPrice($latestProduct->id) }}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-none d-xl-block prodcut-add-cart">
+                                                        <a href="{{ route('product', $latestProduct->slug) }}"
+                                                            class="btn-add-cart btn-primary transition-3d-hover"><i
+                                                                class="ec ec-add-to-cart"></i></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                        @endforeach
+                                </li>
+                            @endforeach
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
+                <!-- End Latest Content -->
             </div>
-            <!-- End Latest Content -->
+            <!-- End Latest Prodcut Section -->
         </div>
-        <!-- End Latest Prodcut Section -->
-    </div>
+    @endif
 
 
     <div class="container">
