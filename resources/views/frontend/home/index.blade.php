@@ -280,7 +280,7 @@
                 @endforeach
             @else
                 <!-- Placeholder Main Offers -->
-                <div class="col-6 col-md-6 col-xl-3 pb-2">
+                <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
                         <div class="promo-icon-wrapper mr-3">
                             <img src="{{ asset('frontend') }}/assets/images/bag.png" alt="Shopping" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
@@ -291,7 +291,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-6 col-xl-3 pb-2">
+                <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
                         <div class="promo-icon-wrapper mr-3">
                             <img src="{{ asset('frontend') }}/assets/images/box.png" alt="Gift" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
@@ -302,7 +302,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-6 col-xl-3 pb-2">
+                <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
                         <div class="promo-icon-wrapper mr-3">
                             <img src="{{ asset('frontend') }}/assets/images/candle.png" alt="Lantern" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
@@ -313,7 +313,7 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-6 col-xl-3 pb-2">
+                <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
                     <a href="{{ route('products') }}" class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
                         <div class="promo-icon-wrapper mr-3">
                             <img src="{{ asset('frontend') }}/assets/images/crown.png" alt="Premium" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
