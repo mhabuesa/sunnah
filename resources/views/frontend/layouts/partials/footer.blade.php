@@ -41,7 +41,7 @@
                 <div class="col-lg-5">
                     <div class="mb-6">
                         <a href="#" class="d-inline-block">
-                            <img src="{{ asset(setting()->header_logo) }}" alt=""
+                            <img src="{{ asset(setting()->footer_logo) }}" alt=""
                                 style="height: 60px; width:160;">
                         </a>
                     </div>
@@ -67,27 +67,33 @@
                     <div class="my-4 my-md-4">
                         <ul class="list-inline mb-0 opacity-7">
                             <li class="list-inline-item mr-0">
-                                <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
+                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
                                     href="#">
                                     <span class="fab fa-facebook-f btn-icon__inner"></span>
                                 </a>
                             </li>
                             <li class="list-inline-item mr-0">
-                                <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
+                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
                                     href="#">
-                                    <span class="fab fa-google btn-icon__inner"></span>
+                                    <span class="fab fa-instagram btn-icon__inner"></span>
                                 </a>
                             </li>
                             <li class="list-inline-item mr-0">
-                                <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
+                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
                                     href="#">
-                                    <span class="fab fa-twitter btn-icon__inner"></span>
+                                    <span class="fab fa-x btn-icon__inner"></span>
                                 </a>
                             </li>
                             <li class="list-inline-item mr-0">
-                                <a class="btn font-size-20 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
+                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
                                     href="#">
-                                    <span class="fab fa-github btn-icon__inner"></span>
+                                    <span class="fab fa-youtube btn-icon__inner"></span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item mr-0">
+                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
+                                    href="#">
+                                    <span class="fab fa-tiktok btn-icon__inner"></span>
                                 </a>
                             </li>
                         </ul>
@@ -96,34 +102,43 @@
                 <div class="col-lg-7">
                     <div class="row">
 
+                        @php
+                            $firstCategories = $categories->count() > 6 ? $categories->take(5) : $categories;
+
+                            $remainingCategories = $categories->count() > 6 ? $categories->slice(5) : collect();
+                        @endphp
                         <div class="col-12 col-md mb-4 mb-md-0">
                             <h6 class="mb-3 font-weight-bold">Shop By</h6>
-                            <!-- List Group -->
+
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Laptops
-                                        & Computers</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Cameras
-                                        & Photography</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Smart
-                                        Phones & Tablets</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Video
-                                        Games & Consoles</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">TV
-                                        & Audio</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Gadgets</a>
-                                </li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Car
-                                        Electronic & GPS</a></li>
+                                @foreach ($firstCategories as $category)
+                                    <li>
+                                        <a class="list-group-item list-group-item-action"
+                                            href="{{ route('category', $category->slug) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
-                            <!-- End List Group -->
                         </div>
+
+                        @if ($remainingCategories->isNotEmpty())
+                            <div class="col-12 col-md mb-4 mb-md-0 mr-4">
+                                <h6 class="mb-3 font-weight-bold">&nbsp;</h6>
+
+                                <ul
+                                    class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
+                                    @foreach ($remainingCategories as $category)
+                                        <li>
+                                            <a class="list-group-item list-group-item-action"
+                                                href="{{ route('category', $category->slug) }}">
+                                                {{ $category->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="col-12 col-md mb-4 mb-md-0">
                             <h6 class="mb-3 font-weight-bold">Information</h6>
@@ -140,8 +155,7 @@
                                 <li><a class="list-group-item list-group-item-action"
                                         href="{{ route('terms.and.conditions') }}">Terms
                                         & Conditions</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/product-categories-5-column-sidebar.html">Privacy
+                                <li><a class="list-group-item list-group-item-action" href="#">Privacy
                                         Policy</a></li>
                             </ul>
                             <!-- End List Group -->
@@ -160,10 +174,7 @@
                                 <li><a class="list-group-item list-group-item-action"
                                         href="{{ route('order.tracking') }}">Order
                                         Tracking</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="https://transvelo.github.io/electro-html/2.0/html/shop/wishlist.html">Wish
-                                        List</a></li>
-                                <li><a class="list-group-item list-group-item-action" href="faq.html">FAQs</a>
+                                <li><a class="list-group-item list-group-item-action" href="#">FAQs</a>
                                 </li>
                             </ul>
                             <!-- End List Group -->
@@ -191,15 +202,15 @@
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img3.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img3.png"
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img4.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img4.png"
                             alt="Image Description">
                     </span>
                     <span class="d-inline-block bg-white border rounded p-1">
-                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img5.jpg"
+                        <img class="max-width-5" src="{{ asset('frontend') }}/assets/img/100X60/img5.png"
                             alt="Image Description">
                     </span>
                 </div>

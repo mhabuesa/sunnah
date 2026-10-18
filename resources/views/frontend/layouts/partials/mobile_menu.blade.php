@@ -77,15 +77,24 @@
                             <hr>
 
                             <li class="u-has-submenu u-header-collapse__submenu mt-2 font-weight-bold">
+                                <a class="u-header-collapse__nav-link" href="{{ route('supper.deals') }}">সেরা অফার
+                                </a>
+                            </li>
+                            <li class="u-has-submenu u-header-collapse__submenu mt-2 font-weight-bold">
                                 <a class="u-header-collapse__nav-link" href="{{ route('brands') }}">
-                                    Brands
+                                    ব্র্যান্ড
+                                </a>
+                            </li>
+                            <li class="u-has-submenu u-header-collapse__submenu mt-2 font-weight-bold">
+                                <a class="u-header-collapse__nav-link" href="{{ route('blog') }}">
+                                    ব্লগ পোষ্ট
                                 </a>
                             </li>
 
                             <li class="nav-item u-header__nav-last-item">
                                 <a class="u-header-collapse__nav-link text-primary font-weight-bold" href="#"
                                     target="_blank">
-                                    Charity <i class="fas fa-donate ml-1"></i>
+                                    দান ও ছাদাকা <i class="fas fa-donate ml-1"></i>
                                 </a>
                             </li>
 

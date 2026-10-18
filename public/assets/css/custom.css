@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'SolaimanLipi';
+    src: url('/assets/fonts/bangla/SolaimanLipi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body, h1, h2, h3, h4, h5, h6, .font-weight-bold, .section-title {
+    font-family: 'Open Sans', 'SolaimanLipi', sans-serif;
+}
+
 .welcome_container {
     display: flex;
     justify-content: center;
