@@ -345,7 +345,7 @@
                                     class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                             </div>
                             <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold">আইয়্যামুল্লাহ ছাড়</h6>
+                                <h6 class="mb-1 text-gray-90 font-weight-bold">আইয়্যামুল্লাহ শরীফ ছাড়</h6>
                                 <p class="mb-0 text-gray-50 font-size-12">বিশেষ দিনগুলোর জন্য বিশেষ উপহার।</p>
                             </div>
                         </a>
@@ -426,7 +426,7 @@
                                     style="width: 40px; height: 40px; object-fit: cover;">
                             </div>
                             <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">মহিমান্বিত ইছনাইনিল আযীম শরীফ
+                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">মহান ইছনাইনিল আযীম শরীফ
                                     উপহার
                                 </h6>
                                 <p class="mb-0 text-gray-50 font-size-11">প্রতি সোমবার শরীফে বিশেষ অফার।</p>
