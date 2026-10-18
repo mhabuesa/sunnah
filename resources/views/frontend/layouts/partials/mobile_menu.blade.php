@@ -94,7 +94,7 @@
                             <li class="nav-item u-header__nav-last-item">
                                 <a class="u-header-collapse__nav-link text-primary font-weight-bold" href="#"
                                     target="_blank">
-                                    দান ও ছাদাকা <i class="fas fa-donate ml-1"></i>
+                                    ছ্বদাকাহ ও চ্যারিটি <i class="fas fa-donate ml-1"></i>
                                 </a>
                             </li>
 

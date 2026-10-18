@@ -250,7 +250,7 @@
                                         <li class="nav-item u-header__nav-item">
                                             <a class="nav-link u-header__nav-link" href="{{ route('brands') }}"
                                                 aria-haspopup="true" aria-expanded="false"
-                                                aria-labelledby="pagesSubMenu">ব্র্যান্ড</a>
+                                                aria-labelledby="pagesSubMenu">ব্র্যান্ডস</a>
                                         </li>
                                         <!-- End Featured Brands -->
 
@@ -258,7 +258,7 @@
                                         <li class="nav-item u-header__nav-item">
                                             <a class="nav-link u-header__nav-link" href="{{ route('blog') }}"
                                                 aria-haspopup="true" aria-expanded="false"
-                                                aria-labelledby="blogSubMenu">ব্লগ পোষ্ট</a>
+                                                aria-labelledby="blogSubMenu">সুন্নাহ ব্লগ </a>
                                         </li>
                                         <!-- End Blog Styles -->
 
@@ -267,7 +267,7 @@
                                         <li class="nav-item u-header__nav-last-item">
                                             <a class="nav-link u-header__nav-link text-black text-uppercase bg-warning u-header__nav-item-border rounded text-primary font-weight-bold"
                                                 href="#" target="_blank">
-                                                দান ও ছাদাকা <i class="fas fa-donate ml-1"></i>
+                                                ছ্বদাকাহ ও চ্যারিটি <i class="fas fa-donate ml-1"></i>
                                             </a>
                                         </li>
                                         <!-- End Button -->
