@@ -7,8 +7,10 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\FeaturedProduct;
 use App\Models\NewsletterSubscriber;
+use App\Models\Offer;
 use App\Models\Product;
 use App\Models\TodaysDeal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -20,6 +22,8 @@ class HomeController extends Controller
         $homeBanners = Cache::remember('homeBanners', 86400, function () {
             return Banner::where('status', 1)->get();
         });
+
+        $offers = Offer::where('status', '1')->where('validity_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('priority', 'asc')->get();
 
         // Group by type
         $mainBanners = $homeBanners->where('type', 'main');
@@ -71,7 +75,8 @@ class HomeController extends Controller
             'todaysDeals',
             'latestProducts',
             'categories',
-            'recentProducts'
+            'recentProducts',
+            'offers'
         ));
     }
 
@@ -95,6 +100,5 @@ class HomeController extends Controller
             Log::error('Newsletter subscription error: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while subscribing. Please try again later.');
         }
-       
     }
 }

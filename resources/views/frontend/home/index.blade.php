@@ -252,7 +252,32 @@
                 padding: 15px 10px;
             }
         }
-    </style>
+
+        /* Mobile responsive coupon copy button */
+         .copy-coupon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            font-size: 12px;
+            line-height: 1.2;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 767.98px) {
+            .copy-coupon-btn {
+                padding: 5px 7px !important;
+                margin-left: 6px !important;
+                font-size: 12px;
+                line-height: 1;
+                border-radius: 5px;
+            }
+
+            .copy-coupon-btn i {
+                font-size: 13px;
+            }
+        }
     </style>
 @endpush
 @section('content')
@@ -290,178 +315,135 @@
         <div class="home-promo-section container mb-5 px-2 px-md-0">
             <!-- Main Offer Cards -->
             <div class="home-main-offers row g-2 g-md-3 mb-4">
-                @if ($promoMainBanners->count() > 0)
-                    @foreach ($promoMainBanners as $promo)
-                        <div class="col-6 col-md-6 col-xl-3 pb-2">
-                            <a href="{{ $promo->url ?? '#' }}"
+                <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
+                    <a href="{{ route('sunnah.products') }}"
+                        class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                        <div class="promo-icon-wrapper mr-3">
+                            <img src="{{ asset('frontend/assets/images/bag.png') }}" alt="Shopping"
+                                class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        </div>
+                        <div class="promo-content">
+                            <h6 class="mb-1 text-gray-90 font-weight-bold">সুন্নাহ শপিং</h6>
+                            <p class="mb-0 text-gray-50 font-size-12">
+                                সুন্নাহসম্মত জীবনযাপনের নিত্যপ্রয়োজনীয় সামগ্রী।
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                {{-- First 3 offers --}}
+                @foreach ($offers->take(3) as $promo)
+                    <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
+                        @if ($promo->type == 'product')
+                            <a href="{{ route('offers', $promo->slug) }}"
                                 class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                                <div class="promo-icon-wrapper me-3">
+                                <div class="promo-icon-wrapper mr-3">
                                     <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
                                         class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                                 </div>
                                 <div class="promo-content">
-                                    <h6 class="mb-1 text-gray-90 font-weight-bold">{{ $promo->title ?? 'Special Offer' }}
+                                    <h6 class="mb-1 text-gray-90 font-weight-bold">
+                                        {{ $promo->title ?? 'Special Offer' }}
                                     </h6>
                                     <p class="mb-0 text-gray-50 font-size-12">
-                                        {{ $promo->subtitle ?? 'Discover our exclusive deals' }}</p>
+                                        {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
+                                    </p>
                                 </div>
                             </a>
-                        </div>
-                    @endforeach
-                @else
-                    <!-- Placeholder Main Offers -->
-                    <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                            <div class="promo-icon-wrapper mr-3">
-                                <img src="{{ asset('frontend') }}/assets/images/bag.png" alt="Shopping"
-                                    class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                        @else
+                            <div class="promo-card-main d-flex align-items-center p-3">
+                                <a href="javascript:void(0)"
+                                    class="d-flex align-items-center text-decoration-none flex-grow-1"
+                                    style="min-width: 0;">
+
+                                    <div class="promo-icon-wrapper mr-3">
+                                        <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
+                                            class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                    </div>
+
+                                    <div class="promo-content" style="min-width: 0;">
+                                        <h6 class="mb-1 text-gray-90 font-weight-bold">
+                                            {{ $promo->title ?? 'Special Offer' }}
+                                        </h6>
+
+                                        <p class="mb-0 text-gray-50 font-size-12">
+                                            {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
+                                        </p>
+                                    </div>
+                                </a>
+
+                                {{-- Copy Coupon Button --}}
+                                <button type="button" class="btn btn-light border ml-2 copy-coupon-btn"
+                                    data-coupon="{{ $promo->coupon->coupon_code ?? '' }}" title="Copy coupon code"
+                                    aria-label="Copy coupon code" style="flex-shrink: 0;">
+
+                                    <i class="far fa-copy"></i>
+                                </button>
                             </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold">সুন্নাহ শপিং</h6>
-                                <p class="mb-0 text-gray-50 font-size-12">সুন্নাহসম্মত জীবনযাপনের নিত্যপ্রয়োজনীয় সামগ্রী।
-                                </p>
-                            </div>
-                        </a>
+                        @endif
+
                     </div>
-                    <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                            <div class="promo-icon-wrapper mr-3">
-                                <img src="{{ asset('frontend') }}/assets/images/box.png" alt="Gift"
-                                    class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold">ঈদে মীলাদুন্নবী ﷺ উপহার সামগ্রী।</h6>
-                                <p class="mb-0 text-gray-50 font-size-12">বাছাইকৃত উপহার আপনার প্রিয়জনদের জন্য।</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                            <div class="promo-icon-wrapper mr-3">
-                                <img src="{{ asset('frontend') }}/assets/images/candle.png" alt="Lantern"
-                                    class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold">আইয়্যামুল্লাহ শরীফ ছাড়</h6>
-                                <p class="mb-0 text-gray-50 font-size-12">বিশেষ দিনগুলোর জন্য বিশেষ উপহার।</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                            <div class="promo-icon-wrapper mr-3">
-                                <img src="{{ asset('frontend') }}/assets/images/crown.png" alt="Premium"
-                                    class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold">বিশেষ উপহার এবং অনন্য প্রসঙ্গ</h6>
-                                <p class="mb-0 text-gray-50 font-size-12">হ্যান্ডপিকড। সীমিত। প্রিমিয়াম।</p>
-                            </div>
-                        </a>
-                    </div>
-                @endif
+                @endforeach
             </div>
 
-            <!-- Mini Offer Cards -->
+            {{-- Mini Offer Cards: Remaining offers after the first 4 --}}
             <div class="home-mini-offers row g-3 mb-5 justify-content-center">
-                @if ($promoMiniBanners->count() > 0)
-                    @foreach ($promoMiniBanners as $promo)
-                        <div class="col-xl-2 col-md-4 col-6">
-                            <a href="{{ $promo->url ?? '#' }}"
+                @foreach ($offers->skip(3) as $promo)
+                    @if ($promo->type == 'product')
+                        <div class="col-xl-2 col-md-4 col-6 mt-2">
+                            <a href="{{ route('offers', $promo->slug) }}"
                                 class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
                                 <div class="mini-icon mb-2">
-                                    <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
+                                    <img src="{{ asset($promo->image) }}" alt="{{ $promo->title ?? 'Gift' }}"
                                         class="img-fluid rounded-circle"
                                         style="width: 40px; height: 40px; object-fit: cover;">
                                 </div>
                                 <div class="promo-content">
                                     <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">
-                                        {{ $promo->title ?? 'Promo' }}
+                                        {{ $promo->title ?? 'Special Offer' }}
                                     </h6>
-                                    <p class="mb-0 text-gray-50 font-size-11">{{ $promo->subtitle ?? 'Seasonal Offer' }}
+                                    <p class="mb-0 text-gray-50 font-size-11">
+                                        {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
                                     </p>
                                 </div>
                             </a>
                         </div>
-                    @endforeach
-                @else
-                    <!-- Placeholder Mini Offers -->
-                    <div class="col-xl-2 col-md-4 col-6">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
-                            <div class="mini-icon mb-2">
-                                <img src="{{ asset('frontend') }}/assets/images/bag.png" alt="Gift"
-                                    class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                    @else
+                        <div class="col-xl-2 col-md-4 col-6 mt-2">
+                            <div class="promo-card-mini d-flex flex-column align-items-center text-center p-3">
+
+                                <a href="javascript:void(0)"
+                                    class="d-flex flex-column align-items-center text-decoration-none w-100">
+
+                                    <div class="mini-icon mb-2">
+                                        <img src="{{ asset($promo->image) }}" alt="{{ $promo->title ?? 'Gift' }}"
+                                            class="img-fluid rounded-circle"
+                                            style="width: 40px; height: 40px; object-fit: cover;">
+                                    </div>
+
+                                    <div class="promo-content">
+                                        <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">
+                                            {{ $promo->title ?? 'Special Offer' }}
+                                        </h6>
+
+                                        <p class="mb-0 text-gray-50 font-size-11">
+                                            {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
+                                        </p>
+                                    </div>
+                                </a>
+
+                                {{-- Copy Coupon Button --}}
+                                <button type="button" class="btn btn-light border copy-coupon-btn mt-2"
+                                    data-coupon="{{ $promo->coupon->coupon_code ?? '' }}" title="Copy coupon code"
+                                    aria-label="Copy coupon code">
+
+                                    <i class="far fa-copy"></i>
+                                </button>
+
                             </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">বিশেষ উপলক্ষের উপহার কার্ড</h6>
-                                <p class="mb-0 text-gray-50 font-size-11">প্রতিটি আনন্দঘন মুহূর্তের জন্য উপযুক্ত।</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-md-4 col-6">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
-                            <div class="mini-icon mb-2">
-                                <img src="{{ asset('frontend') }}/assets/images/box.png" alt="Rabiul"
-                                    class="img-fluid rounded-circle"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">রবিউল আউয়াল শরীফ</h6>
-                                <p class="mb-0 text-gray-50 font-size-11">বিশেষ মৌসুমি অফার।</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-md-4 col-6">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
-                            <div class="mini-icon mb-2">
-                                <img src="{{ asset('frontend') }}/assets/images/candle.png" alt="Monday"
-                                    class="img-fluid rounded-circle"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">মহান ইছনাইনিল আযীম শরীফ
-                                    উপহার
-                                </h6>
-                                <p class="mb-0 text-gray-50 font-size-11">প্রতি সোমবার শরীফে বিশেষ অফার।</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-md-4 col-6">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
-                            <div class="mini-icon mb-2">
-                                <img src="{{ asset('frontend') }}/assets/images/crown.png" alt="Luxury"
-                                    class="img-fluid rounded-circle"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">প্রিমিয়াম ও বিলাসবহুল</h6>
-                                <p class="mb-0 text-gray-50 font-size-11">সেরা মান, ইসলামী আভিজাত্য।</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xl-2 col-md-4 col-6">
-                        <a href="{{ route('products') }}"
-                            class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
-                            <div class="mini-icon mb-2">
-                                <img src="{{ asset('frontend') }}/assets/images/box.png" alt="Royal"
-                                    class="img-fluid rounded-circle"
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                            </div>
-                            <div class="promo-content">
-                                <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">রাজকীয় ও মর্যাদাপূর্ণ</h6>
-                                <p class="mb-0 text-gray-50 font-size-11">বরকতময় ও মর্যাদাপূর্ণ জীবনের জন্য।</p>
-                            </div>
-                        </a>
-                    </div>
-                @endif
+                        </div>
+                    @endif
+                @endforeach
             </div>
 
             <!-- Category Slider -->
@@ -856,3 +838,69 @@
     </div>
     <!-- End Bottom banner -->
 @endsection
+
+@push('footer_script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.copy-coupon-btn').forEach(function(button) {
+                button.addEventListener('click', async function() {
+                    const couponCode = this.dataset.coupon;
+
+                    if (!couponCode) {
+                        showCouponToast('Coupon code is not available!', 'error');
+                        return;
+                    }
+
+                    try {
+                        await navigator.clipboard.writeText(couponCode);
+
+                        showCouponToast('Coupon code copied successfully!', 'success');
+                    } catch (error) {
+                        // Fallback for browsers where Clipboard API is unavailable.
+                        const textarea = document.createElement('textarea');
+                        textarea.value = couponCode;
+                        textarea.style.position = 'fixed';
+                        textarea.style.opacity = '0';
+
+                        document.body.appendChild(textarea);
+                        textarea.select();
+
+                        const copied = document.execCommand('copy');
+                        textarea.remove();
+
+                        if (copied) {
+                            showCouponToast('Coupon code copied successfully!', 'success');
+                        } else {
+                            showCouponToast('Unable to copy coupon code.', 'error');
+                        }
+                    }
+                });
+            });
+
+            function showCouponToast(message, type) {
+                const toast = document.createElement('div');
+
+                toast.textContent = message;
+                toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 99999;
+                padding: 12px 20px;
+                border-radius: 8px;
+                color: #fff;
+                background: ${type === 'success' ? '#198754' : '#dc3545'};
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                font-size: 14px;
+                max-width: calc(100vw - 40px);
+            `;
+
+                document.body.appendChild(toast);
+
+                setTimeout(function() {
+                    toast.remove();
+                }, 3000);
+            }
+        });
+    </script>
+@endpush

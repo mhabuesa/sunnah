@@ -107,7 +107,7 @@
 
                             $remainingCategories = $categories->count() > 6 ? $categories->slice(5) : collect();
                         @endphp
-                        <div class="col-12 col-md mb-4 mb-md-0">
+                        <div class="col-12 col-md  mb-md-0">
                             <h6 class="mb-3 font-weight-bold">Shop By</h6>
 
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">

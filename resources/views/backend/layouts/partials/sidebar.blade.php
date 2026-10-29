@@ -281,6 +281,44 @@
                     </ul>
                 </li>
 
+                {{-- Sunnah Shopping --}}
+                <li class="nav-main-heading">
+                    </i> Sunnah Shopping
+                </li>
+
+                <li class="nav-main-item {{ request()->routeIs('admin.sunnah.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
+                        <span class="nav-main-link-name">Sunnah Shopping</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.sunnah.category.index') ? 'active' : '' }}"
+                                href="{{ route('admin.sunnah.category.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-layer-group me-2"></i> Category
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.sunnah.subcategory.index') ? 'active' : '' }}"
+                                href="{{ route('admin.sunnah.subcategory.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-folder-open me-2"></i> Subcategory
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.sunnah.products.index') ? 'active' : '' }}"
+                                href="{{ route('admin.sunnah.products.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-folder-open me-2"></i> Products
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="nav-main-heading">
                     </i> Promotion management
@@ -295,7 +333,7 @@
                     </a>
                 </li>
                 <li
-                    class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.todaysDeal.*') ? 'open' : (request()->routeIs('admin.coupon.*') ? 'open' : '')) }}">
+                    class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.todaysDeal.*') ? 'open' : (request()->routeIs('admin.offer.*') ? 'open' : (request()->routeIs('admin.featuredProduct.*') ? 'open' : ''))) }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
                         <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
@@ -307,6 +345,14 @@
                                 href="{{ route('admin.coupon.index') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-file-invoice me-2"></i> Coupon
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.offer.*') ? 'active' : '' }}"
+                                href="{{ route('admin.offer.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-file-invoice me-2"></i> Offers
                                 </span>
                             </a>
                         </li>
@@ -425,6 +471,54 @@
                         <span class="nav-main-link-name">
                             <i class="fa-solid fa-comment-sms me-2"></i>
                             SMS Campaign
+                        </span>
+                    </a>
+                </li>
+
+                {{-- Charity --}}
+                <li class="nav-main-heading">
+                    </i> Charity Management
+                </li>
+
+                <li class="nav-main-item {{ request()->routeIs('admin.charity.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
+                        <span class="nav-main-link-name">Charity</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.charity.category.index') ? 'active' : '' }}"
+                                href="{{ route('admin.charity.category.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-layer-group me-2"></i> Category
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.charity.subcategory.index') ? 'active' : '' }}"
+                                href="{{ route('admin.charity.subcategory.index') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-folder-open me-2"></i> Subcategory
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.charity.content') ? 'active' : '' }}"
+                                href="{{ route('admin.charity.content') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-folder-open me-2"></i> Content
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link {{ request()->routeIs('admin.charity.index') ? 'active' : '' }}"
+                        href="{{ route('admin.sms.index') }}">
+                        <span class="nav-main-link-name">
+                            <i class="fa-solid fa-comment-sms me-2"></i>
+                            Donors List
                         </span>
                     </a>
                 </li>

@@ -7,10 +7,12 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\InformationController;
 use App\Http\Controllers\Frontend\LandingController;
+use App\Http\Controllers\Frontend\OfferController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\OrderTrackingController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\ReviewController;
+use App\Http\Controllers\Frontend\SunnahShoppingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/manifest.json', function () {
@@ -22,6 +24,16 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/newsletter/subscribe', 'newsletter_subscribe')->name('newsletter.subscribe');
 });
+
+Route::controller(OfferController::class)->group(function () {
+    Route::get('/offers/{slug}', 'index')->name('offers');
+});
+Route::controller(SunnahShoppingController::class)->group(function () {
+    Route::get('/sunnah/products', 'index')->name('sunnah.products');
+    Route::get('/sunnah-shopping/filter-products', 'getProducts')->name('sunnah.filter.products');
+});
+
+
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('/product/{slug}', 'product')->name('product');
@@ -79,7 +91,7 @@ Route::controller(OrderTrackingController::class)->group(function () {
 //Blog Controller
 Route::controller(BlogController::class)->group(function () {
     Route::get('/blog', 'index')->name('blog');
-    Route::get('/single/blog/{slug}', 'detail')->name('blog.detail'); 
+    Route::get('/single/blog/{slug}', 'detail')->name('blog.detail');
     Route::get('/blog/category/{slug}', 'category_blogs')->name('blog.category');
     Route::get('/blog/search', 'search')->name('blog.search');
 });

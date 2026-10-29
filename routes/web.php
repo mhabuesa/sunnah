@@ -1,32 +1,35 @@
     <?php
 
-    use App\Http\Controllers\AdminAuthController;
-    use App\Http\Controllers\Auth\AuthenticatedSessionController;
-    use App\Http\Controllers\BannerController;
-    use App\Http\Controllers\BlogController;
-    use App\Http\Controllers\BrandController;
-    use App\Http\Controllers\CampaignController;
-    use App\Http\Controllers\CategoryController;
-    use App\Http\Controllers\CouponController;
-    use App\Http\Controllers\CustomerController;
-    use App\Http\Controllers\DeliveryController;
-    use App\Http\Controllers\FeaturedProductController;
-    use App\Http\Controllers\HomeController;
-    use App\Http\Controllers\LandingController;
-    use App\Http\Controllers\OrderController;
-    use App\Http\Controllers\PosController;
-    use App\Http\Controllers\ProductController;
-    use App\Http\Controllers\ProfileController;
-    use App\Http\Controllers\SettingController;
-    use App\Http\Controllers\SmsCampaignController;
-    use App\Http\Controllers\SmsController;
-    use App\Http\Controllers\SubcategoryController;
-    use App\Http\Controllers\TestController;
-    use App\Http\Controllers\TodayDealController;
-    use App\Http\Controllers\TodaysDealController;
-    use App\Http\Controllers\UserController;
-    use App\Http\Controllers\VariationController;
-    use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CharityController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeliveryController;
+use App\Http\Controllers\FeaturedProductController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PosController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SmsCampaignController;
+use App\Http\Controllers\SmsController;
+use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\SunnahShoppingController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\TodayDealController;
+use App\Http\Controllers\TodaysDealController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VariationController;
+use Illuminate\Support\Facades\Route;
 
     Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/login', 'create')->name('login');
@@ -42,6 +45,27 @@
     Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
         Route::controller(HomeController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard');
+        });
+
+        // Sunnah Shopping Routes
+        Route::controller(SunnahShoppingController::class)->prefix('sunnah')->name('sunnah.')->group(function () {
+            Route::get('/category', 'categoryIndex')->name('category.index');
+            Route::post('/category/store', 'storeCategory')->name('category.store');
+            Route::post('/category/update', 'updateCategory')->name('category.update');
+            Route::delete('/category/destroy/{id}', 'destroyCategory')->name('category.destroy');
+            Route::post('/category/status/{id}', 'toggleStatusCategory')->name('category.status.update');
+
+            Route::get('/subcategory', 'subcategoryIndex')->name('subcategory.index');
+            Route::post('/subcategory/store', 'storeSubcategory')->name('subcategory.store');
+            Route::post('/subcategory/update', 'updateSubcategory')->name('subcategory.update');
+            Route::delete('/subcategory/destroy/{id}', 'destroySubcategory')->name('subcategory.destroy');
+            Route::post('/subcategory/status/{id}', 'toggleStatusSubcategory')->name('subcategory.status.update');
+
+            Route::get('/products', 'products')->name('products.index');
+            Route::post('/product/store', 'storeProduct')->name('product.store');
+            Route::post('/product/update', 'updateProduct')->name('product.update');
+            Route::delete('/product/destroy/{id}', 'destroyProduct')->name('product.destroy');
+            Route::get('/get-subcategories', 'getSubcategories')->name('get.subcategories');
         });
 
         // Category Routes
@@ -167,6 +191,18 @@
             Route::post('/redx/submit/{id}', 'redx_submit')->name('redx.submit');
         });
 
+        //Offer Routes
+        Route::controller(OfferController::class)->name('offer.')->prefix('offer')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::post('/status/{id}', 'status_update')->name('status.update');
+            Route::post('/update', 'update')->name('update');
+            Route::get('/product_assign/{id}', 'product_assign')->name('product.assign');
+            Route::post('/product_assign/{id}', 'product_assign_store')->name('product.store');
+            Route::delete('/product/destroy/{id}', 'product_destroy')->name('product.destroy');
+        });
+
         //Coupon Routes
         Route::controller(CouponController::class)->name('coupon.')->prefix('coupon')->group(function () {
             Route::get('/', 'index')->name('index');
@@ -247,6 +283,30 @@
             Route::post('/status/{id}', 'updateStatus')->name('status.update');
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::post('/update/{id}', 'update')->name('update');
+        });
+
+
+        // Charity Routes
+        Route::controller(CharityController::class)->prefix('charity')->name('charity.')->group(function () {
+            Route::get('/category', 'categoryIndex')->name('category.index');
+            Route::post('/category/store', 'storeCategory')->name('category.store');
+            Route::post('/category/update', 'updateCategory')->name('category.update');
+            Route::delete('/category/destroy/{id}', 'destroyCategory')->name('category.destroy');
+            Route::post('/category/status/{id}', 'toggleStatusCategory')->name('category.status.update');
+
+            Route::get('/subcategory', 'subcategoryIndex')->name('subcategory.index');
+            Route::post('/subcategory/store', 'storeSubcategory')->name('subcategory.store');
+            Route::post('/subcategory/update', 'updateSubcategory')->name('subcategory.update');
+            Route::delete('/subcategory/destroy/{id}', 'destroySubcategory')->name('subcategory.destroy');
+            Route::post('/subcategory/status/{id}', 'toggleStatusSubcategory')->name('subcategory.status.update');
+
+            Route::get('/content', 'content')->name('content');
+            Route::get('/content/create', 'content_create')->name('content.create');
+            Route::post('/content/store', 'contentStore')->name('content.store');
+            Route::get('/content/edit/{id}', 'content_edit')->name('content.edit');
+            Route::post('/content/update/{id}', 'updateContent')->name('content.update');
+            Route::delete('/content/destroy/{id}', 'destroyContent')->name('content.destroy');
+            Route::get('/get-subcategories', 'getSubcategories')->name('get.subcategories');
         });
 
 
