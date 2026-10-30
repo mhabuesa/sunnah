@@ -94,7 +94,7 @@ section {
 body {
     margin: 0;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
-    font-size: 0.875rem;
+    font-size: 1.1rem;
     font-weight: 400;
     line-height: 1.5;
     color: #333e48;
@@ -450,7 +450,7 @@ h5,
 
 h6,
 .h6 {
-    font-size: 1rem;
+    font-size: 1.1rem;
 }
 
 .lead {
@@ -36218,11 +36218,11 @@ blockquote:not(.blockquote) p {
 
 .secondary-menu .u-header__navbar-nav .u-header__nav-link {
     font-weight: 400;
-    font-size: 0.81288rem;
+    font-size: 1.1rem;
 }
 
 .secondary-menu.v1 .u-header__navbar-nav .u-header__nav-link {
-    font-size: 0.875rem;
+    font-size: 1.1rem;
 }
 
 /*------------------------------------
@@ -36509,13 +36509,13 @@ blockquote:not(.blockquote) p {
 }
 
 .product-item__title {
-    font-size: 0.74987rem;
+    font-size: 1.3rem;
     line-height: 0.875rem;
 }
 
 @media (min-width: 992px) {
     .product-item__title {
-        font-size: 0.875rem;
+       font-size: 1.3rem;
         line-height: 1.125rem;
     }
 }

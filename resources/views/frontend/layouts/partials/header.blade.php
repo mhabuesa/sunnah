@@ -266,7 +266,7 @@
                                         <!-- Button -->
                                         <li class="nav-item u-header__nav-last-item">
                                             <a class="nav-link u-header__nav-link text-black text-uppercase bg-warning u-header__nav-item-border rounded text-primary font-weight-bold"
-                                                href="#" target="_blank">
+                                                href="{{route('charity.index')}}">
                                                 ছ্বদাকাহ ও চ্যারিটি <i class="fas fa-donate ml-1"></i>
                                             </a>
                                         </li>

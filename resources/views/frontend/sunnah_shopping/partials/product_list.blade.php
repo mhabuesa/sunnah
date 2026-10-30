@@ -5,7 +5,7 @@
                 <div class="product-item__inner px-xl-4 p-3">
                     <div class="product-item__body pb-xl-2">
                         <div class="mb-2">
-                            <a href="#" class="font-size-12 text-gray-5">
+                            <a href="#" class="font-size-14 text-gray-5">
                                 {{ optional($item->product->category)->name ?? 'Sunnah Product' }}
                             </a>
                         </div>

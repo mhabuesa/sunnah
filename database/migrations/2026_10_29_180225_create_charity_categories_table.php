@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('charity_categories', function (Blueprint $table) {
             $table->id();
             $table->string('category')->unique();
+            $table->text('description');
             $table->unsignedInteger('priority')->default(0);
             $table->string('slug')->unique();
             $table->tinyInteger('status')->default(1);

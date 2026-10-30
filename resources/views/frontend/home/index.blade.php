@@ -345,7 +345,7 @@
                                     <h6 class="mb-1 text-gray-90 font-weight-bold">
                                         {{ $promo->title ?? 'Special Offer' }}
                                     </h6>
-                                    <p class="mb-0 text-gray-50 font-size-12">
+                                    <p class="mb-0 text-gray-50">
                                         {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
                                     </p>
                                 </div>
@@ -366,7 +366,7 @@
                                             {{ $promo->title ?? 'Special Offer' }}
                                         </h6>
 
-                                        <p class="mb-0 text-gray-50 font-size-12">
+                                        <p class="mb-0 text-gray-50">
                                             {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
                                         </p>
                                     </div>
@@ -390,7 +390,7 @@
             <div class="home-mini-offers row g-3 mb-5 justify-content-center">
                 @foreach ($offers->skip(3) as $promo)
                     @if ($promo->type == 'product')
-                        <div class="col-xl-2 col-md-4 col-6 mt-2">
+                        <div class="col-xl-3 col-md-4 col-6 mt-2">
                             <a href="{{ route('offers', $promo->slug) }}"
                                 class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
                                 <div class="mini-icon mb-2">
@@ -399,17 +399,17 @@
                                         style="width: 40px; height: 40px; object-fit: cover;">
                                 </div>
                                 <div class="promo-content">
-                                    <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">
+                                    <h6 class="mb-1 text-gray-90 font-weight-bold">
                                         {{ $promo->title ?? 'Special Offer' }}
                                     </h6>
-                                    <p class="mb-0 text-gray-50 font-size-11">
+                                    <p class="mb-0 text-gray-50">
                                         {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
                                     </p>
                                 </div>
                             </a>
                         </div>
                     @else
-                        <div class="col-xl-2 col-md-4 col-6 mt-2">
+                        <div class="col-xl-3 col-md-4 col-6 mt-2">
                             <div class="promo-card-mini d-flex flex-column align-items-center text-center p-3">
 
                                 <a href="javascript:void(0)"
@@ -422,11 +422,11 @@
                                     </div>
 
                                     <div class="promo-content">
-                                        <h6 class="mb-1 text-gray-90 font-weight-bold font-size-14">
+                                        <h6 class="mb-1 text-gray-90 font-weight-bold">
                                             {{ $promo->title ?? 'Special Offer' }}
                                         </h6>
 
-                                        <p class="mb-0 text-gray-50 font-size-11">
+                                        <p class="mb-0 text-gray-50">
                                             {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
                                         </p>
                                     </div>
@@ -543,7 +543,7 @@
                                     <div class="product-item__inner px-wd-4 p-2 p-md-3">
                                         <div class="product-item__body pb-xl-2">
                                             <div class="mb-2"><a href="{{ route('product', $product->product->slug) }}"
-                                                    class="font-size-12 text-gray-5">{{ $product->product->category->name }}</a>
+                                                    class="font-size-14 text-gray-5">{{ $product->product->category->name }}</a>
                                             </div>
                                             <h5 class="mb-1 product-item__title"><a
                                                     href="{{ route('product', $product->product->slug) }}"
@@ -635,7 +635,7 @@
                                             <div class="product-item__body pb-xl-2">
                                                 <div class="mb-2">
                                                     <a href="{{ route('product', $product->slug) }}"
-                                                        class="font-size-12 text-gray-5">
+                                                        class="font-size-14 text-gray-5">
                                                         {{ $product->category->name ?? '' }}
                                                     </a>
                                                 </div>
@@ -704,7 +704,7 @@
                                             <div class="product-item__body pb-xl-2">
                                                 <div class="mb-2"><a
                                                         href="{{ route('product', $latestProduct->slug) }}"
-                                                        class="font-size-12 text-gray-5">{{ $latestProduct->category->name }}</a>
+                                                        class="font-size-14 text-gray-5">{{ $latestProduct->category->name }}</a>
                                                 </div>
                                                 <h5 class="mb-1 product-item__title"><a
                                                         href="{{ route('product', $latestProduct->slug) }}"
@@ -790,7 +790,7 @@
                                     <div class="product-item__inner px-wd-4 p-2 p-md-3">
                                         <div class="product-item__body pb-xl-2">
                                             <div class="mb-2"><a href="{{ route('product', $product->slug) }}"
-                                                    class="font-size-12 text-gray-5">{{ $product->category->name }}</a>
+                                                    class="font-size-14 text-gray-5">{{ $product->category->name }}</a>
                                             </div>
                                             <h5 class="mb-1 product-item__title"><a
                                                     href="{{ route('product', $product->slug) }}"

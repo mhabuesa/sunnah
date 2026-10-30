@@ -4,6 +4,7 @@ use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CharityController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\InformationController;
 use App\Http\Controllers\Frontend\LandingController;
@@ -28,9 +29,17 @@ Route::controller(HomeController::class)->group(function () {
 Route::controller(OfferController::class)->group(function () {
     Route::get('/offers/{slug}', 'index')->name('offers');
 });
+
 Route::controller(SunnahShoppingController::class)->group(function () {
     Route::get('/sunnah/products', 'index')->name('sunnah.products');
     Route::get('/sunnah-shopping/filter-products', 'getProducts')->name('sunnah.filter.products');
+});
+
+Route::controller(CharityController::class)->group(function () {
+    Route::get('/charity', 'index')->name('charity.index');
+    Route::get('/charity/details/{slug}', 'charity_details')->name('charity.details');
+    Route::get('/sunnah-shopping/filter-products', 'getProducts')->name('sunnah.filter.products');
+    Route::get('/zakatCalculator', 'zakatCalculator')->name('zakatCalculator');
 });
 
 

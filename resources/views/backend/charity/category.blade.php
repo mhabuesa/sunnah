@@ -19,7 +19,7 @@
                         </button>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto">
-                        <form action="{{ route('admin.charity.category.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.charity.category.store') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-12">
@@ -28,6 +28,14 @@
                                         <input type="text" name="category" id="category" class="form-control"
                                             placeholder="Category Name" value="{{ old('category') }}" required>
                                         @error('category')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label" for="description">Description</label>
+                                        <input type="text" name="description" id="description" class="form-control"
+                                            placeholder="Description" value="{{ old('description') }}" required>
+                                        @error('description')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -54,6 +62,7 @@
                                 <tr>
                                     <th class="text-center">SL</th>
                                     <th>Name</th>
+                                    <th>Description</th>
                                     <th>Priority</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
@@ -64,6 +73,7 @@
                                     <tr>
                                         <td class="text-center fs-sm">{{ $key + 1 }}</td>
                                         <td class="fw-semibold fs-sm">{{ $category->category }}</td>
+                                        <td class="fw-semibold fs-sm">{{ $category->description }}</td>
                                         <td class="fs-sm">{{ $category->priority }}</td>
                                         <td class="text-center">
                                             <div class="form-check form-switch d-inline-block">
@@ -75,7 +85,8 @@
                                         <td class="text-center fs-xl">
 
                                            <button type="button" class="border-0 btn btn-sm editCategoryBtn"
-                                                data-id="{{ $category->id }}" data-category="{{ $category->category }}"
+                                                data-id="{{ $category->id }}" data-category="{{ $category->category }}" 
+                                                data-description="{{ $category->description }}"
                                                 data-priority="{{ $category->priority }}" data-slug="{{ $category->slug }}">
                                                 <i class="fa fa-pencil text-secondary fa-xl"></i>
                                             </button>
@@ -108,6 +119,10 @@
                             <div class="col-lg-12 mb-3">
                                 <label>Category Name</label>
                                 <input type="text" id="edit_category" class="form-control">
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <label>Description</label>
+                                <input type="text" id="edit_description" class="form-control">
                             </div>
                             <div class="col-lg-12 mb-3">
                                 <label>Priority</label>
@@ -209,24 +224,12 @@
             const data = $(this).data();
             $('#edit_category_id').val(data.id);
             $('#edit_category').val(data.category);
+            $('#edit_description').val(data.description);
             $('#edit_priority').val(data.priority);
             $('#edit_slug').val(data.slug);
 
-            toggleEditFields();
             $('#editCategoryModal').modal('show');
         });
-
-        function toggleEditFields() {
-            const type = $('#edit_type').val();
-            if (type === 'product') {
-                $('#edit_coupon_div').hide();
-            } else {
-                $('#edit_product_div').hide();
-                $('#edit_coupon_div').show();
-            }
-        }
-
-        $('#edit_type').on('change', toggleEditFields);
 
         $('#closeEditModal').click(function() {
             $('#editCategoryModal').modal('hide');

@@ -59,14 +59,6 @@ class CharityController extends Controller
     public function destroyCategory($id)
     {
         $category = CharityCategory::findOrFail($id);
-
-        if ($category->subcategories()->count() > 0) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete category because it contains subcategories.'
-            ], 422);
-        }
-
         $category->delete();
 
         return response()->json([
