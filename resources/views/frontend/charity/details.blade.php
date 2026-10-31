@@ -380,6 +380,115 @@
                 font-size: 13px;
             }
         }
+
+
+        /* Selected Donation Amount Fields */
+        .selected-donation-wrapper {
+            margin-top: 20px;
+        }
+
+        .selected-donation-title {
+            color: #164e3b;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .selected-donation-item {
+            background: #f7faf8;
+            border: 1px solid #e5e9e6;
+            border-radius: 9px;
+            padding: 13px;
+            margin-bottom: 12px;
+        }
+
+        .selected-donation-item label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #164e3b;
+            margin-bottom: 8px;
+        }
+
+        .selected-donation-item .form-control {
+            height: 44px;
+            border-radius: 7px;
+            box-shadow: none;
+        }
+
+        .selected-donation-item .input-group {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .donation-remove-btn {
+            width: 44px;
+            border: none;
+            border-radius: 7px !important;
+            background: #fff0f0;
+            color: #dc3545;
+            margin-left: 8px !important;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .donation-remove-btn:hover {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        #selectedDonationFields:empty {
+            display: none;
+        }
+
+
+
+        .selected-donation-item {
+            margin-bottom: 15px;
+        }
+
+        .selected-donation-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .selected-donation-item .input-group {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .selected-donation-item .input-group-text {
+            background: #f8faf9;
+            border: 1px solid #dee2e6;
+            border-right: 0;
+            padding: 12px 15px;
+            color: #145c46;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .selected-donation-item .form-control {
+            min-height: 48px;
+            border-radius: 0;
+            border: 1px solid #dee2e6;
+            box-shadow: none;
+        }
+
+        .selected-donation-item .donation-remove-btn {
+            width: 48px;
+            min-width: 48px;
+            margin-left: 8px;
+            border: none;
+            border-radius: 8px;
+            background: #fff0f1;
+            color: #dc3545;
+            font-size: 18px;
+        }
+
+        .selected-donation-item .donation-remove-btn:hover {
+            background: #dc3545;
+            color: #fff;
+        }
     </style>
 @endpush
 @section('content')
@@ -397,7 +506,8 @@
                     </ol>
                 </nav>
                 <div class="mt-3 mb-3 px-0">
-                    <a href="{{route('zakatCalculator')}}" class="btn d-flex align-items-center justify-content-end btn-primary text-white"
+                    <a href="{{ route('zakatCalculator') }}"
+                        class="btn d-flex align-items-center justify-content-end btn-primary text-white"
                         id="mobileCategoryToggle">
                         <i class="fa fa-taka mr-2 font-size-15"></i>
                         <span> ৳ যাকাত ক্যালকুলেটর</span>
@@ -468,30 +578,50 @@
                         <form action="#" method="POST">
                             @csrf
 
-                            <!-- Donation Subcategory -->
+                            {{-- Donation Subcategory --}}
                             <div class="mb-4">
-                                <label class="form-label fw-bold mb-3">অনুদানের খাত নির্বাচন করুন</label>
+                                <label class="form-label fw-bold mb-3">
+                                    অনুদানের খাত নির্বাচন করুন
+                                </label>
+
                                 <div class="row g-2">
                                     @foreach ($subcategories as $subcategory)
                                         <div class="col-12 col-md-6">
                                             <label class="donation-option d-flex align-items-center gap-2 p-3 rounded">
-                                                <input type="checkbox" name="subcategory_ids[]"
-                                                    value="{{ $subcategory->id }}">
+
+                                                <input type="checkbox" class="donation-subcategory-checkbox"
+                                                    value="{{ $subcategory->id }}"
+                                                    data-subcategory-name="{{ $subcategory->subcategory }}">
+
                                                 <span>{{ $subcategory->subcategory }}</span>
+
                                             </label>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
 
-                            <!-- Donation Amount -->
-                            <div class="form-group mb-3">
-                                <label>অনুদানের পরিমাণ (টাকা) <span>*</span></label>
+                            {{-- Selected Subcategory Amount Fields --}}
+                            <div class="selected-donation-wrapper">
 
-                                <div class="donation-amount-wrapper">
-                                    <span>৳</span>
-                                    <input type="number" name="amount" class="form-control donation-input"
-                                        placeholder="অনুদানের পরিমাণ লিখুন" min="1" step="1" required>
+                                <h5 class="selected-donation-title">
+                                    নির্বাচিত খাতের অনুদানের পরিমাণ
+                                </h5>
+
+                                <div id="selectedDonationFields"></div>
+
+                            </div>
+
+                            <!-- Donation Amount -->
+                            <div id="normalDonationAmountWrapper">
+                                <div class="form-group mb-3">
+                                    <label>অনুদানের পরিমাণ (টাকা) <span>*</span></label>
+
+                                    <div class="donation-amount-wrapper">
+                                        <span>৳</span>
+                                        <input type="number" name="amount" class="form-control donation-input"
+                                            placeholder="অনুদানের পরিমাণ লিখুন" min="1" step="1" required>
+                                    </div>
                                 </div>
                             </div>
 
@@ -551,4 +681,101 @@
 @endsection
 
 @push('footer_script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const donationFields = document.getElementById('selectedDonationFields');
+            const normalAmountWrapper = document.getElementById('normalDonationAmountWrapper');
+
+            function updateNormalAmountVisibility() {
+                const selectedCount = document.querySelectorAll(
+                    '.donation-subcategory-checkbox:checked'
+                ).length;
+
+                if (normalAmountWrapper) {
+                    normalAmountWrapper.style.display =
+                        selectedCount > 0 ? 'none' : '';
+                }
+            }
+
+            function addDonationField(checkbox) {
+                const subcategoryId = checkbox.value;
+                const subcategoryName = checkbox.dataset.subcategoryName;
+
+                if (donationFields.querySelector(
+                        `[data-subcategory-id="${subcategoryId}"]`
+                    )) {
+                    return;
+                }
+
+                const item = document.createElement('div');
+                item.className = 'selected-donation-item';
+                item.dataset.subcategoryId = subcategoryId;
+
+                item.innerHTML = `
+            <label>${subcategoryName}</label>
+
+            <div class="input-group">
+                <span class="input-group-text">৳</span>
+
+                <input
+                    type="hidden"
+                    name="donations[${subcategoryId}][subcategory_id]"
+                    value="${subcategoryId}"
+                >
+
+                <input
+                    type="number"
+                    name="donations[${subcategoryId}][amount]"
+                    class="form-control"
+                    placeholder="অনুদানের পরিমাণ লিখুন"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="donation-remove-btn"
+                    title="Remove"
+                >
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+
+                donationFields.appendChild(item);
+
+                item.querySelector('.donation-remove-btn').addEventListener('click', function() {
+                    checkbox.checked = false;
+                    item.remove();
+                    updateNormalAmountVisibility();
+                });
+            }
+
+            document.querySelectorAll('.donation-subcategory-checkbox').forEach(function(checkbox) {
+
+                checkbox.addEventListener('change', function() {
+
+                    if (this.checked) {
+                        addDonationField(this);
+                    } else {
+                        const item = donationFields.querySelector(
+                            `[data-subcategory-id="${this.value}"]`
+                        );
+
+                        if (item) {
+                            item.remove();
+                        }
+                    }
+
+                    updateNormalAmountVisibility();
+                });
+
+            });
+
+            updateNormalAmountVisibility();
+
+        });
+    </script>
 @endpush

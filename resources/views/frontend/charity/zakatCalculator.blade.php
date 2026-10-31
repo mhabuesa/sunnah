@@ -153,6 +153,7 @@
             border: none;
             border-radius: 8px;
             padding: 12px 20px;
+            font-size: 18px;
             font-weight: 600;
             width: 100%;
             margin-top: 18px;
@@ -748,48 +749,60 @@
 
                 {{-- Result --}}
                 <div class="col-lg-4">
-                    <div class="zakat-result">
+                <form action="#">
+                        <div class="zakat-result">
 
-                        <h4 class="zakat-result-title">
-                            <i class="fas fa-calculator mr-2"></i>
-                            যাকাতের হিসাব
-                        </h4>
+                            <h4 class="zakat-result-title">
+                                <i class="fas fa-calculator mr-2"></i>
+                                যাকাতের হিসাব
+                            </h4>
 
-                        <div class="zakat-result-row">
-                            <span>মোট সম্পদ</span>
-                            <strong id="totalAssets">৳ ০</strong>
+                            <div class="zakat-result-row">
+                                <span>মোট সম্পদ</span>
+                                <strong id="totalAssets">৳ ০</strong>
+                            </div>
+
+                            <div class="zakat-result-row">
+                                <span>মোট দায়</span>
+                                <strong id="totalLiabilities">৳ ০</strong>
+                            </div>
+
+                            <div class="zakat-result-row">
+                                <span>নিট সম্পদ</span>
+                                <strong id="netAssets">৳ ০</strong>
+                            </div>
+
+                            <div class="zakat-result-row">
+                                <span>নিসাবের পরিমাণ</span>
+                                <strong id="nisabDisplay">৳ ০</strong>
+                            </div>
+
+                            <div class="zakat-payable">
+                                <p>আপনার প্রদেয় যাকাত</p>
+                                <h3 id="zakatPayable">৳ ০</h3>
+                            </div>
+
+                            <div class="d-flex">
+                                <button type="button"
+                                    class="btn btn-sm btn-primary text-white zakat-calculate-btn mr-1 w-25"
+                                    id="resetCalculator">
+                                    <i class="fas fa-redo-alt mr-2"></i>
+                                </button>
+
+                                <button type="submit"
+                                    class="btn btn-sm btn-primary text-white zakat-calculate-btn w-100">
+                                    <i class="fas fa-heart mr-2"></i>
+                                    যাকাত প্রদান করুন
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+
+                            <div class="zakat-info" id="zakatMessage">
+                                আপনার সম্পদের পরিমাণ লিখুন এবং নিসাবের মূল্য নির্ধারণ করুন। যাকাতের হিসাব এখানে দেখা যাবে।
+                            </div>
+
                         </div>
-
-                        <div class="zakat-result-row">
-                            <span>মোট দায়</span>
-                            <strong id="totalLiabilities">৳ ০</strong>
-                        </div>
-
-                        <div class="zakat-result-row">
-                            <span>নিট সম্পদ</span>
-                            <strong id="netAssets">৳ ০</strong>
-                        </div>
-
-                        <div class="zakat-result-row">
-                            <span>নিসাবের পরিমাণ</span>
-                            <strong id="nisabDisplay">৳ ০</strong>
-                        </div>
-
-                        <div class="zakat-payable">
-                            <p>আপনার প্রদেয় যাকাত</p>
-                            <h3 id="zakatPayable">৳ ০</h3>
-                        </div>
-
-                        <button type="button" class="zakat-calculate-btn" id="resetCalculator">
-                            <i class="fas fa-redo-alt mr-2"></i>
-                            নতুন করে হিসাব করুন
-                        </button>
-
-                        <div class="zakat-info" id="zakatMessage">
-                            আপনার সম্পদের পরিমাণ লিখুন এবং নিসাবের মূল্য নির্ধারণ করুন। যাকাতের হিসাব এখানে দেখা যাবে।
-                        </div>
-
-                    </div>
+                    </form>
                 </div>
 
             </div>
