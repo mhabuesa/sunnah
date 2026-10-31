@@ -280,6 +280,30 @@
             color: #b0b8b2;
             font-size: 16px;
         }
+
+        .zakat-card-danger {
+            background: rgba(249, 201, 201, 0.76)
+        }
+        .zakat-card-success {
+            background: rgba(136, 239, 176, 0.76)
+        }
+
+        .zakat-sticky-column {
+            position: sticky;
+            top: 5px;
+            align-self: flex-start;
+            height: fit-content;
+        }
+
+        .zakat-result {
+            position: relative;
+        }
+
+        @media (max-width: 991px) {
+            .zakat-sticky-column {
+                position: static;
+            }
+        }
     </style>
 @endpush
 
@@ -666,7 +690,7 @@
                                 <div class="zakat-field">
                                     <label>চন্দ্র বৎসরের অগ্রিম যাকাত প্রদান করলে</label>
                                     <div class="input-group">
-                                        <input type="number" min="0" step="any" class="form-control"
+                                        <input type="number" min="0" step="any" class="form-control zakat-asset"
                                             placeholder="টাকার পরিমাণ লিখুন">
                                         <span class="input-group-text">৳</span>
                                     </div>
@@ -691,34 +715,77 @@
 
 
                     {{-- Liabilities --}}
-                    <div class="zakat-card">
+                    <div class="zakat-card zakat-card-danger">
                         <h4 class="zakat-section-title">
                             <i class="fas fa-file-invoice-dollar"></i>
-                            ঋণ ও অন্যান্য দায়
+                            যাকাত থেকে অব্যাহতিপ্রাপ্ত সম্পদের বর্ণনা (ঋণ ও অন্যান্য দায়)
                         </h4>
 
                         <div class="row">
 
                             <div class="col-md-6">
                                 <div class="zakat-field">
-                                    <label>পরিশোধযোগ্য ঋণ</label>
+                                    <label>সাংসারিক প্রয়োজনে ব্যাংক বা কোন প্রতিষ্ঠান থেকে গৃহীত ঋণ</label>
                                     <div class="input-group">
                                         <span class="input-group-text">৳</span>
                                         <input type="number" min="0" step="any"
                                             class="form-control zakat-liability" name="loan" placeholder="0.00">
                                     </div>
+                                    <div class="zakat-note">ঋণের বর্তমান দায়দেনার পরিমাণ</div>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="zakat-field">
-                                    <label>বকেয়া বিল ও অন্যান্য দায়</label>
+                                    <label>বাকিতে বা কিস্তিতে পরিশোধের জন্য দেনা</label>
                                     <div class="input-group">
                                         <span class="input-group-text">৳</span>
                                         <input type="number" min="0" step="any"
                                             class="form-control zakat-liability" name="other_liabilities"
                                             placeholder="0.00">
                                     </div>
+                                    <div class="zakat-note">পরিশোধিত কিস্তি কর্তনের পর বর্তমান দেনার পরিমাণ</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="zakat-field">
+                                    <label>সাংসারিক প্রয়োজনে ব্যক্তিগত ধার/দেনা/করজে হাছানা</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">৳</span>
+                                        <input type="number" min="0" step="any"
+                                            class="form-control zakat-liability" name="other_liabilities"
+                                            placeholder="0.00">
+                                    </div>
+                                    <div class="zakat-note">ধার-দেনার পরিমাণ</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="zakat-field">
+                                    <label>স্ত্রীর অপরিশোধিত মোহরানার দেনা, (যদি স্ত্রীর পাবার তাগাদা থাকে)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">৳</span>
+                                        <input type="number" min="0" step="any"
+                                            class="form-control zakat-liability" name="other_liabilities"
+                                            placeholder="0.00">
+                                    </div>
+                                    <div class="zakat-note">দেনা/বকেয়ার পরিমাণ</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="zakat-field">
+                                    <label>সরকার ও প্রতিষ্ঠানের পাওনা: জমির খাজনা, ওয়াসা, বিদ্যুৎ ও গ্যাস বিল, পৌরসভা বা
+                                        সিটি করপোরেশনের ট্যাক্স, অধীনস্থের বেতন, ছেলেমেয়ের স্কুল কলেজের বকেয়া বেতন (যদি
+                                        থাকে) ইত্যাদি</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">৳</span>
+                                        <input type="number" min="0" step="any"
+                                            class="form-control zakat-liability" name="other_liabilities"
+                                            placeholder="0.00">
+                                    </div>
+                                    <div class="zakat-note">নির্ধারিতে তারিখের মোট দেনা/বকেয়ার পরিমাণ</div>
                                 </div>
                             </div>
 
@@ -726,7 +793,7 @@
                     </div>
 
                     {{-- Nisab --}}
-                    <div class="zakat-card">
+                    <div class="zakat-card zakat-card-success">
                         <h4 class="zakat-section-title">
                             <i class="fas fa-balance-scale"></i>
                             নিসাবের পরিমাণ
@@ -748,8 +815,8 @@
                 </div>
 
                 {{-- Result --}}
-                <div class="col-lg-4">
-                <form action="#">
+                <div class="col-lg-4 zakat-sticky-column">
+                    <form action="#">
                         <div class="zakat-result">
 
                             <h4 class="zakat-result-title">
