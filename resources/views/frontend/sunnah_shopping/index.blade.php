@@ -146,7 +146,6 @@
         #mobileCategoryToggle:hover {
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(13, 49, 35, 0.3);
-            /* background: linear-gradient(135deg, #164e3b 0%, #0d3123 100%) !important; */
         }
     </style>
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/ion-rangeslider/css/ion.rangeSlider.css">
@@ -159,7 +158,8 @@
             <div class="my-md-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{route('index')}}">Home</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
+                        </li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Sunnah
                             Shopping
                         </li>
@@ -224,8 +224,7 @@
 
                     <!-- Mobile Category Trigger Button (Visible only on mobile/tablet) -->
                     <div class="d-xl-none mt-3 mb-3 px-0">
-                        <button class="btn d-flex align-items-center justify-content-end"
-                            id="mobileCategoryToggle">
+                        <button class="btn d-flex align-items-center justify-content-end" id="mobileCategoryToggle">
                             <i class="fa fa-th-large mr-2 font-size-15"></i>
                             <span>Browse Categories</span>
                             <i class="fa fa-chevron-down ml-2 font-size-12"></i>
@@ -323,22 +322,38 @@
         let currentPage = 1;
 
         $(document).ready(function() {
-            // Category accordion toggle for both desktop and mobile
+
+            // Category Accordion Toggle
             $(document).on('click', '.category-row', function() {
                 toggleCategory($(this));
             });
 
+            // Keyboard Accessibility
+            $(document).on('keydown', '.category-row', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleCategory($(this));
+                }
+            });
+
+            // Toggle Category and Close Other Categories
             function toggleCategory($row) {
                 const target = $row.data('target');
                 const $subcategoryList = $(target);
                 const isExpanded = $row.attr('aria-expanded') === 'true';
 
-                // Close other categories inside the same container
-                const $parentContainer = $row.closest('.border-bottom, .mobile-drawer-body');
-                $parentContainer.find('.category-row').not($row).attr('aria-expanded', 'false').removeClass(
-                    'active');
-                $parentContainer.find('.subcategory-list').not($subcategoryList).stop(true, true).slideUp(250);
+                // Close all other categories
+                $('.category-row')
+                    .not($row)
+                    .attr('aria-expanded', 'false')
+                    .removeClass('active');
 
+                $('.subcategory-list')
+                    .not($subcategoryList)
+                    .stop(true, true)
+                    .slideUp(250);
+
+                // Toggle clicked category
                 if (isExpanded) {
                     $row.attr('aria-expanded', 'false').removeClass('active');
                     $subcategoryList.stop(true, true).slideUp(250);
@@ -348,35 +363,49 @@
                 }
             }
 
-            // Mobile Drawer Toggle Events
-            $('#mobileCategoryToggle, #mobileDrawerOverlay, #closeMobileDrawer').on('click', function() {
-                $('#mobileCategoryDrawer').toggleClass('open');
-                $('#mobileDrawerOverlay').toggle();
+
+            // Mobile Drawer Open
+            $('#mobileCategoryToggle').on('click', function() {
+                $('#mobileCategoryDrawer').addClass('open');
+                $('#mobileDrawerOverlay').show();
             });
+
+            // Mobile Drawer Close
+            $('#mobileDrawerOverlay, #closeMobileDrawer').on('click', function() {
+                $('#mobileCategoryDrawer').removeClass('open');
+                $('#mobileDrawerOverlay').hide();
+            });
+
 
             // Subcategory Click Event (AJAX Filter)
             $(document).on('click', '.subcategory-filter-btn', function(e) {
                 e.preventDefault();
+
                 $('.subcategory-filter-btn').removeClass('text-success font-weight-bold');
                 $(this).addClass('text-success font-weight-bold');
 
                 currentSubcategoryId = $(this).data('id');
                 currentPage = 1;
+
                 fetchProducts();
 
-                // Close mobile drawer automatically on subcategory selection
+                // Close mobile drawer after selection
                 if ($('#mobileCategoryDrawer').hasClass('open')) {
                     $('#mobileCategoryDrawer').removeClass('open');
                     $('#mobileDrawerOverlay').hide();
                 }
             });
 
+
             // Pagination Click Event (AJAX)
             $(document).on('click', '.ajax-pagination-link', function(e) {
                 e.preventDefault();
+
                 let href = $(this).attr('href');
+
                 if (href && href.includes('page=')) {
                     let page = href.split('page=')[1].split('&')[0];
+
                     if (page) {
                         currentPage = page;
                         fetchProducts();
@@ -384,6 +413,8 @@
                 }
             });
 
+
+            // Fetch Products
             function fetchProducts() {
                 $('#product-loading').show();
                 $('#product-list').css('opacity', '0.3');
@@ -395,25 +426,30 @@
                         subcategory_id: currentSubcategoryId,
                         page: currentPage
                     },
+
                     success: function(response) {
                         $('#product-loading').hide();
                         $('#product-list').css('opacity', '1');
+
                         $('#product-list').html(response.product_html);
                         $('#product-pagination').html(response.pagination_html);
 
-                        // Smooth scroll to top of product list
+                        // Smooth scroll to product list
                         $('html, body').animate({
                             scrollTop: $('#product-list').offset().top - 120
                         }, 300);
                     },
+
                     error: function(xhr) {
                         $('#product-loading').hide();
                         $('#product-list').css('opacity', '1');
+
                         console.log(xhr.responseText);
                         alert('Something went wrong. Please try again.');
                     }
                 });
             }
+
         });
     </script>
 @endpush
