@@ -92,7 +92,7 @@
                             </li>
 
                             <li class="nav-item u-header__nav-last-item">
-                                <a class="u-header-collapse__nav-link text-primary font-weight-bold" href="#"
+                                <a class="u-header-collapse__nav-link text-primary font-weight-bold"  href="{{route('charity.index')}}"
                                     target="_blank">
                                     ছ্বদাকাহ ও চ্যারিটি <i class="fas fa-donate ml-1"></i>
                                 </a>
