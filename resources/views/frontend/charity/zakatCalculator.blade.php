@@ -284,6 +284,7 @@
         .zakat-card-danger {
             background: rgba(249, 201, 201, 0.76)
         }
+
         .zakat-card-success {
             background: rgba(136, 239, 176, 0.76)
         }
@@ -302,6 +303,38 @@
         @media (max-width: 991px) {
             .zakat-sticky-column {
                 position: static;
+            }
+
+            #zakatResultBtn {
+                position: fixed;
+                right: 0;
+                top: 66%;
+                transform: translateY(-50%);
+                z-index: 999;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 7px;
+                background: #164e3b;
+                color: #fff;
+                text-decoration: none;
+                font-weight: 600;
+                border-radius: 10px 0 0 10px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
+                writing-mode: vertical-rl;
+                animation: donatePulse 2s infinite;
+            }
+
+            #zakatResultBtn:hover {
+                background: #0d382a;
+                color: #fff;
+            }
+
+            #zakatResultBtn i {
+                transform: rotate(90deg);
+            }
+            #donateNowBtn {
+                display: none !important;
             }
         }
     </style>
@@ -690,8 +723,8 @@
                                 <div class="zakat-field">
                                     <label>চন্দ্র বৎসরের অগ্রিম যাকাত প্রদান করলে</label>
                                     <div class="input-group">
-                                        <input type="number" min="0" step="any" class="form-control zakat-asset"
-                                            placeholder="টাকার পরিমাণ লিখুন">
+                                        <input type="number" min="0" step="any"
+                                            class="form-control zakat-asset" placeholder="টাকার পরিমাণ লিখুন">
                                         <span class="input-group-text">৳</span>
                                     </div>
                                     <div class="zakat-note">অগ্রিম যাকাতের পরিমাণ</div>
@@ -815,7 +848,7 @@
                 </div>
 
                 {{-- Result --}}
-                <div class="col-lg-4 zakat-sticky-column">
+                <div class="col-lg-4 zakat-sticky-column" id="zakat_result_form">
                     <form action="#">
                         <div class="zakat-result">
 
@@ -887,6 +920,11 @@
     <a href="{{ route('charity.index') }}" id="donateNowBtn">
         <i class="fas fa-hand-holding-heart"></i>
         <span>দান করুন</span>
+    </a>
+
+    <a href="#zakat_result_form" id="zakatResultBtn">
+        <i class="fas fa-hand-holding-heart"></i>
+        <span>যাকাত দেখুন</span>
     </a>
 
 @endsection
