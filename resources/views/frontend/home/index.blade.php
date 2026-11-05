@@ -560,7 +560,7 @@
                                         <div class="product-item__body">
                                             <h5 class="mb-1 product-item__title"><a
                                                     href="{{ route('product', $product->product->slug) }}"
-                                                    class="text-blue font-weight-bold">{{ $product->product->name }}</a>
+                                                    class="text-blue font-weight-bold">{{ Str::limit($product->product->name, '20', '...') }}</a>
                                             </h5>
                                             <div class="mb-2">
                                                 <a href="{{ route('product', $product->product->slug) }}"
