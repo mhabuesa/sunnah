@@ -301,6 +301,12 @@
             display: block;
             overflow: hidden;
         }
+
+        @media (max-width: 767.98px) {
+            .js-short-product-name {
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 @endpush
 @section('content')
