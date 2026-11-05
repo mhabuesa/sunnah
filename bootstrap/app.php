@@ -19,6 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'customer' => CustomerMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'payment/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

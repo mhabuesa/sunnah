@@ -299,6 +299,9 @@
         .zakat-result {
             position: relative;
         }
+        #zakatResultBtn {
+            display: none !important;
+        }
 
         @media (max-width: 991px) {
             .zakat-sticky-column {
@@ -311,7 +314,7 @@
                 top: 66%;
                 transform: translateY(-50%);
                 z-index: 999;
-                display: flex;
+                display: flex !important;
                 align-items: center;
                 gap: 8px;
                 padding: 14px 7px;

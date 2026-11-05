@@ -6,6 +6,7 @@ use App\Models\AppSetting;
 use App\Models\BusinessSettingModel;
 use App\Models\DeliveryMethod;
 use App\Models\FraudCheck;
+use App\Models\PaymentMethod;
 use App\Models\SmsConfig;
 use App\Traits\ImageSaveTrait;
 use DateTimeZone;
@@ -145,7 +146,7 @@ class SettingController extends Controller
         $methods = ['steadfast', 'pathao', 'redx'];
 
         foreach ($methods as $method) {
-            $delivery[$method] = $delivery[$method] ?? new \App\Models\DeliveryMethod([
+            $delivery[$method] = $delivery[$method] ?? new DeliveryMethod([
                 'name' => $method,
                 'status' => 0,
                 'config' => [
@@ -386,5 +387,47 @@ class SettingController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'BD Courier status Updated Successfully'], 200);
+    }
+
+    public function payment()
+    {
+        $payment = PaymentMethod::first();
+
+        return view('backend.settings.payment', compact('payment'));
+    }
+    public function payment_update(Request $request)
+    {
+        $request->validate([
+            'store_id' => 'required',
+            'store_password' => 'required'
+        ]);
+
+        PaymentMethod::updateOrCreate(
+            ['method' => 'ssl_commerz'],
+            [
+                'config' => [
+                    'store_id' => $request->store_id,
+                    'store_password' => $request->store_password,
+                ]
+            ]
+        );
+
+        return redirect()->back()->with('success', 'Payment Method Updated');
+    }
+
+    public function payment_status()
+    {
+        $status = PaymentMethod::where('method', 'ssl_commerz')->first();
+        try {
+            // Update category status
+            $status->update([
+                'status' => $status->status == '1' ? '0' : '1',
+            ]);
+        } catch (\Exception $e) {
+            Log::error($e);
+            return error($e->getMessage());
+        }
+
+        return response()->json(['success' => true, 'message' => 'Payment status Updated Successfully'], 200);
     }
 }

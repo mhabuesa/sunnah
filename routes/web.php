@@ -22,6 +22,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SmsCampaignController;
 use App\Http\Controllers\SmsController;
+use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\SunnahShoppingController;
 use App\Http\Controllers\TestController;
@@ -40,6 +41,14 @@ use Illuminate\Support\Facades\Route;
     Route::controller(HomeController::class)->group(function () {
         Route::get('/fraudCheck', 'fraudCheck')->name('froudCheck');
         Route::get('/awajDigital', 'CheckBalance');
+        Route::post('/sslc/success', 'success')->name('sslc.success');
+        Route::get('/sslc/failure', 'failure')->name('sslc.failure');
+        Route::get('/sslc/cancel', 'cancel')->name('sslc.cancel');
+        Route::get('/sslc/ipn', 'ipn')->name('sslc.ipn');
+    });
+
+    Route::controller(TestController::class)->group(function () {
+        Route::get('/test', 'test')->name('test');
     });
 
     Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
@@ -174,6 +183,9 @@ use Illuminate\Support\Facades\Route;
             Route::get('/app/sms', 'sms')->name('app.sms');
             Route::post('/app/sms/update', 'sms_update')->name('app.sms.update');
             Route::post('/app/sms-config/update', 'sms_config_update')->name('app.sms.config.update');
+            Route::get('/app/payment', 'payment')->name('app.payment');
+            Route::post('/app/payment/update', 'payment_update')->name('app.payment.update');
+            Route::post('/app/payment/status', 'payment_status')->name('app.payment.status');
             Route::get('/app/fraudCheck', 'fraudCheck')->name('app.fraudCheck');
             Route::post('/app/fraudCheck/update', 'fraudCheck_update')->name('app.fraudCheck.update');
             Route::post('/app/fraudCheck/status', 'fraudCheck_status')->name('app.fraudCheck.status');
@@ -348,3 +360,4 @@ use Illuminate\Support\Facades\Route;
     });
 
     require __DIR__ . '/frontend.php';
+    require __DIR__ . '/payment.php';

@@ -575,7 +575,7 @@
                             <p>আপনার পছন্দের খাত নির্বাচন করে অনুদানের পরিমাণ প্রদান করুন।</p>
                         </div>
 
-                        <form action="#" method="POST">
+                        <form action="{{ route('charity.store') }}" method="POST">
                             @csrf
 
                             {{-- Donation Subcategory --}}
@@ -620,7 +620,7 @@
                                     <div class="donation-amount-wrapper">
                                         <span>৳</span>
                                         <input type="number" name="amount" class="form-control donation-input"
-                                            placeholder="অনুদানের পরিমাণ লিখুন" min="1" step="1" required>
+                                            placeholder="অনুদানের পরিমাণ লিখুন" min="1" step="1">
                                     </div>
                                 </div>
                             </div>

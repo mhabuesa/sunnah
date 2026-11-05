@@ -38,7 +38,7 @@ Route::controller(SunnahShoppingController::class)->group(function () {
 Route::controller(CharityController::class)->group(function () {
     Route::get('/charity', 'index')->name('charity.index');
     Route::get('/charity/details/{slug}', 'charity_details')->name('charity.details');
-    // Route::get('/sunnah-shopping/filter-products', 'getProducts')->name('sunnah.filter.products');
+    Route::post('/charity/store', 'charity_store')->name('charity.store');
     Route::get('/zakatCalculator', 'zakatCalculator')->name('zakatCalculator');
 });
 

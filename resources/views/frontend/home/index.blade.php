@@ -254,7 +254,7 @@
         }
 
         /* Mobile responsive coupon copy button */
-         .copy-coupon-btn {
+        .copy-coupon-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -277,6 +277,22 @@
             .copy-coupon-btn i {
                 font-size: 13px;
             }
+        }
+
+
+
+
+        /* Pagination dot-কে product-এর নিচে নামাতে bottom margin/positioning adjust */
+        .home-category-slider .u-slick__pagination {
+            position: relative !important;
+            bottom: auto !important;
+            margin-top: 20px !important;
+            z-index: 1 !important;
+        }
+
+        /* Slider wrapper-এ যথেষ্ট জায়গা রাখা */
+        .home-category-slider .js-slick-carousel {
+            padding-bottom: 10px;
         }
     </style>
 @endpush
@@ -508,7 +524,7 @@
                 </div>
                 <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                     data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                    data-slides-show="7" data-slides-scroll="1"
+                    data-slides-show="7"
                     data-responsive='[{
                           "breakpoint": 1400,
                           "settings": {
@@ -537,17 +553,14 @@
                         }]'>
 
                     @foreach ($todaysDeals as $product)
-                        <div class="js-slide products-group">
+                        <div class="js-slide products-group mx-2">
                             <div class="product-item remove-divider">
                                 <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-wd-4 p-2 p-md-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a href="{{ route('product', $product->product->slug) }}"
-                                                    class="font-size-14 text-gray-5">{{ $product->product->category->name }}</a>
-                                            </div>
+                                    <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                        <div class="product-item__body">
                                             <h5 class="mb-1 product-item__title"><a
                                                     href="{{ route('product', $product->product->slug) }}"
-                                                    class="text-blue font-weight-bold">{{ Str::limit($product->product->name, '20', '...') }}</a>
+                                                    class="text-blue font-weight-bold">{{ $product->product->name }}</a>
                                             </h5>
                                             <div class="mb-2">
                                                 <a href="{{ route('product', $product->product->slug) }}"
@@ -555,16 +568,15 @@
                                                         src="{{ asset($product->product->image) }}"
                                                         alt="Image Description"></a>
                                             </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">৳{{ productPrice($product->product->id) }}
-                                                    </div>
+                                            <div class="prodcut-price">
+                                                <div class="text-gray-100">৳{{ productPrice($product->product->id) }}
                                                 </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="{{ route('product', $product->product->slug) }}"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+
+                                                <a href="{{ route('product', $product->product->slug) }}"
+                                                    class="btn btn-sm w-100 border-primary rounded transition-3d-hover py-1"><i
+                                                        class="ec ec-add-to-cart"></i> Add to Cart</a>
                                             </div>
                                         </div>
                                     </div>
@@ -610,7 +622,7 @@
 
                     <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                         data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                        data-slides-show="7" data-slides-scroll="1"
+                        data-slides-show="7" data-slides-scroll="2"
                         data-responsive='[{
                         "breakpoint": 1400,
                         "settings": {"slidesToShow": 5}
