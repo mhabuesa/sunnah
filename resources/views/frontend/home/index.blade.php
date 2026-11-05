@@ -558,7 +558,7 @@
                                 <div class="product-item__outer h-100">
                                     <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
                                         <div class="product-item__body">
-                                            <h5 class="mb-1 product-item__title "><a
+                                            <h5 class="mb-3 product-item__title "><a
                                                     href="{{ route('product', $product->product->slug) }}"
                                                     class="text-blue font-weight-bold">{{ Str::limit($product->product->name, '20', '...') }}</a>
                                             </h5>
