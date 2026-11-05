@@ -297,17 +297,9 @@
 
 
 
-
-        .product-title-clamp {
-            display: -webkit-box !important;
-            -webkit-line-clamp: 1;
-            /* ১ লাইনের বেশি দেখাবে না */
-            -webkit-box-orient: vertical;
+        .js-short-product-name {
+            display: block;
             overflow: hidden;
-            text-overflow: ellipsis;
-            word-break: break-word;
-            height: 1.5em;
-            /* ফন্ট সাইজ অনুযায়ী ১ লাইনের ফিক্সড হাইট */
         }
     </style>
 @endpush
@@ -573,35 +565,28 @@
                                 <div class="product-item__outer h-100">
                                     <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
                                         <div class="product-item__body">
-
-                                            <h5 class="mb-3 product-item__title">
+                                            <h5 class="mb-0 product-item__title">
                                                 <a href="{{ route('product', $product->product->slug) }}"
-                                                    class="text-blue font-weight-bold product-title-clamp"
-                                                    title="{{ $product->product->name }}">
+                                                    class="text-blue font-weight-bold text-center js-short-product-name">
                                                     {{ $product->product->name }}
                                                 </a>
                                             </h5>
-
                                             <div class="mb-2">
                                                 <a href="{{ route('product', $product->product->slug) }}"
-                                                    class="d-block text-center">
-                                                    <img class="img-fluid" src="{{ asset($product->product->image) }}"
-                                                        alt="Image Description">
-                                                </a>
+                                                    class="d-block text-center"><img class="img-fluid"
+                                                        src="{{ asset($product->product->image) }}"
+                                                        alt="Image Description"></a>
                                             </div>
-
                                             <div class="prodcut-price">
                                                 <div class="text-gray-100">৳{{ productPrice($product->product->id) }}
                                                 </div>
                                             </div>
-
                                             <div class="mt-2">
-                                                <a href="{{ route('product', $product->product->slug) }}"
-                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1">
-                                                    <i class="ec ec-add-to-cart"></i> Add to Cart
-                                                </a>
-                                            </div>
 
+                                                <a href="{{ route('product', $product->product->slug) }}"
+                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
+                                                        class="ec ec-add-to-cart"></i> Add to Cart</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -939,21 +924,37 @@
             }
         });
     </script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const titles = document.querySelectorAll('.product-title-clamp');
+        function shortProductNames() {
+            document.querySelectorAll('.js-short-product-name').forEach(function(element) {
+                const originalText = element.dataset.originalText || element.textContent.trim();
 
-            titles.forEach(function(titleEl) {
-                const fullText = titleEl.innerText.trim();
+                element.dataset.originalText = originalText;
 
-                // স্ক্রিন সাইজ বা কন্টেইনার উইথ অনুযায়ী ক্যারেক্টার লিমি트 সেট করতে পারেন 
-                // অথবা সরাসরি ট্রাংক্যাশন করতে পারেন। নিচে ক্যারেক্টার লিমিټ লজিক দেওয়া হলো:
-                const charLimit = 22; // আপনার ডিজাইন অনুযায়ী সংখ্যাটি কম-বেশি করে নিতে পারেন
+                const availableWidth = element.clientWidth;
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
 
-                if (fullText.length > charLimit) {
-                    titleEl.innerText = fullText.substring(0, charLimit) + '...';
+                const style = window.getComputedStyle(element);
+                context.font = style.font;
+
+                let text = originalText;
+
+                while (
+                    text.length > 0 &&
+                    context.measureText(text + '...').width > availableWidth
+                ) {
+                    text = text.slice(0, -1);
                 }
+
+                element.textContent = text.length < originalText.length ?
+                    text.trim() + '...' :
+                    originalText;
             });
-        });
+        }
+
+        window.addEventListener('load', shortProductNames);
+        window.addEventListener('resize', shortProductNames);
     </script>
 @endpush
