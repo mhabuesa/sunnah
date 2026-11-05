@@ -306,6 +306,8 @@
         @media (max-width: 767.98px) {
             .js-short-product-name {
                 margin-bottom: 0.5rem;
+                height: 22px;
+                padding-top: 5px;
             }
         }
     </style>
