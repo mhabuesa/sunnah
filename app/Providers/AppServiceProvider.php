@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\AppSetting;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\FeaturedProduct;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\TodaysDeal;
@@ -69,6 +70,11 @@ class AppServiceProvider extends ServiceProvider
                     ->select('id', 'name', 'logo', 'slug')
                     ->get();
             });
+            
+            $featuredProducts = Cache::remember('featuredProducts', 86400, function () {
+                return FeaturedProduct::where('status', 1)
+                    ->get();
+            });
 
             $cart = CartService::get();
 
@@ -96,6 +102,7 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with([
                 'categories' => $categories,
+                'featuredProducts' => $featuredProducts,
                 'cartItems' => $cart,
                 'cartProducts' => $products,
                 'cartVariations' => $variations,

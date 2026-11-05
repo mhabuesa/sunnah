@@ -199,12 +199,12 @@
         }
 
         .category-img-wrapper {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 10px;
             position: relative;
             overflow: hidden;
-            border-radius: 50%;
+            border-radius: 10px;
             background: #fdfbf7;
             border: 1px solid #efebe4;
         }
@@ -276,38 +276,6 @@
 
             .copy-coupon-btn i {
                 font-size: 13px;
-            }
-        }
-
-
-
-
-        /* Pagination dot-কে product-এর নিচে নামাতে bottom margin/positioning adjust */
-        .home-category-slider .u-slick__pagination {
-            position: relative !important;
-            bottom: auto !important;
-            margin-top: 20px !important;
-            z-index: 1 !important;
-        }
-
-        /* Slider wrapper-এ যথেষ্ট জায়গা রাখা */
-        .home-category-slider .js-slick-carousel {
-            padding-bottom: 10px;
-        }
-
-
-
-        .js-short-product-name {
-            display: block;
-            max-width: 100%;
-            overflow: hidden;
-        }
-
-        @media (max-width: 767.98px) {
-            .js-short-product-name {
-                margin-bottom: 0.5rem;
-                height: 22px;
-                padding-top: 5px;
             }
         }
     </style>
@@ -658,46 +626,32 @@
                         "settings": {"slidesToShow": 2}
                     }]'>
                         @foreach ($category->activeProducts as $product)
-                            <div class="js-slide products-group">
+                            <div class="js-slide products-group mx-2">
                                 <div class="product-item remove-divider">
                                     <div class="product-item__outer h-100">
-                                        <div class="product-item__inner px-wd-4 p-2 p-md-3">
-                                            <div class="product-item__body pb-xl-2">
-                                                <div class="mb-2">
+                                        <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                            <div class="product-item__body">
+                                                <h5 class="mb-0 product-item__title">
                                                     <a href="{{ route('product', $product->slug) }}"
-                                                        class="font-size-14 text-gray-5">
-                                                        {{ $product->category->name ?? '' }}
-                                                    </a>
-                                                </div>
-
-                                                <h5 class="mb-1 product-item__title">
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-blue font-weight-bold">
-                                                        {{ Str::limit($product->name, 20, '...') }}
+                                                        class="text-blue font-weight-bold text-center js-short-product-name">
+                                                        {{ $product->name }}
                                                     </a>
                                                 </h5>
-
                                                 <div class="mb-2">
                                                     <a href="{{ route('product', $product->slug) }}"
-                                                        class="d-block text-center">
-                                                        <img class="img-fluid" src="{{ asset($product->image) }}"
-                                                            alt="{{ $product->name }}">
-                                                    </a>
+                                                        class="d-block text-center"><img class="img-fluid"
+                                                            src="{{ asset($product->image) }}"
+                                                            alt="Image Description"></a>
                                                 </div>
-
-                                                <div class="flex-center-between mb-1">
-                                                    <div class="prodcut-price">
-                                                        <div class="text-gray-100">
-                                                            ৳{{ productPrice($product->id) }}
-                                                        </div>
+                                                <div class="prodcut-price">
+                                                    <div class="text-gray-100">৳{{ productPrice($product->id) }}
                                                     </div>
+                                                </div>
+                                                <div class="mt-2">
 
-                                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                                        <a href="{{ route('product', $product->slug) }}"
-                                                            class="btn-add-cart btn-primary transition-3d-hover">
-                                                            <i class="ec ec-add-to-cart"></i>
-                                                        </a>
-                                                    </div>
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
+                                                            class="ec ec-add-to-cart"></i> Add to Cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -729,35 +683,30 @@
                         <ul class="row list-unstyled products-group no-gutters">
                             @foreach ($latestProducts as $latestProduct)
                                 <li class="col-6 col-md-3 col-lg-2 product-item remove-divider">
-                                    <div class="product-item__outer h-100">
-                                        <div class="product-item__inner px-xl-4 p-3 ">
-                                            <div class="product-item__body pb-xl-2">
-                                                <div class="mb-2"><a
-                                                        href="{{ route('product', $latestProduct->slug) }}"
-                                                        class="font-size-14 text-gray-5">{{ $latestProduct->category->name }}</a>
-                                                </div>
-                                                <h5 class="mb-1 product-item__title"><a
-                                                        href="{{ route('product', $latestProduct->slug) }}"
-                                                        class="text-blue font-weight-bold">{{ Str::limit($latestProduct->name, '20', '...') }}</a>
+                                    <div class="product-item__outer h-100 m-2">
+                                        <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                            <div class="product-item__body">
+                                                <h5 class="mb-0 product-item__title">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="text-blue font-weight-bold text-center js-short-product-name">
+                                                        {{ $product->name }}
+                                                    </a>
                                                 </h5>
                                                 <div class="mb-2">
-                                                    <a href="{{ route('product', $latestProduct->slug) }}"
+                                                    <a href="{{ route('product', $product->slug) }}"
                                                         class="d-block text-center"><img class="img-fluid"
-                                                            src="{{ asset($latestProduct->image) }}"
+                                                            src="{{ asset($product->image) }}"
                                                             alt="Image Description"></a>
                                                 </div>
-                                                <div class="flex-center-between mb-1">
-                                                    <div class="prodcut-price">
-                                                        <div class="text-gray-100">৳
-                                                            {{ productPrice($latestProduct->id) }}
-                                                        </div>
+                                                <div class="prodcut-price">
+                                                    <div class="text-gray-100">৳{{ productPrice($product->id) }}
                                                     </div>
+                                                </div>
+                                                <div class="mt-2">
 
-                                                    <div class="d-none d-xl-block prodcut-add-cart">
-                                                        <a href="{{ route('product', $latestProduct->slug) }}"
-                                                            class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                                class="ec ec-add-to-cart"></i></a>
-                                                    </div>
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
+                                                            class="ec ec-add-to-cart"></i> Add to Cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -776,6 +725,43 @@
 
 
     <div class="container">
+
+        <!-- Brand Carousel -->
+        <div class="mb-8">
+            <div class="py-2 border-top border-bottom">
+                <div class="js-slick-carousel u-slick my-1" data-slides-show="5" data-slides-scroll="1"
+                    data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-normal u-slick__arrow-centered--y"
+                    data-arrow-left-classes="fa fa-angle-left u-slick__arrow-classic-inner--left z-index-9"
+                    data-arrow-right-classes="fa fa-angle-right u-slick__arrow-classic-inner--right"
+                    data-responsive='[{
+                                "breakpoint": 992,
+                                "settings": {
+                                    "slidesToShow": 2
+                                }
+                            }, {
+                                "breakpoint": 768,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }, {
+                                "breakpoint": 554,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }]'>
+                    @foreach ($brands as $brand)
+                        <div class="js-slide">
+                            <a href="{{ route('brand', $brand->slug) }}" class="link-hover__brand">
+                                <img class="img-fluid m-auto max-height-50" src="{{ $brand->logo }}"
+                                    alt="Image Description">
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <!-- End Brand Carousel -->
+
         <!-- Recently viewed -->
         @if ($recentProducts->count())
             <div class="mb-6 home-category-slider">
@@ -814,33 +800,31 @@
                         }]'>
 
                     @foreach ($recentProducts as $product)
-                        <div class="js-slide products-group">
+                        <div class="js-slide products-group mx-2">
                             <div class="product-item remove-divider">
                                 <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-wd-4 p-2 p-md-3">
-                                        <div class="product-item__body pb-xl-2">
-                                            <div class="mb-2"><a href="{{ route('product', $product->slug) }}"
-                                                    class="font-size-14 text-gray-5">{{ $product->category->name }}</a>
-                                            </div>
-                                            <h5 class="mb-1 product-item__title"><a
-                                                    href="{{ route('product', $product->slug) }}"
-                                                    class="text-blue font-weight-bold">{{ Str::limit($product->name, '20', '...') }}</a>
+                                    <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                        <div class="product-item__body">
+                                            <h5 class="mb-0 product-item__title">
+                                                <a href="{{ route('product', $product->slug) }}"
+                                                    class="text-blue font-weight-bold text-center js-short-product-name">
+                                                    {{ $product->name }}
+                                                </a>
                                             </h5>
                                             <div class="mb-2">
                                                 <a href="{{ route('product', $product->slug) }}"
                                                     class="d-block text-center"><img class="img-fluid"
                                                         src="{{ asset($product->image) }}" alt="Image Description"></a>
                                             </div>
-                                            <div class="flex-center-between mb-1">
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">৳ {{ productPrice($product->id) }}
-                                                    </div>
+                                            <div class="prodcut-price">
+                                                <div class="text-gray-100">৳{{ productPrice($product->id) }}
                                                 </div>
-                                                <div class="d-none d-xl-block prodcut-add-cart">
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                            class="ec ec-add-to-cart"></i></a>
-                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+
+                                                <a href="{{ route('product', $product->slug) }}"
+                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
+                                                        class="ec ec-add-to-cart"></i> Add to Cart</a>
                                             </div>
                                         </div>
                                     </div>
@@ -932,51 +916,5 @@
                 }, 3000);
             }
         });
-    </script>
-
-    <script>
-        function shortProductNames() {
-            document.querySelectorAll('.js-short-product-name').forEach(function(element) {
-                const originalText = element.dataset.originalText || element.textContent.trim();
-
-                element.dataset.originalText = originalText;
-                element.textContent = originalText;
-
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-
-                const style = window.getComputedStyle(element);
-                context.font = style.font;
-
-                const availableWidth = element.getBoundingClientRect().width;
-
-                if (context.measureText(originalText).width > availableWidth) {
-                    let text = originalText;
-
-                    while (
-                        text.length > 0 &&
-                        context.measureText(text + '...').width > availableWidth
-                    ) {
-                        text = text.slice(0, -1);
-                    }
-
-                    element.textContent = text.trim() + '...';
-                }
-            });
-        }
-
-        window.addEventListener('load', function() {
-            setTimeout(shortProductNames, 500);
-        });
-
-        window.addEventListener('resize', shortProductNames);
-
-        // Recalculate after Slick slider changes its layout
-        if (window.jQuery) {
-            jQuery('.js-slick-carousel').on(
-                'init reInit setPosition',
-                shortProductNames
-            );
-        }
     </script>
 @endpush

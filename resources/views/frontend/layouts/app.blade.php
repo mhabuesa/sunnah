@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Title -->
     <title>@yield('title', 'App') | {{ config('app.name', 'Dev Hunter') }}</title>
@@ -9,14 +10,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Kartify">
-    <meta name="keywords" content="Kartify">
-    <meta name="author" content="Kartify">
+    <meta name="description" content="Sunnah AtoZ">
+    <meta name="keywords" content="Sunnah AtoZ">
+    <meta name="author" content="Sunnah AtoZ">
     <link rel="icon" href="{{ asset(setting()->favicon) }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset(setting()->favicon) }}">
     <meta name="title-color" content="#ff9900">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Kartify">
+    <meta name="apple-mobile-web-app-title" content="Sunnah AtoZ">
     <meta name="msapplication-TileImage" content="{{ asset(setting()->favicon) }}">
     <meta name="msapplication-TileColor" content="#FFFFFF">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -95,6 +96,7 @@
             background: #ccc;
             border-radius: 10px;
         }
+
         .vertical-menu .vmm-tfw {
             position: relative;
         }
@@ -157,6 +159,14 @@
     <!-- End Account Sidebar Navigation -->
     <!-- ========== END SECONDARY CONTENTS ========== -->
 
+    <!-- Mobile Footer Menu -->
+    @include('frontend.layouts.partials.mobile_footer_menu')
+    <!-- End Mobile Footer Menu -->
+
+    <!-- Mobile Search Drawer -->
+    @include('frontend.layouts.partials.search_drawer')
+    <!-- End Mobile Search Drawer -->
+
     <!-- Go to Top -->
     <a class="js-go-to u-go-to" href="#" data-position='{"bottom": 15, "right": 15 }' data-type="fixed"
         data-offset-top="400" data-compensation="#header" data-show-effect="slideInUp" data-hide-effect="slideOutDown">
@@ -174,7 +184,8 @@
     <script src="{{ asset('frontend') }}/assets/vendor/appear.js"></script>
     <script src="{{ asset('frontend') }}/assets/vendor/jquery.countdown.min.js"></script>
     <script src="{{ asset('frontend') }}/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
+    <script
+        src="{{ asset('frontend') }}/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
     </script>
     <script src="{{ asset('frontend') }}/assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="{{ asset('frontend') }}/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
@@ -395,7 +406,6 @@
     </script>
 
     <script>
-
         function setCookie(name, value, days) {
             var expires = "";
             if (days) {
@@ -449,7 +459,7 @@
                     success: function(res) {
                         if (res.status) {
                             if (isRememberChecked) {
-                                setCookie("remember_phone", phoneVal, 30); 
+                                setCookie("remember_phone", phoneVal, 30);
                                 setCookie("remember_pass", passVal, 30);
                             } else {
                                 setCookie("remember_phone", "", -1);
@@ -504,6 +514,93 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            const drawer = $('#searchDrawer');
+            const overlay = $('#searchDrawerOverlay');
+            const searchInput = $('#searchDrawerInput');
+
+            // Open search drawer from header or mobile navigation.
+            $('#searchClassicInvoker, #mobileSearchInvoker').on('click', function(e) {
+                e.preventDefault();
+
+                drawer.addClass('active');
+                overlay.addClass('active');
+                $('body').addClass('search-drawer-open');
+
+                setTimeout(function() {
+                    searchInput.trigger('focus');
+                }, 350);
+            });
+
+            // Close search drawer.
+            function closeSearchDrawer() {
+                drawer.removeClass('active');
+                overlay.removeClass('active');
+                $('body').removeClass('search-drawer-open');
+            }
+
+            $('#closeSearchDrawer').on('click', closeSearchDrawer);
+
+            overlay.on('click', closeSearchDrawer);
+
+            // Close drawer using Escape key.
+            $(document).on('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeSearchDrawer();
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+        function shortProductNames() {
+            document.querySelectorAll('.js-short-product-name').forEach(function(element) {
+                const originalText = element.dataset.originalText || element.textContent.trim();
+
+                element.dataset.originalText = originalText;
+                element.textContent = originalText;
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                const style = window.getComputedStyle(element);
+                context.font = style.font;
+
+                const availableWidth = element.getBoundingClientRect().width;
+
+                if (context.measureText(originalText).width > availableWidth) {
+                    let text = originalText;
+
+                    while (
+                        text.length > 0 &&
+                        context.measureText(text + '...').width > availableWidth
+                    ) {
+                        text = text.slice(0, -1);
+                    }
+
+                    element.textContent = text.trim() + '...';
+                }
+            });
+        }
+
+        window.addEventListener('load', function() {
+            setTimeout(shortProductNames, 500);
+        });
+
+        window.addEventListener('resize', shortProductNames);
+
+        // Recalculate after Slick slider changes its layout
+        if (window.jQuery) {
+            jQuery('.js-slick-carousel').on(
+                'init reInit setPosition',
+                shortProductNames
+            );
+        }
     </script>
 
     @stack('footer_script')

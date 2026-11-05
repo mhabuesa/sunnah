@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\FeaturedProduct;
 use App\Models\NewsletterSubscriber;
@@ -65,6 +66,12 @@ class HomeController extends Controller
             })
             ->values();
 
+            $brands = Cache::remember('brands', 86400, function () {
+                return Brand::where('status', '1')
+                    ->orderBy('priority', 'asc')
+                    ->get();
+            });
+
         return view('frontend.home.index', compact(
             'mainBanners',
             'topBanner',
@@ -76,6 +83,7 @@ class HomeController extends Controller
             'latestProducts',
             'categories',
             'recentProducts',
+            'brands',
             'offers'
         ));
     }

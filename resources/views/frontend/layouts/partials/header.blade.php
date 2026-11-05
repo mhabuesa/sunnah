@@ -64,37 +64,18 @@
                             <div class="d-inline-flex">
                                 <ul class="d-flex list-unstyled mb-0 align-items-center">
                                     <!-- Search -->
+                                    {{-- Search --}}
                                     <li class="col d-xl-none px-2 px-sm-3 position-static">
                                         <a id="searchClassicInvoker"
                                             class="font-size-22 text-gray-90 text-lh-1 btn-text-secondary"
-                                            href="javascript:;" role="button" data-toggle="tooltip"
-                                            data-placement="top" title="Search" aria-controls="searchClassic"
-                                            aria-haspopup="true" aria-expanded="false"
-                                            data-unfold-target="#searchClassic" data-unfold-type="css-animation"
-                                            data-unfold-duration="300" data-unfold-delay="300"
-                                            data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp"
-                                            data-unfold-animation-out="fadeOut">
+                                            href="javascript:void(0)" role="button" title="Search">
+
                                             <span class="ec ec-search"></span>
                                         </a>
-
-                                        <!-- Input -->
-                                        <div id="searchClassic"
-                                            class="dropdown-menu dropdown-unfold dropdown-menu-right left-0 mx-2"
-                                            aria-labelledby="searchClassicInvoker">
-                                            <form class="js-focus-state input-group px-3" action="{{ route('search.product') }}" method="GET">
-                                                <input class="form-control" type="search" name="q" placeholder="Search Product"  value="{{ request()->input('q') }}"
-                                                    aria-label="Search Product">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-primary px-3" type="submit">
-                                                        <span class="ec ec-search text-white font-size-20"></span>
-                                                        </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- End Input -->
                                     </li>
+                                    {{-- End Search --}}
                                     <!-- End Search -->
-                                    
+
                                     <li class="col px-2 px-sm-3">
                                         <a href="{{ route('cart') }}" class="text-gray-90 position-relative d-flex "
                                             data-toggle="tooltip" data-placement="top" title="Cart">
@@ -130,9 +111,8 @@
                                                 class="u-header-topbar__nav-link target-of-invoker-has-unfolds text-black"
                                                 aria-controls="sidebarContent" aria-haspopup="true"
                                                 aria-expanded="false" data-unfold-event="click"
-                                                data-unfold-hide-on-scroll="false"
-                                                data-unfold-target="#sidebarContent" data-unfold-type="css-animation"
-                                                data-unfold-animation-in="fadeInRight"
+                                                data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent"
+                                                data-unfold-type="css-animation" data-unfold-animation-in="fadeInRight"
                                                 data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                                                 <i class="font-size-22 ec ec-user"></i>
                                             </a>
@@ -266,7 +246,7 @@
                                         <!-- Button -->
                                         <li class="nav-item u-header__nav-last-item">
                                             <a class="nav-link u-header__nav-link text-black text-uppercase bg-warning u-header__nav-item-border rounded text-primary font-weight-bold"
-                                                href="{{route('charity.index')}}">
+                                                href="{{ route('charity.index') }}">
                                                 ছ্বদাকাহ ও চ্যারিটি <i class="fas fa-donate ml-1"></i>
                                             </a>
                                         </li>

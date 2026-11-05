@@ -306,54 +306,80 @@
             <!-- End Tab Content -->
         </div>
         <!-- End Single Product Tab -->
+            
 
-        @if ($relatedProduct->count() > 0)
-            <!-- Related products -->
-            <div class="mb-6">
-                <div
-                    class="d-flex justify-content-between align-items-center border-bottom border-color-1 flex-lg-nowrap flex-wrap mb-4">
-                    <h3 class="section-title mb-0 pb-2 font-size-22">Related products</h3>
-                </div>
-                <ul class="row list-unstyled products-group no-gutters">
-                    @foreach ($relatedProduct as $relProduct)
-                        <li class="col-6 col-md-3 col-xl-2gdot4-only col-wd-2 product-item">
-                            <div class="product-item__outer h-100">
-                                <div class="product-item__inner px-xl-4 p-3">
-                                    <div class="product-item__body pb-xl-2">
-                                        <h5 class="mb-1 product-item__title"><a
-                                                href="{{ route('product', $relProduct->slug) }}"
-                                                class="text-blue font-weight-bold">{{ $relProduct->name }}</a></h5>
-                                        <div class="mb-2">
-                                            <a href="{{ route('product', $relProduct->slug) }}"
-                                                class="d-block text-center"><img class="img-fluid"
-                                                    src="{{ asset($relProduct->image) }}" alt="Image Description"></a>
-                                        </div>
-                                        <div class="flex-center-between mb-1">
-                                            <div class="prodcut-price">
-                                                <div class="text-gray-100">${{ number_format($relProduct->price, 2) }}
+            @if ($relatedProduct->count() > 0)
+                <div class="mb-6">
+                    <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
+                        data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
+                        data-slides-show="7"
+                        data-responsive='[{
+                          "breakpoint": 1400,
+                          "settings": {
+                            "slidesToShow": 5
+                          }
+                        }, {
+                            "breakpoint": 1200,
+                            "settings": {
+                              "slidesToShow": 3
+                            }
+                        }, {
+                          "breakpoint": 992,
+                          "settings": {
+                            "slidesToShow": 3
+                          }
+                        }, {
+                          "breakpoint": 768,
+                          "settings": {
+                            "slidesToShow": 2
+                          }
+                        }, {
+                          "breakpoint": 554,
+                          "settings": {
+                            "slidesToShow": 2
+                          }
+                        }]'>
+
+                        @foreach ($relatedProduct as $product)
+                            <div class="js-slide products-group mx-2">
+                                <div class="product-item remove-divider">
+                                    <div class="product-item__outer h-100">
+                                        <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                            <div class="product-item__body">
+                                                <h5 class="mb-0 product-item__title">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="text-blue font-weight-bold text-center js-short-product-name">
+                                                        {{ $product->name }}
+                                                    </a>
+                                                </h5>
+                                                <div class="mb-2">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="d-block text-center"><img class="img-fluid"
+                                                            src="{{ asset($product->image) }}"
+                                                            alt="Image Description"></a>
+                                                </div>
+                                                <div class="prodcut-price">
+                                                    <div class="text-gray-100">৳{{ productPrice($product->id) }}
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
+                                                            class="ec ec-add-to-cart"></i> Add to Cart</a>
                                                 </div>
                                             </div>
-                                            <div class="d-none d-xl-block prodcut-add-cart">
-                                                <a href="{{ route('product', $relProduct->slug) }}"
-                                                    class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                        class="ec ec-add-to-cart"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-item__footer">
-                                        <div class="border-top pt-2 flex-center-between flex-wrap">
-                                            <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                                    class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-            <!-- End Related products -->
-        @endif
+                        @endforeach
+
+                    </div>
+                </div>
+            @endif
+       <!-- End Related products -->
+
         <!-- Full banner -->
         @if ($productBanner)
             <div class="mb-4">
@@ -373,7 +399,8 @@
     <script src="{{ asset('frontend/assets') }}/vendor/jquery.countdown.min.js"></script>
     <script src="{{ asset('frontend/assets') }}/vendor/hs-megamenu/src/hs.megamenu.js"></script>
     <script src="{{ asset('frontend/assets') }}/vendor/svg-injector/dist/svg-injector.min.js"></script>
-    <script src="{{ asset('frontend/assets') }}/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
+    <script
+        src="{{ asset('frontend/assets') }}/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
     </script>
     <script src="{{ asset('frontend/assets') }}/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="{{ asset('frontend/assets') }}/vendor/fancybox/jquery.fancybox.min.js"></script>
@@ -920,7 +947,7 @@
 
         });
     </script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.review-stars .star');
