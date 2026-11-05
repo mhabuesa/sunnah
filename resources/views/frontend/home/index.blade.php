@@ -299,6 +299,7 @@
 
         .js-short-product-name {
             display: block;
+            max-width: 100%;
             overflow: hidden;
         }
 
@@ -937,30 +938,43 @@
                 const originalText = element.dataset.originalText || element.textContent.trim();
 
                 element.dataset.originalText = originalText;
+                element.textContent = originalText;
 
-                const availableWidth = element.clientWidth;
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
 
                 const style = window.getComputedStyle(element);
                 context.font = style.font;
 
-                let text = originalText;
+                const availableWidth = element.getBoundingClientRect().width;
 
-                while (
-                    text.length > 0 &&
-                    context.measureText(text + '...').width > availableWidth
-                ) {
-                    text = text.slice(0, -1);
+                if (context.measureText(originalText).width > availableWidth) {
+                    let text = originalText;
+
+                    while (
+                        text.length > 0 &&
+                        context.measureText(text + '...').width > availableWidth
+                    ) {
+                        text = text.slice(0, -1);
+                    }
+
+                    element.textContent = text.trim() + '...';
                 }
-
-                element.textContent = text.length < originalText.length ?
-                    text.trim() + '...' :
-                    originalText;
             });
         }
 
-        window.addEventListener('load', shortProductNames);
+        window.addEventListener('load', function() {
+            setTimeout(shortProductNames, 500);
+        });
+
         window.addEventListener('resize', shortProductNames);
+
+        // Recalculate after Slick slider changes its layout
+        if (window.jQuery) {
+            jQuery('.js-slick-carousel').on(
+                'init reInit setPosition',
+                shortProductNames
+            );
+        }
     </script>
 @endpush
