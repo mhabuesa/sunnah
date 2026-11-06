@@ -12,7 +12,7 @@
                                 <a class="order-1 order-xl-0 navbar-brand u-header__navbar-brand u-header__navbar-brand-center mx-auto"
                                     href="{{ route('index') }}" aria-label="Electro">
                                     <img src="{{ asset(setting()->header_logo) }}" alt=""
-                                        style="height: 60px; width:160;">
+                                        style="width: 90px; margin: auto;">
                                 </a>
                                 <!-- End Logo -->
 
