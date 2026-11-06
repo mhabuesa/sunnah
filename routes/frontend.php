@@ -61,6 +61,7 @@ Route::controller(ProductController::class)->group(function () {
 Route::controller(CartController::class)->group(function () {
     Route::get('/cart', 'cart')->name('cart');
     Route::post('/addToCart', 'add_to_cart')->name('addToCart');
+    Route::post('/cart/add-ajax', 'addAjax')->name('cart.add.ajax');
     Route::post('/cart/update', 'updateCart')->name('cart.update');
     Route::post('/cart/update-quantity', 'updateQuantity')->name('cart.updateQuantity');
     Route::post('/cart/remove', 'removeCart')->name('cart.remove');

@@ -108,12 +108,12 @@
                     <div class="border-bottom border-color-1 border-dotted-bottom">
                         <div class="p-3" id="basicsHeadingTwo">
                             <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="bkash" name="payment_method"
-                                    value="bkash">
-                                <label class="custom-control-label form-label" for="bkash" data-toggle="collapse"
+                                <input type="radio" class="custom-control-input" id="sslcommerz" name="payment_method"
+                                    value="sslcommerz">
+                                <label class="custom-control-label form-label" for="sslcommerz" data-toggle="collapse"
                                     data-target="#basicsCollapseTwo" aria-expanded="false"
                                     aria-controls="basicsCollapseTwo">
-                                    Bkash Pay
+                                    Pay Now <small class="text-success">(SSLCommerz)</small>
                                 </label>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             class="collapse border-top border-color-1 border-dotted-top bg-dark-lighter"
                             aria-labelledby="basicsHeadingTwo" data-parent="#basicsAccordion1">
                             <div class="p-4">
-                                Fast and secure payment via bKash. Enjoy instant confirmation.
+                                Pay securely using your debit/credit card, mobile banking, or other online payment methods.
                             </div>
                         </div>
                     </div>

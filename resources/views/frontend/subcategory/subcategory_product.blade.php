@@ -80,35 +80,32 @@
             <div class="">
                 <ul class="row list-unstyled products-group no-gutters">
                     @forelse ($products as $product)
-                        <li class="col-6 col-md-3 col-xl-2 product-item">
-                            <div class="product-item__outer h-100">
-                                <div class="product-item__inner px-xl-4 p-3">
-                                    <div class="product-item__body pb-xl-2">
-                                        <h5 class="mb-1 product-item__title"><a
-                                                href="{{ route('product', $product->slug) }}"
-                                                class="text-blue font-weight-bold">{{ $product->name }}</a></h5>
+                        <li class="col-6 col-md-3 col-lg-2 product-item remove-divider">
+                            <div class="product-item__outer h-100 m-1">
+                                <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                    <div class="product-item__body">
+                                        <h5 class="mb-0 product-item__title">
+                                            <a href="{{ route('product', $product->slug) }}"
+                                                class="text-blue font-weight-bold text-center js-short-product-name">
+                                                {{ Str::limit($product->name, 20, '...') }}
+                                            </a>
+                                        </h5>
                                         <div class="mb-2">
                                             <a href="{{ route('product', $product->slug) }}"
                                                 class="d-block text-center"><img class="img-fluid"
                                                     src="{{ asset($product->image) }}" alt="Image Description"></a>
                                         </div>
-                                        <div class="flex-center-between mb-1">
-                                            <div class="prodcut-price">
-                                                <div class="text-gray-100">৳ {{ $product->price }}</div>
-                                            </div>
-                                            <div class="d-none d-xl-block prodcut-add-cart">
-                                                <a href="{{ route('product', $product->slug) }}"
-                                                    class="btn-add-cart btn-primary transition-3d-hover"><i
-                                                        class="ec ec-add-to-cart"></i></a>
+                                        <div class="prodcut-price">
+                                            <div class="text-gray-100">৳{{ productPrice($product->id) }}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="product-item__footer">
-                                        <div class="border-top pt-2 flex-center-between flex-wrap">
-                                            <a href="compare.html" class="text-gray-6 font-size-13"><i
-                                                    class="ec ec-compare mr-1 font-size-15"></i> Compare</a>
-                                            <a href="wishlist.html" class="text-gray-6 font-size-13"><i
-                                                    class="ec ec-favorites mr-1 font-size-15"></i> Wishlist</a>
+                                        <div class="mt-2">
+                                            <button type="button"
+                                                class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
+                                                data-product-id="{{ $product->id }}">
+                                                <i class="ec ec-add-to-cart"></i>
+                                                Add to Cart
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@
 
     {{-- Home --}}
     <a href="{{ route('index') }}" class="mobile-nav-item">
-        <i class="ec ec-home"></i>
+        <i class="fas fa-home"></i>
         <span>Home</span>
     </a>
 
@@ -11,13 +11,13 @@
         data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarHeader1" data-unfold-type="css-animation"
         data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
 
-        <i class="ec ec-menu"></i>
+        <i class="fas fa-bars"></i>
         <span>Category</span>
     </a>
 
     {{-- Cart --}}
     <a href="{{ route('cart') }}" class="mobile-nav-item position-relative">
-        <i class="ec ec-shopping-bag"></i>
+        <i class="fas fa-shopping-bag"></i>
         <span>Cart</span>
 
         @if ($cartCount > 0)
@@ -27,7 +27,7 @@
 
     {{-- Search --}}
     <a href="javascript:void(0)" id="mobileSearchInvoker" class="mobile-nav-item">
-        <i class="ec ec-search"></i>
+        <i class="fas fa-search"></i>
         <span>Search</span>
     </a>
 

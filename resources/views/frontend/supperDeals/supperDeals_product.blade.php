@@ -84,7 +84,7 @@
                                         <h5 class="mb-0 product-item__title">
                                             <a href="{{ route('product', $product->slug) }}"
                                                 class="text-blue font-weight-bold text-center js-short-product-name">
-                                               {{ Str::limit($product->name, 18, '...') }}
+                                                {{ Str::limit($product->name, 18, '...') }}
                                             </a>
                                         </h5>
                                         <div class="mb-2">
@@ -98,9 +98,12 @@
                                         </div>
                                         <div class="mt-2">
 
-                                            <a href="{{ route('product', $product->slug) }}"
-                                                class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
-                                                    class="ec ec-add-to-cart"></i> Add to Cart</a>
+                                            <button type="button"
+                                                class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
+                                                data-product-id="{{ $product->id }}">
+                                                <i class="ec ec-add-to-cart"></i>
+                                                Add to Cart
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

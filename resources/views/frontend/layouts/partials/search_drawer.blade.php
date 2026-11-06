@@ -1,5 +1,5 @@
 {{-- Search Drawer Overlay --}}
-<div id="searchDrawerOverlay" class="search-drawer-overlay"></div>
+<div id="searchDrawerOverlay" class="search-drawer-overlay u-sidebar"></div>
 
 {{-- Search Drawer --}}
 <aside id="searchDrawer" class="search-drawer">

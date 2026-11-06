@@ -25,6 +25,8 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../../favicon.png">
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;display=swap"
@@ -207,6 +209,11 @@
     <script src="{{ asset('frontend') }}/assets/js/components/hs.show-animation.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/components/hs.go-to.js"></script>
     <script src="{{ asset('frontend') }}/assets/js/components/hs.selectpicker.js"></script>
+
+    <script>
+        window.cartAddUrl = "{{ route('cart.add.ajax') }}";
+    </script>
+    <script src="{{ asset('frontend') }}/assets/custom/script.js"></script>
 
     {{-- Notyf --}}
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>

@@ -306,14 +306,14 @@
             <!-- End Tab Content -->
         </div>
         <!-- End Single Product Tab -->
-            
 
-            @if ($relatedProduct->count() > 0)
-                <div class="mb-6">
-                    <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
-                        data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                        data-slides-show="7"
-                        data-responsive='[{
+
+        @if ($relatedProduct->count() > 0)
+            <div class="mb-6">
+                <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
+                    data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
+                    data-slides-show="7"
+                    data-responsive='[{
                           "breakpoint": 1400,
                           "settings": {
                             "slidesToShow": 5
@@ -340,45 +340,47 @@
                           }
                         }]'>
 
-                        @foreach ($relatedProduct as $product)
-                            <div class="js-slide products-group mx-2">
-                                <div class="product-item remove-divider">
-                                    <div class="product-item__outer h-100">
-                                        <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
-                                            <div class="product-item__body">
-                                                <h5 class="mb-0 product-item__title">
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-blue font-weight-bold text-center js-short-product-name">
-                                                        {{ $product->name }}
-                                                    </a>
-                                                </h5>
-                                                <div class="mb-2">
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="d-block text-center"><img class="img-fluid"
-                                                            src="{{ asset($product->image) }}"
-                                                            alt="Image Description"></a>
+                    @foreach ($relatedProduct as $product)
+                        <div class="js-slide products-group mx-2">
+                            <div class="product-item remove-divider">
+                                <div class="product-item__outer h-100">
+                                    <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
+                                        <div class="product-item__body">
+                                            <h5 class="mb-0 product-item__title">
+                                                <a href="{{ route('product', $product->slug) }}"
+                                                    class="text-blue font-weight-bold text-center js-short-product-name">
+                                                    {{ $product->name }}
+                                                </a>
+                                            </h5>
+                                            <div class="mb-2">
+                                                <a href="{{ route('product', $product->slug) }}"
+                                                    class="d-block text-center"><img class="img-fluid"
+                                                        src="{{ asset($product->image) }}" alt="Image Description"></a>
+                                            </div>
+                                            <div class="prodcut-price">
+                                                <div class="text-gray-100">৳{{ productPrice($product->id) }}
                                                 </div>
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">৳{{ productPrice($product->id) }}
-                                                    </div>
-                                                </div>
-                                                <div class="mt-2">
+                                            </div>
+                                            <div class="mt-2">
 
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1"><i
-                                                            class="ec ec-add-to-cart"></i> Add to Cart</a>
-                                                </div>
+                                                <button type="button"
+                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
+                                                    data-product-id="{{ $product->id }}">
+                                                    <i class="ec ec-add-to-cart"></i>
+                                                    Add to Cart
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    @endforeach
 
-                    </div>
                 </div>
-            @endif
-       <!-- End Related products -->
+            </div>
+        @endif
+        <!-- End Related products -->
 
         <!-- Full banner -->
         @if ($productBanner)
