@@ -150,14 +150,6 @@
         }
 
         /* Fixed Category Section Styles */
-        .home-category-slider {
-            background-color: #ffffff;
-            border: 1px solid #efebe4;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-        }
-
         .home-category-header {
             display: flex;
             justify-content: space-between;
@@ -283,7 +275,7 @@
 @section('content')
     <!-- Banner Section -->
     @if (isset($mainBanners) && $mainBanners->count() > 0)
-        <div class="container mb-4">
+        <div class="container mb-3">
             <div class="col-xl-12 px-0">
                 <div class="banner-carousel-container overflow-hidden position-relative rounded">
 
@@ -310,84 +302,83 @@
         </div>
     @endif
 
+    <!-- Promotional Sections -->
     <div class="container">
-        <!-- Promotional Sections -->
-        <div class="home-promo-section container mb-5 px-2 px-md-0">
-            <!-- Main Offer Cards -->
-            <div class="home-main-offers row g-2 g-md-3 mb-4">
-                <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
-                    <a href="{{ route('sunnah.products') }}"
-                        class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
-                        <div class="promo-icon-wrapper mr-3">
-                            <img src="{{ asset('frontend/assets/images/bag.png') }}" alt="Shopping"
-                                class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
-                        </div>
-                        <div class="promo-content">
-                            <h6 class="mb-1 text-gray-90 font-weight-bold">সুন্নাহ শপিং</h6>
-                            <p class="mb-0 text-gray-50 font-size-12">
-                                সুন্নাহসম্মত জীবনযাপনের নিত্যপ্রয়োজনীয় সামগ্রী।
-                            </p>
-                        </div>
-                    </a>
-                </div>
+        <!-- Main Offer Cards -->
+        <div class="home-main-offers row g-2 g-md-3 justify-content-center">
+            <div class="col-6 col-md-6 col-xl-3">
+                <a href="{{ route('sunnah.products') }}"
+                    class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                    <div class="promo-icon-wrapper mr-3">
+                        <img src="{{ asset('frontend/assets/images/bag.png') }}" alt="Shopping" class="img-fluid rounded"
+                            style="width: 60px; height: 60px; object-fit: cover;">
+                    </div>
+                    <div class="promo-content">
+                        <h6 class="mb-1 text-gray-90 font-weight-bold">সুন্নাহ শপিং</h6>
+                        <p class="mb-0 text-gray-50 font-size-12">
+                            সুন্নাহসম্মত জীবনযাপনের নিত্যপ্রয়োজনীয় সামগ্রী।
+                        </p>
+                    </div>
+                </a>
+            </div>
 
-                {{-- First 3 offers --}}
-                @foreach ($offers->take(3) as $promo)
-                    <div class="col-6 col-md-6 col-xl-3 pb-2 px-2">
-                        @if ($promo->type == 'product')
-                            <a href="{{ route('offers', $promo->slug) }}"
-                                class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+            {{-- First 3 offers --}}
+            @foreach ($offers->take(3) as $promo)
+                <div class="col-6 col-md-6 col-xl-3">
+                    @if ($promo->type == 'product')
+                        <a href="{{ route('offers', $promo->slug) }}"
+                            class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
+                            <div class="promo-icon-wrapper mr-3">
+                                <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}" class="img-fluid rounded"
+                                    style="width: 60px; height: 60px; object-fit: cover;">
+                            </div>
+                            <div class="promo-content">
+                                <h6 class="mb-1 text-gray-90 font-weight-bold">
+                                    {{ $promo->title ?? 'Special Offer' }}
+                                </h6>
+                                <p class="mb-0 text-gray-50">
+                                    {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
+                                </p>
+                            </div>
+                        </a>
+                    @else
+                        <div class="promo-card-main d-flex align-items-center p-3">
+                            <a href="javascript:void(0)" class="d-flex align-items-center text-decoration-none flex-grow-1"
+                                style="min-width: 0;">
+
                                 <div class="promo-icon-wrapper mr-3">
                                     <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
                                         class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
                                 </div>
-                                <div class="promo-content">
+
+                                <div class="promo-content" style="min-width: 0;">
                                     <h6 class="mb-1 text-gray-90 font-weight-bold">
                                         {{ $promo->title ?? 'Special Offer' }}
                                     </h6>
+
                                     <p class="mb-0 text-gray-50">
                                         {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
                                     </p>
                                 </div>
                             </a>
-                        @else
-                            <div class="promo-card-main d-flex align-items-center p-3">
-                                <a href="javascript:void(0)"
-                                    class="d-flex align-items-center text-decoration-none flex-grow-1"
-                                    style="min-width: 0;">
 
-                                    <div class="promo-icon-wrapper mr-3">
-                                        <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
-                                            class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
-                                    </div>
+                            {{-- Copy Coupon Button --}}
+                            <button type="button" class="btn btn-light border ml-2 copy-coupon-btn"
+                                data-coupon="{{ $promo->coupon->coupon_code ?? '' }}" title="Copy coupon code"
+                                aria-label="Copy coupon code" style="flex-shrink: 0;">
 
-                                    <div class="promo-content" style="min-width: 0;">
-                                        <h6 class="mb-1 text-gray-90 font-weight-bold">
-                                            {{ $promo->title ?? 'Special Offer' }}
-                                        </h6>
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    @endif
 
-                                        <p class="mb-0 text-gray-50">
-                                            {{ $promo->subtitle ?? 'Discover our exclusive deals' }}
-                                        </p>
-                                    </div>
-                                </a>
+                </div>
+            @endforeach
+        </div>
 
-                                {{-- Copy Coupon Button --}}
-                                <button type="button" class="btn btn-light border ml-2 copy-coupon-btn"
-                                    data-coupon="{{ $promo->coupon->coupon_code ?? '' }}" title="Copy coupon code"
-                                    aria-label="Copy coupon code" style="flex-shrink: 0;">
-
-                                    <i class="far fa-copy"></i>
-                                </button>
-                            </div>
-                        @endif
-
-                    </div>
-                @endforeach
-            </div>
-
+        @if ($offers->count() > 3)
             {{-- Mini Offer Cards: Remaining offers after the first 4 --}}
-            <div class="home-mini-offers row g-3 mb-5 justify-content-center">
+            <div class="home-mini-offers row g-3 mb-2 justify-content-center">
                 @foreach ($offers->skip(3) as $promo)
                     @if ($promo->type == 'product')
                         <div class="col-xl-3 col-md-4 col-6 mt-2">
@@ -445,41 +436,42 @@
                     @endif
                 @endforeach
             </div>
+        @endif
 
-            <!-- Category Slider -->
-            <div class="home-category-slider">
-                <div class="home-category-header d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="section-title section-title__full mb-0 font-size-22">ক্যাটাগরি অনুযায়ী কেনাকাটা</h3>
-                    <a href="{{ route('products') }}" class="d-block text-gray-16 text-decoration-none">
-                        সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
-                    </a>
-                </div>
-                <div class="js-slick-carousel u-slick category-carousel" data-slides-show="10" data-slides-scroll="1"
-                    data-arrows="true" data-dots="false"
-                    data-responsive='[
-                    {"breakpoint": 1400, "settings": {"slidesToShow": 8}},
-                    {"breakpoint": 1200, "settings": {"slidesToShow": 6}},
-                    {"breakpoint": 992, "settings": {"slidesToShow": 4}},
-                    {"breakpoint": 768, "settings": {"slidesToShow": 3}},
-                    {"breakpoint": 554, "settings": {"slidesToShow": 5}}
-                 ]'>
-                    @foreach ($categories as $category)
-                        <div class="js-slide text-center">
-                            <a href="{{ route('category', $category->slug) }}" class="category-item pt-3">
-                                <div class="category-img-wrapper">
-                                    @if ($category->logo)
-                                        <img src="{{ asset($category->logo) }}" alt="{{ $category->name }}"
-                                            loading="lazy">
-                                    @else
-                                        <img src="{{ asset('frontend/assets/img/placeholder-category.png') }}"
-                                            alt="{{ $category->name }}" loading="lazy">
-                                    @endif
-                                </div>
-                                <span class="category-name">{{ $category->name }}</span>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+    </div>
+    <div class="container mt-3">
+        <!-- Category Slider -->
+        <div class="home-category-slider">
+            <div class="home-category-header d-flex justify-content-between align-items-center mb-0">
+                <h3 class="section-title section-title__full mb-0 font-size-22">ক্যাটাগরি অনুযায়ী কেনাকাটা</h3>
+                <a href="{{ route('products') }}" class="d-block text-gray-16 text-decoration-none">
+                    সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
+                </a>
+            </div>
+            <div class="js-slick-carousel u-slick category-carousel" data-slides-show="10" data-slides-scroll="1"
+                data-arrows="true" data-dots="false"
+                data-responsive='[
+                {"breakpoint": 1400, "settings": {"slidesToShow": 8}},
+                {"breakpoint": 1200, "settings": {"slidesToShow": 6}},
+                {"breakpoint": 992, "settings": {"slidesToShow": 4}},
+                {"breakpoint": 768, "settings": {"slidesToShow": 3}},
+                {"breakpoint": 554, "settings": {"slidesToShow": 5}}
+             ]'>
+                @foreach ($categories as $category)
+                    <div class="js-slide text-center">
+                        <a href="{{ route('category', $category->slug) }}" class="category-item">
+                            <div class="category-img-wrapper">
+                                @if ($category->logo)
+                                    <img src="{{ asset($category->logo) }}" alt="{{ $category->name }}" loading="lazy">
+                                @else
+                                    <img src="{{ asset('frontend/assets/img/placeholder-category.png') }}"
+                                        alt="{{ $category->name }}" loading="lazy">
+                                @endif
+                            </div>
+                            <span class="category-name">{{ $category->name }}</span>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -499,7 +491,7 @@
         <!-- End Banner -->
         <!-- Todays Deal products -->
         @if ($todaysDeals->count() > 0)
-            <div class="mb-6 home-category-slider">
+            <div class="mb-1 home-category-slider">
                 <div
                     class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
                     <h3 class="section-title section-title__full mb-0 font-size-22">আজকের সেরা অফার</h3>
@@ -537,7 +529,7 @@
                         }]'>
 
                     @foreach ($todaysDeals as $product)
-                        <div class="js-slide products-group mx-2">
+                        <div class="js-slide products-group mx-1">
                             <div class="product-item remove-divider">
                                 <div class="product-item__outer h-100">
                                     <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
@@ -593,7 +585,7 @@
 
         @foreach ($categories as $category)
             @if ($category->activeProducts->isNotEmpty())
-                <div class="mb-6 home-category-slider">
+                <div class="mb-1 home-category-slider">
                     <div
                         class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
                         <h3 class="section-title section-title__full mb-0 font-size-22">
@@ -626,7 +618,7 @@
                         "settings": {"slidesToShow": 2}
                     }]'>
                         @foreach ($category->activeProducts as $product)
-                            <div class="js-slide products-group mx-2">
+                            <div class="js-slide products-group mx-1">
                                 <div class="product-item remove-divider">
                                     <div class="product-item__outer h-100">
                                         <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
@@ -683,13 +675,13 @@
                         <ul class="row list-unstyled products-group no-gutters">
                             @foreach ($latestProducts as $latestProduct)
                                 <li class="col-6 col-md-3 col-lg-2 product-item remove-divider">
-                                    <div class="product-item__outer h-100 m-2">
+                                    <div class="product-item__outer h-100 m-1">
                                         <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
                                             <div class="product-item__body">
                                                 <h5 class="mb-0 product-item__title">
                                                     <a href="{{ route('product', $product->slug) }}"
                                                         class="text-blue font-weight-bold text-center js-short-product-name">
-                                                        {{ $product->name }}
+                                                       {{ Str::limit($product->name, 20, '...') }}
                                                     </a>
                                                 </h5>
                                                 <div class="mb-2">
@@ -800,7 +792,7 @@
                         }]'>
 
                     @foreach ($recentProducts as $product)
-                        <div class="js-slide products-group mx-2">
+                        <div class="js-slide products-group mx-1">
                             <div class="product-item remove-divider">
                                 <div class="product-item__outer h-100">
                                     <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
