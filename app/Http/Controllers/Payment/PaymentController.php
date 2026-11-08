@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\OrderConfirmationJob;
 use App\Models\Order;
 use App\Models\Donation;
+use App\Models\Customer;
 use App\Models\Transaction;
+use App\Services\CartService;
+use App\Services\OrderStockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Raziul\Sslcommerz\Facades\Sslcommerz;
@@ -26,19 +30,13 @@ class PaymentController extends Controller
             return redirect('/')->with('error', 'Transaction not found.');
         }
 
-        if ($transaction->status === 'paid') {
-            return redirect('/')->with(
-                'success',
-                'Payment has already been completed.'
-            );
-        }
-
         // Validate payment with SSLCommerz.
         $isValid = Sslcommerz::validatePayment(
             $request->all(),
             $transaction->transaction_id,
             $transaction->amount
         );
+
 
         if (!$isValid) {
             return redirect('/')->with(
@@ -47,16 +45,34 @@ class PaymentController extends Controller
             );
         }
 
+        if ($transaction->status === 'paid') {
+
+            if ($transaction->payment_type === 'product') {
+                CartService::clear();
+            }
+
+            return redirect('/')->with(
+                'success',
+                'Payment has already been completed.'
+            );
+        }
+
         $processed = $this->markAsPaid(
             $transaction,
             $request->all()
         );
+
 
         if (!$processed) {
             return redirect('/')->with(
                 'error',
                 'Unable to process payment.'
             );
+        }
+
+        // Clear cart only after successful product payment.
+        if ($transaction->payment_type === 'product') {
+            CartService::clear();
         }
 
         return redirect('/')->with(
@@ -73,7 +89,14 @@ class PaymentController extends Controller
      */
     public function failure(Request $request)
     {
-        $this->updatePaymentStatus($request, 'failed');
+        $updated = $this->updatePaymentStatus($request, 'failed');
+
+        if (!$updated) {
+            return redirect('/')->with(
+                'error',
+                'Unable to verify or update payment status.'
+            );
+        }
 
         return redirect('/')->with(
             'error',
@@ -87,7 +110,14 @@ class PaymentController extends Controller
      */
     public function cancel(Request $request)
     {
-        $this->updatePaymentStatus($request, 'canceled');
+        $updated = $this->updatePaymentStatus($request, 'canceled');
+
+        if (!$updated) {
+            return redirect('/')->with(
+                'error',
+                'Unable to verify or update payment status.'
+            );
+        }
 
         return redirect('/')->with(
             'error',
@@ -101,7 +131,7 @@ class PaymentController extends Controller
      */
     public function ipn(Request $request)
     {
-        // Verify SSLCommerz response hash.
+        // Verify callback signature.
         if (!Sslcommerz::verifyHash($request->all())) {
             return response()->json([
                 'message' => 'Invalid signature.',
@@ -122,10 +152,10 @@ class PaymentController extends Controller
         if ($transaction->status === 'paid') {
             return response()->json([
                 'message' => 'Transaction already processed.',
-            ], 400);
+            ]);
         }
 
-        // Server-side payment validation.
+        // Validate payment with SSLCommerz.
         $isValid = Sslcommerz::validatePayment(
             $request->all(),
             $transaction->transaction_id,
@@ -165,9 +195,13 @@ class PaymentController extends Controller
 
         return DB::transaction(function () use ($transaction, $data) {
 
-            $transaction = Transaction::where('id', $transaction->id)
+            $transaction = Transaction::whereKey($transaction->transaction_id)
                 ->lockForUpdate()
                 ->first();
+            if (!$transaction) {
+                return false;
+            }
+
 
             // Prevent duplicate payment processing.
             if ($transaction->status === 'paid') {
@@ -181,21 +215,36 @@ class PaymentController extends Controller
             // Find related payable record.
             if ($transaction->payment_type === 'product') {
 
-                $payable = Order::where(
-                    'id',
-                    $transaction->payable_id
-                )->lockForUpdate()->first();
+                $payable = Order::whereKey($transaction->payable_id)
+                    ->lockForUpdate()
+                    ->first();
             } elseif ($transaction->payment_type === 'charity') {
 
-                $payable = Donation::where(
-                    'id',
-                    $transaction->payable_id
-                )->lockForUpdate()->first();
+                $payable = Donation::whereKey($transaction->payable_id)
+                    ->lockForUpdate()
+                    ->first();
             } else {
                 return false;
             }
 
-            if (!$payable || $payable->payment_status === 'paid') {
+            if (!$payable || $payable->payment_status !== 'pending') {
+                return false;
+            }
+
+            // Verify that the transaction amount matches the payable amount.
+            if (
+                round((float) $transaction->amount, 2)
+                !== round((float) $payable->amount, 2)
+                && $transaction->payment_type === 'charity'
+            ) {
+                return false;
+            }
+
+            if (
+                $transaction->payment_type === 'product'
+                && round((float) $transaction->amount, 2)
+                !== round((float) $payable->total, 2)
+            ) {
                 return false;
             }
 
@@ -216,6 +265,20 @@ class PaymentController extends Controller
                 'paid_at' => now(),
             ]);
 
+            // Send order confirmation only for successful product payment.
+            if ($transaction->payment_type === 'product') {
+
+                $customer = Customer::find($payable->customer_id);
+
+                if ($customer) {
+
+                    OrderConfirmationJob::dispatch([
+                        'order_id' => $payable->id,
+                        'phone' => $customer->phone,
+                    ])->delay(5)->afterCommit();
+                }
+            }
+
             return true;
         });
     }
@@ -227,52 +290,62 @@ class PaymentController extends Controller
     private function updatePaymentStatus(
         Request $request,
         string $status
-    ): void {
+    ): bool {
 
         // Verify callback hash before updating records.
         if (!Sslcommerz::verifyHash($request->all())) {
-            return;
+            return false;
         }
 
-        DB::transaction(function () use ($request, $status) {
+        return DB::transaction(function () use ($request, $status) {
 
             $transaction = Transaction::where(
                 'transaction_id',
                 $request->input('tran_id')
-            )->lockForUpdate()->first();
+            )
+                ->lockForUpdate()
+                ->first();
 
             if (!$transaction || $transaction->status !== 'pending') {
-                return;
+                return false;
             }
 
+            // Find related payable record.
             if ($transaction->payment_type === 'product') {
 
-                $payable = Order::where(
-                    'id',
-                    $transaction->payable_id
-                )->lockForUpdate()->first();
+                $payable = Order::whereKey($transaction->payable_id)
+                    ->lockForUpdate()
+                    ->first();
             } elseif ($transaction->payment_type === 'charity') {
 
-                $payable = Donation::where(
-                    'id',
-                    $transaction->payable_id
-                )->lockForUpdate()->first();
+                $payable = Donation::whereKey($transaction->payable_id)
+                    ->lockForUpdate()
+                    ->first();
             } else {
-                return;
+                return false;
             }
 
             if (!$payable || $payable->payment_status === 'paid') {
-                return;
+                return false;
             }
 
+            // Restore reserved product stock.
+            if ($transaction->payment_type === 'product') {
+                OrderStockService::restore($payable);
+            }
+
+            // Update Order or Donation.
             $payable->update([
                 'payment_status' => $status,
             ]);
 
+            // Update Transaction.
             $transaction->update([
                 'status' => $status,
                 'gateway_response' => $request->all(),
             ]);
+
+            return true;
         });
     }
 }

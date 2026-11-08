@@ -137,3 +137,18 @@ if (!function_exists('cartCount')) {
         return $cart;
     }
 }
+
+if (!function_exists('asset_v')) {
+    function asset_v(string $path): string
+    {
+        $path = ltrim($path, '/');
+
+        $filePath = public_path($path);
+
+        $version = file_exists($filePath)
+            ? filemtime($filePath)
+            : config('app.asset_version', '1.0.0');
+
+        return asset($path) . '?v=' . $version;
+    }
+}

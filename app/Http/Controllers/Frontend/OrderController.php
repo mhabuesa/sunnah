@@ -9,8 +9,10 @@ use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\Product;
 use App\Models\ProductVariation;
+use App\Models\Transaction;
 use App\Services\CartService;
 use Illuminate\Http\Request;
+use Raziul\Sslcommerz\Facades\Sslcommerz;
 
 class OrderController extends Controller
 {
@@ -61,6 +63,8 @@ class OrderController extends Controller
             'subtotal' => $request->subtotal,
             'total' => $request->grand_total,
         ]);
+
+        $grand_total = null;
 
         foreach ($cartData as $item) {
 
@@ -118,37 +122,81 @@ class OrderController extends Controller
                 'price'        => $price,
                 'total'        => $totalPrice,
             ]);
+
+            $grand_total += $totalPrice;
+        }
+        $grand_total = $grand_total - ($request->coupon_discount ?? 0) + ($request->shipping_charge ?? 0);
+
+        $order->update([
+            'total' => $grand_total,
+        ]);
+
+        if ($request->payment_method == 'cod') {
+            // Clear cart after successful order
+            CartService::clear();
+
+            $data = [
+                'order_id' => $order->id,
+                'phone' => $customer->phone,
+            ];
+
+            OrderConfirmationJob::dispatch($data)->delay(5);
+
+            return redirect()
+                ->route('index')
+                ->with('success', 'Order placed successfully!');
         }
 
-        // Clear cart after successful order
-        CartService::clear();
+        // Payment processing for SSLCommerz
+        if ($request->payment_method == 'sslcommerz') {
 
-        $data = [
-            'order_id' => $order->id,
-            'phone' => $customer->phone,
-        ];
+            $transaction = Transaction::create([
+                'transaction_id' => Transaction::generateTransactionID(),
+                'payment_type' => 'product',
+                'payable_id' => $order->id,
+                'amount' => $grand_total,
+                'status' => 'pending',
+            ]);
 
-        OrderConfirmationJob::dispatch($data)->delay(5);
+            try {
+                // Initiate SSLCommerz payment.
+                $response = Sslcommerz::setOrder(
+                    $request->grand_total,
+                    $transaction->transaction_id,
+                    'Product Order #' . $transaction->transaction_id
+                )
+                    ->setCustomer(
+                        $customer->name,
+                        $customer->email ?? 'donation@sunnahatoz.com',
+                        $customer->phone,
+                        'Dhaka, Bangladesh'
+                    )
+                    ->makePayment();
 
-        return redirect()
-            ->route('index')
-            ->with('success', 'Order placed successfully!');
+                if ($response->success()) {
+                    return redirect()->away($response->gatewayPageURL());
+                }
+
+                $order->update([
+                    'payment_status' => 'failed',
+                ]);
+
+                return back()->with(
+                    'error',
+                    'Unable to initiate payment. Please try again.'
+                );
+            } catch (\Throwable $e) {
+                report($e);
+
+                $order->update([
+                    'payment_status' => 'failed',
+                ]);
+
+                return back()->with(
+                    'error',
+                    'Something went wrong while processing your payment.'
+                );
+            }
+        }
     }
-
-    // private function generateInvoiceNumber()
-    // {
-    //     $today = date('ymd');
-    //     $lastOrder = Order::where('invoice_no', 'like', 'INV-' . $today . '-%')
-    //         ->latest()
-    //         ->first();
-
-    //     if ($lastOrder) {
-    //         $lastNumber = (int) substr($lastOrder->invoice_no, strrpos($lastOrder->invoice_no, '-') + 1);
-    //         $newNumber = $lastNumber + 1;
-    //     } else {
-    //         $newNumber = 1;
-    //     }
-
-    //     return 'INV-' . $today . '-' . str_pad($newNumber, 2, '0', STR_PAD_LEFT);
-    // }
 }

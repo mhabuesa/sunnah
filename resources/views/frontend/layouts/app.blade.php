@@ -13,17 +13,14 @@
     <meta name="description" content="Sunnah AtoZ">
     <meta name="keywords" content="Sunnah AtoZ">
     <meta name="author" content="Sunnah AtoZ">
-    <link rel="icon" href="{{ asset(setting()->favicon) }}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{{ asset(setting()->favicon) }}">
+    <link rel="icon" href="{{ asset_v(setting()->favicon) }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset_v(setting()->favicon) }}">
     <meta name="title-color" content="#ff9900">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Sunnah AtoZ">
-    <meta name="msapplication-TileImage" content="{{ asset(setting()->favicon) }}">
+    <meta name="msapplication-TileImage" content="{{ asset_v(setting()->favicon) }}">
     <meta name="msapplication-TileColor" content="#FFFFFF">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="../../favicon.png">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -33,23 +30,23 @@
         rel="stylesheet">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/font-awesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/font-electro.css">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/vendor/font-awesome/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/css/font-electro.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/animate.css/animate.min.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/hs-megamenu/src/hs.megamenu.css">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/vendor/animate.css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/vendor/hs-megamenu/src/hs.megamenu.css') }}">
     <link rel="stylesheet"
-        href="{{ asset('frontend') }}/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/fancybox/jquery.fancybox.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/vendor/slick-carousel/slick/slick.css">
+        href="{{ asset_v('frontend/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/vendor/fancybox/jquery.fancybox.css') }}">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/vendor/slick-carousel/slick/slick.css') }}">
     <link rel="stylesheet"
-        href="{{ asset('frontend') }}/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+        href="{{ asset_v('frontend/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <!-- CSS Electro Template -->
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/css/theme.css">
-    <link rel="stylesheet" href="{{ asset('frontend') }}/assets/custom/style.css">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/css/theme.css') }}">
+    <link rel="stylesheet" href="{{ asset_v('frontend/assets/custom/style.css') }}">
 
     <!-- Notyf CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
@@ -177,43 +174,43 @@
     <!-- End Go to Top -->
 
     <!-- JS Global Compulsory -->
-    <script src="{{ asset('frontend') }}/assets/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/popper.js/dist/umd/popper.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/bootstrap/bootstrap.min.js"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/jquery-migrate/dist/jquery-migrate.min.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/popper.js/dist/umd/popper.min.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/bootstrap/bootstrap.min.js') }}"></script>
 
     <!-- JS Implementing Plugins -->
-    <script src="{{ asset('frontend') }}/assets/vendor/appear.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/jquery.countdown.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/appear.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/jquery.countdown.min.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/hs-megamenu/src/hs.megamenu.js') }}"></script>
     <script
-        src="{{ asset('frontend') }}/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js">
+        src="{{ asset_v('frontend/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}">
     </script>
-    <script src="{{ asset('frontend') }}/assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/fancybox/jquery.fancybox.min.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/slick-carousel/slick/slick.js"></script>
-    <script src="{{ asset('frontend') }}/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/fancybox/jquery.fancybox.min.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/slick-carousel/slick/slick.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
 
     <!-- JS Electro -->
-    <script src="{{ asset('frontend') }}/assets/js/hs.core.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.countdown.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.header.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.hamburgers.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.unfold.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.focus-state.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.malihu-scrollbar.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.validation.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.fancybox.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.onscroll-animation.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.slick-carousel.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.show-animation.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.go-to.js"></script>
-    <script src="{{ asset('frontend') }}/assets/js/components/hs.selectpicker.js"></script>
+    <script src="{{ asset_v('frontend/assets/js/hs.core.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.countdown.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.header.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.hamburgers.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.unfold.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.focus-state.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.malihu-scrollbar.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.validation.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.fancybox.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.onscroll-animation.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.slick-carousel.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.show-animation.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.go-to.js') }}"></script>
+    <script src="{{ asset_v('frontend/assets/js/components/hs.selectpicker.js') }}"></script>
 
     <script>
         window.cartAddUrl = "{{ route('cart.add.ajax') }}";
     </script>
-    <script src="{{ asset('frontend') }}/assets/custom/script.js"></script>
+    <script src="{{ asset_v('frontend/assets/custom/script.js') }}"></script>
 
     {{-- Notyf --}}
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
