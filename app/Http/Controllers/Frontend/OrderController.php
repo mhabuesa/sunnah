@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\Transaction;
 use App\Services\CartService;
+use App\Services\OrderStockService;
 use Illuminate\Http\Request;
 use Raziul\Sslcommerz\Facades\Sslcommerz;
 
@@ -125,12 +126,14 @@ class OrderController extends Controller
 
             $grand_total += $totalPrice;
         }
+
         $grand_total = $grand_total - ($request->coupon_discount ?? 0) + ($request->shipping_charge ?? 0);
 
         $order->update([
             'total' => $grand_total,
         ]);
 
+        // Handling Cash on Delivery (COD)
         if ($request->payment_method == 'cod') {
             // Clear cart after successful order
             CartService::clear();
@@ -177,6 +180,9 @@ class OrderController extends Controller
                     return redirect()->away($response->gatewayPageURL());
                 }
 
+                // If payment initiation fails, restore stock
+                OrderStockService::restore($order);
+
                 $order->update([
                     'payment_status' => 'failed',
                 ]);
@@ -187,6 +193,9 @@ class OrderController extends Controller
                 );
             } catch (\Throwable $e) {
                 report($e);
+
+                // If any exception occurs during payment gateway communication, restore stock
+                OrderStockService::restore($order);
 
                 $order->update([
                     'payment_status' => 'failed',
