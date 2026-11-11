@@ -5,7 +5,7 @@
                 <div class="product-item__body">
                     <h5 class="mb-0 product-item__title">
                         <a href="{{ route('product', $product->slug) }}"
-                            class="text-blue font-weight-bold text-center js-short-product-name">
+                            class="text-primary font-weight-bold text-center js-short-product-name">
                             {{ Str::limit($product->name, 20, '...') }}
                         </a>
                     </h5>
