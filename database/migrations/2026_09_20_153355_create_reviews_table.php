@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained('products')->onDelete('cascade');
-            $table->text('rating');
+            $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->integer('rating')->unsigned()->max(5);
             $table->longText('review');
             $table->timestamps();
         });

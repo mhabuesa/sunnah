@@ -58,12 +58,12 @@
             color: #4a5568;
             font-weight: 600;
             font-size: 15px;
-            padding: 12px 10px;
+            padding: 14px 12px;
             text-align: left;
         }
 
         .cart-table tbody td {
-            padding: 16px 10px;
+            padding: 16px 12px;
             border-bottom: 1px solid #edf2f7;
             vertical-align: middle;
         }
@@ -75,7 +75,7 @@
         }
 
         .cart-table .col-product {
-            width: 45%;
+            width: 85%;
         }
 
         .cart-table .col-price {
@@ -93,47 +93,56 @@
             text-align: right;
         }
 
+        .cart-prod-img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+        }
+
         /* Quantity Box Alignment */
         .cart-qty-wrapper {
             display: inline-flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #e2e8f0;
-            border-radius: 50px;
-            padding: 4px 10px;
-            width: 110px;
+            border: 1px solid #cbd5e0;
+            border-radius: 30px;
+            padding: 2px 8px;
+            width: 105px;
             background: #fff;
         }
 
         .cart-qty-wrapper input {
-            width: 35px;
+            width: 30px;
             text-align: center;
             font-weight: 600;
             border: none;
             background: transparent;
             outline: none;
+            font-size: 14px;
         }
 
         .qty-btn {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            color: #718096;
+            color: #4a5568;
+            background: #f7fafc;
             transition: all 0.2s ease;
             text-decoration: none !important;
         }
 
         .qty-btn:hover {
             background: #edf2f7;
-            color: #2d3748;
+            color: #1a202c;
         }
 
         .remove-btn {
             color: #a0aec0;
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 300;
             text-decoration: none;
             transition: color 0.2s ease;
         }
@@ -143,7 +152,7 @@
         }
 
         /* Mobile Responsive Card Layout (< 768px) */
-        @media (max-width: 767px) {
+        @media (max-width: 767.98px) {
             .cart-table thead {
                 display: none;
             }
@@ -158,29 +167,46 @@
 
             .cart-table tr.table-row {
                 position: relative;
-                background: #fff;
+                background: #ffffff;
                 border: 1px solid #e2e8f0;
                 border-radius: 12px;
-                padding: 15px;
-                margin-bottom: 15px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+                padding: 14px;
+                margin-bottom: 14px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
             }
 
             .cart-table td {
-                padding: 4px 0 !important;
+                padding: 2px 0 !important;
                 border: none !important;
                 text-align: left !important;
             }
 
             .cart-table td.col-remove {
                 position: absolute;
-                top: 8px;
+                top: 10px;
                 right: 12px;
                 width: auto;
             }
 
             .cart-table td.col-product {
-                padding-right: 35px !important;
+                padding-right: 15px !important;
+            }
+
+            .cart-prod-img {
+                width: 55px;
+                height: 55px;
+            }
+
+            .cart-title-link {
+                font-size: 14px !important;
+                line-height: 1.4;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                /* এখানে আপনি লাইন সংখ্যা নির্ধারণ করতে পারবেন (যেমন: ১ লাইনের জন্য 1, ২ লাইনের জন্য 2 দিন) */
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: 600;
             }
 
             /* Mobile Bottom Row for Price, Quantity & Total */
@@ -188,9 +214,9 @@
                 display: flex !important;
                 align-items: center;
                 justify-content: space-between;
-                margin-top: 12px;
+                margin-top: 10px;
                 padding-top: 10px !important;
-                border-top: 1px dashed #edf2f7 !important;
+                border-top: 1px solid #edf2f7 !important;
             }
         }
     </style>
@@ -206,7 +232,8 @@
             <div class="my-md-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-3 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{route('index')}}">Home</a></li>
+                        <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
+                        </li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Cart</li>
                     </ol>
                 </nav>
@@ -229,13 +256,13 @@
                         <div class="col-12 mb-3">
                             <div class="mb-10">
                                 <div class="card border shadow-sm rounded-2">
-                                    <div class="card-header border-0">
-                                        <strong class="font-size-18 mb-0">Your Cart</strong>
+                                    <div class="card-header border-0 bg-white pt-4 px-4">
+                                        <strong class="font-size-18 mb-0 text-dark">Your Cart</strong>
                                     </div>
-                                    <div class="card-body mb-4 pt-0">
+                                    <div class="card-body mb-4 pt-0 px-2 px-md-4">
                                         <!-- Cart Markup -->
                                         <div class="table-responsive-md">
-                                            <table class="table cart-table" cellspacing="0">
+                                            <table class="table cart-table mb-0" cellspacing="0">
                                                 <thead>
                                                     <tr>
                                                         <th class="col-remove">&nbsp;</th>
@@ -258,20 +285,19 @@
 
                                                             <!-- Delete Icon -->
                                                             <td class="col-remove">
-                                                                <a href="javascript:;" class="remove-row remove-btn">×</a>
+                                                                <a href="javascript:;"
+                                                                    class="remove-row remove-btn">&times;</a>
                                                             </td>
 
                                                             <!-- Product Image & Meta -->
                                                             <td class="col-product">
                                                                 <div class="d-flex align-items-center">
-                                                                    <img class="rounded border p-1 flex-shrink-0"
-                                                                        width="60" height="60"
+                                                                    <img class="rounded border p-1 flex-shrink-0 cart-prod-img"
                                                                         src="{{ asset($product?->image) }}"
-                                                                        alt="{{ $product?->name }}"
-                                                                        style="object-fit: cover;">
-                                                                    <div class="ml-3">
+                                                                        alt="{{ $product?->name }}">
+                                                                    <div class="ml-3 product-details-wrap">
                                                                         <a href="{{ route('product', $product->slug) }}"
-                                                                            class="font-weight-bold text-dark d-block mb-1 text-decoration-none">
+                                                                            class="font-weight-bold text-dark d-block mb-1 text-decoration-none cart-title-link">
                                                                             {{ $product?->name }}
                                                                         </a>
                                                                         @if ($variation)
@@ -287,7 +313,8 @@
                                                             <!-- Unit Price (Desktop View) -->
                                                             <td class="col-price d-none d-md-table-cell">
                                                                 <span class="price taka font-weight-500"
-                                                                    data-price="{{ $price }}">{{ $price }}</span>
+                                                                    data-price="{{ $price }}">৳
+                                                                    {{ $price }}</span>
                                                             </td>
 
                                                             <!-- Desktop Quantity Column -->
@@ -314,16 +341,17 @@
                                                             <!-- Desktop Total Price Column -->
                                                             <td class="col-total d-none d-md-table-cell">
                                                                 <span
-                                                                    class="productPrice font-weight-bold text-dark font-size-16">{{ $item['qty'] * $price }}</span>
+                                                                    class="productPrice font-weight-bold text-dark font-size-16">৳
+                                                                    {{ $item['qty'] * $price }}</span>
                                                             </td>
 
                                                             <!-- Mobile View Footer Container (Only visible on mobile) -->
                                                             <td class="cart-mobile-footer d-md-none">
-                                                                <div>
-                                                                    <span
-                                                                        class="text-muted font-size-12 d-block">Price</span>
-                                                                    <span class="price taka font-weight-500"
-                                                                        data-price="{{ $price }}">{{ $price }}</span>
+                                                                <div class="mobile-price-box">
+                                                                   
+                                                                    <span class="price taka font-weight-600 text-dark"
+                                                                        data-price="{{ $price }}">৳
+                                                                        {{ $price }}</span>
                                                                 </div>
 
                                                                 <!-- Quantity Selector -->
@@ -345,13 +373,13 @@
                                                                     </div>
                                                                 </div>
 
-
                                                                 <!-- Total Price -->
-                                                                <div class="text-right">
+                                                                <div class="mobile-total-box text-right">
                                                                     <span
-                                                                        class="text-muted font-size-12 d-block">Total</span>
+                                                                        class="text-muted font-size-11 d-block text-uppercase">Total</span>
                                                                     <span
-                                                                        class="productPrice font-weight-bold text-dark font-size-15">{{ $item['qty'] * $price }}</span>
+                                                                        class="productPrice font-weight-bold text-success font-size-15">৳
+                                                                        {{ $item['qty'] * $price }}</span>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -360,7 +388,8 @@
                                                     <!-- Empty Cart Row -->
                                                     <tr class="empty-card" style="display: none;">
                                                         <td colspan="5" class="text-center py-5">
-                                                            <div class="no-product-found mx-auto text-center" style="max-width: 400px;">
+                                                            <div class="no-product-found mx-auto text-center"
+                                                                style="max-width: 400px;">
                                                                 <img src="{{ asset('frontend') }}/assets/images/cartEmpty.png"
                                                                     alt="Empty Cart" class="img-fluid mb-4"
                                                                     style="opacity: 0.7; max-height: 180px;">
@@ -384,9 +413,8 @@
                             </div>
                         </div>
 
-
                         {{-- Billing Section --}}
-                        <div class="billing-section " style="display: none;">
+                        <div class="billing-section" style="display: none;">
                             @include('frontend.cart.partials.billing')
                         </div>
                     </div>

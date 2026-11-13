@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -322,9 +323,10 @@ use Illuminate\Support\Facades\Route;
         });
 
 
-        //test route
-        Route::controller(TestController::class)->name('test.')->prefix('test')->group(function () {
-            Route::get('/', 'index')->name('index');
+        //Pages route
+        Route::controller(PagesController::class)->name('pages.')->prefix('pages')->group(function () {
+            Route::get('/footer', 'footer')->name('footer');
+            Route::get('/footer/edit/{id}', 'footer_pages_edit')->name('footer.edit');
         });
 
 

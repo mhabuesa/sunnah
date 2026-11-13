@@ -77,37 +77,53 @@
             <div class="">
                 <ul class="row list-unstyled products-group no-gutters">
                     @forelse ($products as $product)
-                        <li class="col-6 col-md-3 col-lg-2 product-item remove-divider">
+                        <li class="col-6 col-md-3 col-lg-2 product-item remove-divider mt-2">
+
                             <div class="product-item__outer h-100 m-1">
-                                <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
-                                    <div class="product-item__body">
-                                        <h5 class="mb-0 product-item__title">
+
+                                <div class="product-item__inner p-2 p-md-3 border rounded bg-light h-100">
+
+                                    <div class="product-card-custom">
+
+                                        {{-- Product Image --}}
+                                        <div class="product-image-box rounded">
+                                            <a href="{{ route('product', $product->slug) }}">
+                                                <img class="img-fluid" src="{{ asset($product->image) }}"
+                                                    alt="{{ $product->name }}" loading="lazy">
+                                            </a>
+                                        </div>
+
+                                        {{-- Product Name --}}
+                                        <h5 class="product-title-custom">
                                             <a href="{{ route('product', $product->slug) }}"
-                                                class="text-primary font-weight-bold text-center js-short-product-name">
-                                                {{ Str::limit($product->name, 18, '...') }}
+                                                class="text-primary font-weight-bold ">
+                                                {{ $product->name }}
                                             </a>
                                         </h5>
-                                        <div class="mb-2">
-                                            <a href="{{ route('product', $product->slug) }}"
-                                                class="d-block text-center"><img class="img-fluid"
-                                                    src="{{ asset($product->image) }}" alt="Image Description"></a>
-                                        </div>
-                                        <div class="prodcut-price">
-                                            <div class="text-gray-100">৳{{ productPrice($product->id) }}
-                                            </div>
-                                        </div>
-                                        <div class="mt-2">
 
+                                        {{-- Product Price --}}
+                                        <div class="product-price-custom text-black">
+                                            ৳ {{ productPrice($product->id) }}
+                                        </div>
+
+                                        {{-- Add to Cart --}}
+                                        <div class="product-cart-custom">
                                             <button type="button"
-                                                class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
+                                                class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-2 ajax-add-to-cart"
                                                 data-product-id="{{ $product->id }}">
+
                                                 <i class="ec ec-add-to-cart"></i>
                                                 Add to Cart
+
                                             </button>
                                         </div>
+
                                     </div>
+
                                 </div>
+
                             </div>
+
                         </li>
                     @empty
                         <div class="col-12 w-100 text-center py-5">

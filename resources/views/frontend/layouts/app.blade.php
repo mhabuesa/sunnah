@@ -49,7 +49,7 @@
     <link rel="stylesheet" href="{{ asset_v('frontend/assets/custom/style.css') }}">
 
     <!-- Notyf CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"> --}}
 
     @stack('header_script')
 
@@ -213,7 +213,7 @@
     <script src="{{ asset_v('frontend/assets/custom/script.js') }}"></script>
 
     {{-- Notyf --}}
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script> --}}
 
     <script>
         // Ajax setup
@@ -224,26 +224,35 @@
             }
         });
 
-        // Notyf instance (global)
-        const notyf = new Notyf({
-            duration: 3000,
-            position: {
-                x: 'right',
-                y: 'bottom',
-            }
-        });
+        // Custom Toast Function (যেভাবে আপনি চাচ্ছিলেন)
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
 
-        // Toast function
-        function showToast(text, type = 'success') {
+            toast.textContent = message;
+            toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 99999;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: #fff;
+            background: ${type === 'success' ? '#103b2b' : '#dc3545'};
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 14px;
+            max-width: calc(100vw - 40px);
+            font-family: inherit;
+        `;
 
-            if (type === 'error') {
-                notyf.error(text);
-            } else {
-                notyf.success(text);
-            }
+            document.body.appendChild(toast);
+
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
         }
     </script>
 
+    {{-- Laravel Session Alerts --}}
     @if (session('success'))
         <script>
             showToast("{{ session('success') }}", 'success');
@@ -559,52 +568,6 @@
             });
 
         });
-    </script>
-
-    <script>
-        function shortProductNames() {
-            document.querySelectorAll('.js-short-product-name').forEach(function(element) {
-                const originalText = element.dataset.originalText || element.textContent.trim();
-
-                element.dataset.originalText = originalText;
-                element.textContent = originalText;
-
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-
-                const style = window.getComputedStyle(element);
-                context.font = style.font;
-
-                const availableWidth = element.getBoundingClientRect().width;
-
-                if (context.measureText(originalText).width > availableWidth) {
-                    let text = originalText;
-
-                    while (
-                        text.length > 0 &&
-                        context.measureText(text + '...').width > availableWidth
-                    ) {
-                        text = text.slice(0, -1);
-                    }
-
-                    element.textContent = text.trim() + '...';
-                }
-            });
-        }
-
-        window.addEventListener('load', function() {
-            setTimeout(shortProductNames, 500);
-        });
-
-        window.addEventListener('resize', shortProductNames);
-
-        // Recalculate after Slick slider changes its layout
-        if (window.jQuery) {
-            jQuery('.js-slick-carousel').on(
-                'init reInit setPosition',
-                shortProductNames
-            );
-        }
     </script>
 
     @stack('footer_script')

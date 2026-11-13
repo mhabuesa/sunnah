@@ -274,130 +274,6 @@
                 font-size: 13px;
             }
         }
-
-
-
-
-        /* =====================================
-       Product Card Layout
-    ===================================== */
-
-        .product-card-custom {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Product Image */
-        .product-image-box {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: #ffffff;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-
-        .product-image-box a {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-
-        /* Product Name */
-        .product-title-custom {
-            font-size: 17px;
-            font-weight: 700;
-            line-height: 1.5;
-            margin: 0 0 8px;
-            overflow-wrap: anywhere;
-        }
-
-        .product-title-custom a {
-            color: #103b2b !important;
-            text-decoration: none;
-        }
-
-        /* Product Price */
-        .product-price-custom {
-            font-size: 18px;
-            font-weight: 700;
-            color: #103b2b;
-            margin-top: auto;
-            margin-bottom: 12px;
-            min-height: 27px;
-        }
-
-        /* Add to Cart */
-        .product-cart-custom {
-            margin-top: 0;
-            width: 100%;
-        }
-
-        .product-cart-custom .btn {
-            width: 100%;
-            min-height: 40px;
-            background-color: #103b2b;
-            border-color: #103b2b !important;
-            font-weight: 600;
-            font-size: 15px;
-            border-radius: 6px !important;
-        }
-
-        .product-cart-custom .btn:hover {
-            background-color: #19543d;
-            border-color: #19543d !important;
-        }
-
-        /* Equal Height Cards */
-        .products-group .product-item {
-            display: flex;
-        }
-
-        .products-group .product-item__outer {
-            width: 100%;
-        }
-
-        .products-group .product-item__inner {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 575.98px) {
-
-            .product-item__inner {
-                padding: 8px !important;
-            }
-
-            .product-image-box {
-                margin-bottom: 9px;
-            }
-
-            .product-title-custom {
-                font-size: 15px;
-                line-height: 1.45;
-            }
-
-            .product-price-custom {
-                font-size: 17px;
-                margin-bottom: 10px;
-            }
-
-            .product-cart-custom .btn {
-                font-size: 13px;
-                padding: 7px 3px !important;
-                min-height: 38px;
-            }
-        }
     </style>
 @endpush
 @section('content')
@@ -620,77 +496,76 @@
         <!-- Todays Deal products -->
         @if ($todaysDeals->count() > 0)
             <div class="mb-1 home-category-slider">
+
+                {{-- Section Header --}}
                 <div
                     class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
                     <h3 class="section-title section-title__full mb-0 font-size-22">আজকের সেরা অফার</h3>
-                    <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">সব দেখুন
-                        <i class="ec ec-arrow-right-categproes"></i></a>
+                    <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">
+                        সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
+                    </a>
                 </div>
+
+                {{-- Product Slider --}}
                 <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                     data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
                     data-slides-show="7"
-                    data-responsive='[{
-                          "breakpoint": 1400,
-                          "settings": {
-                            "slidesToShow": 5
-                          }
-                        }, {
-                            "breakpoint": 1200,
-                            "settings": {
-                              "slidesToShow": 3
-                            }
-                        }, {
-                          "breakpoint": 992,
-                          "settings": {
-                            "slidesToShow": 3
-                          }
-                        }, {
-                          "breakpoint": 768,
-                          "settings": {
-                            "slidesToShow": 2
-                          }
-                        }, {
-                          "breakpoint": 554,
-                          "settings": {
-                            "slidesToShow": 2
-                          }
-                        }]'>
+                    data-responsive='[
+                { "breakpoint": 1400, "settings": { "slidesToShow": 5 } },
+                { "breakpoint": 1200, "settings": { "slidesToShow": 4 } },
+                { "breakpoint": 992, "settings": { "slidesToShow": 3 } },
+                { "breakpoint": 768, "settings": { "slidesToShow": 2 } },
+                { "breakpoint": 554, "settings": { "slidesToShow": 2 } }
+            ]'>
 
-                    @foreach ($todaysDeals as $product)
-                        <div class="js-slide products-group mx-1">
-                            <div class="product-item remove-divider">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
-                                        <div class="product-item__body">
-                                            <h5 class="mb-0 product-item__title">
-                                                <a href="{{ route('product', $product->product->slug) }}"
-                                                    class="text-primary font-weight-bold text-center js-short-product-name">
-                                                    {{ $product->product->name }}
-                                                </a>
-                                            </h5>
-                                            <div class="mb-2">
-                                                <a href="{{ route('product', $product->product->slug) }}"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset($product->product->image) }}"
-                                                        alt="Image Description"></a>
-                                            </div>
-                                            <div class="prodcut-price">
-                                                <div class="text-gray-100">৳{{ productPrice($product->product->id) }}
+                    @foreach ($todaysDeals as $item)
+                        @php
+                            $product = $item->product ?? $item; // Product object safety check
+                        @endphp
+
+                        @if ($product)
+                            <div class="js-slide px-1">
+                                <div class="product-item remove-divider">
+                                    <div class="product-item__outer">
+                                        <div class="product-item__inner p-2 p-md-3 border rounded bg-light">
+                                            <div class="product-card-custom">
+
+                                                {{-- Product Image --}}
+                                                <div class="product-image-box rounded">
+                                                    <a href="{{ route('product', $product->slug) }}">
+                                                        <img class="img-fluid" src="{{ asset($product->image) }}"
+                                                            alt="{{ $product->name }}" loading="lazy">
+                                                    </a>
                                                 </div>
-                                            </div>
-                                            <div class="mt-2">
-                                                <button type="button"
-                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
-                                                    data-product-id="{{ $product->product->id }}">
-                                                    <i class="ec ec-add-to-cart"></i>
-                                                    Add to Cart
-                                                </button>
+
+                                                {{-- Product Name --}}
+                                                <h5 class="product-title-custom">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="text-primary font-weight-bold">
+                                                        {{ $product->name }}
+                                                    </a>
+                                                </h5>
+
+                                                {{-- Product Price --}}
+                                                <div class="product-price-custom text-black">
+                                                    ৳ {{ productPrice($product->id) }}
+                                                </div>
+
+                                                {{-- Add to Cart Button --}}
+                                                <div class="product-cart-custom">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-2 ajax-add-to-cart"
+                                                        data-product-id="{{ $product->id }}">
+                                                        <i class="ec ec-add-to-cart"></i> Add to Cart
+                                                    </button>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
 
                 </div>
@@ -748,35 +623,42 @@
                         "settings": {"slidesToShow": 2}
                     }]'>
                         @foreach ($category->activeProducts as $product)
-                            <div class="js-slide products-group mx-1">
+                            <div class="js-slide px-1">
                                 <div class="product-item remove-divider">
-                                    <div class="product-item__outer h-100">
-                                        <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
-                                            <div class="product-item__body">
-                                                <h5 class="mb-0 product-item__title">
+                                    <div class="product-item__outer">
+                                        <div class="product-item__inner p-2 p-md-3 border rounded bg-light">
+                                            <div class="product-card-custom">
+
+                                                {{-- Product Image --}}
+                                                <div class="product-image-box rounded">
+                                                    <a href="{{ route('product', $product->slug) }}">
+                                                        <img class="img-fluid" src="{{ asset($product->image) }}"
+                                                            alt="{{ $product->name }}" loading="lazy">
+                                                    </a>
+                                                </div>
+
+                                                {{-- Product Name --}}
+                                                <h5 class="product-title-custom">
                                                     <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-primary font-weight-bold text-center js-short-product-name">
+                                                        class="text-primary font-weight-bold">
                                                         {{ $product->name }}
                                                     </a>
                                                 </h5>
-                                                <div class="mb-2">
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="d-block text-center"><img class="img-fluid"
-                                                            src="{{ asset($product->image) }}"
-                                                            alt="Image Description"></a>
+
+                                                {{-- Product Price --}}
+                                                <div class="product-price-custom text-black">
+                                                    ৳ {{ productPrice($product->id) }}
                                                 </div>
-                                                <div class="prodcut-price">
-                                                    <div class="text-gray-100">৳{{ productPrice($product->id) }}
-                                                    </div>
-                                                </div>
-                                                <div class="mt-2">
+
+                                                {{-- Add to Cart Button --}}
+                                                <div class="product-cart-custom">
                                                     <button type="button"
-                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
+                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-2 ajax-add-to-cart"
                                                         data-product-id="{{ $product->id }}">
-                                                        <i class="ec ec-add-to-cart"></i>
-                                                        Add to Cart
+                                                        <i class="ec ec-add-to-cart"></i> Add to Cart
                                                     </button>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -827,7 +709,7 @@
                                                 {{-- Product Name --}}
                                                 <h5 class="product-title-custom">
                                                     <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-primary font-weight-bold product_name">
+                                                        class="text-primary font-weight-bold ">
                                                         {{ $product->name }}
                                                     </a>
                                                 </h5>
@@ -945,34 +827,42 @@
                         }]'>
 
                     @foreach ($recentProducts as $product)
-                        <div class="js-slide products-group mx-1">
+                        <div class="js-slide px-1">
                             <div class="product-item remove-divider">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
-                                        <div class="product-item__body">
-                                            <h5 class="mb-0 product-item__title">
+                                <div class="product-item__outer">
+                                    <div class="product-item__inner p-2 p-md-3 border rounded bg-light">
+                                        <div class="product-card-custom">
+
+                                            {{-- Product Image --}}
+                                            <div class="product-image-box rounded">
+                                                <a href="{{ route('product', $product->slug) }}">
+                                                    <img class="img-fluid" src="{{ asset($product->image) }}"
+                                                        alt="{{ $product->name }}" loading="lazy">
+                                                </a>
+                                            </div>
+
+                                            {{-- Product Name --}}
+                                            <h5 class="product-title-custom">
                                                 <a href="{{ route('product', $product->slug) }}"
-                                                    class="text-primary font-weight-bold text-center js-short-product-name">
+                                                    class="text-primary font-weight-bold">
                                                     {{ $product->name }}
                                                 </a>
                                             </h5>
-                                            <div class="mb-2">
-                                                <a href="{{ route('product', $product->slug) }}"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset($product->image) }}" alt="Image Description"></a>
+
+                                            {{-- Product Price --}}
+                                            <div class="product-price-custom text-black">
+                                                ৳ {{ productPrice($product->id) }}
                                             </div>
-                                            <div class="prodcut-price">
-                                                <div class="text-gray-100">৳{{ productPrice($product->id) }}
-                                                </div>
-                                            </div>
-                                            <div class="mt-2">
+
+                                            {{-- Add to Cart Button --}}
+                                            <div class="product-cart-custom">
                                                 <button type="button"
-                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
+                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-2 ajax-add-to-cart"
                                                     data-product-id="{{ $product->id }}">
-                                                    <i class="ec ec-add-to-cart"></i>
-                                                    Add to Cart
+                                                    <i class="ec ec-add-to-cart"></i> Add to Cart
                                                 </button>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>

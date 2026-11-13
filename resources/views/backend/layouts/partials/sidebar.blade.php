@@ -580,6 +580,29 @@
                 </li>
 
                 <li class="nav-main-heading">
+                    </i> Pages Management
+                </li>
+                <li class="nav-main-item {{ request()->routeIs('admin.pages.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+
+                        <i class="nav-main-link-icon fas fa-newspaper"></i>
+                        <span class="nav-main-link-name">Pages</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.pages.footer') ? 'active' : '' }}"
+                                href="{{ route('admin.pages.footer') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-circle-plus me-2"></i>Footer Pages List
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-main-heading">
                     </i> System Settings
                 </li>
                 <li class="nav-main-item {{ request()->routeIs('admin.settings.*') ? 'open' : '' }}">

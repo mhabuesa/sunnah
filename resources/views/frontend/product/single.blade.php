@@ -340,36 +340,43 @@
                           }
                         }]'>
 
-                    @foreach ($relatedProduct as $product)
-                        <div class="js-slide products-group mx-2">
+                    @foreach ($relatedProduct as $relProduct)
+                        <div class="js-slide px-1">
                             <div class="product-item remove-divider">
-                                <div class="product-item__outer h-100">
-                                    <div class="product-item__inner px-wd-3 p-2 p-md-3 border rounded bg-light">
-                                        <div class="product-item__body">
-                                            <h5 class="mb-0 product-item__title">
-                                                <a href="{{ route('product', $product->slug) }}"
-                                                    class="text-primary font-weight-bold text-center js-short-product-name">
-                                                    {{ $product->name }}
+                                <div class="product-item__outer">
+                                    <div class="product-item__inner p-2 p-md-3 border rounded bg-light">
+                                        <div class="product-card-custom">
+
+                                            {{-- Product Image --}}
+                                            <div class="product-image-box rounded">
+                                                <a href="{{ route('product', $relProduct->slug) }}">
+                                                    <img class="img-fluid" src="{{ asset($relProduct->image) }}"
+                                                        alt="{{ $relProduct->name }}" loading="lazy">
+                                                </a>
+                                            </div>
+
+                                            {{-- Product Name --}}
+                                            <h5 class="product-title-custom">
+                                                <a href="{{ route('product', $relProduct->slug) }}"
+                                                    class="text-primary font-weight-bold">
+                                                    {{ $relProduct->name }}
                                                 </a>
                                             </h5>
-                                            <div class="mb-2">
-                                                <a href="{{ route('product', $product->slug) }}"
-                                                    class="d-block text-center"><img class="img-fluid"
-                                                        src="{{ asset($product->image) }}" alt="Image Description"></a>
-                                            </div>
-                                            <div class="prodcut-price">
-                                                <div class="text-gray-100">৳{{ productPrice($product->id) }}
-                                                </div>
-                                            </div>
-                                            <div class="mt-2">
 
+                                            {{-- Product Price --}}
+                                            <div class="product-price-custom text-black">
+                                                ৳ {{ productPrice($relProduct->id) }}
+                                            </div>
+
+                                            {{-- Add to Cart Button --}}
+                                            <div class="product-cart-custom">
                                                 <button type="button"
-                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-1 ajax-add-to-cart"
-                                                    data-product-id="{{ $product->id }}">
-                                                    <i class="ec ec-add-to-cart"></i>
-                                                    Add to Cart
+                                                    class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-2 ajax-add-to-cart"
+                                                    data-product-id="{{ $relProduct->id }}">
+                                                    <i class="ec ec-add-to-cart"></i> Add to Cart
                                                 </button>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -973,7 +980,6 @@
             });
         });
     </script>
-
     <script>
         $(document).ready(function() {
 
@@ -985,46 +991,38 @@
             const reviewUrl = "{{ route('product.reviews', ':productId') }}"
                 .replace(':productId', productId);
 
+            // Escape HTML to prevent XSS.
+            function escapeHtml(text) {
+                return $('<div>').text(text || '').html();
+            }
 
-            /*
-            |--------------------------------------------------------------------------
-            | Load Reviews
-            |--------------------------------------------------------------------------
-            */
-
+            // Load Reviews
             function loadReviews(page = 1) {
 
-                if (loading) {
-                    return;
-                }
+                if (loading) return;
 
                 loading = true;
 
                 $('#reviewLoading').show();
 
                 $.ajax({
-
                     url: reviewUrl,
-
                     type: 'GET',
-
                     data: {
                         page: page
                     },
+                    dataType: 'json',
 
                     success: function(response) {
 
+                        console.log('Review Response:', response);
+
                         if (!response.success) {
+                            console.error('Review response unsuccessful.');
                             return;
                         }
 
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Rating Summary
-                        |--------------------------------------------------------------------------
-                        */
-
+                        // Rating Summary
                         if (page === 1) {
 
                             $('#totalReviews').text(
@@ -1035,132 +1033,75 @@
                                 response.rating.average_rating
                             );
 
-
                             for (let star = 5; star >= 1; star--) {
 
-                                let count =
-                                    response.rating.counts[star] ?? 0;
+                                let count = response.rating.counts[star] ?? 0;
 
-                                let total =
-                                    response.rating.total_reviews;
+                                let total = response.rating.total_reviews;
 
-                                let percentage = 0;
-
-                                if (total > 0) {
-
-                                    percentage =
-                                        (count / total) * 100;
-
-                                }
-
+                                let percentage = total > 0 ?
+                                    (count / total) * 100 :
+                                    0;
 
                                 $('#ratingCount' + star)
-                                    .text(count);
-
+                                    .text(count)
+                                    .toggleClass('text-gray-90', count > 0)
+                                    .toggleClass('text-muted', count === 0);
 
                                 $('#ratingProgress' + star)
-                                    .css(
-                                        'width',
-                                        percentage + '%'
-                                    )
-                                    .attr(
-                                        'aria-valuenow',
-                                        percentage
-                                    );
-
-
-                                if (count > 0) {
-
-                                    $('#ratingCount' + star)
-                                        .removeClass('text-muted')
-                                        .addClass('text-gray-90');
-
-                                } else {
-
-                                    $('#ratingCount' + star)
-                                        .removeClass('text-gray-90')
-                                        .addClass('text-muted');
-
-                                }
-
+                                    .css('width', percentage + '%')
+                                    .attr('aria-valuenow', percentage);
                             }
 
                         }
 
+                        // Reviews
+                        const reviews = response.reviews || [];
 
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Reviews
-                        |--------------------------------------------------------------------------
-                        */
+                        if (reviews.length === 0 && page === 1) {
 
-                        let reviews = response.reviews;
+                            $('#reviewList').html(
+                                '<p class="text-muted text-center">No reviews yet.</p>'
+                            );
 
+                        } else {
 
-                        reviews.forEach(function(review) {
+                            reviews.forEach(function(review) {
 
-                            let stars = '';
+                                let stars = '';
 
-                            for (let i = 1; i <= 5; i++) {
+                                for (let i = 1; i <= 5; i++) {
 
-                                if (i <= review.rating) {
-
-                                    stars +=
-                                        '<small class="fas fa-star"></small>';
-
-                                } else {
-
-                                    stars +=
-                                        '<small class="far fa-star text-muted"></small>';
+                                    if (i <= review.rating) {
+                                        stars += '<small class="fas fa-star"></small>';
+                                    } else {
+                                        stars +=
+                                            '<small class="far fa-star text-muted"></small>';
+                                    }
 
                                 }
 
-                            }
+                                let customerName = review.customer ?
+                                    review.customer.name :
+                                    'Customer';
 
-
-                            let customerName =
-                                review.customer ?
-                                review.customer.name :
-                                'Customer Name';
-
-
-                            let reviewDate =
-                                new Date(review.created_at)
-                                .toLocaleDateString(
-                                    'en-US', {
+                                let reviewDate = new Date(review.created_at)
+                                    .toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'long',
                                         day: 'numeric'
-                                    }
-                                );
+                                    });
 
-
-                            let reviewHtml = `
-
+                                let reviewHtml = `
                             <div class="border-bottom border-color-1 pb-4 mb-4">
 
-                                <!-- Review Rating -->
-
-                                <div class="d-flex justify-content-between align-items-center text-secondary font-size-1 mb-2">
-
-                                    <div class="text-warning text-ls-n2 font-size-16"
-                                         style="width: 80px;">
-
-                                        ${stars}
-
-                                    </div>
-
+                                <div class="text-warning text-ls-n2 font-size-16 mb-2">
+                                    ${stars}
                                 </div>
-
-                                <!-- End Review Rating -->
-
 
                                 <p class="text-gray-90">
                                     ${escapeHtml(review.review)}
                                 </p>
-
-
-                                <!-- Reviewer -->
 
                                 <div class="mb-2">
 
@@ -1169,50 +1110,36 @@
                                     </strong>
 
                                     <span class="font-size-13 text-gray-23">
-                                        -${reviewDate}
+                                        - ${reviewDate}
                                     </span>
 
                                 </div>
 
-                                <!-- End Reviewer -->
-
                             </div>
-
                         `;
 
+                                $('#reviewList').append(reviewHtml);
 
-                            $('#reviewList').append(reviewHtml);
+                            });
 
-                        });
+                        }
 
-
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Load More Button
-                        |--------------------------------------------------------------------------
-                        */
-
+                        // Pagination
                         currentPage = response.current_page;
 
-
                         if (response.has_more) {
-
                             $('#loadMoreWrapper').show();
-
                         } else {
-
                             $('#loadMoreWrapper').hide();
-
                         }
 
                     },
 
                     error: function(xhr) {
 
-                        console.error(
-                            'Review loading failed:',
-                            xhr
-                        );
+                        console.error('Review loading failed:', xhr);
+
+                        console.error('Response:', xhr.responseText);
 
                     },
 
@@ -1224,11 +1151,10 @@
 
                         const button = $('#loadMoreReviews');
 
-                        // Enable button
                         button.prop('disabled', false);
 
-                        // Restore button text
                         button.find('.load-more-text').removeClass('d-none');
+
                         button.find('.load-more-loading').addClass('d-none');
 
                     }
@@ -1237,59 +1163,24 @@
 
             }
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | Load More
-            |--------------------------------------------------------------------------
-            */
-
+            // Load More Reviews
             $('#loadMoreReviews').on('click', function() {
 
-                if (loading) {
-                    return;
-                }
+                if (loading) return;
 
                 const button = $(this);
 
-                // Disable button
                 button.prop('disabled', true);
 
-                // Show loading
                 button.find('.load-more-text').addClass('d-none');
+
                 button.find('.load-more-loading').removeClass('d-none');
 
-                // Load next page
                 loadReviews(currentPage + 1);
 
             });
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | Escape HTML
-            |--------------------------------------------------------------------------
-            */
-
-            function escapeHtml(text) {
-
-                if (!text) {
-                    return '';
-                }
-
-                return $('<div>')
-                    .text(text)
-                    .html();
-
-            }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | Initial AJAX Request
-            |--------------------------------------------------------------------------
-            */
-
+            // Initial Request
             loadReviews(1);
 
         });

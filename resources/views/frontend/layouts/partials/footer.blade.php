@@ -102,12 +102,30 @@
                 <div class="col-lg-7">
                     <div class="row">
 
+                         {{-- Information --}}
+                        <div class="col-6 col-lg mb-4 mb-lg-0">
+                            <h6 class="mb-3 font-weight-bold">Information</h6>
+
+                            <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
+                                <li><a class="list-group-item list-group-item-action" href="{{ route('about') }}">About
+                                        us</a></li>
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="{{ route('contact') }}">Contact us</a></li>
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="{{ route('company.information') }}">Company Information</a></li>
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="{{ route('terms.and.conditions') }}">Terms & Conditions</a></li>
+                                <li><a class="list-group-item list-group-item-action" href="#">Privacy Policy</a>
+                                </li>
+                            </ul>
+                        </div>
+                        
                         @php
                             $firstCategories = $categories->count() > 6 ? $categories->take(5) : $categories;
-
-                            $remainingCategories = $categories->count() > 6 ? $categories->slice(5) : collect();
                         @endphp
-                        <div class="col-12 col-md  mb-md-0">
+
+                        {{-- Shop By --}}
+                        <div class="col-6 col-lg mb-4 mb-lg-0">
                             <h6 class="mb-3 font-weight-bold">Shop By</h6>
 
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
@@ -122,62 +140,40 @@
                             </ul>
                         </div>
 
-                        @if ($remainingCategories->isNotEmpty())
-                            <div class="col-12 col-md mb-4 mb-md-0 mr-4">
+                       
 
-                                <ul
-                                    class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                    @foreach ($remainingCategories as $category)
-                                        <li>
-                                            <a class="list-group-item list-group-item-action"
-                                                href="{{ route('category', $category->slug) }}">
-                                                {{ $category->name }}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                        {{-- Support --}}
+                        <div class="col-6 col-lg mb-4 mb-lg-0">
+                            <h6 class="mb-3 font-weight-bold">Support</h6>
 
-                        <div class="col-12 col-md mb-4 mb-md-0">
-                            <h6 class="mb-3 font-weight-bold">Information</h6>
-                            <!-- List Group -->
-                            <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
-                                <li><a class="list-group-item list-group-item-action" href="{{ route('about') }}">About
-                                        us</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('contact') }}">Contact
-                                        us</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('company.information') }}">Company
-                                        Information</a></li>
-                                <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('terms.and.conditions') }}">Terms
-                                        & Conditions</a></li>
-                                <li><a class="list-group-item list-group-item-action" href="#">Privacy
-                                        Policy</a></li>
-                            </ul>
-                            <!-- End List Group -->
-                        </div>
-
-                        <div class="col-12 col-md mb-4 mb-md-0">
-                            <h6 class="mb-3 font-weight-bold">Customer Care</h6>
-                            <!-- List Group -->
                             <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('customer.dashboard') }}">My
-                                        Account</a></li>
+                                        href="#">Support Center</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('customer.orders') }}">My
-                                        Orders</a></li>
+                                        href="#">How to Order</a></li>
                                 <li><a class="list-group-item list-group-item-action"
-                                        href="{{ route('order.tracking') }}">Order
-                                        Tracking</a></li>
-                                <li><a class="list-group-item list-group-item-action" href="#">FAQs</a>
-                                </li>
+                                        href="{{ route('order.tracking') }}">Order Tracking</a></li>
+                                <li><a class="list-group-item list-group-item-action" href="#">Payment</a></li>
+                                <li><a class="list-group-item list-group-item-action" href="#">Shipping</a></li>
+                                <li><a class="list-group-item list-group-item-action" href="#">FAQ</a></li>
                             </ul>
-                            <!-- End List Group -->
                         </div>
+
+                        {{-- Consumer Policy --}}
+                        <div class="col-6 col-lg mb-4 mb-lg-0">
+                            <h6 class="mb-3 font-weight-bold">Consumer Policy</h6>
+
+                            <ul class="list-group list-group-flush list-group-borderless mb-0 list-group-transparent">
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="#">Happy Return</a></li>
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="#">Refund Policy</a></li>
+                                <li><a class="list-group-item list-group-item-action"
+                                        href="">Exchange</a></li>
+                                <li><a class="list-group-item list-group-item-action" href="#">Cancellation</a></li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>
