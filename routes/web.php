@@ -320,6 +320,9 @@ use Illuminate\Support\Facades\Route;
             Route::post('/content/update/{id}', 'updateContent')->name('content.update');
             Route::delete('/content/destroy/{id}', 'destroyContent')->name('content.destroy');
             Route::get('/get-subcategories', 'getSubcategories')->name('get.subcategories');
+
+            Route::get('/donations', 'donations')->name('donations');
+            Route::get('/donors', 'donors')->name('donors');
         });
 
 
@@ -363,3 +366,4 @@ use Illuminate\Support\Facades\Route;
     });
 
     require __DIR__ . '/frontend.php';
+    require __DIR__ . '/payment.php';

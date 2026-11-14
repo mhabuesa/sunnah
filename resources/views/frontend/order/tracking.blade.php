@@ -378,7 +378,12 @@
                                     <span>Total Paid</span>
 
                                     <strong>
-                                        {{ number_format($order->paid_amount ?? 0, 2) }} BDT
+                                        @if ($order->payment_status == 'paid')
+                                            
+                                        {{ number_format($order->total) }} BDT
+                                        @else
+                                            0.00 BDT
+                                        @endif
                                     </strong>
                                 </div>
 
@@ -387,8 +392,12 @@
                                     <span>Amount Due</span>
 
                                     <strong>
-                                        {{ number_format($order->total ?? 0, 2) }}
-                                        BDT
+                                        @if ($order->payment_status == 'unpaid')
+                                            
+                                        {{ number_format($order->total) }} BDT
+                                        @else
+                                            0.00 BDT
+                                        @endif
                                     </strong>
                                 </div>
 
@@ -450,7 +459,7 @@
                                     <small>DELIVERY ADDRESS</small>
 
                                     <strong>
-                                        {{ $order->customer->address }}
+                                        {{ $order->shipping_address }}
                                     </strong>
 
                                 </div>

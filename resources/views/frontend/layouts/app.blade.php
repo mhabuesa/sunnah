@@ -224,31 +224,47 @@
             }
         });
 
-        // Custom Toast Function (যেভাবে আপনি চাচ্ছিলেন)
+        // Custom Toast Function (SVG Icon)
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
 
-            toast.textContent = message;
+            // SVG Cross Icon
+            const closeSvg =
+                `<svg class="toast-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="cursor: pointer; opacity: 0.8; flex-shrink: 0;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+
+            toast.innerHTML = `
+        <span>${message}</span>
+        ${closeSvg}
+    `;
+
             toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 99999;
-            padding: 12px 20px;
-            border-radius: 8px;
-            color: #fff;
-            background: ${type === 'success' ? '#103b2b' : '#dc3545'};
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-size: 14px;
-            max-width: calc(100vw - 40px);
-            font-family: inherit;
-        `;
+        position: fixed;
+        top: 10px;
+        right: 20px;
+        z-index: 99999;
+        padding: 12px 16px 12px 20px;
+        border-radius: 8px;
+        color: #fff;
+        background: ${type === 'success' ? '#00884d' : '#dc3545'};
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        font-size: 14px;
+        max-width: calc(100vw - 40px);
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    `;
 
             document.body.appendChild(toast);
 
-            setTimeout(function() {
+            const autoRemove = setTimeout(function() {
                 toast.remove();
             }, 3000);
+
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                clearTimeout(autoRemove);
+                toast.remove();
+            });
         }
     </script>
 

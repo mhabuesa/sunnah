@@ -27,4 +27,11 @@ class Donation extends Model
 
         return $number;
     }
+    
+    public function category()
+    {
+        return $this->belongsTo(CharityCategory::class, 'category_id');
+    }
+    
+    
 }

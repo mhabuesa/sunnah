@@ -199,7 +199,7 @@
                                 <li>
                                     <a class="list-group-item list-group-item-action"
                                         href="{{ route('happy.return') }}">
-                                        সহজ পণ্য ফেরত
+                                        পণ্য ফেরত নীতিমালা
                                     </a>
                                 </li>
 
@@ -212,14 +212,14 @@
 
                                 <li>
                                     <a class="list-group-item list-group-item-action" href="{{ route('exchange') }}">
-                                        পণ্য পরিবর্তন
+                                        পণ্য পরিবর্তন নীতিমালা
                                     </a>
                                 </li>
 
                                 <li>
                                     <a class="list-group-item list-group-item-action"
                                         href="{{ route('cancellation') }}">
-                                        অর্ডার বাতিল
+                                        অর্ডার বাতিল নীতিমালা
                                     </a>
                                 </li>
 

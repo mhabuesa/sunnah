@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
+use App\Jobs\OrderConfirmationJob;
+use App\Models\Customer;
 use App\Models\Donation;
+use App\Models\Order;
 use App\Models\Transaction;
+use App\Services\CartService;
+use App\Services\OrderStockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Raziul\Sslcommerz\Facades\Sslcommerz;
@@ -33,8 +37,6 @@ class PaymentController extends Controller
             );
         }
 
-        // dd($transaction, $request->all());
-
         // Validate payment with SSLCommerz.
         $isValid = Sslcommerz::validatePayment(
             $request->all(),
@@ -56,13 +58,37 @@ class PaymentController extends Controller
             'gateway_response' => $request->all(),
             'paid_at' => now(),
         ]);
-        Donation::where('id', $transaction->payable_id)->update([
-            'payment_status' => 'paid',
-            'transaction_ref' => $transaction->transaction_id,
-        ]);
 
-        // dd($data);
-        return redirect()->route('charity.index')->with('success', 'Thank you! Your donation has been received successfully.');
+        if ($transaction->payment_type == 'product') {
+            $order = Order::findOrFail($transaction->payable_id);
+
+            $order->update([
+                'payment_status' => 'paid',
+                'transaction_ref' => $transaction->transaction_id,
+            ]);
+
+            $customer = Customer::findOrFail($order->customer_id);
+
+            CartService::clear();
+
+            $data = [
+                'order_id' => $order->id,
+                'phone' => $customer->phone,
+            ];
+
+            OrderConfirmationJob::dispatch($data)->delay(5);
+
+           return view('frontend.order.order_placed', compact('order'));
+           
+        } elseif ($transaction->payment_type == 'charity') {
+
+            Donation::where('id', $transaction->payable_id)->update([
+                'payment_status' => 'paid',
+                'transaction_ref' => $transaction->transaction_id,
+            ]);
+
+            return view('frontend.charity.payment_success');
+        }
     }
 
 
@@ -76,13 +102,24 @@ class PaymentController extends Controller
             $request->input('tran_id')
         )->first();
 
-         $transaction->update([
+        $transaction->update([
             'status' => 'failed',
         ]);
-        Donation::where('id', $transaction->payable_id)->update([
-            'payment_status' => 'failed',
-        ]);
 
+        $order = Order::findOrFail($transaction->payable_id);
+
+        if ($transaction->payment_type == 'product') {
+            OrderStockService::restore($order);
+
+            $order->update([
+                'payment_status' => 'failed',
+                'transaction_ref' => $transaction->transaction_id,
+            ]);
+        } elseif ($transaction->payment_type == 'charity') {
+            Donation::where('id', $transaction->payable_id)->update([
+                'payment_status' => 'failed',
+            ]);
+        }
 
         return redirect('/')->with(
             'error',
@@ -103,13 +140,24 @@ class PaymentController extends Controller
             $request->input('tran_id')
         )->first();
 
-         $transaction->update([
+        $transaction->update([
             'status' => 'cancelled',
         ]);
-        Donation::where('id', $transaction->payable_id)->update([
-            'payment_status' => 'cancelled',
-        ]);
 
+        $order = Order::findOrFail($transaction->payable_id);
+
+        if ($transaction->payment_type == 'product') {
+            OrderStockService::restore($order);
+
+            $order->update([
+                'payment_status' => 'cancelled',
+                'transaction_ref' => $transaction->transaction_id,
+            ]);
+        } elseif ($transaction->payment_type == 'charity') {
+            Donation::where('id', $transaction->payable_id)->update([
+                'payment_status' => 'cancelled',
+            ]);
+        }
 
         return redirect('/')->with(
             'error',

@@ -484,7 +484,7 @@
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
                         <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
-                        <span class="nav-main-link-name">Charity</span>
+                        <span class="nav-main-link-name">Charity Management</span>
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
@@ -513,14 +513,33 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-main-item">
-                    <a class="nav-main-link {{ request()->routeIs('admin.charity.index') ? 'active' : '' }}"
-                        href="{{ route('admin.sms.index') }}">
-                        <span class="nav-main-link-name">
-                            <i class="fa-solid fa-comment-sms me-2"></i>
-                            Donors List
-                        </span>
+
+                <li class="nav-main-item {{ request()->routeIs('admin.charity.*') ? 'open' : '' }}">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                        aria-expanded="false" href="#">
+                        <i class="nav-main-link-icon fas fa-hand-holding-heart"></i>
+                        <span class="nav-main-link-name">Charity</span>
                     </a>
+
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.charity.donations') ? 'active' : '' }}"
+                                href="{{ route('admin.charity.donations') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-hand-holding-usd me-2"></i> Donations
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-main-item">
+                            <a class="nav-main-link {{ request()->routeIs('admin.charity.donors') ? 'active' : '' }}"
+                                href="{{ route('admin.charity.donors') }}">
+                                <span class="nav-main-link-name">
+                                    <i class="fas fa-users me-2"></i> Donors List
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="nav-main-heading">

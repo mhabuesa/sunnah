@@ -14,7 +14,7 @@ use Raziul\Sslcommerz\Facades\Sslcommerz;
 
 class CharityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $charityCategories = CharityCategory::where('status', '1')->orderBy('priority', 'asc')->get();
         return view('frontend.charity.index', compact([

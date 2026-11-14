@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\CharityCategory;
 use App\Models\CharityContent;
 use App\Models\CharitySubcategory;
+use App\Models\Donation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CharityController extends Controller
@@ -252,5 +254,27 @@ class CharityController extends Controller
             'success' => true,
             'message' => 'Content deleted successfully'
         ]);
+    }
+
+    public function donations()
+    {
+        $donations = Donation::all();
+        return view('backend.charity.donations', compact('donations'));
+    }
+
+    public function donors()
+    {
+        $donors = Donation::select(
+            'donor_name',
+            'donor_phone',
+            DB::raw('SUM(amount) as total_amount'),
+            DB::raw('COUNT(*) as total_donations')
+        )
+            ->whereNotNull('donor_name')
+            ->where('donor_name', '!=', '')
+            ->groupBy('donor_name', 'donor_phone')
+            ->orderByDesc('total_amount')
+            ->get();
+        return view('backend.charity.donors', compact('donors'));
     }
 }
