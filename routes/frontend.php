@@ -87,10 +87,22 @@ Route::controller(ReviewController::class)->group(function () {
 
 // Review Route
 Route::controller(InformationController::class)->group(function () {
-    Route::get('/about', 'about')->name('about');
-    Route::get('/contact', 'contact')->name('contact');
-    Route::get('/company-information', 'companyInformation')->name('company.information');
-    Route::get('/terms-and-conditions', 'termsAndConditions')->name('terms.and.conditions');
+
+    Route::get('/about', 'footer_page')->defaults('slug', 'about-us')->name('about');
+    Route::get('/contact', 'footer_page')->defaults('slug', 'contact-us')->name('contact');
+    Route::get('/company-information', 'footer_page')->defaults('slug', 'company-information')->name('company.information');
+    Route::get('/terms-and-conditions', 'footer_page')->defaults('slug', 'terms-and-conditions')->name('terms.and.conditions');
+    Route::get('/privacy-policy', 'footer_page')->defaults('slug', 'privacy-policy')->name('privacy');
+
+    Route::get('/support-center', 'footer_page')->defaults('slug', 'support-center')->name('support.center');
+    Route::get('/how-to-order', 'footer_page')->defaults('slug', 'how-to-order')->name('how.to.order');
+    Route::get('/payment', 'footer_page')->defaults('slug', 'payment')->name('payment');
+    Route::get('/shipping', 'footer_page')->defaults('slug', 'shipping')->name('shipping');
+    Route::get('/faq', 'footer_page')->defaults('slug', 'faq')->name('faq');
+    Route::get('/happy-return', 'footer_page')->defaults('slug', 'happy-return')->name('happy.return');
+    Route::get('/refund-policy', 'footer_page')->defaults('slug', 'refund-policy')->name('refund.policy');
+    Route::get('/exchange', 'footer_page')->defaults('slug', 'exchange')->name('exchange');
+    Route::get('/cancellation', 'footer_page')->defaults('slug', 'cancellation')->name('cancellation');
 });
 
 // Order Tracking Route

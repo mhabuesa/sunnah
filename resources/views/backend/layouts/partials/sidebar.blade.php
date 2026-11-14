@@ -591,8 +591,8 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.pages.footer') ? 'active' : '' }}"
-                                href="{{ route('admin.pages.footer') }}">
+                            <a class="nav-main-link {{ request()->routeIs('admin.pages.footer.*') ? 'active' : '' }}"
+                                href="{{ route('admin.pages.footer.index') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-circle-plus me-2"></i>Footer Pages List
                                 </span>

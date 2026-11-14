@@ -16,7 +16,7 @@
     </div>
 
     <div class="container-fluid">
-        <form id="productForm" action="{{ route('admin.blog.store') }}" method="post" enctype="multipart/form-data">
+        <form id="productForm" action="{{ route('admin.pages.footer.update', $page->id) }}" method="post">
             @csrf
             <div class="row">
 

@@ -325,8 +325,9 @@ use Illuminate\Support\Facades\Route;
 
         //Pages route
         Route::controller(PagesController::class)->name('pages.')->prefix('pages')->group(function () {
-            Route::get('/footer', 'footer')->name('footer');
+            Route::get('/footer', 'footer')->name('footer.index');
             Route::get('/footer/edit/{id}', 'footer_pages_edit')->name('footer.edit');
+            Route::post('/footer/update/{id}', 'footer_pages_update')->name('footer.update');
         });
 
 
