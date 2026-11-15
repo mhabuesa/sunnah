@@ -284,7 +284,8 @@
                 <div class="banner-carousel-container overflow-hidden position-relative rounded">
 
                     <div class="js-slick-carousel u-slick" data-autoplay="true" data-speed="7000" data-arrows="true"
-                        data-dots="true"
+                        data-dots="true" 
+                      data-slides-scroll="1" data-infinite="true"
                         data-arrow-left-classes="ec ec-arrow-left u-slick__arrow u-slick__arrow-media-left font-size-20"
                         data-arrow-right-classes="ec ec-arrow-right u-slick__arrow u-slick__arrow-media-right font-size-20"
                         data-pagi-classes="text-center u-slick__pagination u-slick__pagination--long">
@@ -453,7 +454,7 @@
                 </a>
             </div>
             <div class="js-slick-carousel u-slick category-carousel" data-slides-show="10" data-slides-scroll="1"
-                data-arrows="true" data-dots="false"
+                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
                 data-responsive='[
                 {"breakpoint": 1400, "settings": {"slidesToShow": 8}},
                 {"breakpoint": 1200, "settings": {"slidesToShow": 6}},
@@ -509,7 +510,8 @@
                 {{-- Product Slider --}}
                 <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                     data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                    data-slides-show="7"
+                    data-slides-show="7" data-slides-scroll="1"
+                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
                     data-responsive='[
                 { "breakpoint": 1400, "settings": { "slidesToShow": 5 } },
                 { "breakpoint": 1200, "settings": { "slidesToShow": 4 } },
@@ -605,7 +607,8 @@
 
                     <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                         data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                        data-slides-show="7" data-slides-scroll="2"
+                        data-slides-show="7" data-slides-scroll="1"
+                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
                         data-responsive='[{
                         "breakpoint": 1400,
                         "settings": {"slidesToShow": 5}
@@ -756,7 +759,8 @@
         <!-- Brand Carousel -->
         <div class="mb-8">
             <div class="py-2 border-top border-bottom">
-                <div class="js-slick-carousel u-slick my-1" data-slides-show="5" data-slides-scroll="1"
+                <div class="js-slick-carousel u-slick my-1" data-slides-show="4" data-slides-scroll="1"
+                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
                     data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-normal u-slick__arrow-centered--y"
                     data-arrow-left-classes="fa fa-angle-left u-slick__arrow-classic-inner--left z-index-9"
                     data-arrow-right-classes="fa fa-angle-right u-slick__arrow-classic-inner--right"
@@ -777,7 +781,7 @@
                                 }
                             }]'>
                     @foreach ($brands as $brand)
-                        <div class="js-slide">
+                        <div class="js-slide d-flex justify-content-center">
                             <a href="{{ route('brand', $brand->slug) }}" class="link-hover__brand">
                                 <img class="img-fluid m-auto max-height-50" src="{{ $brand->logo }}"
                                     alt="Image Description">
@@ -799,6 +803,7 @@
                 <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                     data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
                     data-slides-show="7" data-slides-scroll="1"
+                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
                     data-responsive='[{
                           "breakpoint": 1400,
                           "settings": {
