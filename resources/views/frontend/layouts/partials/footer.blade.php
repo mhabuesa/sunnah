@@ -44,7 +44,7 @@
                             <img src="{{ asset(setting()->footer_logo) }}" alt=""
                                 style="height: 60px; width:160;">
                         </a>
-                        <span class="d-block">ব্যবসা নয়, <br> সুন্নত পালনে সহযোগিতা করাই আমাদের লক্ষ্য!</span>
+                        <span class="d-block mt-2">আন্তর্জাতিক পবিত্র সুন্নত প্রচার কেন্দ্র। <br> সুন্নত পালনে সহযোগিতা করাই আমাদের লক্ষ্য!</span>
                     </div>
                     <div class="mb-4">
                         <div class="row no-gutters d-flex justify-content-center">

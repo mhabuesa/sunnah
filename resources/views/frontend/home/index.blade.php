@@ -274,6 +274,19 @@
                 font-size: 13px;
             }
         }
+
+
+
+        /* Brand Carousel Fix */
+        .brand-carousel {
+            padding-bottom: 10px;
+        }
+
+        /* Hide Brand Carousel Arrows */
+        .brand-carousel .slick-arrow,
+        .brand-carousel .u-slick__arrow {
+            display: none !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -284,8 +297,7 @@
                 <div class="banner-carousel-container overflow-hidden position-relative rounded">
 
                     <div class="js-slick-carousel u-slick" data-autoplay="true" data-speed="7000" data-arrows="true"
-                        data-dots="true" 
-                      data-slides-scroll="1" data-infinite="true"
+                        data-dots="true" data-slides-scroll="1" data-infinite="true"
                         data-arrow-left-classes="ec ec-arrow-left u-slick__arrow u-slick__arrow-media-left font-size-20"
                         data-arrow-right-classes="ec ec-arrow-right u-slick__arrow u-slick__arrow-media-right font-size-20"
                         data-pagi-classes="text-center u-slick__pagination u-slick__pagination--long">
@@ -510,8 +522,8 @@
                 {{-- Product Slider --}}
                 <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                     data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                    data-slides-show="7" data-slides-scroll="1"
-                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
+                    data-slides-show="7" data-slides-scroll="1" data-arrows="true" data-dots="false"
+                    data-autoplay="true" data-speed="600" data-infinite="true"
                     data-responsive='[
                 { "breakpoint": 1400, "settings": { "slidesToShow": 5 } },
                 { "breakpoint": 1200, "settings": { "slidesToShow": 4 } },
@@ -607,8 +619,8 @@
 
                     <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                         data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                        data-slides-show="7" data-slides-scroll="1"
-                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
+                        data-slides-show="7" data-slides-scroll="1" data-arrows="true" data-dots="false"
+                        data-autoplay="true" data-speed="600" data-infinite="true"
                         data-responsive='[{
                         "breakpoint": 1400,
                         "settings": {"slidesToShow": 5}
@@ -679,7 +691,7 @@
     @if ($latestProducts->count() > 0)
         <div class="container">
             <!-- Latest Prodcut Section -->
-            <div class="mb-6 home-category-slider">
+            <div class="mb-4 home-category-slider">
                 <div
                     class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
                     <h3 class="section-title section-title__full mb-0 pb-2 font-size-22">নতুন পণ্যসমূহ</h3>
@@ -757,38 +769,39 @@
     <div class="container">
 
         <!-- Brand Carousel -->
-        <div class="mb-8">
-            <div class="py-2 border-top border-bottom">
-                <div class="js-slick-carousel u-slick my-1" data-slides-show="4" data-slides-scroll="1"
-                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
-                    data-arrows-classes="d-none d-lg-inline-block u-slick__arrow-normal u-slick__arrow-centered--y"
-                    data-arrow-left-classes="fa fa-angle-left u-slick__arrow-classic-inner--left z-index-9"
-                    data-arrow-right-classes="fa fa-angle-right u-slick__arrow-classic-inner--right"
-                    data-responsive='[{
-                                "breakpoint": 992,
-                                "settings": {
-                                    "slidesToShow": 2
-                                }
-                            }, {
-                                "breakpoint": 768,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }, {
-                                "breakpoint": 554,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }]'>
-                    @foreach ($brands as $brand)
-                        <div class="js-slide d-flex justify-content-center">
-                            <a href="{{ route('brand', $brand->slug) }}" class="link-hover__brand">
-                                <img class="img-fluid m-auto max-height-50" src="{{ $brand->logo }}"
-                                    alt="Image Description">
+        <div class="mb-3">
+            <!-- Carousel Wrapper -->
+            <div class="js-slick-carousel u-slick my-1 brand-carousel" data-slides-show="5" data-slides-scroll="1"
+                data-arrows="false" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
+                data-responsive='[{
+                    "breakpoint": 992,
+                    "settings": {
+                        "slidesToShow": 2
+                    }
+                }, {
+                    "breakpoint": 768,
+                    "settings": {
+                        "slidesToShow": 2
+                    }
+                }, {
+                    "breakpoint": 554,
+                    "settings": {
+                        "slidesToShow": 2
+                    }
+                }]'>
+                @foreach ($brands as $brand)
+                    <div class="js-slide px-2">
+                        <!-- Brand Card Box with Border & Padding -->
+                        <div class="border rounded bg-white d-flex justify-content-center align-items-center"
+                            style="height: 95px;">
+                            <a href="{{ route('brand', $brand->slug) }}"
+                                class="d-flex justify-content-center align-items-center w-100 h-100">
+                                <img class="img-fluid m-auto" style="max-height: 60px; object-fit: contain;"
+                                    src="{{ $brand->logo }}" alt="Brand Image">
                             </a>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
         <!-- End Brand Carousel -->
@@ -802,8 +815,8 @@
                 </div>
                 <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
                     data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                    data-slides-show="7" data-slides-scroll="1"
-                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
+                    data-slides-show="7" data-slides-scroll="1" data-arrows="true" data-dots="false"
+                    data-autoplay="true" data-speed="600" data-infinite="true"
                     data-responsive='[{
                           "breakpoint": 1400,
                           "settings": {

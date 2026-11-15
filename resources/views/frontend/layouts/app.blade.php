@@ -166,12 +166,47 @@
     @include('frontend.layouts.partials.search_drawer')
     <!-- End Mobile Search Drawer -->
 
-    <!-- Go to Top -->
-    <a class="js-go-to u-go-to" href="#" data-position='{"bottom": 15, "right": 15 }' data-type="fixed"
-        data-offset-top="400" data-compensation="#header" data-show-effect="slideInUp" data-hide-effect="slideOutDown">
-        <span class="fas fa-arrow-up u-go-to__inner"></span>
+    <!-- Scroll Progress Go to Top Button -->
+    <a class="custom-scroll-top" href="#" id="scrollTopBtn">
+        <svg class="progress-svg" width="50" height="50" viewBox="0 0 50 50">
+            <!-- ভেতরের সলিড অরেঞ্জ গোল বৃত্ত -->
+            <circle cx="25" cy="25" r="20" fill="#0d3123"></circle>
+            <!-- চারপাশের প্রোগ্রেস রিং (যা স্ক্রোল করলে ফিল হবে) -->
+            <circle class="progress-ring__bar" cx="25" cy="25" r="23" fill="none" stroke="#0d3123"
+                stroke-width="3" stroke-dasharray="144.5" stroke-dashoffset="144.5"></circle>
+        </svg>
+        <!-- ওপরের দিকে যাওয়ার অ্যারো আইকন -->
+        <span class="fa-solid fa-arrow-up u-go-to__inner mt-1"></span>
     </a>
-    <!-- End Go to Top -->
+
+
+    <!-- Floating Social Chat Widget -->
+    <div class="floating-chat-widget">
+        <!-- Sub Icons (Messenger & WhatsApp) -->
+        <div class="chat-options">
+            <a href="https://m.me/your-messenger-username" target="_blank" class="chat-option-btn messenger"
+                title="Messenger">
+                <i class="fa-brands fa-facebook-messenger fa-lg"></i>
+            </a>
+            <a href="https://wa.me/your-whatsapp-number" target="_blank" class="chat-option-btn whatsapp"
+                title="WhatsApp">
+                <i class="fa-brands fa-whatsapp fa-lg"></i>
+            </a>
+        </div>
+
+        <!-- Main Toggle Button -->
+        <button class="chat-main-btn" id="chatToggleBtn" aria-label="Open chat">
+            <!-- Message Icon (Default) -->
+            <i class="fa-solid fa-comment-dots fa-xl" style="color: rgb(255, 255, 255);"></i>
+            <!-- Close (X) Icon (Hidden by default) -->
+            <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                style="display: none;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+    </div>
 
     <!-- JS Global Compulsory -->
     <script src="{{ asset_v('frontend/assets/vendor/jquery/dist/jquery.min.js') }}"></script>
