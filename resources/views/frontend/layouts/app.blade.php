@@ -188,7 +188,7 @@
                 title="Messenger">
                 <i class="fa-brands fa-facebook-messenger fa-lg"></i>
             </a>
-            <a href="https://wa.me/your-whatsapp-number" target="_blank" class="chat-option-btn whatsapp"
+            <a href="https://wa.me/+8801755738100" target="_blank" class="chat-option-btn whatsapp"
                 title="WhatsApp">
                 <i class="fa-brands fa-whatsapp fa-lg"></i>
             </a>
