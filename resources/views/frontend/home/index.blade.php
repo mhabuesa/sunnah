@@ -346,8 +346,10 @@
                         <a href="{{ route('offers', $promo->slug) }}"
                             class="promo-card-main d-flex align-items-center p-3 text-decoration-none">
                             <div class="promo-icon-wrapper mr-3">
-                                <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}" class="img-fluid rounded"
-                                    style="width: 60px; height: 60px; object-fit: cover;">
+                                @if ($promo->image)
+                                    <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
+                                        class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                @endif
                             </div>
                             <div class="promo-content">
                                 <h6 class="mb-1 text-gray-90 font-weight-bold">
@@ -363,10 +365,12 @@
                             <a href="javascript:void(0)" class="d-flex align-items-center text-decoration-none flex-grow-1"
                                 style="min-width: 0;">
 
-                                <div class="promo-icon-wrapper mr-3">
-                                    <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
-                                        class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
-                                </div>
+                                @if ($promo->image)
+                                    <div class="promo-icon-wrapper mr-3">
+                                        <img src="{{ asset($promo->image) }}" alt="{{ $promo->type }}"
+                                            class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                    </div>
+                                @endif
 
                                 <div class="promo-content" style="min-width: 0;">
                                     <h6 class="mb-1 text-gray-90 font-weight-bold">
@@ -401,11 +405,13 @@
                         <div class="col-xl-3 col-md-4 col-6 mt-2">
                             <a href="{{ route('offers', $promo->slug) }}"
                                 class="promo-card-mini d-flex flex-column align-items-center text-center p-3 text-decoration-none">
-                                <div class="mini-icon mb-2">
-                                    <img src="{{ asset($promo->image) }}" alt="{{ $promo->title ?? 'Gift' }}"
-                                        class="img-fluid rounded-circle"
-                                        style="width: 40px; height: 40px; object-fit: cover;">
-                                </div>
+                                @if ($promo->image)
+                                    <div class="mini-icon mb-2">
+                                        <img src="{{ asset($promo->image) }}" alt="{{ $promo->title ?? 'Gift' }}"
+                                            class="img-fluid rounded-circle"
+                                            style="width: 40px; height: 40px; object-fit: cover;">
+                                    </div>
+                                @endif
                                 <div class="promo-content">
                                     <h6 class="mb-1 text-gray-90 font-weight-bold">
                                         {{ $promo->title ?? 'Special Offer' }}
@@ -422,13 +428,13 @@
 
                                 <a href="javascript:void(0)"
                                     class="d-flex flex-column align-items-center text-decoration-none w-100">
-
-                                    <div class="mini-icon mb-2">
-                                        <img src="{{ asset($promo->image) }}" alt="{{ $promo->title ?? 'Gift' }}"
-                                            class="img-fluid rounded-circle"
-                                            style="width: 40px; height: 40px; object-fit: cover;">
-                                    </div>
-
+                                    @if ($promo->image)
+                                        <div class="mini-icon mb-2">
+                                            <img src="{{ asset($promo->image) }}" alt="{{ $promo->title ?? 'Gift' }}"
+                                                class="img-fluid rounded-circle"
+                                                style="width: 40px; height: 40px; object-fit: cover;">
+                                        </div>
+                                    @endif
                                     <div class="promo-content">
                                         <h6 class="mb-1 text-gray-90 font-weight-bold">
                                             {{ $promo->title ?? 'Special Offer' }}
