@@ -465,17 +465,17 @@
                     সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
                 </a>
             </div>
-            <div class="js-slick-carousel u-slick category-carousel" data-slides-show="10" data-slides-scroll="1"
-                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
+            <div class="js-slick-carousel u-slick category-carousel pb-0" data-slides-show="10" data-slides-scroll="1"
+                data-arrows="true" data-dots="false" data-autoplay="false" data-speed="600" data-infinite="true"
                 data-responsive='[
                 {"breakpoint": 1400, "settings": {"slidesToShow": 8}},
                 {"breakpoint": 1200, "settings": {"slidesToShow": 6}},
                 {"breakpoint": 992, "settings": {"slidesToShow": 4}},
                 {"breakpoint": 768, "settings": {"slidesToShow": 3}},
-                {"breakpoint": 554, "settings": {"slidesToShow": 5}}
+                {"breakpoint": 554, "settings": {"slidesToShow": 4}}
              ]'>
                 @foreach ($categories as $category)
-                    <div class="js-slide text-center">
+                    <div class="js-slide text-center d-flex justify-content-center pb-3">
                         <a href="{{ route('category', $category->slug) }}" class="category-item">
                             <div class="category-img-wrapper">
                                 @if ($category->logo)
