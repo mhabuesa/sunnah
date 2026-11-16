@@ -35,10 +35,10 @@
     </div>
     <!-- End Footer-newsletter -->
     <!-- Footer-bottom-widgets -->
-    <div class="pt-8 pb-4 bg-gray-13">
+    <div class="pt-8">
         <div class="container mt-1">
             <div class="row">
-                <div class="col-lg-5 text-center">
+                <div class="col-lg-5">
                     <div class="mb-6">
                         <a href="#" class="d-inline-block">
                             <img src="{{ asset(setting()->footer_logo) }}" alt=""
@@ -47,10 +47,10 @@
                         <span class="d-block mt-2">আন্তর্জাতিক পবিত্র সুন্নত প্রচার কেন্দ্র। <br> সুন্নত পালনে সহযোগিতা করাই আমাদের লক্ষ্য!</span>
                     </div>
                     <div class="mb-4">
-                        <div class="row no-gutters d-flex justify-content-center">
+                        <div class="row no-gutters">
                             <i class="ec ec-support text-primary font-size-56"></i>
                             <div class="pl-3">
-                                <div class="font-size-13 font-weight-light">Got questions? Call us 24/7!</div>
+                                <div class="font-size-13 font-weight-light">Got questions?</div>
                                 <a href="tel:{{ setting()->phone }}"
                                     class="font-size-20 text-gray-90">{{ setting()->phone }}
                                 </a>
@@ -71,28 +71,11 @@
                                     <span class="fab fa-facebook-f btn-icon__inner"></span>
                                 </a>
                             </li>
-                            <li class="list-inline-item mr-0">
-                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
-                                    href="#">
-                                    <span class="fab fa-instagram btn-icon__inner"></span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item mr-0">
-                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
-                                    href="#">
-                                    <span class="fab fa-x btn-icon__inner"></span>
-                                </a>
-                            </li>
+                            
                             <li class="list-inline-item mr-0">
                                 <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
                                     href="#">
                                     <span class="fab fa-youtube btn-icon__inner"></span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item mr-0">
-                                <a class="btn font-size-10 btn-icon btn-soft-dark btn-bg-transparent rounded-circle"
-                                    href="#">
-                                    <span class="fab fa-tiktok btn-icon__inner"></span>
                                 </a>
                             </li>
                         </ul>

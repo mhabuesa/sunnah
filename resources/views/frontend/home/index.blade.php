@@ -331,7 +331,7 @@
                             style="width: 60px; height: 60px; object-fit: cover;">
                     </div>
                     <div class="promo-content">
-                        <h6 class="mb-1 text-gray-90 font-weight-bold">সুন্নাহ শপিং</h6>
+                        <h6 class="mb-1 text-gray-90 font-weight-bold">সুন্নাহ কেনাকাটা</h6>
                         <p class="mb-0 text-gray-50 font-size-12">
                             সুন্নাহসম্মত জীবনযাপনের নিত্যপ্রয়োজনীয় সামগ্রী।
                         </p>
