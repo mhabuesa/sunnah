@@ -29,6 +29,7 @@ use App\Http\Controllers\SunnahShoppingController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TodayDealController;
 use App\Http\Controllers\TodaysDealController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
@@ -140,6 +141,11 @@ use Illuminate\Support\Facades\Route;
             Route::post('/scanBarcode', 'scanBarcode')->name('scanBarcode');
             Route::post('/order/store', 'orderStore')->name('order.store');
             Route::post('/applyCoupon', 'applyCoupon')->name('applyCoupon');
+        });
+
+        // Transaction Routes
+        Route::controller(TransactionController::class)->group(function () {
+            Route::get('/transactions', 'index')->name('transactions');
         });
 
         //Customer Routes
@@ -322,7 +328,9 @@ use Illuminate\Support\Facades\Route;
             Route::get('/get-subcategories', 'getSubcategories')->name('get.subcategories');
 
             Route::get('/donations', 'donations')->name('donations');
+            Route::get('/donation/details/{id}', 'donation_details')->name('donation.details');
             Route::get('/donors', 'donors')->name('donors');
+            Route::get('/donor/details/{phone}', 'donor_details')->name('donor.details');
         });
 
 

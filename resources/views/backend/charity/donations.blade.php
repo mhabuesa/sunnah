@@ -16,7 +16,7 @@
                         <h3 class="block-title">Donation List</h3>
                     </div>
                     <div class="block-content block-content-full overflow-x-auto">
-                        <table class="table table-bordered table-striped table-vcenter" id="categoryTable">
+                        <table class="table table-bordered table-striped table-vcenter" id="donationsTable">
                             <thead>
                                 <tr>
                                     <th class="text-center">SL</th>
@@ -33,10 +33,11 @@
                                         <td class="fw-semibold fs-sm">{{ $donation->donor_name }}</td>
                                         <td class="fs-sm">{{ $donation->amount }}</td>
                                         <td class="text-center">
-                                            {{$donation->created_at->format('d-m-y')}}
+                                            {{ $donation->created_at->format('d-m-y') }}
                                         </td>
                                         <td class="text-center fs-xl">
-                                            <a href="#"> <i class="fas fa-eye"></i> Details</a>
+                                            <a href="{{ route('admin.charity.donation.details', $donation->id) }}"> <i
+                                                    class="fas fa-eye"></i> Details</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -55,4 +56,15 @@
     <script src="{{ asset('assets') }}/js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js"></script>
     <script src="{{ asset('assets') }}/js/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="{{ asset('assets') }}/js/plugins/datatables-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons/dataTables.buttons.min.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons-jszip/jszip.min.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons-pdfmake/pdfmake.min.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons-pdfmake/vfs_fonts.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons/buttons.print.min.js"></script>
+    <script src="{{ asset('assets') }}/js/plugins/datatables-buttons/buttons.html5.min.js"></script>
+    <script src="{{ asset('assets') }}/js/pages/be_tables_datatables.min.js"></script>
+    <script>
+        $('#donationsTable').DataTable();
+    </script>
 @endpush

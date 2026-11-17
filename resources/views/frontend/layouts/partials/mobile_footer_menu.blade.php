@@ -1,4 +1,4 @@
-<div class="mobile-bottom-nav d-xl-none">
+<div class="mobile-bottom-nav d-xl-none bg-primary">
 
     {{-- Home --}}
     <a href="{{ route('index') }}" class="mobile-nav-item">

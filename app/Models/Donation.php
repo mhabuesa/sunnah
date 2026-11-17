@@ -27,11 +27,13 @@ class Donation extends Model
 
         return $number;
     }
-    
+
     public function category()
     {
         return $this->belongsTo(CharityCategory::class, 'category_id');
     }
-    
-    
+    public function subcategory()
+    {
+        return $this->belongsTo(CharitySubcategory::class, 'subcategory_id');
+    }
 }

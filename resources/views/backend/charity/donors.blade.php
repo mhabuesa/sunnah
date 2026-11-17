@@ -37,7 +37,7 @@
                                         <td class="fs-sm">{{ $donor->total_donations  }}</td>
                                         <td class="fs-sm"> {{ number_format($donor->total_amount, 2) }} ৳</td>
                                         <td class="text-center fs-xl">
-                                            <a href="#"> <i class="fas fa-eye"></i> Details</a>
+                                            <a href="{{route('admin.charity.donor.details', $donor->donor_phone)}}"> <i class="fas fa-eye"></i> Details</a>
                                         </td>
                                     </tr>
                                 @endforeach

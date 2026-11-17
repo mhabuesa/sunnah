@@ -265,16 +265,63 @@ class CharityController extends Controller
     public function donors()
     {
         $donors = Donation::select(
-            'donor_name',
             'donor_phone',
+            // সাবকুয়েরি দিয়ে প্রথম ডোনেশনের নামটি বের করা হলো (created_at ASC অনুযায়ী)
+            DB::raw('(SELECT donor_name FROM donations as d2 WHERE d2.donor_phone = donations.donor_phone ORDER BY created_at ASC LIMIT 1) as donor_name'),
             DB::raw('SUM(amount) as total_amount'),
             DB::raw('COUNT(*) as total_donations')
         )
-            ->whereNotNull('donor_name')
-            ->where('donor_name', '!=', '')
-            ->groupBy('donor_name', 'donor_phone')
+            ->whereNotNull('donor_phone')
+            ->where('donor_phone', '!=', '')
+            ->groupBy('donor_phone') // শুধু ফোন নাম্বার দিয়ে গ্রুপ করা হলো
             ->orderByDesc('total_amount')
             ->get();
+
         return view('backend.charity.donors', compact('donors'));
+    }
+
+    public function donation_details($id)
+    {
+        $donation = Donation::findOrFail($id);
+        $purpose = $donation->purpose;
+        $subcatIds = collect($purpose)->pluck('subcategory_id');
+
+        $subcategories = CharitySubcategory::whereIn('id', $subcatIds)->get()->keyBy('id');
+        return view('backend.charity.donation_details', compact('donation', 'purpose', 'subcategories'));
+    }
+
+    public function donor_details($phone)
+    {
+        // ১. এই ফোন নাম্বারের ডোনারের সকল Successful/Paid ডোনেশন নিয়ে আসা
+        $donations = Donation::where('donor_phone', $phone)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        if ($donations->isEmpty()) {
+            abort(404, 'Donor not found or has no donations');
+        }
+
+        // ২. ডোনারের ইনফরমেশন ও টোটাল ডোনেশন হিসাব করা
+        $donorInfo = [
+            'name' => $donations->first()->donor_name,
+            'phone' => $phone,
+            'total_amount' => $donations->sum('amount'),
+            'total_donations' => $donations->count(),
+        ];
+
+        // ৩. সকল ডোনেশনের JSON purpose থেকে subcategory_id গুলো সংগ্রহ করা
+        $subcatIds = collect();
+        foreach ($donations as $donation) {
+            $purpose = is_string($donation->purpose) ? json_decode($donation->purpose, true) : $donation->purpose;
+            if (is_array($purpose)) {
+                $ids = collect($purpose)->pluck('subcategory_id');
+                $subcatIds = $subcatIds->merge($ids);
+            }
+        }
+
+        // ৪. Subcategory এর নামগুলো ফেচ করে ID দিয়ে Key করা
+        $subcategories = CharitySubcategory::whereIn('id', $subcatIds->unique())->get()->keyBy('id');
+
+        return view('backend.charity.donor_details', compact('donorInfo', 'donations', 'subcategories'));
     }
 }
