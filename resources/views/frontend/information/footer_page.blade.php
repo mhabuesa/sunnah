@@ -7,7 +7,7 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            height: 15rem;
+            height: 10rem;
             background-color: #eee;
             text-align: center;
             text-transform: capitalize;
