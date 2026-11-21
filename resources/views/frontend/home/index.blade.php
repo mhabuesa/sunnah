@@ -472,7 +472,7 @@
                 </a>
             </div>
             <div class="js-slick-carousel u-slick category-carousel pb-0" data-slides-show="10" data-slides-scroll="1"
-                data-arrows="true" data-dots="false" data-autoplay="false" data-speed="600" data-infinite="true"
+                data-arrows="true" data-dots="false" data-autoplay="true" data-speed="600" data-infinite="true"
                 data-responsive='[
                 {"breakpoint": 1400, "settings": {"slidesToShow": 8}},
                 {"breakpoint": 1200, "settings": {"slidesToShow": 6}},
