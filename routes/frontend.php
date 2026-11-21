@@ -91,7 +91,7 @@ Route::controller(InformationController::class)->group(function () {
     Route::get('/about', 'footer_page')->defaults('slug', 'about-us')->name('about');
     Route::get('/contact', 'footer_page')->defaults('slug', 'contact-us')->name('contact');
     Route::get('/company-information', 'footer_page')->defaults('slug', 'company-information')->name('company.information');
-    Route::get('/terms-and-conditions', 'footer_page')->defaults('slug', 'terms-and-conditions')->name('terms.and.conditions');
+    Route::get('/terms-and-conditions', 'footer_page')->defaults('slug', 'terms-&-conditions')->name('terms.and.conditions');
     Route::get('/privacy-policy', 'footer_page')->defaults('slug', 'privacy-policy')->name('privacy');
 
     Route::get('/support-center', 'footer_page')->defaults('slug', 'support-center')->name('support.center');
