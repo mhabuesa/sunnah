@@ -263,7 +263,7 @@
                             <a class="nav-main-link {{ request()->routeIs('admin.specialDeal.index') ? 'active' : '' }}"
                                 href="{{ route('admin.specialDeal.index') }}">
                                 <span class="nav-main-link-name">
-                                    <i class="fas fa-id-badge me-2"></i> Todays Deal
+                                    <i class="fas fa-id-badge me-2"></i> Special Deal
                                 </span>
                             </a>
                         </li>
