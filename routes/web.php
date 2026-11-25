@@ -23,6 +23,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SmsCampaignController;
 use App\Http\Controllers\SmsController;
+use App\Http\Controllers\SpecialDealController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\SunnahShoppingController;
@@ -231,8 +232,8 @@ use Illuminate\Support\Facades\Route;
             Route::post('/update', 'update')->name('update');
         });
 
-        //TodaysDeal Routes
-        Route::controller(TodaysDealController::class)->name('todaysDeal.')->prefix('todaysDeal')->group(function () {
+        //specialDeal Routes
+        Route::controller(SpecialDealController::class)->name('specialDeal.')->prefix('specialDeal')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::post('/store', 'store')->name('store');
             Route::get('/searchProduct', 'searchProduct')->name('searchProduct');

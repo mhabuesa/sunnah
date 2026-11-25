@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TodaysDeal extends Model
+class SpecialDeal extends Model
 {
     protected $guarded = ["id"];
+
+    protected $casts = [
+        'validity' => 'datetime',
+    ];
 
     public function product()
     {

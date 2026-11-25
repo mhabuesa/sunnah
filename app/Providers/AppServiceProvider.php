@@ -8,11 +8,13 @@ use App\Models\Category;
 use App\Models\FeaturedProduct;
 use App\Models\Product;
 use App\Models\ProductVariation;
+use App\Models\SpecialDeal;
 use App\Models\TodaysDeal;
 use App\Observers\AppSettingObserver;
 use App\Observers\BannerObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\LatestProductsObserver;
+use App\Observers\SpecialDealObserver;
 use App\Observers\TodaysDealObserver;
 use App\Services\CartService;
 use Illuminate\Pagination\Paginator;
@@ -43,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
         AppSetting::observe(AppSettingObserver::class);
         Category::observe(CategoryObserver::class);
         Banner::observe(BannerObserver::class);
-        TodaysDeal::observe(TodaysDealObserver::class);
+        SpecialDeal::observe(SpecialDealObserver::class);
         Product::observe(LatestProductsObserver::class);
 
         if (!Schema::hasTable('app_settings')) {

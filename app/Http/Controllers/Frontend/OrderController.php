@@ -13,6 +13,7 @@ use App\Models\Transaction;
 use App\Services\CartService;
 use App\Services\OrderStockService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Raziul\Sslcommerz\Facades\Sslcommerz;
 
 class OrderController extends Controller
@@ -93,6 +94,7 @@ class OrderController extends Controller
 
                 if ($variation) {
 
+
                     $price = $variation->price;
 
                     $variantName = $variation->attribute->name . ' - ' .
@@ -102,6 +104,7 @@ class OrderController extends Controller
                     // Minus variation stock according to order qty
                     // ==========================================
                     $variation->decrement('stock', $qty);
+                    OrderStockService::specialDeal($productId, $qty);
                 }
             } else {
 
@@ -109,6 +112,7 @@ class OrderController extends Controller
                 // Minus product stock according to order qty
                 // ==========================================
                 $product->decrement('stock', $qty);
+                OrderStockService::specialDeal($productId, $qty);
             }
 
             $totalPrice = $price * $qty;
@@ -145,9 +149,7 @@ class OrderController extends Controller
 
             OrderConfirmationJob::dispatch($data)->delay(5);
 
-            return redirect()
-                ->route('index')
-                ->with('success', 'Order placed successfully!');
+            return view('frontend.order.order_placed', compact('order'));
         }
 
         // Payment processing for SSLCommerz
@@ -182,6 +184,7 @@ class OrderController extends Controller
 
                 // If payment initiation fails, restore stock
                 OrderStockService::restore($order);
+                OrderStockService::specialDealRestore($order);
 
                 $order->update([
                     'payment_status' => 'failed',
@@ -196,6 +199,7 @@ class OrderController extends Controller
 
                 // If any exception occurs during payment gateway communication, restore stock
                 OrderStockService::restore($order);
+                OrderStockService::specialDealRestore($order);
 
                 $order->update([
                     'payment_status' => 'failed',

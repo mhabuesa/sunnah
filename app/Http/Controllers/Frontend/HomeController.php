@@ -10,6 +10,7 @@ use App\Models\FeaturedProduct;
 use App\Models\NewsletterSubscriber;
 use App\Models\Offer;
 use App\Models\Product;
+use App\Models\SpecialDeal;
 use App\Models\TodaysDeal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -36,8 +37,8 @@ class HomeController extends Controller
         $promoMiniBanners = $homeBanners->where('type', 'promo_mini');
 
         // Todays Deal
-        $todaysDeals = Cache::remember('todaysDeals', 86400, function () {
-            return TodaysDeal::where('status', 1)->with('product')->take(20)->latest()->get();
+        $specialDeals = Cache::remember('specialDeals', 86400, function () {
+            return SpecialDeal::where('status', 1)->with('product')->take(20)->latest()->get();
         });
 
         // Latest Products
@@ -79,7 +80,7 @@ class HomeController extends Controller
             'bottomBanner',
             'promoMainBanners',
             'promoMiniBanners',
-            'todaysDeals',
+            'specialDeals',
             'latestProducts',
             'categories',
             'recentProducts',

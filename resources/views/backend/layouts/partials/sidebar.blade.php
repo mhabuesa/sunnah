@@ -236,7 +236,7 @@
                     </a>
                 </li>
                 <li
-                    class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.todaysDeal.*') ? 'open' : (request()->routeIs('admin.offer.*') ? 'open' : (request()->routeIs('admin.featuredProduct.*') ? 'open' : ''))) }}">
+                    class="nav-main-item {{ request()->routeIs('admin.coupon.*') ? 'open' : (request()->routeIs('admin.specialDeal.*') ? 'open' : (request()->routeIs('admin.offer.*') ? 'open' : (request()->routeIs('admin.featuredProduct.*') ? 'open' : ''))) }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                         aria-expanded="false" href="#">
                         <i class="nav-main-link-icon fa-brands fa-square-web-awesome"></i>
@@ -260,8 +260,8 @@
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link {{ request()->routeIs('admin.todaysDeal.index') ? 'active' : '' }}"
-                                href="{{ route('admin.todaysDeal.index') }}">
+                            <a class="nav-main-link {{ request()->routeIs('admin.specialDeal.index') ? 'active' : '' }}"
+                                href="{{ route('admin.specialDeal.index') }}">
                                 <span class="nav-main-link-name">
                                     <i class="fas fa-id-badge me-2"></i> Todays Deal
                                 </span>

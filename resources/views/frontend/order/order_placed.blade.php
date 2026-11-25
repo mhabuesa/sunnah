@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Payment Successful')
+@section('title', 'Order Placed')
 
 @push('header_script')
     <link rel="stylesheet" href="{{ asset('frontend') }}/assets/custom/style.css">
@@ -49,18 +49,25 @@
             line-height: 1.8;
         }
 
+        .order-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 28px 0;
+        }
+
         .invoice-box {
             background: #f8fafc;
             border: 1px dashed #198754;
             border-radius: 12px;
-            padding: 22px 15px;
-            margin: 28px 0;
+            padding: 20px 15px;
+            margin: 0;
         }
 
         .invoice-label {
             display: block;
             color: #6b7280;
-            font-size: 13px;
+            font-size: 12px;
             margin-bottom: 8px;
             font-weight: 600;
             text-transform: uppercase;
@@ -68,11 +75,19 @@
         }
 
         .invoice-number {
-            font-size: 23px;
+            font-size: 20px;
             font-weight: 700;
             color: #198754;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             word-break: break-word;
+        }
+
+        .trx-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            letter-spacing: 0.6px;
+            word-break: break-all;
         }
 
         .invoice-copy-btn {
@@ -86,6 +101,7 @@
             font-weight: 600;
             margin-top: 12px;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .invoice-copy-btn:hover {
@@ -164,8 +180,13 @@
                 font-size: 24px;
             }
 
-            .invoice-number {
-                font-size: 19px;
+            .order-summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .invoice-number,
+            .trx-number {
+                font-size: 18px;
             }
 
             .order-track-btn,
@@ -180,19 +201,19 @@
 @section('content')
 
     {{-- =========================
-         SUCCESS HEADER
+         ORDER PLACED HEADER
     ========================== --}}
     <section class="tracking-header">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12 text-center">
                     <div class="tracking-label">
-                        <span>•</span> PAYMENT COMPLETED
+                        <span>•</span> CASH ON DELIVERY
                     </div>
 
-                    <h1>Order Confirmed!</h1>
+                    <h1>Order Placed!</h1>
 
-                    <p>Your payment was successful. Thank you for shopping with us!</p>
+                    <p>Your Cash on Delivery order has been placed. Thank you for shopping with us!</p>
                 </div>
             </div>
         </div>
@@ -200,7 +221,7 @@
 
 
     {{-- =========================
-         ORDER SUCCESS BODY
+         ORDER PLACED BODY
     ========================== --}}
     <section class="order-success-section">
         <div class="container">
@@ -212,16 +233,16 @@
                     <i class="fa fa-check"></i>
                 </div>
 
-                <h2>Payment Successful!</h2>
+                <h2>Order Placed Successfully!</h2>
 
                 <p>
-                    Alhamdulillah! Your order has been placed successfully.
-                    We are excited to serve you. Our team will process your
-                    order as soon as possible.
+                    Your order has been placed under Cash on Delivery.
+                    We are excited to serve you. Our team will verify and process
+                    your order as soon as possible.
                 </p>
 
 
-                {{-- Invoice ID --}}
+                {{-- Invoice & Transaction ID --}}
                 <div class="invoice-box">
 
                     <span class="invoice-label">Your Invoice Number</span>
@@ -241,8 +262,9 @@
                 {{-- Tracking Information --}}
                 <div class="order-info-note">
                     <i class="fa fa-info-circle"></i>
-                    Please save your Invoice Number. You can use it anytime
-                    to track your order and check the latest delivery updates.
+                    Please save your Invoice Number and Transaction ID. You can use them
+                    anytime to track your order and check the latest delivery updates.
+                    You will pay upon receiving your delivery.
                 </div>
 
 
@@ -271,16 +293,21 @@
 
 
     {{-- =========================
-         COPY INVOICE SCRIPT
+         COPY HELPER SCRIPT
     ========================== --}}
     <script>
-        function copyInvoice() {
-            const invoice = document.getElementById('invoiceNumber').innerText.trim();
+        function copyTextById(elementId, label) {
+            const value = document.getElementById(elementId).innerText.trim();
 
-            navigator.clipboard.writeText(invoice).then(function () {
-                alert('Invoice ID copied successfully!');
+            if (!value || value === 'N/A') {
+                alert(label + ' is not available to copy.');
+                return;
+            }
+
+            navigator.clipboard.writeText(value).then(function () {
+                alert(label + ' copied successfully!');
             }).catch(function () {
-                alert('Unable to copy Invoice ID. Please copy it manually.');
+                alert('Unable to copy ' + label + '. Please copy it manually.');
             });
         }
     </script>

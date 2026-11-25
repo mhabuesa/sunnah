@@ -78,7 +78,7 @@ class PaymentController extends Controller
 
             OrderConfirmationJob::dispatch($data)->delay(5);
 
-           return view('frontend.order.order_placed', compact('order'));
+           return view('frontend.order.payment_success', compact('order'));
            
         } elseif ($transaction->payment_type == 'charity') {
 
@@ -110,6 +110,7 @@ class PaymentController extends Controller
 
         if ($transaction->payment_type == 'product') {
             OrderStockService::restore($order);
+            OrderStockService::specialDealRestore($order);
 
             $order->update([
                 'payment_status' => 'failed',
@@ -148,6 +149,7 @@ class PaymentController extends Controller
 
         if ($transaction->payment_type == 'product') {
             OrderStockService::restore($order);
+            OrderStockService::specialDealRestore($order);
 
             $order->update([
                 'payment_status' => 'cancelled',

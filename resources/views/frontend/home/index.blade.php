@@ -313,7 +313,7 @@
 
                         @foreach ($mainBanners as $banner)
                             <div class="js-slide">
-                                <a href="{{ $banner->url ?? '#' }}">
+                                <a href="{{ $banner->url ?? '#' }}" class="m-auto">
                                     <img src="{{ asset($banner->image) }}" alt="Banner"
                                         class="img-fluid w-100 banner-image" loading="eager" fetchpriority="high"
                                         decoding="async">
@@ -508,7 +508,7 @@
             </div>
         </div>
 
-        @if ($todaysDeals->count() > 0)
+        @if ($specialDeals->count() > 0)
             {{-- Deals of the Week --}}
             <div class="mb-6 position-relative mt-4">
                 <div
@@ -542,7 +542,7 @@
                                     "slidesToShow": 1
                                 }
                             }]'>
-                        @foreach ($todaysDeals as $item)
+                        @foreach ($specialDeals as $item)
                             @php
                                 $product = $item->product ?? $item;
                             @endphp
@@ -598,8 +598,8 @@
                                                 </div>
                                                 <div class="mb-4 mb-xl-5 mb-wd-2 pb-wd-1 mx-2">
                                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="">Availavle: <strong>6</strong></span>
-                                                        <span class="">Already Sold: <strong>28</strong></span>
+                                                        <span class="">Availavle: <strong>{{$item->available}}</strong></span>
+                                                        <span class="">Already Sold: <strong>{{$item->sold}}</strong></span>
                                                     </div>
                                                     <div
                                                         class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
@@ -608,12 +608,25 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-2">
-                                                    <h6 class="font-size-15 text-gray-2 text-center mb-xl-3 mb-wd-2">Hurry
-                                                        Up!
-                                                        Offer ends in:</h6>
+                                                    <h6 class="font-size-15 text-gray-2 text-center mb-xl-3 mb-wd-2">
+                                                        Hurry Up! Offer ends in:
+                                                    </h6>
                                                     <div class="js-countdown d-flex justify-content-center"
-                                                        data-end-date="2026/11/30" data-hours-format="%H"
+                                                        data-end-date="{{ $item->validity->format('Y/m/d H:i:s') }}"
+                                                        data-days-format="%D" data-hours-format="%H"
                                                         data-minutes-format="%M" data-seconds-format="%S">
+
+                                                        {{-- DAYS Block --}}
+                                                        <div class="text-lh-1">
+                                                            <div
+                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
+                                                                <span class="js-cd-days"></span>
+                                                            </div>
+                                                            <div class="text-gray-2 font-size-12 text-center">DAYS</div>
+                                                        </div>
+                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
+
+                                                        {{-- HOURS Block --}}
                                                         <div class="text-lh-1">
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
@@ -622,6 +635,8 @@
                                                             <div class="text-gray-2 font-size-12 text-center">HOURS</div>
                                                         </div>
                                                         <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
+
+                                                        {{-- MINS Block --}}
                                                         <div class="text-lh-1">
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
@@ -630,6 +645,8 @@
                                                             <div class="text-gray-2 font-size-12 text-center">MINS</div>
                                                         </div>
                                                         <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
+
+                                                        {{-- SECS Block --}}
                                                         <div class="text-lh-1">
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
@@ -666,7 +683,7 @@
 
         <!-- End Banner -->
         <!-- Todays Deal products -->
-        @if ($todaysDeals->count() > 0)
+        @if ($specialDeals->count() > 0)
             <div class="mb-1 home-category-slider">
 
                 {{-- Section Header --}}
@@ -691,7 +708,7 @@
                 { "breakpoint": 554, "settings": { "slidesToShow": 2 } }
             ]'>
 
-                    @foreach ($todaysDeals as $item)
+                    @foreach ($specialDeals as $item)
                         @php
                             $product = $item->product ?? $item; // Product object safety check
                         @endphp
