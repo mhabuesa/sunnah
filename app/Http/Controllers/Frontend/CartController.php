@@ -53,6 +53,8 @@ class CartController extends Controller
 
     public function add_to_cart(Request $request)
     {
+
+        // dd($request->all());
         request()->validate([
             'product_id' => 'required',
             'variation' => 'nullable',
@@ -64,6 +66,11 @@ class CartController extends Controller
             $request->variation,
             $request->quantity ?? 1
         );
+
+        if ($request->submitBtn == 'buyNow') {
+            return redirect()->route('cart')->with('success', 'Item Added to Cart');
+        }
+
         return  redirect()->back()->with('success', 'Item Added to Cart');
     }
 

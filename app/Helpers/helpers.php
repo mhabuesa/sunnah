@@ -24,6 +24,39 @@ if (!function_exists('productPrice')) {
     }
 }
 
+if (!function_exists('previousPrice')) {
+    function previousPrice($productId)
+    {
+        $product = Product::with('variations')->find($productId);
+
+        if (!$product) {
+            return 0;
+        }
+
+        $currentPrice = productPrice($productId);
+
+        $discountType = strtolower(trim((string) $product->discount_type));
+        $discount = (float) ($product->discount ?? 0);
+
+        if ($discount <= 0 || $discountType === '') {
+            return (int) round($currentPrice);
+        }
+
+        if ($discountType === 'flat') {
+            $prevPrice = $currentPrice + $discount;
+        } elseif ($discountType == 'percentage') {
+            if ($discount >= 100) {
+                return (int) round($currentPrice);
+            }
+            $prevPrice = $currentPrice / (1 - ($discount / 100));
+        } else {
+            return (int) round($currentPrice);
+        }
+
+        return (int) round($prevPrice);
+    }
+}
+
 if (!function_exists('productStock')) {
     function productStock($productId)
     {

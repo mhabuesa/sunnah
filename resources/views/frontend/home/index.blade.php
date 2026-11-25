@@ -287,6 +287,15 @@
         .brand-carousel .u-slick__arrow {
             display: none !important;
         }
+
+
+        .u-slick-deal-arrow__border .u-slick__pagination {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
     </style>
 @endpush
 @section('content')
@@ -462,6 +471,7 @@
         @endif
 
     </div>
+
     <div class="container mt-3">
         <!-- Category Slider -->
         <div class="home-category-slider">
@@ -497,7 +507,150 @@
                 @endforeach
             </div>
         </div>
+
+        @if ($todaysDeals->count() > 0)
+            {{-- Deals of the Week --}}
+            <div class="mb-6 position-relative mt-4">
+                <div
+                    class="home-category-header d-flex justify-content-between flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
+                    <h3 class="section-title section-title__full mb-0 font-size-22">সেরা অফার</h3>
+                    <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">
+                        সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
+                    </a>
+                </div>
+                <div class="p-xl-4 p-wd-0 border-wd-0 pb-5 pb-wd-0">
+                    <div class="js-slick-carousel u-slick u-slick--gutters-2 u-slick-deal-arrow__border"
+                        data-slides-show="2" data-slides-scroll="1"
+                        data-pagi-classes="text-center d-xl-none d-wd-flex u-slick__pagination u-slick__pagination--long position-absolute right-0 left-0 bottom-0 mb-2 z-index-2"
+                        data-arrows-classes="d-none d-xl-inline-flex d-wd-none align-items-center u-slick__arrow-normal u-slick-deal-arrow position-absolute z-index-9 font-size-18 top-3"
+                        data-arrow-left-classes="fa fa-angle-left right-xl-220 u-slick-deal-arrow__left"
+                        data-arrow-right-classes="fa fa-angle-right right-1 u-slick-deal-arrow__right"
+                        data-autoplay="true" data-speed="600"
+                        data-responsive='[{
+                                "breakpoint": 1399,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }, {
+                                "breakpoint": 768,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }, {
+                                "breakpoint": 554,
+                                "settings": {
+                                    "slidesToShow": 1
+                                }
+                            }]'>
+                        @foreach ($todaysDeals as $item)
+                            @php
+                                $product = $item->product ?? $item;
+                            @endphp
+                            <div class="js-slide">
+                                <div
+                                    class="p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white">
+                                    <div class="row align-items-md-center">
+                                        <div class="col-md-6 col-xl-7 col-wd-6 px-0 align-self-center">
+                                            @if (productPrice($product->id) < previousPrice($product->id))
+                                                <div
+                                                    class="d-inline-flex justify-content-between align-items-center position-absolute left-3 top-0 z-index-9">
+                                                    <div
+                                                        class="text-white d-flex align-items-center flex-column justify-content-center bg-primary rounded-pill height-75 width-75 text-lh-1">
+                                                        <span class="font-size-12">সাশ্রয়</span>
+                                                        <div class="font-size-20 font-weight-bold taka">
+                                                            {{ previousPrice($product->id) - productPrice($product->id) }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <div class="mb-4 mb-md-0">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <a href="{{ route('product', $product->slug) }}"
+                                                            class="d-block text-center">
+                                                            <img class="img-fluid mx-auto"
+                                                                src="{{ asset($product->image) }}"
+                                                                alt="Image Description">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-xl-5 col-wd-6">
+                                            <div class="space-top-xl-2 space-top-wd-0 mt-xl-4 mt-wd-0">
+                                                <h5
+                                                    class="mb-3 mb-xl-2 mb-wd-1 font-size-14 text-center mx-auto max-width-180 text-lh-18">
+                                                    <a href="{{ route('product', $product->slug) }}"
+                                                        class="text-blue font-weight-bold">{{ $product->name }}</a>
+                                                </h5>
+                                                @php
+                                                    $currentPrice = productPrice($product->id);
+                                                    $prevPrice = previousPrice($product->id);
+                                                @endphp
+
+                                                <div class="d-flex align-items-center justify-content-center mb-3">
+                                                    @if ($prevPrice > $currentPrice)
+                                                        <del
+                                                            class="font-size-18 mr-2 text-gray-2">{{ $prevPrice }}</del>
+                                                    @endif
+                                                    <ins
+                                                        class="font-size-xl-30 font-size-wd-25 text-red text-decoration-none taka">{{ $currentPrice }}</ins>
+                                                </div>
+                                                <div class="mb-4 mb-xl-5 mb-wd-2 pb-wd-1 mx-2">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="">Availavle: <strong>6</strong></span>
+                                                        <span class="">Already Sold: <strong>28</strong></span>
+                                                    </div>
+                                                    <div
+                                                        class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
+                                                        <span
+                                                            class="position-absolute left-0 top-0 bottom-0 rounded-pill w-30 bg-primary"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <h6 class="font-size-15 text-gray-2 text-center mb-xl-3 mb-wd-2">Hurry
+                                                        Up!
+                                                        Offer ends in:</h6>
+                                                    <div class="js-countdown d-flex justify-content-center"
+                                                        data-end-date="2026/11/30" data-hours-format="%H"
+                                                        data-minutes-format="%M" data-seconds-format="%S">
+                                                        <div class="text-lh-1">
+                                                            <div
+                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
+                                                                <span class="js-cd-hours"></span>
+                                                            </div>
+                                                            <div class="text-gray-2 font-size-12 text-center">HOURS</div>
+                                                        </div>
+                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
+                                                        <div class="text-lh-1">
+                                                            <div
+                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
+                                                                <span class="js-cd-minutes"></span>
+                                                            </div>
+                                                            <div class="text-gray-2 font-size-12 text-center">MINS</div>
+                                                        </div>
+                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
+                                                        <div class="text-lh-1">
+                                                            <div
+                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
+                                                                <span class="js-cd-seconds"></span>
+                                                            </div>
+                                                            <div class="text-gray-2 font-size-12 text-center">SECS</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
+
 
     <div class="container">
         <!-- Full banner -->
