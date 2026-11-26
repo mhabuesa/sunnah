@@ -690,7 +690,7 @@
                         data-arrows-classes="d-none d-xl-inline-flex d-wd-none align-items-center u-slick__arrow-normal u-slick-deal-arrow position-absolute z-index-9 font-size-18 top-3"
                         data-arrow-left-classes="fa fa-angle-left right-xl-220 u-slick-deal-arrow__left"
                         data-arrow-right-classes="fa fa-angle-right right-1 u-slick-deal-arrow__right"
-                        data-autoplay="true" data-speed="600"
+                        data-autoplay="false" data-speed="600"
                         data-responsive='[
                     {
                         "breakpoint": 1399,
@@ -826,11 +826,9 @@
                                                     </div>
 
                                                     {{-- Progress Bar --}}
-                                                    <div
-                                                        class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
+                                                    <div class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
 
-                                                        <span
-                                                            class="position-absolute left-0 top-0 bottom-0 rounded-pill w-30 bg-primary"></span>
+                                                        <span class="position-absolute left-0 top-0 bottom-0 rounded-pill bg-primary" style="width: 20%"></span>
 
                                                     </div>
 
@@ -849,7 +847,7 @@
                                                         data-minutes-format="%M" data-seconds-format="%S">
 
                                                         {{-- Days --}}
-                                                        <div class="text-lh-1">
+                                                        <div class="text-lh-1 mx-1">
 
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
@@ -862,12 +860,9 @@
 
                                                         </div>
 
-                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">
-                                                            :
-                                                        </div>
 
                                                         {{-- Hours --}}
-                                                        <div class="text-lh-1">
+                                                        <div class="text-lh-1 mx-1">
 
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
@@ -880,12 +875,8 @@
 
                                                         </div>
 
-                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">
-                                                            :
-                                                        </div>
-
                                                         {{-- Minutes --}}
-                                                        <div class="text-lh-1">
+                                                        <div class="text-lh-1 mx-1">
 
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
@@ -898,12 +889,8 @@
 
                                                         </div>
 
-                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">
-                                                            :
-                                                        </div>
-
                                                         {{-- Seconds --}}
-                                                        <div class="text-lh-1">
+                                                        <div class="text-lh-1 mx-1">
 
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
