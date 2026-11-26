@@ -297,6 +297,146 @@
             z-index: 10;
         }
     </style>
+
+    <style>
+        /* Compact Special Deal Design */
+        @media (max-width: 767.98px) {
+
+            /* Card */
+            .special-deal-card {
+                padding: 10px !important;
+                border: 1.5px solid #123d2d !important;
+                border-radius: 16px !important;
+                overflow: hidden;
+                min-height: 175px;
+            }
+
+            /* Horizontal Layout */
+            .special-deal-row {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                align-items: center !important;
+                margin: 0 !important;
+            }
+
+            /* Image Column */
+            .special-deal-image {
+                flex: 0 0 38% !important;
+                max-width: 38% !important;
+                padding: 0 8px 0 0 !important;
+            }
+
+            .special-deal-image>.mb-4 {
+                margin-bottom: 0 !important;
+            }
+
+            .special-deal-image img {
+                width: 100%;
+                height: 145px;
+                object-fit: contain;
+            }
+
+            /* Content Column */
+            .special-deal-content {
+                flex: 0 0 62% !important;
+                max-width: 62% !important;
+                padding: 0 2px !important;
+            }
+
+            .special-deal-content>div {
+                margin-top: 0 !important;
+            }
+
+            .special-deal-content h5 {
+                font-size: 12px !important;
+                line-height: 1.4 !important;
+                margin-bottom: 7px !important;
+                max-width: 100% !important;
+            }
+
+            /* Price */
+            .special-deal-content ins {
+                font-size: 20px !important;
+            }
+
+            .special-deal-content del {
+                font-size: 12px !important;
+            }
+
+            .special-deal-content .d-flex.align-items-center.justify-content-center {
+                margin-bottom: 7px !important;
+            }
+
+            /* Available and Sold */
+            .special-deal-content .mb-4.mb-xl-5 {
+                margin-bottom: 8px !important;
+                padding-bottom: 0 !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            .special-deal-content .justify-content-between span {
+                font-size: 10px;
+            }
+
+            .special-deal-content .height-xl-20 {
+                height: 9px !important;
+            }
+
+            /* Countdown */
+            .special-deal-content h6 {
+                font-size: 10px !important;
+                margin-bottom: 6px !important;
+            }
+
+            .special-deal-content .js-countdown {
+                gap: 2px;
+                justify-content: flex-start !important;
+            }
+
+            .special-deal-content .js-countdown>div {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .special-deal-content .js-countdown .font-size-30 {
+                font-size: 15px !important;
+                padding: 5px 2px !important;
+                text-align: center;
+                margin-bottom: 3px !important;
+            }
+
+            .special-deal-content .js-countdown .font-size-24 {
+                font-size: 12px !important;
+                margin: 0 1px !important;
+            }
+
+            .special-deal-content .js-countdown .font-size-12 {
+                font-size: 8px !important;
+            }
+
+            /* Discount Badge */
+            .special-deal-card .height-75 {
+                width: 48px !important;
+                height: 48px !important;
+            }
+
+            .special-deal-card .height-75 .font-size-20 {
+                font-size: 10px !important;
+                margin-top: 5px
+            }
+
+            .special-deal-card .height-75 .font-size-12 {
+                font-size: 9px !important;
+            }
+
+            .taka::before {
+                content: "৳";
+                margin-right: 2px;
+                font-size: 10px;
+            }
+        }
+    </style>
 @endpush
 @section('content')
     <!-- Banner Section -->
@@ -508,164 +648,283 @@
             </div>
         </div>
 
+
         @if ($specialDeals->count() > 0)
-            {{-- Deals of the Week --}}
+            {{-- Special Deals Section --}}
             <div class="mb-6 position-relative mt-4">
+
+                {{-- Section Header --}}
                 <div
                     class="home-category-header d-flex justify-content-between flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
-                    <h3 class="section-title section-title__full mb-0 font-size-22">সেরা অফার</h3>
+
+                    <h3 class="section-title section-title__full mb-0 font-size-22">
+                        সেরা অফার
+                    </h3>
+
                     <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">
-                        সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
+                        সব দেখুন
+                        <i class="ec ec-arrow-right-categproes"></i>
                     </a>
+
                 </div>
+
+                {{-- Special Deal Slider --}}
                 <div class="p-xl-4 p-wd-0 border-wd-0 pb-5 pb-wd-0">
+
                     <div class="js-slick-carousel u-slick u-slick--gutters-2 u-slick-deal-arrow__border"
                         data-slides-show="2" data-slides-scroll="1"
                         data-pagi-classes="text-center d-xl-none d-wd-flex u-slick__pagination u-slick__pagination--long position-absolute right-0 left-0 bottom-0 mb-2 z-index-2"
                         data-arrows-classes="d-none d-xl-inline-flex d-wd-none align-items-center u-slick__arrow-normal u-slick-deal-arrow position-absolute z-index-9 font-size-18 top-3"
                         data-arrow-left-classes="fa fa-angle-left right-xl-220 u-slick-deal-arrow__left"
                         data-arrow-right-classes="fa fa-angle-right right-1 u-slick-deal-arrow__right"
-                        data-autoplay="true" data-speed="600"
-                        data-responsive='[{
-                                "breakpoint": 1399,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }, {
-                                "breakpoint": 768,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }, {
-                                "breakpoint": 554,
-                                "settings": {
-                                    "slidesToShow": 1
-                                }
-                            }]'>
+                        data-autoplay="false" data-speed="600"
+                        data-responsive='[
+                    {
+                        "breakpoint": 1399,
+                        "settings": {
+                            "slidesToShow": 1
+                        }
+                    },
+                    {
+                        "breakpoint": 768,
+                        "settings": {
+                            "slidesToShow": 1
+                        }
+                    },
+                    {
+                        "breakpoint": 554,
+                        "settings": {
+                            "slidesToShow": 1
+                        }
+                    }
+                ]'>
+
                         @foreach ($specialDeals as $item)
                             @php
                                 $product = $item->product ?? $item;
                             @endphp
+
                             <div class="js-slide">
+
                                 <div
-                                    class="p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white">
-                                    <div class="row align-items-md-center">
-                                        <div class="col-md-6 col-xl-7 col-wd-6 px-0 align-self-center">
+                                    class="special-deal-card p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white">
+
+                                    <div class="row align-items-md-center special-deal-row">
+
+                                        {{-- Product Image --}}
+                                        <div class="col-md-6 col-xl-7 col-wd-6 px-0 align-self-center special-deal-image">
+
                                             @if (productPrice($product->id) < previousPrice($product->id))
+                                                {{-- Discount Badge --}}
                                                 <div
                                                     class="d-inline-flex justify-content-between align-items-center position-absolute left-3 top-0 z-index-9">
+
                                                     <div
                                                         class="text-white d-flex align-items-center flex-column justify-content-center bg-primary rounded-pill height-75 width-75 text-lh-1">
-                                                        <span class="font-size-12">সাশ্রয়</span>
+
+                                                        <span class="font-size-12">
+                                                            সাশ্রয়
+                                                        </span>
+
                                                         <div class="font-size-20 font-weight-bold taka">
                                                             {{ previousPrice($product->id) - productPrice($product->id) }}
                                                         </div>
+
                                                     </div>
+
                                                 </div>
                                             @endif
+
                                             <div class="mb-4 mb-md-0">
+
                                                 <div class="row align-items-center">
+
                                                     <div class="col">
+
                                                         <a href="{{ route('product', $product->slug) }}"
                                                             class="d-block text-center">
+
                                                             <img class="img-fluid mx-auto"
                                                                 src="{{ asset($product->image) }}"
-                                                                alt="Image Description">
+                                                                alt="{{ $product->name }}" loading="lazy">
+
                                                         </a>
+
                                                     </div>
+
                                                 </div>
+
                                             </div>
+
                                         </div>
-                                        <div class="col-md-6 col-xl-5 col-wd-6">
+
+                                        {{-- Product Details --}}
+                                        <div class="col-md-6 col-xl-5 col-wd-6 special-deal-content">
+
                                             <div class="space-top-xl-2 space-top-wd-0 mt-xl-4 mt-wd-0">
+
+                                                {{-- Product Name --}}
                                                 <h5
                                                     class="mb-3 mb-xl-2 mb-wd-1 font-size-14 text-center mx-auto max-width-180 text-lh-18">
+
                                                     <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-blue font-weight-bold">{{ $product->name }}</a>
+                                                        class="text-blue font-weight-bold">
+                                                        {{ $product->name }}
+                                                    </a>
+
                                                 </h5>
+
                                                 @php
                                                     $currentPrice = productPrice($product->id);
                                                     $prevPrice = previousPrice($product->id);
                                                 @endphp
 
+                                                {{-- Product Price --}}
                                                 <div class="d-flex align-items-center justify-content-center mb-3">
+
                                                     @if ($prevPrice > $currentPrice)
-                                                        <del
-                                                            class="font-size-18 mr-2 text-gray-2">{{ $prevPrice }}</del>
+                                                        <del class="font-size-18 mr-2 text-gray-2">
+                                                            {{ $prevPrice }}
+                                                        </del>
                                                     @endif
+
                                                     <ins
-                                                        class="font-size-xl-30 font-size-wd-25 text-red text-decoration-none taka">{{ $currentPrice }}</ins>
+                                                        class="font-size-xl-30 font-size-wd-25 text-red text-decoration-none taka">
+                                                        {{ $currentPrice }}
+                                                    </ins>
+
                                                 </div>
+
+                                                {{-- Available and Sold --}}
                                                 <div class="mb-4 mb-xl-5 mb-wd-2 pb-wd-1 mx-2">
+
                                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <span class="">Availavle: <strong>{{$item->available}}</strong></span>
-                                                        <span class="">Already Sold: <strong>{{$item->sold}}</strong></span>
+
+                                                        <span>
+                                                            Available:
+                                                            <strong>{{ $item->available }}</strong>
+                                                        </span>
+
+                                                        <span>
+                                                            Already Sold:
+                                                            <strong>{{ $item->sold }}</strong>
+                                                        </span>
+
                                                     </div>
+
+                                                    {{-- Progress Bar --}}
                                                     <div
                                                         class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
+
                                                         <span
                                                             class="position-absolute left-0 top-0 bottom-0 rounded-pill w-30 bg-primary"></span>
+
                                                     </div>
+
                                                 </div>
+
+                                                {{-- Countdown --}}
                                                 <div class="mb-2">
+
                                                     <h6 class="font-size-15 text-gray-2 text-center mb-xl-3 mb-wd-2">
                                                         Hurry Up! Offer ends in:
                                                     </h6>
+
                                                     <div class="js-countdown d-flex justify-content-center"
                                                         data-end-date="{{ $item->validity->format('Y/m/d H:i:s') }}"
                                                         data-days-format="%D" data-hours-format="%H"
                                                         data-minutes-format="%M" data-seconds-format="%S">
 
-                                                        {{-- DAYS Block --}}
+                                                        {{-- Days --}}
                                                         <div class="text-lh-1">
+
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
                                                                 <span class="js-cd-days"></span>
                                                             </div>
-                                                            <div class="text-gray-2 font-size-12 text-center">DAYS</div>
-                                                        </div>
-                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
 
-                                                        {{-- HOURS Block --}}
+                                                            <div class="text-gray-2 font-size-12 text-center">
+                                                                DAYS
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">
+                                                            :
+                                                        </div>
+
+                                                        {{-- Hours --}}
                                                         <div class="text-lh-1">
+
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
                                                                 <span class="js-cd-hours"></span>
                                                             </div>
-                                                            <div class="text-gray-2 font-size-12 text-center">HOURS</div>
-                                                        </div>
-                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
 
-                                                        {{-- MINS Block --}}
+                                                            <div class="text-gray-2 font-size-12 text-center">
+                                                                HOURS
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">
+                                                            :
+                                                        </div>
+
+                                                        {{-- Minutes --}}
                                                         <div class="text-lh-1">
+
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
                                                                 <span class="js-cd-minutes"></span>
                                                             </div>
-                                                            <div class="text-gray-2 font-size-12 text-center">MINS</div>
-                                                        </div>
-                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">:</div>
 
-                                                        {{-- SECS Block --}}
+                                                            <div class="text-gray-2 font-size-12 text-center">
+                                                                MINS
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="mx-1 pt-1 text-gray-2 font-size-24">
+                                                            :
+                                                        </div>
+
+                                                        {{-- Seconds --}}
                                                         <div class="text-lh-1">
+
                                                             <div
                                                                 class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
                                                                 <span class="js-cd-seconds"></span>
                                                             </div>
-                                                            <div class="text-gray-2 font-size-12 text-center">SECS</div>
+
+                                                            <div class="text-gray-2 font-size-12 text-center">
+                                                                SECS
+                                                            </div>
+
                                                         </div>
+
                                                     </div>
+
                                                 </div>
+
                                             </div>
+
                                         </div>
+
                                     </div>
+
                                 </div>
+
                             </div>
                         @endforeach
+
                     </div>
+
                 </div>
+
             </div>
         @endif
+
     </div>
 
 

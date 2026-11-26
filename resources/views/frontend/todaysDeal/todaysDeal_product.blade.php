@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Today\'s Deal Product')
+@section('title', 'Special Deal Product')
 @push('header_script')
     <style>
         .select-option-box {
@@ -55,7 +55,7 @@
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="{{ route('index') }}">Home</a>
                         </li>
                         <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">
-                            Today's Deal</li>
+                            Special Deal</li>
                     </ol>
                 </nav>
             </div>
@@ -68,7 +68,7 @@
         <div class="mb-8">
             <!-- Shop-control-bar Title -->
             <div class="flex-center-between mb-3">
-                <h3 class="font-size-25 mb-0">Today's Deal</h3>
+                <h3 class="font-size-25 mb-0">Special Deal</h3>
             </div>
             <!-- End shop-control-bar Title -->
 
@@ -76,7 +76,10 @@
             <!-- Tab Content -->
             <div class="">
                 <ul class="row list-unstyled products-group no-gutters">
-                    @forelse ($products as $product)
+                    @forelse ($specialDeals as $item)
+                        @php
+                            $product = $item->product ?? $item;
+                        @endphp
                         <li class="col-6 col-md-3 col-lg-2 product-item remove-divider mt-2">
 
                             <div class="product-item__outer h-100 m-1">
@@ -101,9 +104,25 @@
                                             </a>
                                         </h5>
 
+                                        @php
+                                            $currentPrice = productPrice($product->id);
+                                            $prevPrice = previousPrice($product->id);
+                                        @endphp
+
                                         {{-- Product Price --}}
-                                        <div class="product-price-custom text-black">
-                                            ৳ {{ productPrice($product->id) }}
+                                        <div class="product-price-custom text-black d-flex justify-content-between">
+                                            <del class="font-size-18 mr-2 text-danger">
+                                                @if ($prevPrice > $currentPrice)
+                                                    {{ $prevPrice }}
+                                                @endif
+                                            </del>
+                                            <span>৳ {{ productPrice($product->id) }}</span>
+                                        </div>
+
+                                        {{-- Availability Info --}}
+                                        <div class="product-price-custom text-black d-flex justify-content-between">
+                                            <small>Available: {{ $item->available }}</small>
+                                            <small>Sold: {{ $item->sold }}</small>
                                         </div>
 
                                         {{-- Add to Cart --}}
@@ -145,10 +164,10 @@
             <!-- End Tab Content -->
             <!-- End Shop Body -->
             <!-- Shop Pagination -->
-            @if ($products->hasPages())
+            @if ($specialDeals->hasPages())
                 <nav class="d-md-flex justify-content-end align-items-center border-top pt-3"
                     aria-label="Page navigation example">
-                    {{ $products->links() }}
+                    {{ $specialDeals->links() }}
                 </nav>
             @endif
             <!-- End Shop Pagination -->

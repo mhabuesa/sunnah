@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\FeaturedProduct;
 use App\Models\Product;
 use App\Models\Review;
+use App\Models\SpecialDeal;
 use App\Models\Subcategory;
 use App\Models\TodaysDeal;
 use App\Services\CartService;
@@ -214,15 +215,15 @@ class ProductController extends Controller
     }
     public function todaysDeal()
     {
-        $productIds = TodaysDeal::where('status', 1)
-            ->latest()
-            ->pluck('product_id');
-
-        $products = Product::whereIn('id', $productIds)
+        $specialDeals = SpecialDeal::where('status', 1)
             ->latest()
             ->paginate(21);
+
+        // $products = Product::whereIn('id', $productIds)
+        //     ->latest()
+        //     ->paginate(21);
         $banner = Banner::where('type', 'product_banner')->first();
-        return view('frontend.todaysDeal.todaysDeal_product', compact('banner', 'products'));
+        return view('frontend.todaysDeal.todaysDeal_product', compact('banner', 'specialDeals'));
     }
 
     public function search_product_ajax(Request $request)
