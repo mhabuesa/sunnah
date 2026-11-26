@@ -213,15 +213,12 @@ class ProductController extends Controller
         $banner = Banner::where('type', 'product_banner')->first();
         return view('frontend.supperDeals.supperDeals_product', compact('banner', 'products'));
     }
-    public function todaysDeal()
+    public function specialDeal()
     {
         $specialDeals = SpecialDeal::where('status', 1)
             ->latest()
             ->paginate(21);
 
-        // $products = Product::whereIn('id', $productIds)
-        //     ->latest()
-        //     ->paginate(21);
         $banner = Banner::where('type', 'product_banner')->first();
         return view('frontend.todaysDeal.todaysDeal_product', compact('banner', 'specialDeals'));
     }

@@ -647,7 +647,20 @@
                 @endforeach
             </div>
         </div>
+    </div>
 
+
+    <div class="container">
+        <!-- Full banner -->
+        @if ($topBanner)
+            <div class="mb-4">
+                <a href="{{ $topBanner->url }}" class="d-block text-gray-90">
+                    <img src="{{ asset($topBanner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
+                        loading="eager" fetchpriority="high" decoding="async">
+                </a>
+            </div>
+        @endif
+        <!-- End Full banner -->
 
         @if ($specialDeals->count() > 0)
             {{-- Special Deals Section --}}
@@ -661,7 +674,7 @@
                         সেরা অফার
                     </h3>
 
-                    <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">
+                    <a class="d-block text-gray-16" href="{{ route('special.deal') }}">
                         সব দেখুন
                         <i class="ec ec-arrow-right-categproes"></i>
                     </a>
@@ -677,7 +690,7 @@
                         data-arrows-classes="d-none d-xl-inline-flex d-wd-none align-items-center u-slick__arrow-normal u-slick-deal-arrow position-absolute z-index-9 font-size-18 top-3"
                         data-arrow-left-classes="fa fa-angle-left right-xl-220 u-slick-deal-arrow__left"
                         data-arrow-right-classes="fa fa-angle-right right-1 u-slick-deal-arrow__right"
-                        data-autoplay="false" data-speed="600"
+                        data-autoplay="true" data-speed="600"
                         data-responsive='[
                     {
                         "breakpoint": 1399,
@@ -924,103 +937,6 @@
 
             </div>
         @endif
-
-    </div>
-
-
-    <div class="container">
-        <!-- Full banner -->
-        @if ($topBanner)
-            <div class="mb-4">
-                <a href="{{ $topBanner->url }}" class="d-block text-gray-90">
-                    <img src="{{ asset($topBanner->image) }}" alt="Banner" class="img-fluid w-100 banner-image"
-                        loading="eager" fetchpriority="high" decoding="async">
-                </a>
-            </div>
-        @endif
-        <!-- End Full banner -->
-
-        <!-- End Banner -->
-        <!-- Todays Deal products -->
-        @if ($specialDeals->count() > 0)
-            <div class="mb-1 home-category-slider">
-
-                {{-- Section Header --}}
-                <div
-                    class="home-category-header d-flex justify-content-between border-bottom border-color-1 flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
-                    <h3 class="section-title section-title__full mb-0 font-size-22">আজকের সেরা অফার</h3>
-                    <a class="d-block text-gray-16" href="{{ route('todays.deal') }}">
-                        সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
-                    </a>
-                </div>
-
-                {{-- Product Slider --}}
-                <div class="js-slick-carousel u-slick overflow-hidden u-slick-overflow-visble px-1"
-                    data-pagi-classes="text-center right-0 bottom-1 left-0 u-slick__pagination u-slick__pagination--long mb-0 z-index-n1 mt-4"
-                    data-slides-show="7" data-slides-scroll="1" data-arrows="true" data-dots="false"
-                    data-autoplay="true" data-speed="600" data-infinite="true"
-                    data-responsive='[
-                { "breakpoint": 1400, "settings": { "slidesToShow": 5 } },
-                { "breakpoint": 1200, "settings": { "slidesToShow": 4 } },
-                { "breakpoint": 992, "settings": { "slidesToShow": 3 } },
-                { "breakpoint": 768, "settings": { "slidesToShow": 2 } },
-                { "breakpoint": 554, "settings": { "slidesToShow": 2 } }
-            ]'>
-
-                    @foreach ($specialDeals as $item)
-                        @php
-                            $product = $item->product ?? $item; // Product object safety check
-                        @endphp
-
-                        @if ($product)
-                            <div class="js-slide px-1">
-                                <div class="product-item remove-divider">
-                                    <div class="product-item__outer">
-                                        <div class="product-item__inner p-2 p-md-3 border rounded bg-light">
-                                            <div class="product-card-custom">
-
-                                                {{-- Product Image --}}
-                                                <div class="product-image-box rounded">
-                                                    <a href="{{ route('product', $product->slug) }}">
-                                                        <img class="img-fluid" src="{{ asset($product->image) }}"
-                                                            alt="{{ $product->name }}" loading="lazy">
-                                                    </a>
-                                                </div>
-
-                                                {{-- Product Name --}}
-                                                <h5 class="product-title-custom">
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-primary font-weight-bold">
-                                                        {{ $product->name }}
-                                                    </a>
-                                                </h5>
-
-                                                {{-- Product Price --}}
-                                                <div class="product-price-custom text-black">
-                                                    ৳ {{ productPrice($product->id) }}
-                                                </div>
-
-                                                {{-- Add to Cart Button --}}
-                                                <div class="product-cart-custom">
-                                                    <button type="button"
-                                                        class="btn btn-primary btn-sm text-white w-100 border-primary rounded transition-3d-hover py-2 ajax-add-to-cart"
-                                                        data-product-id="{{ $product->id }}">
-                                                        <i class="ec ec-add-to-cart"></i> Add to Cart
-                                                    </button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-
-                </div>
-            </div>
-        @endif
-        <!-- End Todays Deal products -->
 
         <!-- Todays Deal banner -->
         @if ($middleBanner)

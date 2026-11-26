@@ -52,7 +52,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/subcategory/{slug}', 'subcategory_products')->name('subcategory');
     Route::get('/brands', 'brands')->name('brands');
     Route::get('/brand/{slug}', 'brand_product')->name('brand');
-    Route::get('/todays/deal', 'todaysDeal')->name('todays.deal');
+    Route::get('/special/deal', 'specialDeal')->name('special.deal');
     Route::get('/supperDeals', 'supperDeals')->name('supper.deals');
     Route::get('/searchProduct', 'search_product')->name('search.product');
     Route::get('/searchProduct/ajax', 'search_product_ajax')->name('search.product.ajax');
