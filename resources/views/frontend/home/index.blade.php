@@ -825,11 +825,22 @@
 
                                                     </div>
 
+                                                    @php
+                                                        $available = (int) ($item->available ?? 0);
+                                                        $sold = (int) ($item->sold ?? 0);
+                                                        $total = $available + $sold;
+                                                        $soldPercent =
+                                                            $total > 0
+                                                                ? min(100, max(0, round(($sold / $total) * 100)))
+                                                                : 0;
+                                                    @endphp
+
                                                     {{-- Progress Bar --}}
-                                                    <div class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
-
-                                                        <span class="position-absolute left-0 top-0 bottom-0 rounded-pill bg-primary" style="width: 20%"></span>
-
+                                                    <div
+                                                        class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
+                                                        <span
+                                                            class="position-absolute left-0 top-0 bottom-0 rounded-pill bg-primary"
+                                                            style="width: {{ $soldPercent }}%;"></span>
                                                     </div>
 
                                                 </div>
