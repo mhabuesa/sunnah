@@ -436,6 +436,9 @@
                 font-size: 10px;
             }
         }
+        .special_deal_btn {
+            border: 1px solid red !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -662,28 +665,30 @@
         @endif
         <!-- End Full banner -->
 
-        @if ($specialDeals->count() > 0)
+        @php
+            // মেয়াদ থাকা অফারগুলো ফিল্টার করে নেওয়া
+            $validDeals = $specialDeals->filter(function ($item) {
+                return $item->validity && $item->validity >= today();
+            });
+        @endphp
+
+        @if ($validDeals->count() > 0)
             {{-- Special Deals Section --}}
-            <div class="mb-6 position-relative mt-4">
+            <div class="mb-6 position-relative mt-4 special-deals-container">
 
                 {{-- Section Header --}}
                 <div
                     class="home-category-header d-flex justify-content-between flex-lg-nowrap flex-wrap border-md-down-top-0 border-md-down-bottom-0">
-
                     <h3 class="section-title section-title__full mb-0 font-size-22">
                         সেরা অফার
                     </h3>
-
                     <a class="d-block text-gray-16" href="{{ route('special.deal') }}">
-                        সব দেখুন
-                        <i class="ec ec-arrow-right-categproes"></i>
+                        সব দেখুন <i class="ec ec-arrow-right-categproes"></i>
                     </a>
-
                 </div>
 
                 {{-- Special Deal Slider --}}
                 <div class="p-xl-4 p-wd-0 border-wd-0 pb-5 pb-wd-0">
-
                     <div class="js-slick-carousel u-slick u-slick--gutters-2 u-slick-deal-arrow__border"
                         data-slides-show="2" data-slides-scroll="1"
                         data-pagi-classes="text-center d-xl-none d-wd-flex u-slick__pagination u-slick__pagination--long position-absolute right-0 left-0 bottom-0 mb-2 z-index-2"
@@ -694,245 +699,177 @@
                         data-responsive='[
                     {
                         "breakpoint": 1399,
-                        "settings": {
-                            "slidesToShow": 1
-                        }
+                        "settings": { "slidesToShow": 2 }
                     },
                     {
                         "breakpoint": 768,
-                        "settings": {
-                            "slidesToShow": 1
-                        }
+                        "settings": { "slidesToShow": 2 }
                     },
                     {
                         "breakpoint": 554,
-                        "settings": {
-                            "slidesToShow": 1
-                        }
+                        "settings": { "slidesToShow": 2 }
                     }
                 ]'>
 
-                        @foreach ($specialDeals as $item)
+                        @foreach ($validDeals as $item)
                             @php
                                 $product = $item->product ?? $item;
+                                $currentPrice = productPrice($product->id);
+                                $prevPrice = previousPrice($product->id);
+
+                                $available = (int) ($item->available ?? 0);
+                                $sold = (int) ($item->sold ?? 0);
+                                $total = $available + $sold;
+                                $soldPercent = $total > 0 ? min(100, max(0, round(($sold / $total) * 100))) : 0;
                             @endphp
 
-                            <div class="js-slide">
-
+                            <div class="js-slide h-100">
                                 <div
-                                    class="special-deal-card p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white">
+                                    class="special-deal-card p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white position-relative h-100">
 
-                                    <div class="row align-items-md-center special-deal-row">
+                                    {{-- Discount Badge --}}
+                                    @if ($currentPrice < $prevPrice)
+                                        <div class="position-absolute left-3 top-0 z-index-9 mt-2">
+                                            <div
+                                                class="text-white d-flex align-items-center flex-column justify-content-center bg-primary rounded-pill height-75 width-75 text-lh-1">
+                                                <span class="font-size-12">সাশ্রয়</span>
+                                                <div class="font-size-20 font-weight-bold taka">
+                                                    {{ $prevPrice - $currentPrice }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
 
+                                    <div class="row align-items-stretch special-deal-row h-100">
                                         {{-- Product Image --}}
                                         <div class="col-md-6 col-xl-7 col-wd-6 px-0 align-self-center special-deal-image">
-
-                                            @if (productPrice($product->id) < previousPrice($product->id))
-                                                {{-- Discount Badge --}}
-                                                <div
-                                                    class="d-inline-flex justify-content-between align-items-center position-absolute left-3 top-0 z-index-9">
-
-                                                    <div
-                                                        class="text-white d-flex align-items-center flex-column justify-content-center bg-primary rounded-pill height-75 width-75 text-lh-1">
-
-                                                        <span class="font-size-12">
-                                                            সাশ্রয়
-                                                        </span>
-
-                                                        <div class="font-size-20 font-weight-bold taka">
-                                                            {{ previousPrice($product->id) - productPrice($product->id) }}
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                            @endif
-
                                             <div class="mb-4 mb-md-0">
-
                                                 <div class="row align-items-center">
-
                                                     <div class="col">
-
                                                         <a href="{{ route('product', $product->slug) }}"
                                                             class="d-block text-center">
-
                                                             <img class="img-fluid mx-auto"
                                                                 src="{{ asset($product->image) }}"
                                                                 alt="{{ $product->name }}" loading="lazy">
-
                                                         </a>
-
                                                     </div>
-
                                                 </div>
-
                                             </div>
-
                                         </div>
 
-                                        {{-- Product Details --}}
+                                        {{-- Product Details Column --}}
                                         <div class="col-md-6 col-xl-5 col-wd-6 special-deal-content">
+                                            <div
+                                                class="d-flex flex-column justify-content-between h-100 space-top-xl-2 space-top-wd-0 mt-xl-4 mt-wd-0">
 
-                                            <div class="space-top-xl-2 space-top-wd-0 mt-xl-4 mt-wd-0">
+                                                {{-- Top Section: Name & Price --}}
+                                                <div class="product-top-info">
+                                                    {{-- Product Name (Fixed Height for Alignment) --}}
+                                                    <h5 class="mb-3 mb-xl-2 mb-wd-1 font-size-14 text-center mx-auto max-width-180 text-lh-18 d-flex align-items-center justify-content-center"
+                                                        style="min-height: 42px;">
+                                                        <a href="{{ route('product', $product->slug) }}"
+                                                            class="text-blue font-weight-bold line-clamp-2">
+                                                            {{ $product->name }}
+                                                        </a>
+                                                    </h5>
 
-                                                {{-- Product Name --}}
-                                                <h5
-                                                    class="mb-3 mb-xl-2 mb-wd-1 font-size-14 text-center mx-auto max-width-180 text-lh-18">
-
-                                                    <a href="{{ route('product', $product->slug) }}"
-                                                        class="text-blue font-weight-bold">
-                                                        {{ $product->name }}
-                                                    </a>
-
-                                                </h5>
-
-                                                @php
-                                                    $currentPrice = productPrice($product->id);
-                                                    $prevPrice = previousPrice($product->id);
-                                                @endphp
-
-                                                {{-- Product Price --}}
-                                                <div class="d-flex align-items-center justify-content-center mb-3">
-
-                                                    @if ($prevPrice > $currentPrice)
-                                                        <del class="font-size-18 mr-2 text-gray-2">
-                                                            {{ $prevPrice }}
-                                                        </del>
-                                                    @endif
-
-                                                    <ins
-                                                        class="font-size-xl-30 font-size-wd-25 text-red text-decoration-none taka">
-                                                        {{ $currentPrice }}
-                                                    </ins>
-
+                                                    {{-- Product Price --}}
+                                                    <div class="d-flex align-items-center justify-content-center mb-3">
+                                                        @if ($prevPrice > $currentPrice)
+                                                            <del
+                                                                class="font-size-18 mr-2 text-gray-2">{{ $prevPrice }}</del>
+                                                        @endif
+                                                        <ins
+                                                            class="font-size-xl-30 font-size-wd-25 text-red text-decoration-none taka">{{ $currentPrice }}</ins>
+                                                    </div>
                                                 </div>
 
-                                                {{-- Available and Sold --}}
-                                                <div class="mb-4 mb-xl-5 mb-wd-2 pb-wd-1 mx-2">
+                                                {{-- Bottom Section: Progress Bar, Countdown & Button (Always Fixed at Bottom) --}}
+                                                <div class="product-bottom-info mt-auto">
+                                                    {{-- Available and Sold --}}
+                                                    <div class="mb-4 mb-xl-5 mb-wd-2 pb-wd-1 mx-2">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-2">
+                                                            <span>Available: <strong>{{ $item->available }}</strong></span>
+                                                            <span>Already Sold: <strong>{{ $item->sold }}</strong></span>
+                                                        </div>
 
-                                                    <div class="d-flex justify-content-between align-items-center mb-2">
-
-                                                        <span>
-                                                            Available:
-                                                            <strong>{{ $item->available }}</strong>
-                                                        </span>
-
-                                                        <span>
-                                                            Already Sold:
-                                                            <strong>{{ $item->sold }}</strong>
-                                                        </span>
-
+                                                        {{-- Progress Bar --}}
+                                                        <div
+                                                            class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
+                                                            <span
+                                                                class="position-absolute left-0 top-0 bottom-0 rounded-pill bg-primary"
+                                                                style="width: {{ $soldPercent }}%;"></span>
+                                                        </div>
                                                     </div>
 
-                                                    @php
-                                                        $available = (int) ($item->available ?? 0);
-                                                        $sold = (int) ($item->sold ?? 0);
-                                                        $total = $available + $sold;
-                                                        $soldPercent =
-                                                            $total > 0
-                                                                ? min(100, max(0, round(($sold / $total) * 100)))
-                                                                : 0;
-                                                    @endphp
+                                                    {{-- Countdown --}}
+                                                    <div class="mb-2">
+                                                        <h6 class="font-size-15 text-gray-2 text-center mb-xl-3 mb-wd-2">
+                                                            Hurry Up! Offer ends in:
+                                                        </h6>
+                                                        <div class="js-countdown d-flex justify-content-center"
+                                                            data-end-date="{{ $item->validity->format('Y/m/d H:i:s') }}"
+                                                            data-days-format="%D" data-hours-format="%H"
+                                                            data-minutes-format="%M" data-seconds-format="%S">
 
-                                                    {{-- Progress Bar --}}
-                                                    <div
-                                                        class="rounded-pill bg-gray-3 height-wd-14 height-xl-20 position-relative">
-                                                        <span
-                                                            class="position-absolute left-0 top-0 bottom-0 rounded-pill bg-primary"
-                                                            style="width: {{ $soldPercent }}%;"></span>
+                                                            <div class="text-lh-1 mx-1">
+                                                                <div
+                                                                    class="text-light font-size-30 py-2 px-2 rounded-sm mb-2 bg-primary">
+                                                                    <span class="js-cd-days"></span>
+                                                                </div>
+                                                                <div class="text-gray-2 font-size-12 text-center">DAYS
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="text-lh-1 mx-1">
+                                                                <div
+                                                                    class="text-light font-size-30 py-2 px-2 rounded-sm mb-2 bg-primary">
+                                                                    <span class="js-cd-hours"></span>
+                                                                </div>
+                                                                <div class="text-gray-2 font-size-12 text-center">HOURS
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="text-lh-1 mx-1">
+                                                                <div
+                                                                    class="text-light font-size-30 py-2 px-2 rounded-sm mb-2 bg-primary">
+                                                                    <span class="js-cd-minutes"></span>
+                                                                </div>
+                                                                <div class="text-gray-2 font-size-12 text-center">MINS
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="text-lh-1 mx-1">
+                                                                <div
+                                                                    class="text-light font-size-30 py-2 px-2 rounded-sm mb-2 bg-primary">
+                                                                    <span class="js-cd-seconds"></span>
+                                                                </div>
+                                                                <div class="text-gray-2 font-size-12 text-center">SECS
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
-                                                </div>
-
-                                                {{-- Countdown --}}
-                                                <div class="mb-2">
-
-                                                    <h6 class="font-size-15 text-gray-2 text-center mb-xl-3 mb-wd-2">
-                                                        Hurry Up! Offer ends in:
-                                                    </h6>
-
-                                                    <div class="js-countdown d-flex justify-content-center"
-                                                        data-end-date="{{ $item->validity->format('Y/m/d H:i:s') }}"
-                                                        data-days-format="%D" data-hours-format="%H"
-                                                        data-minutes-format="%M" data-seconds-format="%S">
-
-                                                        {{-- Days --}}
-                                                        <div class="text-lh-1 mx-1">
-
-                                                            <div
-                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
-                                                                <span class="js-cd-days"></span>
-                                                            </div>
-
-                                                            <div class="text-gray-2 font-size-12 text-center">
-                                                                DAYS
-                                                            </div>
-
-                                                        </div>
-
-
-                                                        {{-- Hours --}}
-                                                        <div class="text-lh-1 mx-1">
-
-                                                            <div
-                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
-                                                                <span class="js-cd-hours"></span>
-                                                            </div>
-
-                                                            <div class="text-gray-2 font-size-12 text-center">
-                                                                HOURS
-                                                            </div>
-
-                                                        </div>
-
-                                                        {{-- Minutes --}}
-                                                        <div class="text-lh-1 mx-1">
-
-                                                            <div
-                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
-                                                                <span class="js-cd-minutes"></span>
-                                                            </div>
-
-                                                            <div class="text-gray-2 font-size-12 text-center">
-                                                                MINS
-                                                            </div>
-
-                                                        </div>
-
-                                                        {{-- Seconds --}}
-                                                        <div class="text-lh-1 mx-1">
-
-                                                            <div
-                                                                class="text-gray-2 font-size-30 bg-gray-4 py-2 px-2 rounded-sm mb-2">
-                                                                <span class="js-cd-seconds"></span>
-                                                            </div>
-
-                                                            <div class="text-gray-2 font-size-12 text-center">
-                                                                SECS
-                                                            </div>
-
-                                                        </div>
-
+                                                    {{-- Add to Cart Button --}}
+                                                    <div class="product-cart-custom text-center mt-3">
+                                                        <a href="{{ route('product', $product->slug) }}"
+                                                            class="btn btn-primary btn-sm text-white w-50 border-primary rounded transition-3d-hover py-2">
+                                                            <i class="ec ec-add-to-cart"></i> Add to Cart
+                                                        </a>
                                                     </div>
-
                                                 </div>
 
                                             </div>
-
                                         </div>
-
                                     </div>
 
                                 </div>
-
                             </div>
                         @endforeach
 
                     </div>
-
                 </div>
-
             </div>
         @endif
 
