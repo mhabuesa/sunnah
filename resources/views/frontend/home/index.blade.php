@@ -436,10 +436,55 @@
                 font-size: 10px;
             }
         }
-        .special_deal_btn {
-            border: 1px solid red !important;
-        }
     </style>
+
+    {{-- <style>
+        /* Slider & Card Flex Setup */
+        .special-deals-container .js-slide {
+            height: 100%;
+        }
+
+        .special-deal-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .special-deal-card .special-deal-row {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: stretch;
+        }
+
+        .special-deal-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .special-deal-content-inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        /* Product Title wrapper to hold min-height for alignment */
+        .special-deal-title-wrap {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Push bottom section down dynamically */
+        .special-deal-bottom-group {
+            margin-top: auto;
+        }
+
+        .special-deal-add-btn {
+            white-space: nowrap;
+        }
+    </style> --}}
 @endpush
 @section('content')
     <!-- Banner Section -->
@@ -666,7 +711,7 @@
         <!-- End Full banner -->
 
         @php
-            // মেয়াদ থাকা অফারগুলো ফিল্টার করে নেওয়া
+            // মেয়াদ থাকা অফারগুলো ফিল্টার করে নেওয়া
             $validDeals = $specialDeals->filter(function ($item) {
                 return $item->validity && $item->validity >= today();
             });
@@ -699,15 +744,15 @@
                         data-responsive='[
                     {
                         "breakpoint": 1399,
-                        "settings": { "slidesToShow": 2 }
+                        "settings": { "slidesToShow": 1 }
                     },
                     {
                         "breakpoint": 768,
-                        "settings": { "slidesToShow": 2 }
+                        "settings": { "slidesToShow": 1 }
                     },
                     {
                         "breakpoint": 554,
-                        "settings": { "slidesToShow": 2 }
+                        "settings": { "slidesToShow": 1 }
                     }
                 ]'>
 
@@ -723,9 +768,9 @@
                                 $soldPercent = $total > 0 ? min(100, max(0, round(($sold / $total) * 100))) : 0;
                             @endphp
 
-                            <div class="js-slide h-100">
+                            <div class="js-slide">
                                 <div
-                                    class="special-deal-card p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white position-relative h-100">
+                                    class="special-deal-card p-4 p-xl-0 p-wd-4 border border-xl-0 border-width-2 border-primary borders-radius-20 bg-white position-relative">
 
                                     {{-- Discount Badge --}}
                                     @if ($currentPrice < $prevPrice)
@@ -740,7 +785,7 @@
                                         </div>
                                     @endif
 
-                                    <div class="row align-items-stretch special-deal-row h-100">
+                                    <div class="row align-items-md-center special-deal-row">
                                         {{-- Product Image --}}
                                         <div class="col-md-6 col-xl-7 col-wd-6 px-0 align-self-center special-deal-image">
                                             <div class="mb-4 mb-md-0">
@@ -757,23 +802,23 @@
                                             </div>
                                         </div>
 
-                                        {{-- Product Details Column --}}
+                                        {{-- Product Details --}}
                                         <div class="col-md-6 col-xl-5 col-wd-6 special-deal-content">
                                             <div
-                                                class="d-flex flex-column justify-content-between h-100 space-top-xl-2 space-top-wd-0 mt-xl-4 mt-wd-0">
+                                                class="special-deal-content-inner space-top-xl-2 space-top-wd-0 mt-xl-4 mt-wd-0">
 
-                                                {{-- Top Section: Name & Price --}}
-                                                <div class="product-top-info">
-                                                    {{-- Product Name (Fixed Height for Alignment) --}}
-                                                    <h5 class="mb-3 mb-xl-2 mb-wd-1 font-size-14 text-center mx-auto max-width-180 text-lh-18 d-flex align-items-center justify-content-center"
-                                                        style="min-height: 42px;">
-                                                        <a href="{{ route('product', $product->slug) }}"
-                                                            class="text-blue font-weight-bold line-clamp-2">
-                                                            {{ $product->name }}
-                                                        </a>
-                                                    </h5>
+                                                {{-- Top Part: Name & Price --}}
+                                                <div>
+                                                    <div class="special-deal-title-wrap mb-2">
+                                                        <h5
+                                                            class="mb-0 font-size-14 text-center mx-auto max-width-180 text-lh-18">
+                                                            <a href="{{ route('product', $product->slug) }}"
+                                                                class="text-blue font-weight-bold">
+                                                                {{ $product->name }}
+                                                            </a>
+                                                        </h5>
+                                                    </div>
 
-                                                    {{-- Product Price --}}
                                                     <div class="d-flex align-items-center justify-content-center mb-3">
                                                         @if ($prevPrice > $currentPrice)
                                                             <del
@@ -784,8 +829,8 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- Bottom Section: Progress Bar, Countdown & Button (Always Fixed at Bottom) --}}
-                                                <div class="product-bottom-info mt-auto">
+                                                {{-- Bottom Fixed Part: Stock, Progress, Countdown & Add to Cart --}}
+                                                <div class="special-deal-bottom-group">
                                                     {{-- Available and Sold --}}
                                                     <div class="mb-4 mb-xl-5 mb-wd-2 pb-wd-1 mx-2">
                                                         <div
@@ -851,10 +896,10 @@
                                                         </div>
                                                     </div>
 
-                                                    {{-- Add to Cart Button --}}
+                                                    {{-- Add to Cart --}}
                                                     <div class="product-cart-custom text-center mt-3">
                                                         <a href="{{ route('product', $product->slug) }}"
-                                                            class="btn btn-primary btn-sm text-white w-50 border-primary rounded transition-3d-hover py-2">
+                                                            class="btn btn-primary btn-sm text-white special-deal-add-btn border-primary rounded transition-3d-hover py-2 px-3">
                                                             <i class="ec ec-add-to-cart"></i> Add to Cart
                                                         </a>
                                                     </div>
