@@ -438,53 +438,61 @@
         }
     </style>
 
-    {{-- <style>
-        /* Slider & Card Flex Setup */
-        .special-deals-container .js-slide {
-            height: 100%;
-        }
-
+    <style>
+        /* Special Deal Card */
         .special-deal-card {
-            display: flex;
-            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Product Row */
+        .special-deal-row {
             height: 100%;
         }
 
-        .special-deal-card .special-deal-row {
-            display: flex;
-            flex: 1 1 auto;
-            align-items: stretch;
-        }
-
+        /* Product Details */
         .special-deal-content {
             display: flex;
             flex-direction: column;
-        }
-
-        .special-deal-content-inner {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             height: 100%;
         }
 
-        /* Product Title wrapper to hold min-height for alignment */
-        .special-deal-title-wrap {
-            min-height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Push bottom section down dynamically */
+        /* Bottom Group */
         .special-deal-bottom-group {
             margin-top: auto;
+            width: 100%;
+            padding-top: 15px;
         }
 
+        /* Add to Cart */
         .special-deal-add-btn {
-            white-space: nowrap;
+            width: 50% !important;
+            max-width: 220px;
         }
-    </style> --}}
+
+        /* Mobile Responsive */
+        @media (max-width: 767px) {
+            .special-deal-card {
+                min-height: 100%;
+            }
+
+            .special-deal-content {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .special-deal-bottom-group {
+                margin-top: auto;
+                padding-top: 12px;
+            }
+        }
+
+        .special-deal-content>div {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+    </style>
 @endpush
 @section('content')
     <!-- Banner Section -->
