@@ -37,6 +37,41 @@ $(document).on('click', '.ajax-add-to-cart', function(e) {
     });
 });
 
+$(document).on('click', '.ajax-order-now', function (e) {
+    e.preventDefault();
+    console.log('Order now clicked');
+
+    let button = $(this);
+    let productId = button.data('product-id');
+    let cartUrl = button.data('cart-url');
+
+    if (button.prop('disabled')) return;
+    button.prop('disabled', true);
+
+    $.ajax({
+        url: window.orderNowUrl,
+        type: 'POST',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            product_id: productId
+        },
+        success: function (response) {
+            if (response.success) {
+                window.location.href = cartUrl;
+            } else {
+                alert(response.message || 'Could not add item to cart.');
+                button.prop('disabled', false);
+            }
+        },
+        error: function (xhr) {
+            console.error('AJAX error:', xhr.status, xhr.responseText);
+            alert(xhr.responseJSON?.message || 'Something went wrong!');
+            button.prop('disabled', false);
+        }
+    });
+});
+
+
 
 const chatWidget = document.querySelector('.floating-chat-widget');
 const chatToggleBtn = document.getElementById('chatToggleBtn');

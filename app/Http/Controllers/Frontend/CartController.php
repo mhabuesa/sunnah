@@ -106,6 +106,39 @@ class CartController extends Controller
         ]);
     }
 
+    
+    public function orderNowAjax(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $product = Product::with('variations')->findOrFail($request->product_id);
+
+        // Get the cheapest variation if available.
+        $variationId = null;
+
+        if ($product->variations->isNotEmpty()) {
+            $variationId = $product->variations
+                ->sortBy('price')
+                ->first()
+                ->id;
+        }
+
+        // Add product to cart.
+        CartService::add(
+            $product->id,
+            $variationId,
+            1
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product added to cart successfully!',
+            'cart_count' => CartService::count(),
+        ]);
+    }
+
     public function updateCart(Request $request)
     {
         CartService::update(

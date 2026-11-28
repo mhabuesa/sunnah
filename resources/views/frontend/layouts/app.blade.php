@@ -244,6 +244,7 @@
 
     <script>
         window.cartAddUrl = "{{ route('cart.add.ajax') }}";
+        window.orderNowUrl = "{{ route('order.now.ajax') }}";
     </script>
     <script src="{{ asset_v('frontend/assets/custom/script.js') }}"></script>
 

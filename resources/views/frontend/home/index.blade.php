@@ -466,8 +466,12 @@
 
         /* Add to Cart */
         .special-deal-add-btn {
-            width: 50% !important;
+            width: 100% !important;
             max-width: 220px;
+        }
+
+        .product-cart-custom {
+            margin: 0px 5px;
         }
 
         /* Mobile Responsive */
@@ -862,7 +866,7 @@
                                                             Hurry Up! Offer ends in:
                                                         </h6>
                                                         <div class="js-countdown d-flex justify-content-center"
-                                                            data-end-date="{{ $item->validity->format('Y/m/d H:i:s') }}"
+                                                            data-end-date="{{ $item->validity->format('Y/m/d') }}"
                                                             data-days-format="%D" data-hours-format="%H"
                                                             data-minutes-format="%M" data-seconds-format="%S">
 
@@ -904,17 +908,33 @@
                                                         </div>
                                                     </div>
 
-                                                    {{-- Add to Cart --}}
-                                                    <div class="product-cart-custom text-center mt-3">
-                                                        <a href="{{ route('product', $product->slug) }}"
-                                                            class="btn btn-primary btn-sm text-white special-deal-add-btn border-primary rounded transition-3d-hover py-2 px-3">
-                                                            <i class="ec ec-add-to-cart"></i> Add to Cart
-                                                        </a>
+                                                    {{-- Button --}}
+                                                    <div class="d-flex justify-content-between ">
+                                                        {{-- Add to Cart --}}
+                                                        <div class="product-cart-custom text-center mt-3">
+                                                            <a href="{{ route('product', $product->slug) }}"
+                                                                class="btn btn-primary btn-sm text-white special-deal-add-btn border-primary rounded transition-3d-hover py-2 px-3">
+                                                                <i class="ec ec-add-to-cart"></i> Add to Cart
+                                                            </a>
+                                                        </div>
+                                                        {{-- Order Now --}}
+                                                        <div class="product-cart-custom text-center mt-3">
+                                                            <button type="button"
+                                                                class="btn btn-success btn-sm text-white special-deal-add-btn border-primary rounded transition-3d-hover py-2 px-3 ajax-order-now"
+                                                                data-product-id="{{ $product->id }}"
+                                                                data-cart-url="{{ route('cart') }}">
+                                                                Order Now
+                                                            </button>
+                                                        </div>
                                                     </div>
+
+
                                                 </div>
 
                                             </div>
                                         </div>
+
+
                                     </div>
 
                                 </div>
